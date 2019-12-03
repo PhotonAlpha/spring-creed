@@ -1,0 +1,10 @@
+caffeine:
+  configs:
+    - cacheName: short-term-cache
+      initialCapacity: 50
+      maximumSize: 500
+      expireAfterWriteMins: 90
+    - cacheName: long-term-cache
+      initialCapacity: 5
+      maximumSize: 50
+      expireAfterWriteMins: 300
