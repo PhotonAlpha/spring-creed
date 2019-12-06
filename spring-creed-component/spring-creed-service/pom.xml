@@ -11,5 +11,10 @@
 
     <artifactId>spring-creed-service</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.ethan</groupId>
+            <artifactId>spring-creed-dao</artifactId>
+        </dependency>
+    </dependencies>
 </project>

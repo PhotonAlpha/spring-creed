@@ -34,6 +34,8 @@ public class CaffeineConfig {
 
   /**
    * system local cache configuration
+   * //TODO
+   * create schedule pool executor to refresh the cache
    */
   @Bean
   public CacheManager cacheManager(CacheRemovalListener cacheRemovalListener) {
@@ -41,7 +43,7 @@ public class CaffeineConfig {
       Cache<Object, Object> cache = Caffeine.newBuilder()
           .initialCapacity(bean.getInitialCapacity())
           .maximumSize(bean.getMaximumSize())
-          .expireAfterWrite(bean.getExpireAfterWriteMins(), TimeUnit.MINUTES)
+          .expireAfterWrite(bean.getExpireAfterWriteMins(), TimeUnit.SECONDS)
           //.weakKeys()
            .weakValues()
           .removalListener(cacheRemovalListener)
@@ -54,7 +56,7 @@ public class CaffeineConfig {
     return manager;
   }
   @Slf4j
-  class CacheRemovalListener implements RemovalListener<Object, Object> {
+  static class CacheRemovalListener implements RemovalListener<Object, Object> {
     @Override
     public void onRemoval(@Nullable Object o, @Nullable Object o2, @NonNull RemovalCause removalCause) {
       log.info("CacheRemovalListener:{} :{}", new Object[]{o, removalCause});

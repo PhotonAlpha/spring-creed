@@ -48,7 +48,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Greenwich.SR4</version>
+                <version>Hoxton.RELEASE</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -74,6 +74,11 @@
                 <version>1.0.0</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.ethan</groupId>
+                <artifactId>spring-creed-component</artifactId>
+                <version>1.0.0</version>
+            </dependency>
             <dependency>
                 <groupId>com.ethan</groupId>
                 <artifactId>spring-creed-controller</artifactId>

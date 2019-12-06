@@ -11,5 +11,20 @@
 
     <artifactId>spring-creed-app</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.ethan</groupId>
+            <artifactId>spring-creed-controller</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ethan</groupId>
+            <artifactId>spring-creed-cache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ethan</groupId>
+            <artifactId>spring-creed-cloud</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

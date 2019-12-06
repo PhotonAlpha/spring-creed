@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+
+swagger2:
+  enable: true
+  basePackage: com.ethan.controller
+  pathRegex: /api*
+
+caffeine:
+  configs:
+    - cacheName: short-term-cache
+      initialCapacity: 50
+      maximumSize: 500
+      expireAfterWriteMins: 5
+    - cacheName: long-term-cache
+      initialCapacity: 5
+      maximumSize: 50
+      expireAfterWriteMins: 300
+
+logging:
+  config: classpath:logback-spring.xml

@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.List;
 
 /**
- * setup the device
+ * setup the device configuration
  */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {

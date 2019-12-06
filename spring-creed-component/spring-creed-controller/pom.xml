@@ -12,4 +12,11 @@
     <artifactId>spring-creed-controller</artifactId>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>com.ethan</groupId>
+            <artifactId>spring-creed-service</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>

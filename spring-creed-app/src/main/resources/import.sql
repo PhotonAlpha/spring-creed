@@ -1,0 +1,1 @@
+INSERT INTO DICTIONARY  (group_name, `key`, `value`) VALUES ('TYPE', 'creed', 'spring-creed')
