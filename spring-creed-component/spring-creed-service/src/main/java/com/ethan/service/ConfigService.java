@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface ConfigService {
   String play(Long appId, String type, String operator);
+  String playEvict(Long appId, String type, String operator);
 
   List<String> put(String content);
 

@@ -5,6 +5,8 @@ spring:
       connection-timeout: 30000
       idle-timeout: 600000
       max-lifetime: 1800000
+  zipkin:
+    enabled: false
 
 
 swagger2:
@@ -17,7 +19,7 @@ caffeine:
     - cacheName: short-term-cache
       initialCapacity: 50
       maximumSize: 500
-      expireAfterWriteMins: 5
+      expireAfterWriteMins: 50
     - cacheName: long-term-cache
       initialCapacity: 5
       maximumSize: 50

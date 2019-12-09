@@ -6,6 +6,7 @@ import com.ethan.service.ConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +21,16 @@ public class ConfigServiceImpl implements ConfigService {
   @Autowired
   private AppDictionaryDao appDictionaryDao;
 
-  @Cacheable(unless = "#result == null ")
+  @Cacheable(unless = "#result == null ", key = "#type")
   @Override
   public String play(Long appId, String type, String operator) {
+    log.info("########################Executing: " + this.getClass().getSimpleName() + ".play(id:"+appId+";type:"+type+";operator:"+operator+");");
+    return "Playing(id:"+appId+";type:"+type+";operator:"+operator+")";
+  }
+
+  @Override
+  @CacheEvict(key = "#type")
+  public String playEvict(Long appId, String type, String operator) {
     log.info("########################Executing: " + this.getClass().getSimpleName() + ".play(id:"+appId+";type:"+type+";operator:"+operator+");");
     return "Playing(id:"+appId+";type:"+type+";operator:"+operator+")";
   }

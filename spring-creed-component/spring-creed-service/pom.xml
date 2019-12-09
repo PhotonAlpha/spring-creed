@@ -16,5 +16,9 @@
             <groupId>com.ethan</groupId>
             <artifactId>spring-creed-dao</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.ethan</groupId>
+            <artifactId>spring-creed-cache</artifactId>
+        </dependency>
     </dependencies>
 </project>
