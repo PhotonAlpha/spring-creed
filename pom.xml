@@ -23,7 +23,10 @@
         <jwt.version>3.8.3</jwt.version>
         <jjwt.version>0.10.7</jjwt.version>
 
-        <spring.boot.version>2.2.1.RELEASE</spring.boot.version>
+        <junit.version>5.5.2</junit.version>
+        <junit.platform.version>1.5.2</junit.platform.version>
+
+        <spring.boot.version>2.1.9.RELEASE</spring.boot.version>
     </properties>
 
     <modules>
@@ -97,7 +100,19 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mobile</artifactId>
@@ -129,11 +144,34 @@
             <scope>test</scope>
             <exclusions>
                 <exclusion>
-                    <!-- Don't include Junit 4 -->
+                    <!-- Don't include Junit 4 before spring boot 2.2.x -->
                     <groupId>junit</groupId>
                     <artifactId>junit</artifactId>
                 </exclusion>
+                <!--<exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.junit.jupiter</groupId>
+                    <artifactId>junit-jupiter</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.mockito</groupId>
+                    <artifactId>mockito-junit-jupiter</artifactId>
+                </exclusion>-->
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- Only needed to run tests in a version of IntelliJ IDEA that bundles older versions -->
@@ -141,19 +179,13 @@
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
             <scope>test</scope>
-            <version>1.5.2</version>
+            <version>${junit.platform.version}</version>
         </dependency>
-<!--        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.5.2</version>
-            <scope>test</scope>
-        </dependency>-->
         <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
-            <version>5.5.2</version>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-commons</artifactId>
             <scope>test</scope>
+            <version>${junit.platform.version}</version>
         </dependency>
     </dependencies>
 </project>

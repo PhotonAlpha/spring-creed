@@ -12,7 +12,8 @@ spring-creed
 
 # https://zhuanlan.zhihu.com/p/86267058
 
-
+# sample https://github.com/wyh-spring-ecosystem-student/spring-boot-student/tree/releases
+# redis & caffeine cache https://www.jianshu.com/p/ef9042c068fd
 
 
 
