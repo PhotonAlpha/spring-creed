@@ -17,6 +17,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.ethan</groupId>
+            <artifactId>spring-creed-context</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
             <version>${caffeine.cache.version}</version>

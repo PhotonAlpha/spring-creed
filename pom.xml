@@ -37,6 +37,7 @@
         <module>spring-creed-app</module>
         <module>spring-creed-component</module>
         <module>spring-creed-test</module>
+      <module>spring-creed-context</module>
     </modules>
 
     <dependencyManagement>
@@ -60,6 +61,11 @@
             <dependency>
                 <groupId>com.ethan</groupId>
                 <artifactId>spring-creed-cache</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ethan</groupId>
+                <artifactId>spring-creed-context</artifactId>
                 <version>1.0.0</version>
             </dependency>
             <dependency>
@@ -119,17 +125,6 @@
             <version>1.5.22.RELEASE</version>
         </dependency>
 
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons.lang3.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-text</artifactId>
-            <version>${commons.text.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -144,7 +139,7 @@
             <scope>test</scope>
             <exclusions>
                 <exclusion>
-                    <!-- Don't include Junit 4 before spring boot 2.2.x -->
+                    <!-- exclude Junit 4 before spring boot 2.2.x -->
                     <groupId>junit</groupId>
                     <artifactId>junit</artifactId>
                 </exclusion>
