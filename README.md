@@ -6,6 +6,10 @@ spring-creed
 - spring-creed-cache `cache configuration`
 - spring-creed-component `include bussiness component`
 
+Redis distributed lock Ref: 
+1. https://juejin.im/post/5c8cb043e51d4528641bdefb
+2. http://www.programmersought.com/article/459034549/
+
 
 # blog design: https://zhangjia.io/852.html
 # cache: https://github.com/xiaolyuh/layering-cache

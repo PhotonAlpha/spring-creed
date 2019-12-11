@@ -99,10 +99,10 @@ public class CustomizedRedisCache extends RedisCache {
     RedisLock redisLock = new RedisLock((RedisTemplate<String, Object>) redisOperations, cacheKeyStr + "_lock");
     try {
       if (redisLock.tryLock()) {
-        redisOperations.expire(cacheKeyStr, this.expirationSecondTime, TimeUnit.SECONDS);
+        redisOperations.expire(cacheKeyStr, this.expirationTime, TimeUnit.SECONDS);
       }
     } catch (Exception e) {
-      logger.error(e.getMessage(), e);
+      log.error(e.getMessage(), e);
     } finally {
       redisLock.unlock();
     }

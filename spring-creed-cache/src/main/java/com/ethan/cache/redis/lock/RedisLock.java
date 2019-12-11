@@ -2,27 +2,24 @@ package com.ethan.cache.redis.lock;
 
 import io.lettuce.core.SetArgs;
 import io.lettuce.core.api.async.RedisAsyncCommands;
-import io.lettuce.core.dynamic.Commands;
-import io.lettuce.core.dynamic.RedisCommandFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DataAccessException;
-import org.springframework.data.redis.connection.ReactiveRedisConnection;
 import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.connection.RedisKeyCommands;
-import org.springframework.data.redis.connection.lettuce.LettuceConnection;
+import org.springframework.data.redis.connection.ReturnType;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.util.Assert;
 
+import java.nio.charset.Charset;
 import java.time.Duration;
 import java.util.Random;
 import java.util.UUID;
 
 /**
- * Redis分布式锁
- * 使用 SET resource-name anystring NX EX max-lock-time 实现
+ * Redis distributed lock
+ * 使用 SET resource-name any string NX EX max-lock-time 实现
  * <p>
  * 该方案在 Redis 官方 SET 命令页有详细介绍。
  * http://doc.redisfans.com/string/set.html
@@ -177,19 +174,18 @@ public class RedisLock {
     while ((System.nanoTime() - nowTime) < timeout) {
       if (OK.equalsIgnoreCase(this.set(lockKey, lockValue, expireTime))) {
         locked = true;
-        // 上锁成功结束请求
+        // once locked, end the request
         return locked;
       }
 
-      // 每次请求等待一段时间
-      seleep(10, 50000);
+      // wait a while for per request
+      sleep(10, 50000);
     }
     return locked;
   }
 
   /**
-   * 尝试获取锁 立即返回
-   *
+   * try to get the lock, and return immediately
    * @return 是否成功获得锁
    */
   public boolean lock() {
@@ -202,28 +198,62 @@ public class RedisLock {
 
   /**
    * 以阻塞方式的获取锁
-   *
-   * @return 是否成功获得锁
+   * try to get the lock with block
+   * @return get the lock success
    */
   public boolean lockBlock() {
     lockValue = UUID.randomUUID().toString();
     while (true) {
-      //不存在则添加 且设置过期时间（单位ms）
+      //if not exist, add lock and add the expire time same time(unit: ms)
       String result = set(lockKey, lockValue, expireTime);
       if (OK.equalsIgnoreCase(result)) {
         locked = true;
         return locked;
       }
 
-      // 每次请求等待一段时间
+      // wait a while for per time
       sleep(10, 50000);
     }
   }
 
   /**
+   * unlock
+   * <p>
+   * promote the lock more efficient
+   * <p>
+   * Instead of using a fixed string as the key value, a long, non-guessable random string is set as the token.
+   * Instead of using the DEL command to release the lock, send a Lua script that deletes the key only if the value passed in by the client matches the key's password string.
+   * 这两个改动可以防止持有过期锁的客户端误删现有锁的情况出现。
+   */
+  public Boolean unlock() {
+    // Release the lock only if the lock is successful and the lock is still valid
+    // Release the lock only if the lock is successful and the lock is still valid
+    if (locked) {
+      return redisTemplate.execute(new RedisCallback<Boolean>() {
+        @Override
+        public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
+          Long result = 0L;
+          result = connection.eval(UNLOCK_LUA.getBytes(), ReturnType.BOOLEAN, 1,
+              lockKey.getBytes(Charset.forName("UTF-8")),
+              lockValue.getBytes(Charset.forName("UTF-8")));
+
+          if (result == 0 && !StringUtils.isEmpty(lockKeyLog)) {
+            log.info("Redis distributed lock，unlock {} failure！unlock cost:{}", lockKeyLog, System.currentTimeMillis());
+          }
+
+          locked = result == 0;
+          return result == 1;
+        }
+      });
+    }
+
+    return true;
+  }
+
+  /**
    * overwrite the redisTemplate set method
    * <p>
-   * command: SET resource-name anystring NX EX max-lock-time is a common way to implement the redis lock
+   * command: SET resource-name any string NX EX max-lock-time is a common way to implement the redis lock
    * <p>
    * if client execute the upper command:
    * <p>
