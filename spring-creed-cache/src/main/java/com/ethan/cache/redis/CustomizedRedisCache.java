@@ -1,19 +1,21 @@
 package com.ethan.cache.redis;
 
+import com.ethan.cache.redis.lock.RedisLock;
 import com.ethan.context.utils.SpringContextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.cache.CacheKeyPrefix;
 import org.springframework.data.redis.cache.RedisCache;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.core.RedisOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class CustomizedRedisCache extends RedisCache {
   private static final Logger log = LoggerFactory.getLogger(CustomizedRedisCache.class);
-
 
   public static final String INVOCATION_CACHE_KEY_SUFFIX = ":invocation_suffix";
   /**
@@ -25,7 +27,7 @@ public class CustomizedRedisCache extends RedisCache {
 
   private final RedisOperations redisOperations;
 
-  private final byte[] prefix;
+  private final String prefix;
 
   /**
    * the cache will force refresh before expired
@@ -33,9 +35,9 @@ public class CustomizedRedisCache extends RedisCache {
    */
   private long preloadSecondTime = 0;
   /**
-   * the cache expire time
+   * the cache expiration time
    */
-  private long expirationSecondTime;
+  private long expirationTime;
 
   /**
    * force refresh cache, default false
@@ -47,27 +49,75 @@ public class CustomizedRedisCache extends RedisCache {
     return SpringContextUtils.getBean(CacheSupport.class);
   }
 
-  public CustomizedRedisCache(String name, byte[] prefix, long preloadSecondTime, long expirationSecondTime,
-                              RedisOperations<? extends Object, ? extends Object> redisOperations, boolean forceRefresh, boolean allowNullValues) {
-    RedisCacheConfiguration cacheConfig = new RedisCacheConfiguration(TimeUnit.SECONDS, allowNullValues, );
-
-    super(name, prefix, redisOperations, expirationSecondTime, allowNullValues);
-    this.redisOperations = redisOperations;
+  public CustomizedRedisCache(String name, RedisCacheWriter cacheWriter, RedisCacheConfiguration cacheConfig,
+                                 String prefix, RedisOperations<? extends Object, ? extends Object> redisOperations,
+                                 long expirationTime, long preloadSecondTime, boolean forceRefresh) {
+    // overwrite the default keyPrefix
+    super(name, cacheWriter, cacheConfig.prefixKeysWith(prefix));
     this.prefix = prefix;
+    this.redisOperations = redisOperations;
+    this.expirationTime = expirationTime;
     this.preloadSecondTime = preloadSecondTime;
-    this.expirationSecondTime = expirationSecondTime;
     this.forceRefresh = forceRefresh;
   }
 
-  protected CustomizedRedisCache(String name, RedisCacheWriter cacheWriter, RedisCacheConfiguration cacheConfig) {
-    super(name, cacheWriter, cacheConfig);
+  @Override
+  public void evict(Object key) {
+    super.evict(key);
+    redisOperations.delete(getCacheKey(key) + INVOCATION_CACHE_KEY_SUFFIX);
   }
 
-  private static RedisCacheConfiguration createCacheConfiguration(long expirationSecondTime, String prefix, boolean allowNullValues) {
-    new RedisCacheConfiguration(Duration.ofSeconds(expirationSecondTime), allowNullValues)
-    return RedisCacheConfiguration.defaultCacheConfig()
-        .entryTtl(Duration.ofSeconds(expirationSecondTime))
-        .prefixKeysWith(prefix);
+  @Override
+  public ValueWrapper get(Object key) {
+    String cacheKey = getCacheKey(key);
+    ValueWrapper valueWrapper = this.get(cacheKey);
+    if (null != valueWrapper && CustomizedRedisCache.this.preloadSecondTime > 0) {
+      // refresh the data
+    }
+    return valueWrapper;
   }
 
+  /**
+   * refresh the cache
+   * @param key
+   * @param cacheKeyStr
+   */
+  private void refreshCache(Object key, String cacheKeyStr) {
+    Long ttl = this.redisOperations.getExpire(cacheKeyStr);
+    if (null != ttl && ttl <= CustomizedRedisCache.this.preloadSecondTime) {
+      // 判断是否需要强制刷新在开启刷新线程
+      if (!isForceRefresh()) {
+        softRefresh(cacheKeyStr);
+      } else {
+        forceRefresh(cacheKeyStr);
+      }
+    }
+  }
+
+  private void softRefresh(String cacheKeyStr) {
+    // 加一个分布式锁，只放一个请求去刷新缓存
+    RedisLock redisLock = new RedisLock((RedisTemplate<String, Object>) redisOperations, cacheKeyStr + "_lock");
+    try {
+      if (redisLock.tryLock()) {
+        redisOperations.expire(cacheKeyStr, this.expirationSecondTime, TimeUnit.SECONDS);
+      }
+    } catch (Exception e) {
+      logger.error(e.getMessage(), e);
+    } finally {
+      redisLock.unlock();
+    }
+  }
+
+  /**
+   * get RedisCacheKey
+   * @param key
+   * @return key's value
+   */
+  public String getCacheKey(Object key) {
+    return createCacheKey(key);
+  }
+
+  public boolean isForceRefresh() {
+    return forceRefresh;
+  }
 }

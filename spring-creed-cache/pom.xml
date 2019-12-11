@@ -20,6 +20,11 @@
             <groupId>com.ethan</groupId>
             <artifactId>spring-creed-context</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.ethan</groupId>
+            <artifactId>spring-creed-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>

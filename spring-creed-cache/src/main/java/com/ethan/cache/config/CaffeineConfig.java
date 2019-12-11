@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-@Configuration
+//@Configuration
 public class CaffeineConfig {
   private final ApplicationContext applicationContext;
   private final CacheBeans cacheBeans;

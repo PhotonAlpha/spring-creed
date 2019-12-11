@@ -1,12 +1,15 @@
 package com.ethan.controller;
 
+import com.ethan.model.CqMembers;
 import com.ethan.service.ConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.context.event.EventListener;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +26,9 @@ public class PrintController extends BasicController {
   private ConfigService configService;
   @Autowired
   private CacheManager cacheManager;
+  @Autowired
+  @Qualifier("redisJackson")
+  private RedisTemplate redisTemplate;
 
   @EventListener(ApplicationReadyEvent.class)
   public void initialCache() {
@@ -34,6 +40,10 @@ public class PrintController extends BasicController {
   @GetMapping(value = "/content/{name}")
   public ResponseEntity<List> getContent(@PathVariable("name") String name) {
     return ResponseEntity.ok(configService.put(name));
+  }
+  @GetMapping(value = "/redis/{name}")
+  public ResponseEntity<CqMembers> getRedisCache(@PathVariable("name") String name) {
+    return ResponseEntity.ok(configService.play(name));
   }
   @GetMapping(value = "/play")
   public ResponseEntity<String> getContent() {

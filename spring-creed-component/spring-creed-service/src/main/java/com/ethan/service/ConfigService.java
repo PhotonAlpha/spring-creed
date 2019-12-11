@@ -1,11 +1,14 @@
 package com.ethan.service;
 
 import com.ethan.model.AppDictionary;
+import com.ethan.model.CqMembers;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ConfigService {
+  CqMembers play(String name);
+
   String play(Long appId, String type, String operator);
   String playEvict(Long appId, String type, String operator);
 

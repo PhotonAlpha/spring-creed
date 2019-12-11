@@ -1,6 +1,5 @@
 package com.ethan.cache;
 
-import com.ethan.cache.redis.CustomizedRedisCache;
 import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.cache.support.AbstractValueAdaptingCache;
 import org.springframework.data.redis.core.RedisOperations;
@@ -38,7 +37,7 @@ public class LayeringCache extends AbstractValueAdaptingCache {
     this.name = name;
     this.enablePrimaryCache = enablePrimaryCache;
     this.redisOperations = redisOperations;
-    this.redisCache = new CustomizedRedisCache(name, prefix, redisOperations, expiration, preloadSecondTime, forceRefresh, allowNullValues);
+    //this.redisCache = new CustomizedRedisCache(name, prefix, redisOperations, expiration, preloadSecondTime, forceRefresh, allowNullValues);
     this.caffeineCache = new CaffeineCache(name, caffeineCache, allowNullValues);
   }
 

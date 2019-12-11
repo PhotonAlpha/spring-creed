@@ -2,15 +2,20 @@ package com.ethan.service.impl;
 
 import com.ethan.dao.AppDictionaryDao;
 import com.ethan.model.AppDictionary;
+import com.ethan.model.CqMembers;
 import com.ethan.service.ConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +25,25 @@ import java.util.Optional;
 public class ConfigServiceImpl implements ConfigService {
   @Autowired
   private AppDictionaryDao appDictionaryDao;
+  @Autowired
+  @Qualifier("redisJackson")
+  private RedisTemplate redisTemplate;
+
+  @Cacheable(unless = "#result == null ", key = "#name", value = "BasicDataCache")
+  @Override
+  public CqMembers play(String name) {
+    CqMembers mem = new CqMembers();
+    mem.setId(1L);
+    mem.setAge(10);
+    mem.setEmail("1@gmail.com");
+    mem.setMobile("123456");
+    mem.setName(name);
+    mem.setIp("127.0.0.1");
+    mem.setNickname("echo");
+    mem.setRegistrationTime(new Date());
+    log.info("call redis cache method");
+    return mem;
+  }
 
   @Cacheable(unless = "#result == null ", key = "#type")
   @Override
