@@ -2,7 +2,9 @@ package com.ethan.cache.redis.lock;
 
 import io.lettuce.core.SetArgs;
 import io.lettuce.core.api.async.RedisAsyncCommands;
+import io.lettuce.core.cluster.api.async.RedisAdvancedClusterAsyncCommands;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
@@ -10,6 +12,7 @@ import org.springframework.data.redis.connection.ReturnType;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.types.Expiration;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.util.Assert;
 
 import java.nio.charset.Charset;
@@ -166,7 +169,7 @@ public class RedisLock {
    */
   public boolean tryLock() {
     // generate a random key
-    lockValue = UUID.randomUUID().toString();
+    lockValue = getUniqueKey();
     // request timeout unit, ns
     long timeout = timeOut * 1000000;
     // system current nano times, ns
@@ -186,10 +189,10 @@ public class RedisLock {
 
   /**
    * try to get the lock, and return immediately
-   * @return 是否成功获得锁
+   * @return get the lock success
    */
   public boolean lock() {
-    lockValue = UUID.randomUUID().toString();
+    lockValue = getUniqueKey();
     //不存在则添加 且设置过期时间（单位ms）
     String result = set(lockKey, lockValue, expireTime);
     locked = OK.equalsIgnoreCase(result);
@@ -197,12 +200,11 @@ public class RedisLock {
   }
 
   /**
-   * 以阻塞方式的获取锁
    * try to get the lock with block
    * @return get the lock success
    */
   public boolean lockBlock() {
-    lockValue = UUID.randomUUID().toString();
+    lockValue = getUniqueKey();
     while (true) {
       //if not exist, add lock and add the expire time same time(unit: ms)
       String result = set(lockKey, lockValue, expireTime);
@@ -268,9 +270,20 @@ public class RedisLock {
     Assert.isTrue(!StringUtils.isEmpty(key), "key can not be null");
     return redisTemplate.execute((RedisCallback<String>) connection -> {
       Object nativeConnection = connection.getNativeConnection();
+
       String result = null;
+      SetArgs exArgs = SetArgs.Builder.nx().ex(Expiration.from(Duration.ofSeconds(seconds)).getExpirationTime());
+
+      // cluster mode
+      if (nativeConnection instanceof RedisAdvancedClusterAsyncCommands) {
+        log.debug("lettuce Cluster:---setKey:{}---value:{}---maxTimes:{}", key, value, seconds);
+        result = ((RedisAdvancedClusterAsyncCommands) nativeConnection)
+            .getStatefulConnection()
+            .sync()
+            .set(key, value, exArgs);
+      }
       if (nativeConnection instanceof RedisAsyncCommands) {
-        SetArgs exArgs = SetArgs.Builder.nx().ex(Expiration.from(Duration.ofSeconds(seconds)).getExpirationTime());
+        log.debug("lettuce Single:---setKey:{}---value:{}---maxTimes:{}", key, value, seconds);
         result = ((RedisAsyncCommands) nativeConnection)
             .getStatefulConnection()
             .sync()
@@ -301,6 +314,12 @@ public class RedisLock {
     } catch (InterruptedException e) {
       log.error("interrupt by sleep thread", e);
     }
+  }
+
+  private String getUniqueKey() {
+    //lockValue = UUID.randomUUID().toString();
+    // UUID.randomUUID() have Poor performance in high concurrency situations
+    return RandomStringUtils.randomAlphabetic(4) + System.nanoTime();
   }
 
   public String getLockKeyLog() {

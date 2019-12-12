@@ -25,3 +25,9 @@ Redis distributed lock Ref:
 
 # Junit5 Support
 spring-boot-starter-test >2.2.0 comes with Junit 5, so no need for this if you use the most recent version of Spring Boot (or of spring-boot-starter-web).
+
+# 基于Redis的分布式锁到底安全吗?
+https://www.jianshu.com/p/dd66bdd18a56
+https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html
+https://redis.io/topics/distlock
+ - 待优化: https://blog.piaoruiqing.com/2019/05/19/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/

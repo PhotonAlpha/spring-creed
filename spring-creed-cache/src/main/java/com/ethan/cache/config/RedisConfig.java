@@ -1,5 +1,6 @@
 package com.ethan.cache.config;
 
+import com.ethan.context.utils.InstanceUtils;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -40,7 +41,7 @@ public class RedisConfig {
   private RedisCacheConfiguration getRedisCacheConfigurationWithTtl(long seconds) {
     RedisSerializationContext.SerializationPair<String> keySerializer = RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer());
     RedisSerializationContext.SerializationPair<Object> valueSerializer =
-        RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer(nonNullObjectMapper()));
+        RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer(InstanceUtils.getMapperInstance()));
 
     return RedisCacheConfiguration.defaultCacheConfig()
         .entryTtl(Duration.ofSeconds(seconds))
@@ -55,22 +56,11 @@ public class RedisConfig {
     return redisCacheConfigurationMap;
   }
 
-  private ObjectMapper nonNullObjectMapper() {
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-    mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-        .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-    // Don’t include null values
-    mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    return mapper;
-  }
-
   @Bean("redisJackson")
   public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory connectionFactory) {
     StringRedisTemplate template = new StringRedisTemplate(connectionFactory);
     template.setKeySerializer(new StringRedisSerializer());
-    template.setValueSerializer(new GenericJackson2JsonRedisSerializer(nonNullObjectMapper()));
+    template.setValueSerializer(new GenericJackson2JsonRedisSerializer(InstanceUtils.getMapperInstance()));
     template.afterPropertiesSet();
     return template;
   }

@@ -12,7 +12,6 @@ import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -21,11 +20,11 @@ import java.util.stream.Collectors;
 //@Configuration
 public class CaffeineConfig {
   private final ApplicationContext applicationContext;
-  private final CacheBeans cacheBeans;
+  private final CaffeineCacheBean caffeineCacheBean;
 
-  public CaffeineConfig(ApplicationContext applicationContext, CacheBeans cacheBeans) {
+  public CaffeineConfig(ApplicationContext applicationContext, CaffeineCacheBean caffeineCacheBean) {
     this.applicationContext = applicationContext;
-    this.cacheBeans = cacheBeans;
+    this.caffeineCacheBean = caffeineCacheBean;
   }
   @Bean
   public CacheRemovalListener cacheRemovalListener() {
@@ -39,7 +38,7 @@ public class CaffeineConfig {
    */
   @Bean
   public CacheManager cacheManager(CacheRemovalListener cacheRemovalListener) {
-    List<CaffeineCache> caches = cacheBeans.getConfigs().stream().map(bean -> {
+    List<CaffeineCache> caches = caffeineCacheBean.getConfigs().stream().map(bean -> {
       Cache<Object, Object> cache = Caffeine.newBuilder()
           .initialCapacity(bean.getInitialCapacity())
           .maximumSize(bean.getMaximumSize())
