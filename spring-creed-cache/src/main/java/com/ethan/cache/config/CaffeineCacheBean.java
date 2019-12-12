@@ -7,20 +7,26 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
 @Component
 @ConfigurationProperties(prefix = "caffeine")
-public class CacheBeans {
-  private List<CacheConfig> configs = Arrays.asList(new CacheConfig());
+public class CaffeineCacheBean {
+  private List<CaffeineCacheConfiguration> configs = Arrays.asList(new CaffeineCacheConfiguration());
 
   @Getter
   @Setter
-  public static class CacheConfig {
-    private String cacheName = "default-cache";
+  public static class CaffeineCacheConfiguration {
+    private String cacheName = "default-caffeine";
     private Integer initialCapacity = 10;
     private Long maximumSize = 50L;
     private Long expireAfterWriteMins = 30L;
+  }
+
+  public Map<String, CaffeineCacheConfiguration> getCacheSettings() {
+    return configs.stream().collect(Collectors.toMap(CaffeineCacheConfiguration::getCacheName, v -> v, (v1, v2) -> v1));
   }
 }
