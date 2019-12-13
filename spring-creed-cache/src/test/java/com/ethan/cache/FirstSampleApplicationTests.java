@@ -20,7 +20,6 @@ import java.util.Date;
 @TestPropertySource(locations = "classpath:application.yml")
 public class FirstSampleApplicationTests {
   @Autowired
-  @Qualifier("redisJackson")
   private RedisTemplate redisTemplate;
 
   @Test

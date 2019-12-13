@@ -39,7 +39,7 @@ public class LayeringCache extends AbstractValueAdaptingCache {
 
   RedisOperations<? extends Object, ? extends Object> redisOperations;
 
-  RedisConnectionFactory connectionFactory;
+  private final RedisConnectionFactory connectionFactory;
 
   /**
    *
@@ -53,13 +53,14 @@ public class LayeringCache extends AbstractValueAdaptingCache {
    * @param forceRefresh  force refresh(reload from database)
    * @param caffeineCache caffeine cache
    */
-  public LayeringCache(boolean allowNullValues,String prefix, RedisOperations<? extends Object, ? extends Object> redisOperations,
+  public LayeringCache(boolean allowNullValues,String prefix, RedisOperations<? extends Object, ? extends Object> redisOperations, RedisConnectionFactory connectionFactory,
                        long expiration, long preloadSecondTime, String name, boolean enablePrimaryCache,boolean forceRefresh,
                        com.github.benmanes.caffeine.cache.Cache<Object, Object> caffeineCache) {
     super(allowNullValues);
     this.name = name;
     this.enablePrimaryCache = enablePrimaryCache;
     this.redisOperations = redisOperations;
+    this.connectionFactory = connectionFactory;
     this.redisCache = new CustomizedRedisCache(name, RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory),
         getRedisCacheConfigurationWithTtl(), prefix, redisOperations, expiration, preloadSecondTime, forceRefresh);
     this.caffeineCache = new CaffeineCache(name, caffeineCache, allowNullValues);

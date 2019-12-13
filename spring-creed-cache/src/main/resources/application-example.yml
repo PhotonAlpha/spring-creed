@@ -8,3 +8,17 @@ caffeine:
       initialCapacity: 5
       maximumSize: 50
       expireAfterWriteMins: 300
+
+
+layering:
+  - cacheName: short-term-cache
+    caffeine:
+      initialCapacity: 50
+      maximumSize: 500
+      expireAfterWriteMins: 90
+    redis:
+      preloadTime: 50
+      expirationTime: 30
+      forceRefresh: false
+      usePrefix: true
+      enablePrimaryCache: true

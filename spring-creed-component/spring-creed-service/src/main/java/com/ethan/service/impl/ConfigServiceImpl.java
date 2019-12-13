@@ -26,7 +26,6 @@ public class ConfigServiceImpl implements ConfigService {
   @Autowired
   private AppDictionaryDao appDictionaryDao;
   @Autowired
-  @Qualifier("redisJackson")
   private RedisTemplate redisTemplate;
 
   @Cacheable(unless = "#result == null ", key = "#name", value = "BasicDataCache")

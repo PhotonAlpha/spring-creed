@@ -27,3 +27,17 @@ spring:
 
 jwt:
   header: Authorization
+
+layering:
+  config:
+    - cacheName: short-term-cache
+      caffeine:
+        initialCapacity: 50
+        maximumSize: 500
+        expireAfterWriteMins: 90
+      redis:
+        preloadTime: 50
+        expirationTime: 30
+        forceRefresh: false
+        usePrefix: true
+        enablePrimaryCache: true

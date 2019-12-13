@@ -27,7 +27,6 @@ public class PrintController extends BasicController {
   @Autowired
   private CacheManager cacheManager;
   @Autowired
-  @Qualifier("redisJackson")
   private RedisTemplate redisTemplate;
 
   @EventListener(ApplicationReadyEvent.class)

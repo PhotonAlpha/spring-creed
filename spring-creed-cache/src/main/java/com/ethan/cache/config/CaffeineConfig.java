@@ -1,5 +1,6 @@
 package com.ethan.cache.config;
 
+import com.ethan.cache.model.CaffeineCacheBean;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalCause;
@@ -20,11 +21,11 @@ import java.util.stream.Collectors;
 //@Configuration
 public class CaffeineConfig {
   private final ApplicationContext applicationContext;
-  private final CaffeineCacheBean caffeineCacheBean;
+  private final CacheProperties cacheProperties;
 
-  public CaffeineConfig(ApplicationContext applicationContext, CaffeineCacheBean caffeineCacheBean) {
+  public CaffeineConfig(ApplicationContext applicationContext, CacheProperties cacheProperties) {
     this.applicationContext = applicationContext;
-    this.caffeineCacheBean = caffeineCacheBean;
+    this.cacheProperties = cacheProperties;
   }
   @Bean
   public CacheRemovalListener cacheRemovalListener() {
@@ -38,11 +39,11 @@ public class CaffeineConfig {
    */
   @Bean
   public CacheManager cacheManager(CacheRemovalListener cacheRemovalListener) {
-    List<CaffeineCache> caches = caffeineCacheBean.getConfigs().stream().map(bean -> {
+    List<CaffeineCache> caches = cacheProperties.getConfig().stream().map(bean -> {
       Cache<Object, Object> cache = Caffeine.newBuilder()
-          .initialCapacity(bean.getInitialCapacity())
-          .maximumSize(bean.getMaximumSize())
-          .expireAfterWrite(bean.getExpireAfterWriteMins(), TimeUnit.SECONDS)
+          .initialCapacity(bean.getCaffeine().getInitialCapacity())
+          .maximumSize(bean.getCaffeine().getMaximumSize())
+          .expireAfterWrite(bean.getCaffeine().getExpireAfterWriteMins(), TimeUnit.SECONDS)
           //.weakKeys()
            .weakValues()
           .removalListener(cacheRemovalListener)
