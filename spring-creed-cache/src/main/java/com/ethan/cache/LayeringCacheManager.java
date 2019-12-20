@@ -95,7 +95,7 @@ public class LayeringCacheManager implements CacheManager {
    * @param bean
    * @return
    */
-  protected com.github.benmanes.caffeine.cache.@NonNull Cache<Object, Object> createNativeCaffeineCache(CaffeineCacheBean bean) {
+  protected com.github.benmanes.caffeine.cache.Cache<Object, Object> createNativeCaffeineCache(CaffeineCacheBean bean) {
     return Caffeine.newBuilder()
         .initialCapacity(bean.getInitialCapacity())
         .maximumSize(bean.getMaximumSize())
@@ -114,14 +114,12 @@ public class LayeringCacheManager implements CacheManager {
   @Override
   public Cache getCache(String name) {
     if (this.dynamic) {
-      this.cacheMap.computeIfAbsent(name, key -> createCache(name));
-
-        //Cache cache = this.cacheMap.get(name);
-      //synchronized (this.cacheMap) {
-      //
-      //}
+      return this.cacheMap.computeIfAbsent(name, key -> createCache(name));
     }
+    return null;
 
+    /**
+     * original code
     Cache cache = this.cacheMap.get(name);
     if (cache == null && this.dynamic) {
       synchronized (this.cacheMap) {
@@ -132,7 +130,7 @@ public class LayeringCacheManager implements CacheManager {
         }
       }
     }
-    return cache;
+    return cache;*/
   }
 
   @Override
