@@ -1,24 +1,15 @@
 package com.ethan.cache.redis.lock;
 
-import io.lettuce.core.SetArgs;
-import io.lettuce.core.api.async.RedisAsyncCommands;
-import io.lettuce.core.cluster.api.async.RedisAdvancedClusterAsyncCommands;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.connection.ReturnType;
-import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.types.Expiration;
-import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.util.Assert;
 
-import java.nio.charset.Charset;
-import java.time.Duration;
+import java.util.Collections;
 import java.util.Random;
-import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Redis distributed lock
@@ -47,21 +38,6 @@ public class RedisLock {
   private RedisTemplate<String, Object> redisTemplate;
 
   /**
-   * set the key as value ，if and only if key is null, which is equivalent to 'SETNX'
-   */
-  public static final String NX = "NX";
-
-  /**
-   * seconds — Set the expiration time of the key in seconds, which is equivalent to 'SETEX key second value'
-   */
-  public static final String EX = "EX";
-
-  /**
-   * the return value after set success
-   */
-  public static final String OK = "OK";
-
-  /**
    * 默认请求锁的超时时间(ms 毫秒)
    */
   private static final long TIME_OUT = 100;
@@ -77,13 +53,12 @@ public class RedisLock {
   public static final String UNLOCK_LUA;
 
   static {
-    StringBuilder sb = new StringBuilder();
-    sb.append("if redis.call(\"get\",KEYS[1]) == ARGV[1] ");
-    sb.append("then ");
-    sb.append("    return redis.call(\"del\",KEYS[1]) ");
-    sb.append("else ");
-    sb.append("    return 0 ");
-    sb.append("end ");
+    StringBuilder sb = new StringBuilder("if redis.call(\"get\", KEYS[1]) == ARGV[1] ");
+    sb.append("then ")
+    .append("    return redis.call(\"del\", KEYS[1]) ")
+    .append("else ")
+    .append("    return 0 ")
+    .append("end ");
     UNLOCK_LUA = sb.toString();
   }
 
@@ -91,11 +66,6 @@ public class RedisLock {
    * lockKey
    */
   private String lockKey;
-
-  /**
-   * the lock key which is recorded in log
-   */
-  private String lockKeyLog = "";
 
   /**
    * lockValue
@@ -175,7 +145,7 @@ public class RedisLock {
     // system current nano times, ns
     long nowTime = System.nanoTime();
     while ((System.nanoTime() - nowTime) < timeout) {
-      if (OK.equalsIgnoreCase(this.set(lockKey, lockValue, expireTime))) {
+      if (this.set(lockKey, lockValue, expireTime)) {
         locked = true;
         // once locked, end the request
         return locked;
@@ -193,9 +163,8 @@ public class RedisLock {
    */
   public boolean lock() {
     lockValue = getUniqueKey();
-    //不存在则添加 且设置过期时间（单位ms）
-    String result = set(lockKey, lockValue, expireTime);
-    locked = OK.equalsIgnoreCase(result);
+    //Add if not exist and set expiration time (ms)
+    locked = set(lockKey, lockValue, expireTime);
     return locked;
   }
 
@@ -207,8 +176,8 @@ public class RedisLock {
     lockValue = getUniqueKey();
     while (true) {
       //if not exist, add lock and add the expire time same time(unit: ms)
-      String result = set(lockKey, lockValue, expireTime);
-      if (OK.equalsIgnoreCase(result)) {
+      boolean result = set(lockKey, lockValue, expireTime);
+      if (result) {
         locked = true;
         return locked;
       }
@@ -231,24 +200,13 @@ public class RedisLock {
     // Release the lock only if the lock is successful and the lock is still valid
     // Release the lock only if the lock is successful and the lock is still valid
     if (locked) {
-      return redisTemplate.execute(new RedisCallback<Boolean>() {
-        @Override
-        public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
-          Long result = 0L;
-          result = connection.eval(UNLOCK_LUA.getBytes(), ReturnType.BOOLEAN, 1,
-              lockKey.getBytes(Charset.forName("UTF-8")),
-              lockValue.getBytes(Charset.forName("UTF-8")));
-
-          if (result == 0 && !StringUtils.isEmpty(lockKeyLog)) {
-            log.info("Redis distributed lock，unlock {} failure！unlock cost:{}", lockKeyLog, System.currentTimeMillis());
-          }
-
-          locked = result == 0;
-          return result == 1;
-        }
-      });
+      Boolean result = redisTemplate.execute(new DefaultRedisScript<>(UNLOCK_LUA, Boolean.class), Collections.singletonList(lockKey), lockValue);
+      if (!result && isDebugEnabled()) {
+        log.info("Redis distributed lock，unlock key {} value{} failure！unlock cost:{}", lockKey, lockValue, System.currentTimeMillis());
+      }
+      log.info("Redis distributed lock，unlock key {} success!", lockKey);
+      return result;
     }
-
     return true;
   }
 
@@ -266,34 +224,9 @@ public class RedisLock {
    * @param seconds time pass (s)
    * @return
    */
-  private String set(final String key, final String value, final long seconds) {
+  private boolean set(final String key, final String value, final long seconds) {
     Assert.isTrue(!StringUtils.isEmpty(key), "key can not be null");
-    return redisTemplate.execute((RedisCallback<String>) connection -> {
-      Object nativeConnection = connection.getNativeConnection();
-
-      String result = null;
-      SetArgs exArgs = SetArgs.Builder.nx().ex(Expiration.from(Duration.ofSeconds(seconds)).getExpirationTime());
-
-      // cluster mode
-      if (nativeConnection instanceof RedisAdvancedClusterAsyncCommands) {
-        log.debug("lettuce Cluster:---setKey:{}---value:{}---maxTimes:{}", key, value, seconds);
-        result = ((RedisAdvancedClusterAsyncCommands) nativeConnection)
-            .getStatefulConnection()
-            .sync()
-            .set(key, value, exArgs);
-      }
-      if (nativeConnection instanceof RedisAsyncCommands) {
-        log.debug("lettuce Single:---setKey:{}---value:{}---maxTimes:{}", key, value, seconds);
-        result = ((RedisAsyncCommands) nativeConnection)
-            .getStatefulConnection()
-            .sync()
-            .set(key, value, exArgs);
-        if (StringUtils.isNotEmpty(lockKeyLog) && StringUtils.isNotEmpty(result)) {
-          log.info("get lock{} cost：{}", lockKeyLog, System.currentTimeMillis());
-        }
-      }
-      return result;
-    });
+    return redisTemplate.opsForValue().setIfAbsent(key, value, seconds, TimeUnit.SECONDS);
   }
 
   /**
@@ -322,12 +255,8 @@ public class RedisLock {
     return RandomStringUtils.randomAlphabetic(4) + System.nanoTime();
   }
 
-  public String getLockKeyLog() {
-    return lockKeyLog;
-  }
-
-  public void setLockKeyLog(String lockKeyLog) {
-    this.lockKeyLog = lockKeyLog;
+  public boolean isDebugEnabled() {
+    return log.isDebugEnabled();
   }
 
   public int getExpireTime() {

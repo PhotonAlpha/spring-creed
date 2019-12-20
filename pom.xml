@@ -7,9 +7,11 @@
     <groupId>com.ethan</groupId>
     <artifactId>spring-creed</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
+    <version>${revision}</version>
 
     <properties>
+        <revision>1.1.0-SNAPSHOT</revision>
+
         <java.version>12</java.version>
         <maven.compiler.source>12</maven.compiler.source>
         <maven.compiler.target>12</maven.compiler.target>
@@ -61,48 +63,48 @@
             <dependency>
                 <groupId>com.ethan</groupId>
                 <artifactId>spring-creed-cache</artifactId>
-                <version>1.0.0</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.ethan</groupId>
                 <artifactId>spring-creed-context</artifactId>
-                <version>1.0.0</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.ethan</groupId>
                 <artifactId>spring-creed-core</artifactId>
-                <version>1.0.0</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.ethan</groupId>
                 <artifactId>spring-creed-common</artifactId>
-                <version>1.0.0</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.ethan</groupId>
                 <artifactId>spring-creed-cloud</artifactId>
-                <version>1.0.0</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.ethan</groupId>
                 <artifactId>spring-creed-component</artifactId>
-                <version>1.0.0</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.ethan</groupId>
                 <artifactId>spring-creed-controller</artifactId>
-                <version>1.0.0</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.ethan</groupId>
                 <artifactId>spring-creed-service</artifactId>
-                <version>1.0.0</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.ethan</groupId>
                 <artifactId>spring-creed-test</artifactId>
-                <version>1.0.0</version>
+                <version>${revision}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

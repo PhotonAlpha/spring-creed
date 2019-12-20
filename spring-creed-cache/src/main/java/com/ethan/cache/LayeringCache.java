@@ -3,13 +3,13 @@ package com.ethan.cache;
 import com.ethan.cache.constants.CacheConstant;
 import com.ethan.cache.constants.ChannelTopicEnum;
 import com.ethan.cache.listener.RedisPublisher;
+import com.ethan.cache.model.RedisCacheBean;
 import com.ethan.cache.redis.CustomizedRedisCache;
 import com.ethan.context.utils.InstanceUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.cache.support.AbstractValueAdaptingCache;
 import org.springframework.cache.support.NullValue;
-import org.springframework.data.redis.cache.RedisCache;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -18,6 +18,7 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -37,41 +38,38 @@ public class LayeringCache extends AbstractValueAdaptingCache {
 
   private final CaffeineCache caffeineCache;
 
-  RedisOperations<? extends Object, ? extends Object> redisOperations;
-
-  private final RedisConnectionFactory connectionFactory;
+  private final RedisOperations<? extends Object, ? extends Object> redisOperations;
 
   /**
    *
    * @param allowNullValues allow nullable, default is false
-   * @param prefix
+   * @param prefix  cache key prefix
    * @param redisOperations
-   * @param expiration  redis expire time
-   * @param preloadSecondTime redis auto refresh idle time
-   * @param name  cache name
-   * @param enablePrimaryCache enable the caffeine cache, default false
-   * @param forceRefresh  force refresh(reload from database)
+   * @param connectionFactory
+   * @param name cache name
+   * @param redisCacheBean redis cache configuration
    * @param caffeineCache caffeine cache
    */
   public LayeringCache(boolean allowNullValues,String prefix, RedisOperations<? extends Object, ? extends Object> redisOperations, RedisConnectionFactory connectionFactory,
-                       long expiration, long preloadSecondTime, String name, boolean enablePrimaryCache,boolean forceRefresh,
+                       String name, RedisCacheBean redisCacheBean,
                        com.github.benmanes.caffeine.cache.Cache<Object, Object> caffeineCache) {
     super(allowNullValues);
     this.name = name;
-    this.enablePrimaryCache = enablePrimaryCache;
+    this.enablePrimaryCache = redisCacheBean.getEnablePrimaryCache();
     this.redisOperations = redisOperations;
-    this.connectionFactory = connectionFactory;
     this.redisCache = new CustomizedRedisCache(name, RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory),
-        getRedisCacheConfigurationWithTtl(), prefix, redisOperations, expiration, preloadSecondTime, forceRefresh);
+        getRedisCacheConfigurationWithTtl(redisCacheBean.getExpirationTime(), prefix), redisOperations, redisCacheBean);
     this.caffeineCache = new CaffeineCache(name, caffeineCache, allowNullValues);
   }
 
-  private RedisCacheConfiguration getRedisCacheConfigurationWithTtl() {
+  private RedisCacheConfiguration getRedisCacheConfigurationWithTtl(long seconds, String prefix) {
     RedisSerializationContext.SerializationPair<String> keySerializer = RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer());
     RedisSerializationContext.SerializationPair<Object> valueSerializer =
         RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer(InstanceUtils.getMapperInstance()));
 
     return RedisCacheConfiguration.defaultCacheConfig()
+        .prefixKeysWith(prefix)
+        .entryTtl(Duration.ofSeconds(seconds))
         .serializeKeysWith(keySerializer)
         .serializeValuesWith(valueSerializer);
   }
@@ -81,11 +79,11 @@ public class LayeringCache extends AbstractValueAdaptingCache {
     Object value = null;
     if (enablePrimaryCache) {
       value = caffeineCache.get(key);
-      log.debug("search the L1 cache key:{}, value:{}", key, value);
+      log.info("search the L1 cache key:{}, value:{}", key, value);
     }
     if (value == null) {
       value = redisCache.get(key);
-      log.debug("search the L2 cache key:{}, value:{}", key, value);
+      log.info("search the L2 cache key:{}, value:{}", key, value);
     }
     return value;
   }
@@ -103,7 +101,7 @@ public class LayeringCache extends AbstractValueAdaptingCache {
   public CaffeineCache getPrimaryCache() {
     return this.caffeineCache;
   }
-  public RedisCache getSecondaryCache() {
+  public CustomizedRedisCache getSecondaryCache() {
     return this.redisCache;
   }
 
@@ -112,13 +110,13 @@ public class LayeringCache extends AbstractValueAdaptingCache {
     ValueWrapper wrapper = null;
     if (enablePrimaryCache) {
       wrapper = caffeineCache.get(key);
-      log.debug("search the level 1 cache key:{}, value:{}", key, wrapper);
+      log.info("search the level 1 cache key:{}, value:{}", key, wrapper);
     }
     if (wrapper == null) {
       wrapper = redisCache.get(key);
       caffeineCache.put(key, wrapper == null ? null : wrapper.get());
       // query L2 cache, and update L1 cache
-      log.debug("search the level 2 cache key:{}, value:{}", key, wrapper);
+      log.info("search the level 2 cache key:{}, value:{}", key, wrapper);
     }
     return wrapper;
   }
@@ -128,12 +126,12 @@ public class LayeringCache extends AbstractValueAdaptingCache {
     T value = null;
     if (enablePrimaryCache) {
       value = caffeineCache.get(key, type);
-      log.debug("search the level 1 cache key:{}, value:{}", key, value);
+      log.info("search the level 1 cache key:{}, value:{}", key, value);
     }
     if (value == null) {
       value = redisCache.get(key, type);
       caffeineCache.put(key, value);
-      log.debug("search the level 2 cache key:{}, value:{}", key, value);
+      log.info("search the level 2 cache key:{}, value:{}", key, value);
     }
     return value;
   }
@@ -199,7 +197,7 @@ public class LayeringCache extends AbstractValueAdaptingCache {
 
   private <T> Object getForSecondaryCache(Object key, Callable<T> valueLoader) {
     T value = redisCache.get(key, valueLoader);
-    log.debug("search the level 2 cache key:{}, value:{}", key, value);
+    log.info("search the level 2 cache key:{}, value:{}", key, value);
     return toStoreValue(value);
   }
 }

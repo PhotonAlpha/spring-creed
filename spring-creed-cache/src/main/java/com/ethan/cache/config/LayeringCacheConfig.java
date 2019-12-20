@@ -23,7 +23,6 @@ public class LayeringCacheConfig {
   }
 
   @Bean
-  @Primary
   public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory connectionFactory) {
     StringRedisTemplate template = new StringRedisTemplate(connectionFactory);
     template.setKeySerializer(new StringRedisSerializer());
@@ -32,9 +31,17 @@ public class LayeringCacheConfig {
     return template;
   }
 
+  @Bean
+  public RedisTemplate<String, Object> redisTemplateObj(RedisConnectionFactory connectionFactory) {
+    RedisTemplate template = new RedisTemplate<String, Object>();
+    template.setConnectionFactory(connectionFactory);
+    template.setKeySerializer(new StringRedisSerializer());
+    template.setValueSerializer(new GenericJackson2JsonRedisSerializer(InstanceUtils.getMapperInstance()));
+    template.afterPropertiesSet();
+    return template;
+  }
 
   @Bean("cacheManager")
-  @Primary
   public CacheManager cacheManager(RedisTemplate<String, String> redisTemplate, RedisConnectionFactory connectionFactory) {
     LayeringCacheManager layeringCacheManager = new LayeringCacheManager(redisTemplate, connectionFactory, cacheProperties);
     // Allow null to prevent cache breakdown

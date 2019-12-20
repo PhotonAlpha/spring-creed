@@ -34,10 +34,10 @@ layering:
       caffeine:
         initialCapacity: 50
         maximumSize: 500
-        expireAfterWriteMins: 90
+        expireAfterWriteMins: 5
       redis:
-        preloadTime: 50
-        expirationTime: 30
-        forceRefresh: false
+        preloadTime: 30
+        expirationTime: 60
+        forceRefresh: true
         usePrefix: true
         enablePrimaryCache: true

@@ -29,7 +29,7 @@ public class PrintController extends BasicController {
   @Autowired
   private RedisTemplate redisTemplate;
 
-  @EventListener(ApplicationReadyEvent.class)
+  //@EventListener(ApplicationReadyEvent.class)
   public void initialCache() {
     for (int i = 0; i < 10; i++) {
       configService.play(1L, "dic" + i, "maker");

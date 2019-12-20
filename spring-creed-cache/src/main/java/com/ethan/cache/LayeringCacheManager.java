@@ -6,7 +6,6 @@ import com.ethan.cache.model.CaffeineCacheBean;
 import com.ethan.cache.model.LayeringBean;
 import com.ethan.cache.model.RedisCacheBean;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.data.redis.cache.CacheKeyPrefix;
@@ -29,10 +28,6 @@ import java.util.stream.Collectors;
  * multi-level cache (redis caffeine) should share same cache name.
  */
 public class LayeringCacheManager implements CacheManager {
-  private static final int DEFAULT_EXPIRE_AFTER_WRITE = 2;
-  private static final int DEFAULT_INITIAL_CAPACITY = 5;
-  private static final int DEFAULT_MAXIMUM_SIZE = 1_000;
-
   private final ConcurrentMap<String, Cache> cacheMap = new ConcurrentHashMap<>(16);
   private final Map<String, LayeringBean> settings;
 
@@ -88,11 +83,11 @@ public class LayeringCacheManager implements CacheManager {
     LayeringBean layering = settings.get(name);
     final RedisCacheBean redisBean = layering.getRedis();
     final CaffeineCacheBean caffeineBean = layering.getCaffeine();
+    Assert.notNull(redisBean, "redisBean can not be null");
+    Assert.notNull(caffeineBean, "caffeineBean can not be null");
 
     return new LayeringCache(isAllowNullValues(), (usePrefix ? cachePrefix.compute(name) : null), redisOperations, connectionFactory,
-        redisFunction(redisBean, RedisCacheBean::getExpirationTime), redisFunction(redisBean, RedisCacheBean::getPreloadTime),
-        name, redisFunction(redisBean, RedisCacheBean::getEnablePrimaryCache), redisFunction(redisBean, RedisCacheBean::getForceRefresh),
-        createNativeCaffeineCache(caffeineBean));
+        name, redisBean, createNativeCaffeineCache(caffeineBean));
   }
 
   /**
@@ -118,6 +113,15 @@ public class LayeringCacheManager implements CacheManager {
 
   @Override
   public Cache getCache(String name) {
+    if (this.dynamic) {
+      this.cacheMap.computeIfAbsent(name, key -> createCache(name));
+
+        //Cache cache = this.cacheMap.get(name);
+      //synchronized (this.cacheMap) {
+      //
+      //}
+    }
+
     Cache cache = this.cacheMap.get(name);
     if (cache == null && this.dynamic) {
       synchronized (this.cacheMap) {
@@ -134,10 +138,6 @@ public class LayeringCacheManager implements CacheManager {
   @Override
   public Collection<String> getCacheNames() {
     return Collections.unmodifiableSet(this.cacheMap.keySet());
-  }
-
-  public Map<String, LayeringBean> getLayeringCacheSettings(CacheProperties cacheProperties) {
-    return cacheProperties.getConfig().stream().collect(Collectors.toMap(LayeringBean::getCacheName, v -> v, (v1, v2) -> v2));
   }
 
   public boolean isAllowNullValues() {
@@ -173,5 +173,13 @@ public class LayeringCacheManager implements CacheManager {
 
   public Map<String, LayeringBean> getSettings() {
     return settings;
+  }
+
+  public CacheKeyPrefix getCachePrefix() {
+    return cachePrefix;
+  }
+
+  public void setCachePrefix(CacheKeyPrefix cachePrefix) {
+    this.cachePrefix = cachePrefix;
   }
 }

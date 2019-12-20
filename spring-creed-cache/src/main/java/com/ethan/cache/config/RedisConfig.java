@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 //@Configuration
+@Deprecated
 public class RedisConfig {
 
   @Bean

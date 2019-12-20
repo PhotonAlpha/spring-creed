@@ -48,9 +48,13 @@
 		<appender-ref ref="consoleAppender" />
 		<appender-ref ref="rolling" />
 	</logger>
+	<logger name="com.ethan" level="debug" additivity="false">
+		<appender-ref ref="consoleAppender" />
+		<appender-ref ref="rolling" />
+	</logger>
 
 	<root>
-		<level value="INFO" />
+		<level value="info" />
 		<appender-ref ref="consoleAppender" />
 		<appender-ref ref="rolling" />
 	</root>

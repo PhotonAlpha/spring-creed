@@ -28,7 +28,7 @@ public class ConfigServiceImpl implements ConfigService {
   @Autowired
   private RedisTemplate redisTemplate;
 
-  @Cacheable(unless = "#result == null ", key = "#name", value = "BasicDataCache")
+  @Cacheable(unless = "#result == null ", key = "#name")
   @Override
   public CqMembers play(String name) {
     CqMembers mem = new CqMembers();

@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 //@Configuration
+@Deprecated
 public class CaffeineConfig {
   private final ApplicationContext applicationContext;
   private final CacheProperties cacheProperties;
