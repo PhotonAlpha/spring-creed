@@ -19,9 +19,10 @@ import com.ethan.auth.vo.RoleVO;
 import com.ethan.auth.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.OAuth2RefreshToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,9 +38,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static com.ethan.auth.config.OAuth2Config.CLIENT_ID;
-import static com.ethan.auth.config.OAuth2Config.CLIENT_SECRET;
-import static com.ethan.auth.config.OAuth2Config.GRANT_TYPE;
+import static com.ethan.auth.config.OAuth2Config.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -155,8 +154,12 @@ public class UserServiceImpl implements UserService {
                 //如果redis里面已经存在该用户已经登录过了的信息
                 //我这边要刷新一遍token信息，不然，它会返回上一次还未过时的token信息给你
                 //不便于做单点维护
-                token = oauthRefreshToken(loginUser.getRefreshToken());
-                redisUtil.deleteCache(loginUserVO.getAccessToken());
+                OAuth2Authentication auth = redisTokenStore.readAuthentication(loginUser.getValue());
+                OAuth2RefreshToken refreshToken = redisTokenStore.readRefreshToken(loginUser.getValue());
+                redisTokenStore.storeRefreshToken(refreshToken, auth);
+
+                // token = oauthRefreshToken(loginUser.getRefreshToken().getValue());
+                // redisUtil.deleteCache(loginUserVO.getAccessToken());
             }
         } catch (RestClientException e) {
             try {
