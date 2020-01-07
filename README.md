@@ -37,3 +37,4 @@ https://www.ruanyifeng.com/blog/2014/05/oauth_2_0.html
 article:  
 - https://blog.csdn.net/u010475041/article/details/78484854
 - https://zhuanlan.zhihu.com/p/77323234
+- **https://www.cnblogs.com/xiaofengxzzf/p/10733955.html**  https://github.com/githubzengzhifeng/springboot-security-oauth2
