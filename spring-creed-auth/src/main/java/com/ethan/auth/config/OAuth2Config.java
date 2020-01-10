@@ -144,6 +144,7 @@ public class OAuth2Config {
             tokenService.setAccessTokenValiditySeconds((int) TimeUnit.HOURS.toSeconds(1));
             //1小时
             tokenService.setRefreshTokenValiditySeconds((int) TimeUnit.HOURS.toSeconds(1));
+            // 该字段设置设置refresh token是否重复使用,true:reuse;false:no reuse.
             tokenService.setReuseRefreshToken(false);
             endpoints.tokenServices(tokenService);
         }

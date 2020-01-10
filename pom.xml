@@ -39,7 +39,7 @@
         <module>spring-creed-app</module>
         <module>spring-creed-component</module>
         <module>spring-creed-test</module>
-      <module>spring-creed-context</module>
+        <module>spring-creed-context</module>
         <module>spring-creed-auth</module>
     </modules>
 
