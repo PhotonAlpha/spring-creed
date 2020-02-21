@@ -41,6 +41,7 @@
         <module>spring-creed-test</module>
         <module>spring-creed-context</module>
         <module>spring-creed-auth</module>
+        <module>spring-creed-research</module>
     </modules>
 
     <dependencyManagement>

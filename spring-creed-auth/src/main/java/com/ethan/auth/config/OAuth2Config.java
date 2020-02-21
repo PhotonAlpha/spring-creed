@@ -38,7 +38,7 @@ public class OAuth2Config {
     //访问客户端ID
     public static final String CLIENT_ID ="client_1";
     //鉴权模式
-    public static final String GRANT_TYPE[] = {"password","refresh_token"};
+    public static final String GRANT_TYPE[] = {"password","refresh_token", "authorization_code"};
 
     /**
      * @description 资源服务器
@@ -57,6 +57,13 @@ public class OAuth2Config {
                     .authenticationEntryPoint(customAuthExceptionHandler);
         }
 
+        /**
+         * default implement
+         * {@link org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationProcessingFilter}
+         * {@link org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationManager}
+         * @param http
+         * @throws Exception
+         */
         @Override
         public void configure(HttpSecurity http) throws Exception {
             http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
@@ -64,7 +71,7 @@ public class OAuth2Config {
                     //请求权限配置
                     .authorizeRequests()
                     //下边的路径放行,不需要经过认证
-                    .antMatchers("/oauth/*", "/auth/user/login", "/h2-console/**").permitAll()
+                    .antMatchers("/oauth/**", "/auth/user/login", "/h2-console/**").permitAll()
                     .antMatchers("/**/*.html",
                         "/**/*.{png,jpg,jpeg,svg.ico}",
                         "/**/*.css",
@@ -113,7 +120,8 @@ public class OAuth2Config {
             clients.inMemory()
                     .withClient(CLIENT_ID)
                     //密码模式及refresh_token模式
-                    .authorizedGrantTypes(GRANT_TYPE[0], GRANT_TYPE[1])
+                    .authorizedGrantTypes(GRANT_TYPE[0], GRANT_TYPE[1], GRANT_TYPE[2])
+                    .redirectUris("http://localhost:8080/login")
                     .scopes("all")
                     .secret(finalSecret);
         }
