@@ -1,10 +1,10 @@
 package com.ethan.auth.vo;
 
-import com.ethan.auth.domain.Base;
+import com.ethan.auth.model.Base;
 import lombok.Data;
 
 @Data
-public class RoleVO extends Base {
+public class RoleVO {
   /**
    * 角色名(中文)
    */

@@ -1,6 +1,6 @@
 package com.ethan.auth.dto;
 
-import com.ethan.auth.domain.Base;
+import com.ethan.auth.model.Base;
 import lombok.Data;
 
 @Data

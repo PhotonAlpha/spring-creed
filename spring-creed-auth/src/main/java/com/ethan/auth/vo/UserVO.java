@@ -1,10 +1,9 @@
 package com.ethan.auth.vo;
 
-import com.ethan.auth.domain.Base;
 import lombok.Data;
 
 @Data
-public class UserVO extends Base {
+public class UserVO {
   /**
    * 用户账号
    */

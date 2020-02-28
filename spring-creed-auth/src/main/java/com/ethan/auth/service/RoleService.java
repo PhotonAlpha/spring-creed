@@ -1,6 +1,6 @@
 package com.ethan.auth.service;
 
-import com.ethan.auth.model.Role;
+import com.ethan.auth.model.Authoritys;
 import com.ethan.auth.vo.ResponseVO;
 
 /**
@@ -19,5 +19,5 @@ public interface RoleService {
     /**
      * @description 根据角色id获取角色
      */
-    Role findById(Long id);
+    Authoritys findById(Long id);
 }

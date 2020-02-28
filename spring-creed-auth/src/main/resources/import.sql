@@ -1,5 +1,8 @@
-INSERT INTO um_t_role(id,`name`,description,created_time,role) VALUES(1,'管理员','管理员拥有所有接口操作权限',CURRENT_TIMESTAMP,'ADMIN'),(2,'普通用户','普通拥有查看用户列表与修改密码权限，不具备对用户增删改权限',CURRENT_TIMESTAMP,'USER');
+INSERT INTO AUTHORITYS VALUES(1, 'ROLE_ADMIN')
+INSERT INTO AUTHORITYS VALUES(2, 'ROLE_USER')
 
-INSERT INTO `um_t_user`(id,account,`password`,`name`,description) VALUES(1,'admin','123456','小小丰','系统默认管理员');
+INSERT INTO USERS (ID, USERNAME, PASSWORD, FIRSTNAME, LASTNAME, EMAIL, ENABLED, LASTPASSWORDRESETDATE) VALUES (1, 'admin', '{bcrypt}$2a$10$LkYRNHvPM2CHReB7uBGZaOQGGl5vO.hf9UwNNOrEW/uU/eVYsmGMS', 'admin', 'admin', 'admin@admin.com', 1, '2019-10-14T21:32:29');
+INSERT INTO USERS (ID, USERNAME, PASSWORD, FIRSTNAME, LASTNAME, EMAIL, ENABLED, LASTPASSWORDRESETDATE) VALUES (2, 'normal', '{bcrypt}$2a$10$tWM/R2U5FOJmZOPB5Ah8UeG4tnjx4LaIwRhSrxLM/tSKtbqEE3HVK', 'normal', 'normal', 'normal@normal.com', 1, '2019-10-14T21:32:29');
 
-INSERT INTO `um_t_role_user`(role_id,user_id)VALUES(1,1);
+INSERT INTO USER_AUTHORITYS (USER_ID, AUTHORITY_ID) VALUES (1, 1);
+INSERT INTO USER_AUTHORITYS (USER_ID, AUTHORITY_ID) VALUES (2, 2);

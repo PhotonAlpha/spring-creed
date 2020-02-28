@@ -4,13 +4,19 @@ import com.ethan.auth.dto.LoginUserDTO;
 import com.ethan.auth.dto.UserDTO;
 import com.ethan.auth.service.RoleService;
 import com.ethan.auth.service.UserService;
-import com.ethan.auth.utils.AssertUtils;
 import com.ethan.auth.vo.ResponseVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -31,8 +37,8 @@ public class AuthController {
     @Autowired
     private RoleService roleService;
 
-    @Autowired
-    private RedisTokenStore redisTokenStore;
+    //@Autowired
+    //private RedisTokenStore redisTokenStore;
 
     /**
      * @description 添加用户
@@ -94,7 +100,7 @@ public class AuthController {
      */
     @GetMapping("user/logout")
     public ResponseVO logout(@RequestHeader("Authorization") String authorization){
-        redisTokenStore.removeAccessToken(AssertUtils.extracteToken(authorization));
+        //redisTokenStore.removeAccessToken(AssertUtils.extracteToken(authorization));
         return ResponseVO.success();
     }
 

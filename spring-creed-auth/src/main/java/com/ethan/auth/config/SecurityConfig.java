@@ -1,83 +1,58 @@
 package com.ethan.auth.config;
 
-import com.ethan.auth.domain.CustomUserDetail;
-import com.ethan.auth.model.User;
-import com.ethan.auth.repository.UserRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.BeanIds;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.OAuth2ClientContext;
-import org.springframework.security.oauth2.client.OAuth2RestTemplate;
-import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.util.List;
-
-/**
- * @description Security核心配置
- * @author Zhifeng.Zeng
- */
 @Configuration
 @EnableWebSecurity
-@Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+  private static final String[] AUTH_WHITELIST = {
+      // -- swagger ui
+      "/swagger-resources/**",
+      "/swagger-ui.html",
+      "/v2/api-docs",
+      "/h2-console/**"
+  };
 
+  @Bean
+  PasswordEncoder passwordEncoder(){
+    return new BCryptPasswordEncoder();
+  }
 
-    @Autowired
-    private UserRepository userRepository;
+  @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
+  @Override
+  protected AuthenticationManager authenticationManager() throws Exception {
+    return super.authenticationManager();
+  }
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
-    @Bean
-    public RestTemplate restTemplate(){
-        RestTemplate template = new RestTemplate();
-        template.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-        return template;
-    }
-
-    @Bean
-    @Override
-    protected UserDetailsService userDetailsService() {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-       return new UserDetailsService(){
-           @Override
-           public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-               log.info("username:{}",username);
-               User user = userRepository.findUserByAccount(username);
-               if(user != null){
-                   CustomUserDetail customUserDetail = new CustomUserDetail();
-                   customUserDetail.setUsername(user.getAccount());
-                   customUserDetail.setPassword("{bcrypt}"+bCryptPasswordEncoder.encode(user.getPassword()));
-                   List<GrantedAuthority> list = AuthorityUtils.createAuthorityList(user.getRole().getRole());
-                   customUserDetail.setAuthorities(list);
-                   return customUserDetail;
-               }else {//返回空
-                   return null;
-               }
-
-           }
-       };
-    }
-
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.cors().and()
+        .csrf().disable()
+        //.exceptionHandling().authenticationEntryPoint(unAuthenticationEntryPoint()).and()
+        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+        .authorizeRequests()
+        .antMatchers(HttpMethod.GET, "/",
+            "/**/*.html",
+            "/**/*.{png,jpg,jpeg,svg.ico}",
+            "/**/*.css",
+            "/**/*.js").permitAll()
+        .antMatchers(AUTH_WHITELIST).permitAll()
+        .anyRequest().authenticated();
+    // providers
+    //http.addFilterBefore(tokenFilter(), UsernamePasswordAuthenticationFilter.class);
+    http.headers().cacheControl();
+    http.headers().frameOptions().disable();
+  }
 }
