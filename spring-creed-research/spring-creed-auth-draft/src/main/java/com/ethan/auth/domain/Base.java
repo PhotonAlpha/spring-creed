@@ -1,4 +1,4 @@
-package auth.domain;
+package com.ethan.auth.domain;
 
 import lombok.Data;
 

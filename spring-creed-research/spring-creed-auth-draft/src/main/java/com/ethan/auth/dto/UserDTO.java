@@ -1,4 +1,4 @@
-package auth.dto;
+package com.ethan.auth.dto;
 
 import com.ethan.auth.domain.Base;
 import lombok.Data;

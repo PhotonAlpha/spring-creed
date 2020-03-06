@@ -1,4 +1,4 @@
-package auth.constants;
+package com.ethan.auth.constants;
 
 public enum  ResponseEnum {
   /**

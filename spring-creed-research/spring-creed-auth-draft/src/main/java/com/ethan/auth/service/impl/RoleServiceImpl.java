@@ -1,4 +1,4 @@
-package auth.service.impl;
+package com.ethan.auth.service.impl;
 
 import com.ethan.auth.model.Role;
 import com.ethan.auth.repository.RoleRepository;

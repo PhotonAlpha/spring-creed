@@ -1,7 +1,5 @@
 package com.creed;
 
-import com.creed.service.AccountServiceImpl;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,7 +9,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -19,11 +16,15 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-  @Bean
+/*  @Bean
   //@ConditionalOnMissingBean
   public UserDetailsService userDetailsService() {
-    return new AccountServiceImpl();
-  }
+    //return new AccountServiceImpl();
+    InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+    manager.createUser(User.withUsername("user_1").password("123456").authorities("USER").build());
+    manager.createUser(User.withUsername("user_2").password("123456").authorities("USER").build());
+    return manager;
+  }*/
 
   @Bean
   public AuthenticationProvider authenticationProvider() {
@@ -43,18 +44,38 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return super.authenticationManager();
   }
 
-  @Override
+/*  @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.inMemoryAuthentication()
         .passwordEncoder(NoOpPasswordEncoder.getInstance())
         .withUser("admin").password("admin").roles("ADMIN")
         .and().withUser("normal").password("normal").roles("NORMAL");
     //auth.authenticationProvider(authenticationProvider());
-  }
+  }*/
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
+    http.csrf().disable()
+
+        .requestMatchers()
+        .antMatchers("/oauth/index", "/oauth/login")
+        .and()
+        .authorizeRequests().anyRequest().permitAll();
     http
+        .formLogin()
+        .loginPage("/oauth/index") // 登陆 URL 地址
+        .loginProcessingUrl("/oauth/login")
+        .failureUrl("/login?error")
+        .defaultSuccessUrl("/user/info")
+        //.permitAll()
+        .and()
+        .logout()
+        //.logoutUrl("logout")
+        .permitAll()
+        .and().exceptionHandling().accessDeniedPage("/login?authorization_error=true")
+        .and().csrf().requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize")).disable();;
+
+    /*http
         //.requestMatchers()
         // /oauth/authorize link org.springframework.security.oauth2.provider.endpoint.AuthorizationEndpoint
         // 必须登录过的用户才可以进行 oauth2 的授权码申请
@@ -86,7 +107,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // TODO: put CSRF protection back into this endpoint
       //.csrf()
       //  .requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize"))
-      //  .disable();;
+      //  .disable();;*/
   }
 
 }

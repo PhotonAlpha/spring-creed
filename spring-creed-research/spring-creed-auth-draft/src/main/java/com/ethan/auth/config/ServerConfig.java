@@ -1,4 +1,4 @@
-package auth.config;
+package com.ethan.auth.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.context.WebServerInitializedEvent;

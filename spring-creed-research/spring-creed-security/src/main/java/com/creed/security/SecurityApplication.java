@@ -1,4 +1,4 @@
-package com.lzc.security;
+package com.creed.security;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

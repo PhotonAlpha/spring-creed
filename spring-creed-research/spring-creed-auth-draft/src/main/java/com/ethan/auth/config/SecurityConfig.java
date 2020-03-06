@@ -1,4 +1,4 @@
-package auth.config;
+package com.ethan.auth.config;
 
 import com.ethan.auth.domain.CustomUserDetail;
 import com.ethan.auth.model.User;
@@ -52,6 +52,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     @Override
     protected UserDetailsService userDetailsService() {
+        /**
+         * auth.inMemoryAuthentication()
+         * 			.withUser("user").password("{bcrypt}$2a$10$89rbg/..2V1hoRzXtlDa9ejjIzsqeO.kQgmkQnAa//xDzJLoyJgAu").authorities("auth").and()
+         * 			.withUser("old").password("{noop}123").authorities("old");
+         */
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
        return new UserDetailsService(){
            @Override

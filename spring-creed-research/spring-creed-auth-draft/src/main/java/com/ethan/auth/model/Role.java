@@ -1,4 +1,4 @@
-package auth.model;
+package com.ethan.auth.model;
 
 import com.ethan.auth.domain.Base;
 import lombok.Getter;

@@ -1,11 +1,11 @@
-package com.lzc.security.demo;
+package com.creed.security.demo;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.io.IOException;
 
-@Controller
+//@Controller
 public class LoginController {
 
     @GetMapping("/authentication/login")

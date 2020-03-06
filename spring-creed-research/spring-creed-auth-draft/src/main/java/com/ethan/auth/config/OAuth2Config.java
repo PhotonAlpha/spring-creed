@@ -1,4 +1,4 @@
-package auth.config;
+package com.ethan.auth.config;
 
 import com.ethan.auth.handler.CustomAuthExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;

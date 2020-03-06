@@ -1,4 +1,4 @@
-package com.creed.service;
+package com.creed.security.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 

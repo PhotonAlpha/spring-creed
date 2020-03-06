@@ -1,4 +1,4 @@
-package auth.utils;
+package com.ethan.auth.utils;
 
 public class AssertUtils {
     /**

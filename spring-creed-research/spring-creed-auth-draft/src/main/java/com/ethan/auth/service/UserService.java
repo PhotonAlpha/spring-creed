@@ -1,4 +1,4 @@
-package auth.service;
+package com.ethan.auth.service;
 
 import com.ethan.auth.dto.LoginUserDTO;
 import com.ethan.auth.dto.UserDTO;

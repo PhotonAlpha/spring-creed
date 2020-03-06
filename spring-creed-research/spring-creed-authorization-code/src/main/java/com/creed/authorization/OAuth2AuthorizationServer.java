@@ -22,8 +22,8 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 
 import java.util.concurrent.TimeUnit;
 
-//@Configuration
-//@EnableAuthorizationServer
+@Configuration
+@EnableAuthorizationServer
 public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdapter {
   private static final String QQ_RESOURCE_ID = "qq";
   private final AuthenticationManager authenticationManager;
@@ -33,9 +33,9 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
   }
 
   @Bean
-  public ApprovalStore approvalStore() {
+  public ApprovalStore approvalStore(TokenStore tokenStore) {
     TokenApprovalStore store = new TokenApprovalStore();
-    store.setTokenStore(tokenStore());
+    store.setTokenStore(tokenStore);
     return store;
   }
 

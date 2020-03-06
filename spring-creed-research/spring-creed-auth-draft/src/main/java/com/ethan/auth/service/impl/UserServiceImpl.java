@@ -1,4 +1,4 @@
-package auth.service.impl;
+package com.ethan.auth.service.impl;
 
 import com.ethan.auth.config.ServerConfig;
 import com.ethan.auth.constants.ResponseEnum;

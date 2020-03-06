@@ -1,4 +1,4 @@
-package auth.handler;
+package com.ethan.auth.handler;
 
 import com.ethan.auth.constants.ResponseEnum;
 import com.ethan.auth.vo.ResponseVO;

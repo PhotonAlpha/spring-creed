@@ -1,4 +1,4 @@
-package auth.utils;
+package com.ethan.auth.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanWrapper;

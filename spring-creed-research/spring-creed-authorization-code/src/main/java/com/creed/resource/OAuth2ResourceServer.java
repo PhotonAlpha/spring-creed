@@ -3,13 +3,14 @@ package com.creed.resource;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 
-//@Configuration
-//@EnableResourceServer
+@Configuration
+@EnableResourceServer
 public class OAuth2ResourceServer extends ResourceServerConfigurerAdapter {
   private static final String QQ_RESOURCE_ID = "qq";
   @Override
@@ -21,13 +22,19 @@ public class OAuth2ResourceServer extends ResourceServerConfigurerAdapter {
 
   @Override
   public void configure(HttpSecurity http) throws Exception {
-    http.authorizeRequests()
+    http
+        // Since we want the protected resources to be accessible in the UI as well we need
+        // session creation to be allowed (it's disabled by default in 2.0.6)
+        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+        .and()
+        .authorizeRequests()
         // 对 "/api/**" 开启认证
         .anyRequest()
         .authenticated()
-        .and()
-        .requestMatchers()
-        .antMatchers("/api/**");
+        //.and()
+        //.requestMatchers()
+        //.antMatchers("/api/**")
+    ;
   }
 
 

@@ -1,4 +1,4 @@
-package auth.controller;
+package com.ethan.auth.controller;
 
 import com.ethan.auth.dto.LoginUserDTO;
 import com.ethan.auth.dto.UserDTO;

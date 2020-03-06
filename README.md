@@ -42,6 +42,10 @@ article:
 # 终极指南
 http://www.iocoder.cn/Spring-Security/OAuth2-learning/
 
+# spring security 源码分析
+http://www.iocoder.cn/Spring-Security/longfei/The-authorization-process/
+http://www.iocoder.cn/Spring-Security/good-collection/
+
 ---------------------------------------------------------
 
 # springboot 2.0使用spring-security-oauth2的迁移指南

@@ -1,4 +1,4 @@
-package auth;
+package com.ethan.auth;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,4 +1,4 @@
-package auth.vo;
+package com.ethan.auth.vo;
 
 import com.ethan.auth.constants.ResponseEnum;
 import lombok.Data;

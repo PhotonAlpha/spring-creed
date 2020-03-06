@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="login-box" id="app" >
-    <el-form action="/auth/login" method="post" label-position="left" label-width="0px" class="demo-ruleForm login-container">
+    <el-form action="/oauth/login" method="post" label-position="left" label-width="0px" class="demo-ruleForm login-container">
         <h2 class="title" >统一认证登录平台</h2>
         <el-form-item>
             <el-input type="text"  name="username" v-model="username" auto-complete="off" placeholder="账号"></el-input>
@@ -31,12 +31,12 @@
         data : {
             loading: false,
             username: 'admin',
-            password: '123'
+            password: 'admin'
         },
         methods : {
             reset: function() {
                 this.username = 'admin'
-                this.password = '123'
+                this.password = 'admin'
             }
         }
     })

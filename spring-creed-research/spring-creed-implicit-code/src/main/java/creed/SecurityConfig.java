@@ -1,4 +1,4 @@
-package com.creed;
+package creed;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
