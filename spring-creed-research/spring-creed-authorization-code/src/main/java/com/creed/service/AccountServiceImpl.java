@@ -1,6 +1,8 @@
 package com.creed.service;
 
 import com.creed.model.Account;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ public class AccountServiceImpl implements AccountService {
 
   private List<Account> accounts = new ArrayList<>();
 
- @PostConstruct
+ //@PostConstruct
  public void onInit() {
    accounts.add(
     Account.builder().id(1).email("a@email.com").username("user1").password("123").roleString("role_normal").build()
@@ -34,10 +36,6 @@ public class AccountServiceImpl implements AccountService {
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    Assert.notNull(username, "username can not be null");
-    Assert.notNull(username, "password can not be null");
-    return accounts.stream()
-        .filter(acc -> username.equalsIgnoreCase(acc.getUsername()))
-        .findFirst().orElse(null);
+    return new User(username, "{noop}123456", AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER"));
   }
 }

@@ -10,7 +10,7 @@ client模式是不存在“用户”的概念的，那么这里的身份认证�
  
 参考： http://www.iocoder.cn/Spring-Security/laoxu/OAuth2-2/
 源码分析： http://www.iocoder.cn/Spring-Security/laoxu/OAuth2-3/
-
+参考配置资料： https://www.cnblogs.com/cjsblog/p/9184173.html
 
 
 

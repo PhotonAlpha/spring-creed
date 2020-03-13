@@ -9,10 +9,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.AnyRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -55,26 +57,35 @@ public class MySecurityConfiguration extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     // @formatter:off
     http.
-        requestMatchers()
+        sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+        .and().requestMatchers()
         // /oauth/authorize link org.springframework.security.oauth2.provider.endpoint.AuthorizationEndpoint
         // 必须登录过的用户才可以进行 oauth2 的授权码申请
-        .antMatchers("/", "/home","/login","/oauth/authorize")
-        .and()
-        .authorizeRequests()
-        .anyRequest().permitAll()
+        //.antMatchers("/", "/home","/login","/oauth/authorize")
+        .antMatchers("/", "/home","/login")
+
+        //.and()
+        //.authorizeRequests()
+        //.anyRequest().permitAll()
+
         .and()
         .formLogin()
         //.loginPage("/login")
-        .and()
-        .httpBasic()
-        .disable()
+        .and().logout().permitAll()
+
+        .and().requestMatcher(AnyRequestMatcher.INSTANCE).authorizeRequests().anyRequest().authenticated()
+
+        .and().httpBasic().disable()
+
         .exceptionHandling()
         .accessDeniedPage("/login?authorization_error=true")
+
         .and()
         // TODO: put CSRF protection back into this endpoint
         .csrf()
         .requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize"))
-        .disable();
+        .disable()
+     ;
     // @formatter:on
   }
 

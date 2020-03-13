@@ -1,6 +1,7 @@
 package com.creed.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpMethod;
@@ -10,6 +11,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 @Configuration
@@ -18,8 +20,8 @@ public class MyAuthorizationServerConfig extends AuthorizationServerConfigurerAd
   private static final String DEMO_RESOURCE_ID = "order";
   @Autowired
   AuthenticationManager authenticationManager;
-  @Autowired
-  RedisConnectionFactory redisConnectionFactory;
+  //@Autowired
+  //RedisConnectionFactory redisConnectionFactory;
 
   @Override
   public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
@@ -58,10 +60,16 @@ public class MyAuthorizationServerConfig extends AuthorizationServerConfigurerAd
         .secret("123456");
   }
 
+  @Bean
+  public InMemoryTokenStore inMemoryTokenStore() {
+    return new InMemoryTokenStore();
+  }
+
   @Override
   public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
     endpoints
-        .tokenStore(new RedisTokenStore(redisConnectionFactory))
+        //.tokenStore(new RedisTokenStore(redisConnectionFactory))
+        .tokenStore(inMemoryTokenStore())
         .authenticationManager(authenticationManager)
         .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
   }

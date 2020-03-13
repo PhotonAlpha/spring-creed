@@ -15,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AnyRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -52,11 +54,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
              * tomcat 通过 JSESSIONID 来识别请求， 因此可以不用免登陆
              */
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+
             .and()
             .requestMatchers()
-                .antMatchers("/login", "**/*.css", "**/*.ico", "/logout")
+                .antMatchers("/login")
 
-            .and().formLogin().permitAll()
+            .and()
+            .formLogin()
             .and().logout().permitAll()
 
             .and().requestMatchers()
@@ -65,6 +69,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .antMatchers("/rest1/v1/test/hello").permitAll()
             .antMatchers("/rest1/v1/test/**").denyAll()
+
             .and()
             .requestMatchers()
             .antMatchers("/rest2/**")
@@ -72,6 +77,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .antMatchers("/rest2/v1/test/hello").denyAll()
             .antMatchers("/rest2/v1/test/**").denyAll()
+
+
+
+            /*
+            From the spring-security documentation:
+            isAuthenticated()       Returns true if the user is not anonymous
+            isFullyAuthenticated()  Returns true if the user is not an anonymous or a remember-me user*/
+            .and()
+            .requestMatcher(AnyRequestMatcher.INSTANCE)
+            .authorizeRequests().anyRequest().authenticated()
         ;
 
 

@@ -17,7 +17,7 @@
         <module>spring-creed-implicit-code</module>
         <module>spring-creed-client-code</module>
         <module>spring-creed-auth-draft</module>
-        <module>spring-creed-session</module>
+        <module>spring-creed-distributed-session</module>
         <module>spring-creed-authorization-code-original</module>
     </modules>
 

@@ -1,19 +1,17 @@
 package com.creed.authorization;
 
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.creed.handler.CustomerWebResponseExceptionTranslator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.BeanIds;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.TokenRequest;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
@@ -25,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 @EnableAuthorizationServer
 public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdapter {
-  private static final String QQ_RESOURCE_ID = "qq";
+  private static final String RESOURCE_ID = "creed";
   private final AuthenticationManager authenticationManager;
 
   public OAuth2AuthorizationServer(AuthenticationManager authenticationManager) {
@@ -42,9 +40,23 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
   //@Autowired
   //RedisConnectionFactory redisConnectionFactory;
 
+  /**
+   * token 是在 {@link  org.springframework.security.oauth2.provider.token.AbstractTokenGranter#grant(String, TokenRequest)} 开始 生成token
+   * getAccessToken(client, tokenRequest) 会调用services
+   *
+   * token 是在 {@link  DefaultTokenServices} 中调用
+   *    OAuth2AccessToken accessToken = createAccessToken(authentication, refreshToken);
+   * 		tokenStore.storeAccessToken(accessToken, authentication);
+   *
+   * 	Base implementation for token services using random UUID values for the access token and refresh token values. The
+   *  main extension point for customizations is the {@link org.springframework.security.oauth2.provider.token.TokenEnhancer} which will be called after the access and
+   *  refresh tokens have been generated but before they are stored.
+   * @return
+   */
   @Bean
   public TokenStore tokenStore() {
-    return new InMemoryTokenStore();
+    InMemoryTokenStore tokenStore = new InMemoryTokenStore();
+    return tokenStore;
     // 需要使用 redis 的话，放开这里
 //            return new RedisTokenStore(redisConnectionFactory);
   }
@@ -56,24 +68,50 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
    */
   @Override
   public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+    /**
+     * //TODO
+     * 看修改通过redis 或者 jdbc 验证
+     */
     clients.inMemory()
-        .withClient("clientapp").secret("112233") // Client 账号、密码。
-        .redirectUris("http://localhost:8080/api/admin") // 配置回调地址，选填。
+        .withClient("clientapp").secret("{noop}112233") // Client 账号、密码。
+        .redirectUris("http://localhost:8080/auth/grant") // 配置回调地址，选填。
         .authorizedGrantTypes("authorization_code", "refresh_token") // 授权码模式
         //.autoApprove(true)
         .scopes("read_userinfo", "read_contacts") // 可授权的 Scope
 //                .and().withClient() // 可以继续配置新的 Client
+        .and().withClient("client_pwd")
+        .resourceIds(RESOURCE_ID)
+        .authorizedGrantTypes("password", "refresh_token")
+        .scopes("select")
+        .authorities("client")
+        .secret("{noop}112233")
+
     ;
   }
 
   @Override
   public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-    security.realm(QQ_RESOURCE_ID).allowFormAuthenticationForClients();
+    security.realm(RESOURCE_ID).allowFormAuthenticationForClients();
   }
 
+  /**
+   * {@link AuthorizationServerEndpointsConfigurer#userApprovalHandler()}
+   *
+   * @param endpoints
+   * @throws Exception
+   */
   @Override
   public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+    TokenApprovalStore approvalStore = new TokenApprovalStore();
+    approvalStore.setTokenStore(tokenStore());
+
     endpoints.tokenStore(tokenStore())
+        // ApprovalStoreUserApprovalHandler 配置， 格式为 scope.*
+        .approvalStore(approvalStore)
+        // customer exceptionTranslator
+        //.exceptionTranslator(translator())
+
+
         .authenticationManager(authenticationManager)
         .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
 
@@ -89,6 +127,11 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
     tokenService.setRefreshTokenValiditySeconds((int) TimeUnit.HOURS.toSeconds(1));
     // 该字段设置设置refresh token是否重复使用,true:reuse;false:no reuse.
     tokenService.setReuseRefreshToken(false);
+
+    // ！！！！！！！设置token增强器， 此处可以修改token格式
+    //tokenService.setTokenEnhancer(new MyTokenEnhancer());
+
     endpoints.tokenServices(tokenService);
   }
+
 }

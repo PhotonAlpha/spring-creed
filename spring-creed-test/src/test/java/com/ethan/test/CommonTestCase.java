@@ -32,4 +32,8 @@ public class CommonTestCase {
       this.name = name;
     }
   }
+
+  @Test
+  void testUUID() {
+  }
 }

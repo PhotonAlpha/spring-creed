@@ -1,5 +1,8 @@
 package com.creed.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.session.FindByIndexNameSessionRepository;
+import org.springframework.session.Session;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +31,7 @@ public class SessionController {
     HttpSession session = request.getSession();
     // 遍历
     for (Enumeration<String> enumeration = session.getAttributeNames();
-         enumeration.hasMoreElements();) {
+         enumeration.hasMoreElements(); ) {
       String key = enumeration.nextElement();
       Object value = session.getAttribute(key);
       result.put(key, value);
@@ -37,4 +40,12 @@ public class SessionController {
     return result;
   }
 
+  @Autowired
+  private FindByIndexNameSessionRepository sessionRepository;
+
+  @GetMapping("/list")
+  public Map<String, ? extends Session> list(@RequestParam("username") String username) {
+    //sessionRepository.findById()
+    return sessionRepository.findByPrincipalName(username);
+  }
 }
