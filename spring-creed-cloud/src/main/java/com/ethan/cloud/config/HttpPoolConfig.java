@@ -31,9 +31,9 @@ public class HttpPoolConfig {
   /**
    * min thread pool 最小连接数
    */
-  private Integer defaultMaxPerRoute = 200;
+  private Integer defaultMaxPerRoute = 100;
   /**
    * max thread pool 最大连接数
    */
-  private Integer maxTotal = 600;
+  private Integer maxTotal = 400;
 }
