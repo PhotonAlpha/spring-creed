@@ -7,8 +7,8 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(scanBasePackages = "com.ethan")
-@EnableJpaRepositories("com.ethan.dao")
-@EntityScan("com.ethan.model")
+@EnableJpaRepositories("com.ethan.app.dao")
+@EntityScan("com.ethan.app.model")
 @EnableCaching
 public class CreedApplication {
   public static void main(String[] args) {

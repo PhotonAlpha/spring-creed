@@ -7,6 +7,10 @@ spring:
       max-lifetime: 1800000
   zipkin:
     enabled: false
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
 
 
 swagger2:

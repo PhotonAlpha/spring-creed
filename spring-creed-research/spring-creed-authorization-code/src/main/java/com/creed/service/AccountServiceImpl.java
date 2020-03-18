@@ -38,4 +38,10 @@ public class AccountServiceImpl implements AccountService {
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     return new User(username, "{noop}123456", AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER"));
   }
+
+  @Override
+  public Account addAccount(Account account) {
+    accounts.add(account);
+    return account;
+  }
 }

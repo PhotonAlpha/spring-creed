@@ -17,9 +17,15 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.AnyRequestMatcher;
+import org.springframework.security.web.util.matcher.ELRequestMatcher;
+import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -37,22 +43,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return PasswordEncoderFactories.createDelegatingPasswordEncoder();
   }
 
-
-
   @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
   @Override
   protected AuthenticationManager authenticationManager() throws Exception {
     return super.authenticationManager();
   }
 
-/*  @Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.inMemoryAuthentication()
-        .passwordEncoder(NoOpPasswordEncoder.getInstance())
-        .withUser("admin").password("admin").roles("ADMIN")
-        .and().withUser("normal").password("normal").roles("NORMAL");
-    //auth.authenticationProvider(authenticationProvider());
-  }*/
+  @Bean
+  public CsrfTokenRepository tokenRepository() {
+    return CookieCsrfTokenRepository.withHttpOnlyFalse();
+    //return new HttpSessionCsrfTokenRepository();
+  }
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -109,19 +110,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .loginProcessingUrl("/oauth/login")
         .failureUrl("/login?error")
         .defaultSuccessUrl("/user/info")
+        //.failureHandler()
         .permitAll()
         .and().logout().permitAll()
 
         .and().exceptionHandling()
-        .accessDeniedPage("/login?authorization_error=true")
+        //.accessDeniedHandler(customAuthExceptionHandler)
+        //.authenticationEntryPoint(customAuthExceptionHandler)
+        // 设置默认值是为了不覆盖form中的 LoginUrlAuthenticationEntryPoint
+        .defaultAuthenticationEntryPointFor(customAuthExceptionHandler, new NegatedRequestMatcher(new AntPathRequestMatcher("/oauth/**")))
+        .defaultAccessDeniedHandlerFor(customAuthExceptionHandler, new NegatedRequestMatcher(new AntPathRequestMatcher("/oauth/**")))
 
         .and()
         // TODO: put CSRF protection back into this endpoint
+        /**
+         * 配置csrf端口保护
+         * {@link org.springframework.security.web.csrf.CsrfFilter}
+         */
         .csrf()
-        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-        .requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize"))
-        .disable()
+        .csrfTokenRepository(tokenRepository())
+        //.requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize"))
+        //.disable()
     ;
+
+
 
 
     // @formatter:on

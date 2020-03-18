@@ -12,11 +12,6 @@
     <artifactId>spring-creed-auth</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-
 
         <!--web依赖-->
         <dependency>
@@ -54,9 +49,17 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.9</version>
+            <groupId>com.ethan</groupId>
+            <artifactId>spring-creed-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ethan</groupId>
+            <artifactId>spring-creed-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ethan</groupId>
+            <artifactId>spring-creed-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

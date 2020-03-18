@@ -2,8 +2,8 @@ package com.ethan.auth.controller;
 
 import com.ethan.auth.dto.LoginUserDTO;
 import com.ethan.auth.dto.UserDTO;
-import com.ethan.auth.service.RoleService;
-import com.ethan.auth.service.UserService;
+import com.ethan.service.RoleService;
+import com.ethan.service.UserService;
 import com.ethan.auth.utils.AssertUtils;
 import com.ethan.auth.vo.ResponseVO;
 import lombok.extern.slf4j.Slf4j;

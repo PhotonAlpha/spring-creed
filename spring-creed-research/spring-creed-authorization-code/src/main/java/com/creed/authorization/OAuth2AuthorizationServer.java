@@ -30,6 +30,12 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
     this.authenticationManager = authenticationManager;
   }
 
+  /**
+   * {@link org.springframework.security.oauth2.provider.endpoint.AuthorizationEndpoint#userApprovalHandler }
+   * @param tokenStore
+   * @return
+   * 用户通过授权页面确认是否授权，并携带请求参数user_oauth_approval访问授权端点，会执行approveOrDeny方法
+   */
   @Bean
   public ApprovalStore approvalStore(TokenStore tokenStore) {
     TokenApprovalStore store = new TokenApprovalStore();
@@ -72,6 +78,7 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
      * //TODO
      * 看修改通过redis 或者 jdbc 验证
      */
+
     clients.inMemory()
         .withClient("clientapp").secret("{noop}112233") // Client 账号、密码。
         .redirectUris("http://localhost:8080/auth/grant") // 配置回调地址，选填。

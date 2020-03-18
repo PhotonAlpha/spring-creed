@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -16,9 +17,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
+@EnableWebMvc
 @ConditionalOnProperty(prefix = "swagger2", value = {"enable"}, havingValue = "true")
 public class SwaggerConfig {
-  @Value("${swagger2.basePackage:com.ethan.controller}")
+  @Value("${swagger2.basePackage:com.ethan.app.controller}")
   private String basePackage;
   @Value("${swagger2.pathRegex:/api*}")
   private String pathRegex;

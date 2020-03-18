@@ -12,14 +12,14 @@
     <artifactId>spring-creed-app</artifactId>
 
     <dependencies>
-        <dependency>
+<!--        <dependency>
             <groupId>com.ethan</groupId>
             <artifactId>spring-creed-controller</artifactId>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>com.ethan</groupId>
-            <artifactId>spring-creed-cloud</artifactId>
+            <artifactId>spring-creed-auth</artifactId>
         </dependency>
     </dependencies>
 
