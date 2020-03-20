@@ -15,7 +15,7 @@ import java.net.UnknownHostException;
 @Slf4j
 @Component
 public class ServerConfig implements ApplicationListener<WebServerInitializedEvent> {
-  @Value("${server.host}")
+  @Value("${server.host:localhost}")
   private String ip;
 
   private int serverPort;

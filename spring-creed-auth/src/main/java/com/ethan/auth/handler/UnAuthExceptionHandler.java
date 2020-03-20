@@ -26,17 +26,10 @@ public class UnAuthExceptionHandler implements AuthenticationEntryPoint, AccessD
     private static final ObjectMapper MAPPER = new ObjectMapper();
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-
         Throwable cause = authException.getCause();
 
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        // CORS "pre-flight" request
-        //response.addHeader("Access-Control-Allow-Origin", "*");
-        //response.addHeader("Cache-Control","no-cache");
-        //response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        //response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
-        //response.addHeader("Access-Control-Max-Age", "1800");
         if (cause instanceof InvalidTokenException) {
             log.error("InvalidTokenException : {}",cause.getMessage());
             //Token无效
@@ -53,11 +46,11 @@ public class UnAuthExceptionHandler implements AuthenticationEntryPoint, AccessD
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.addHeader("Access-Control-Allow-Origin", "*");
+        /*response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Cache-Control","no-cache");
         response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
-        response.addHeader("Access-Control-Max-Age", "1800");
+        response.addHeader("Access-Control-Max-Age", "1800");*/
         //访问资源的用户权限不足
         log.error("AccessDeniedException : {}",accessDeniedException.getMessage());
         response.getWriter().write(MAPPER.writeValueAsString(AuthResponseVO.error(ResponseEnum.INSUFFICIENT_PERMISSIONS)));

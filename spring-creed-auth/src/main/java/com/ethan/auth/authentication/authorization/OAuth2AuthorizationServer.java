@@ -2,6 +2,7 @@ package com.ethan.auth.authentication.authorization;
 
 
 import com.ethan.auth.constants.Resources;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -20,16 +21,20 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 
 import java.util.concurrent.TimeUnit;
 
-@Configuration
+/**
+ * spring OAuth2 配置
+ */
 @EnableAuthorizationServer
 public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdapter {
   private final AuthenticationManager authenticationManager;
 
   public OAuth2AuthorizationServer(AuthenticationManager authenticationManager) {
+    System.out.println("OAuth2AuthorizationServer init...............");
     this.authenticationManager = authenticationManager;
   }
 
   @Bean
+  @ConditionalOnMissingBean(ApprovalStore.class)
   public ApprovalStore approvalStore(TokenStore tokenStore) {
     TokenApprovalStore store = new TokenApprovalStore();
     store.setTokenStore(tokenStore);
@@ -41,18 +46,20 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
 
   /**
    * token 是在 {@link  org.springframework.security.oauth2.provider.token.AbstractTokenGranter#grant(String, TokenRequest)} 开始 生成token
-   * getAccessToken(client, tokenRequest) 会调用services
+   * getAccessToken(client, tokenRequest) 会调用services生成token {@link org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices}
    *
-   * token 是在 {@link  DefaultTokenServices} 中调用
+   * 默认token services实现 是在 {@link  DefaultTokenServices} 中调用
    *    OAuth2AccessToken accessToken = createAccessToken(authentication, refreshToken);
    * 		tokenStore.storeAccessToken(accessToken, authentication);
    *
+   * 一下摘自源码的一段说明
    * 	Base implementation for token services using random UUID values for the access token and refresh token values. The
    *  main extension point for customizations is the {@link org.springframework.security.oauth2.provider.token.TokenEnhancer} which will be called after the access and
    *  refresh tokens have been generated but before they are stored.
    * @return
    */
   @Bean
+  @ConditionalOnMissingBean(TokenStore.class)
   public TokenStore tokenStore() {
     InMemoryTokenStore tokenStore = new InMemoryTokenStore();
     return tokenStore;
@@ -67,10 +74,10 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
    */
   @Override
   public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-    /**
-     * //TODO
-     * 看修改通过redis 或者 jdbc 验证
-     */
+    //此处server可通过redis 或者 jdbc 验证，默认配置inMemory读取
+    // 一般小项目设计可以使用 授权码模式 & 客户端模式
+
+
     clients.inMemory()
         .withClient("clientapp").secret("{noop}112233") // Client 账号、密码。
         .resourceIds(Resources.RESOURCE_ID)
@@ -91,12 +98,24 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
 
         .and().withClient("client_imp")
         .resourceIds(Resources.RESOURCE_ID)
-        .authorizedGrantTypes("implicit")
+        .authorizedGrantTypes("implicit")  // 简化模式
+        .redirectUris("http://localhost:8080/auth/admin")
         .scopes("read_userinfo")
         .authorities("client")
         .secret("{noop}112233")
 
-    ;
+        .and().withClient("client_cre").secret("{noop}112233") // Client 账号、密码。
+        .resourceIds(Resources.RESOURCE_ID)
+        .authorizedGrantTypes("client_credentials", "refresh_token") // 客户端模式
+        .scopes("read_userinfo")
+        .authorities("oauth2")
+
+        // 密码模式
+        .and().withClient("client_pwd").secret("{noop}112233")
+        .resourceIds(Resources.RESOURCE_ID)
+        .authorizedGrantTypes("password", "refresh_token")  // 密码模式
+        .scopes("read_userinfo")
+        .authorities("oauth2");
   }
 
   /**
@@ -118,7 +137,6 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
   @Override
   public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
     ApprovalStore approvalStore = approvalStore(tokenStore());
-    //approvalStore.setTokenStore(tokenStore());
 
     endpoints.tokenStore(tokenStore())
         // ApprovalStoreUserApprovalHandler 配置， 格式为 scope.*

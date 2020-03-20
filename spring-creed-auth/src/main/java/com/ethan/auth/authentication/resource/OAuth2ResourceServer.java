@@ -7,12 +7,15 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 
-@Configuration
+/**
+ * spring OAuth2 资源服务器配置
+ */
 @EnableResourceServer
 public class OAuth2ResourceServer extends ResourceServerConfigurerAdapter {
   private final UnAuthExceptionHandler unAuthExceptionHandler;
 
   public OAuth2ResourceServer(UnAuthExceptionHandler unAuthExceptionHandler) {
+    System.out.println("OAuth2ResourceServer init...............");
     this.unAuthExceptionHandler = unAuthExceptionHandler;
   }
 
@@ -23,7 +26,7 @@ public class OAuth2ResourceServer extends ResourceServerConfigurerAdapter {
       .accessDeniedHandler(unAuthExceptionHandler)
       .authenticationEntryPoint(unAuthExceptionHandler);
     // 如果关闭 stateless，则 accessToken 使用时的 session id 会被记录，后续请求不携带 accessToken 也可以正常响应
-//            resources.resourceId(RESOURCE_ID).stateless(false);
+    // resources.resourceId(RESOURCE_ID).stateless(false);
   }
 
   @Override

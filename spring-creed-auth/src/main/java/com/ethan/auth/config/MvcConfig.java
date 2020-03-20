@@ -26,7 +26,6 @@ public class MvcConfig implements WebMvcConfigurer {
             //暴露哪些头部信息（因为跨域访问默认不能获取全部头部信息）
             //.exposedHeaders("*")
             .exposedHeaders("Content-Type", "X-Requested-With",
-                "accept", "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers")
-        ;
+                "accept", "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers");
     }
 }

@@ -1,6 +1,7 @@
 package com.ethan.auth.config;
 
 import com.ethan.auth.handler.UnAuthExceptionHandler;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -76,6 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .and().authorizeRequests()
         .antMatchers("/oauth/index", "/oauth/login", "/login").permitAll()
         .antMatchers("/**.js", "/**.css").permitAll()
+        .antMatchers("/static/**").permitAll()
         .antMatchers(AUTH_WHITELIST).permitAll()
         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
         .anyRequest().authenticated()
@@ -104,5 +109,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          */
         .csrf()
         .csrfTokenRepository(tokenRepository());
+  }
+
+
+  /**
+   * give a default implementation for user login
+   * @return
+   */
+  @Bean
+  @ConditionalOnMissingBean(UserDetailsService.class)
+  public UserDetailsService userDetailsService() {
+    return (username) ->
+      new User(username, "{noop}123456",
+          AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER"));
   }
 }

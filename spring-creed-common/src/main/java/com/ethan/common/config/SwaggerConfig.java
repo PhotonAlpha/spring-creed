@@ -17,7 +17,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
-@EnableWebMvc
+// 此处有坑，参考README.md
+//@EnableWebMvc
 @ConditionalOnProperty(prefix = "swagger2", value = {"enable"}, havingValue = "true")
 public class SwaggerConfig {
   @Value("${swagger2.basePackage:com.ethan.app.controller}")
