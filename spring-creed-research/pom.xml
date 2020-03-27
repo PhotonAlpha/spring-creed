@@ -20,6 +20,8 @@
         <module>spring-creed-distributed-session</module>
         <module>spring-creed-authorization-code-original</module>
         <module>spring-creed-auth-rocketmq</module>
+        <module>spring-creed-auth-locallock</module>
+        <module>spring-creed-dubbo-component</module>
     </modules>
 
     <dependencies>
@@ -45,6 +47,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.9</version>
         </dependency>
 
     </dependencies>

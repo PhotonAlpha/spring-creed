@@ -1,0 +1,22 @@
+server:
+  port: 18080
+
+spring:
+  application:
+    name: spring-creed-dubbo-provider
+
+dubbo:
+  registry:
+    address: zookeeper://127.0.0.1:2181
+    file: ${user.dir}/spring-creed-research/spring-creed-dubbo-component/${spring.application.name}/dubbo.cache
+  protocol:
+    name: dubbo
+    port: -1
+  scan:
+    base-packages: com.ethan.provider
+
+## DemoService version
+demo:
+  service:
+    version: 1.0.0
+

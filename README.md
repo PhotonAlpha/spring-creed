@@ -5,3 +5,6 @@ spring-creed
 - spring-creed-cloud `cloud configuration`
 - spring-creed-cache `cache configuration`
 - spring-creed-component `include bussiness component`
+
+java 8 interface feature: 
+https://beginnersbook.com/2017/10/java-8-interface-changes-default-method-and-static-method/

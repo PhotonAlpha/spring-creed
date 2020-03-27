@@ -1,0 +1,18 @@
+
+
+spring:
+  application:
+    name: spring-creed-dubbo-consumer
+
+dubbo:
+  registry:
+    file: ${user.dir}/spring-creed-research/spring-creed-dubbo-component/${spring.application.name}/dubbo.cache
+    address: zookeeper://127.0.0.1:2181
+
+
+## DemoService version
+demo:
+  service:
+    version: 1.0.0
+server:
+  port: 8082
