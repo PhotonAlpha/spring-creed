@@ -1,0 +1,1 @@
+https://github.com/Kaciras/ClosureTableCateogryStore/blob/master/src/main/java/net/kaciras/example/Repository.java

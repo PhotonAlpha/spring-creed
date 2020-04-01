@@ -22,6 +22,8 @@
         <module>spring-creed-auth-rocketmq</module>
         <module>spring-creed-auth-locallock</module>
         <module>spring-creed-dubbo-component</module>
+        <module>spring-creed-mybatis-plus</module>
+        <module>spring-creed-jasperreports</module>
     </modules>
 
     <dependencies>
