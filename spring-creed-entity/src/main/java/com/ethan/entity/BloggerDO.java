@@ -1,6 +1,12 @@
 package com.ethan.entity;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +22,15 @@ import javax.validation.constraints.Max;
 import java.util.Date;
 import java.util.List;
 
-@Data
+/**
+ * https://stackoverflow.com/questions/34241718/lombok-builder-and-jpa-default-constructor
+ */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Entity
 @Table(name = "ethan_bloggers")
 public class BloggerDO extends BaseDo {
@@ -75,13 +89,13 @@ public class BloggerDO extends BaseDo {
   /**
    * https://stackoverflow.com/questions/15359306/how-to-load-lazy-fetched-items-from-hibernate-jpa-in-my-controller
    */
-  @ManyToMany(fetch = FetchType.LAZY, mappedBy = "bloggers")
+  @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(name = "ethan_blogger_role",
       joinColumns = {@JoinColumn(name = "b_id", referencedColumnName = "b_id")},
       inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "role_id")})
   private List<RoleDO> roles;
 
-  @ManyToMany(fetch = FetchType.LAZY, mappedBy = "bloggers")
+  @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(name = "ethan_blogger_group",
       joinColumns = {@JoinColumn(name = "b_id", referencedColumnName = "b_id")},
       inverseJoinColumns = {@JoinColumn(name = "group_id", referencedColumnName = "group_id")})

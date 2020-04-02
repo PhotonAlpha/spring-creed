@@ -31,10 +31,10 @@ public class RoleDO {
   @Enumerated(EnumType.STRING)
   private AuthorityEnum roleName;
 
-  @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+  @ManyToMany(fetch = FetchType.LAZY)
   private List<BloggerDO> bloggers;
 
-  @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+  @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(name = "ethan_role_group",
     joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"),
     inverseJoinColumns = @JoinColumn(name = "group_id", referencedColumnName = "group_id")
