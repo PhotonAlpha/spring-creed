@@ -42,6 +42,7 @@
         <module>spring-creed-context</module>
         <module>spring-creed-auth</module>
         <module>spring-creed-research</module>
+        <module>spring-creed-entity</module>
     </modules>
 
     <dependencyManagement>
@@ -101,6 +102,11 @@
             <dependency>
                 <groupId>com.ethan</groupId>
                 <artifactId>spring-creed-service</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ethan</groupId>
+                <artifactId>spring-creed-entity</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!-- auth 认证 -->
