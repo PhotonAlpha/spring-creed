@@ -1,7 +1,15 @@
 package com.ethan.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,7 +25,12 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Entity
 @Table(name = "ethan_role")
 public class RoleDO {
@@ -31,14 +44,10 @@ public class RoleDO {
   @Enumerated(EnumType.STRING)
   private AuthorityEnum roleName;
 
-  @ManyToMany(fetch = FetchType.LAZY)
+  @ManyToMany(mappedBy = "roles")
   private List<BloggerDO> bloggers;
 
-  @ManyToMany(fetch = FetchType.LAZY)
-  @JoinTable(name = "ethan_role_group",
-    joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"),
-    inverseJoinColumns = @JoinColumn(name = "group_id", referencedColumnName = "group_id")
-  )
+  @ManyToMany(mappedBy = "roles")
   private List<GroupDO> groups;
 
 }
