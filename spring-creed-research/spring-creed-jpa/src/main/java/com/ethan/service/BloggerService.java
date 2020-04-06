@@ -7,15 +7,19 @@
 package com.ethan.service;
 
 import com.ethan.entity.BloggerDO;
-import org.springframework.data.domain.Page;
+import com.ethan.vo.BloggerVO;
+
+import java.util.List;
 
 public interface BloggerService {
 
   BloggerDO save(BloggerDO aDo);
 
-  Page<BloggerDO> findAll();
+  List<BloggerVO> findAll();
 
   BloggerDO update(BloggerDO aDo);
 
   void delete(Long id);
+
+  BloggerVO loadUserByUsername(String username);
 }
