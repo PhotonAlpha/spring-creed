@@ -1,3 +1,5 @@
+rfc标准： https://tools.ietf.org/html/rfc6749  
+spring 官方文档： https://docs.spring.io/spring-security-oauth2-boot/docs/current/reference/htmlsingle/   
  
 # 理解OAuth 2.0
 本人第一次接触OAuth2是在github API，做接口研究时初步引用了github developer提供的**授权码模式**，当时只是跟着文档走，并没有做深入研究。最近再次接触到是spring boot OAuth2。当然网上有很多人推荐Apache Shiro，本人并没有深入研究，因为考虑到spring项目对于学习理解的意思更大一些，而且OAuth2已经是主流登录认证方式，因为对于spring OAuth2源码进行了一番研究。

@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableJpaRepositories("com.ethan.app.dao")
 @EntityScan("com.ethan.app.model")
 @EnableCaching
-@EnableWebMvc
+/*@EnableWebMvc @see application配置失效yu自动配置的静态资源失效.md*/
 public class CreedApplication {
   public static void main(String[] args) {
     SpringApplication.run(CreedApplication.class, args);

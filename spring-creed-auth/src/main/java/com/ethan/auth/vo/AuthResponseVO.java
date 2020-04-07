@@ -6,6 +6,10 @@ import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 
 import java.io.Serializable;
 
+/**
+ * 扩展 OAuth2Exception， 返回自定义异常信息
+ * @param <T>
+ */
 public class AuthResponseVO<T> extends ResponseVO<T> implements Serializable {
   private static final long serialVersionUID = 266208288778904286L;
 

@@ -43,6 +43,7 @@
         <module>spring-creed-auth</module>
         <module>spring-creed-research</module>
         <module>spring-creed-entity</module>
+        <module>spring-creed-redis-multiple</module>
     </modules>
 
     <dependencyManagement>
@@ -62,6 +63,14 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <!-- https://docs.spring.io/spring-security-oauth2-boot/docs/current/reference/htmlsingle/ -->
+            <dependency>
+                <groupId>org.springframework.security.oauth.boot</groupId>
+                <artifactId>spring-security-oauth2-autoconfigure</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>com.ethan</groupId>

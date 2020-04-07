@@ -2,6 +2,8 @@ package com.ethan.auth.authentication.authorization;
 
 
 import com.ethan.auth.constants.Resources;
+import lombok.CustomLog;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,11 +27,12 @@ import java.util.concurrent.TimeUnit;
  * spring OAuth2 配置
  */
 @EnableAuthorizationServer
+@Slf4j
 public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdapter {
   private final AuthenticationManager authenticationManager;
 
   public OAuth2AuthorizationServer(AuthenticationManager authenticationManager) {
-    System.out.println("OAuth2AuthorizationServer init...............");
+    log.info("OAuth2AuthorizationServer start init.");
     this.authenticationManager = authenticationManager;
   }
 
@@ -40,9 +43,6 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
     store.setTokenStore(tokenStore);
     return store;
   }
-
-  //@Autowired
-  //RedisConnectionFactory redisConnectionFactory;
 
   /**
    * token 是在 {@link  org.springframework.security.oauth2.provider.token.AbstractTokenGranter#grant(String, TokenRequest)} 开始 生成token
@@ -58,6 +58,9 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
    *  refresh tokens have been generated but before they are stored.
    * @return
    */
+  //@Autowired
+  //RedisConnectionFactory redisConnectionFactory;
+
   @Bean
   @ConditionalOnMissingBean(TokenStore.class)
   public TokenStore tokenStore() {
@@ -88,13 +91,6 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
 
 
 //                .and().withClient() // 可以继续配置新的 Client
-        .and().withClient("client_pwd")
-        .resourceIds(Resources.RESOURCE_ID)
-        .authorizedGrantTypes("password", "refresh_token")
-        .scopes("read_userinfo")
-        .authorities("client")
-        .secret("{noop}112233")
-
 
         .and().withClient("client_imp")
         .resourceIds(Resources.RESOURCE_ID)

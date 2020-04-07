@@ -1,6 +1,7 @@
 package com.creed.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -16,6 +17,7 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 
 @Configuration
 @EnableAuthorizationServer
+@EnableOAuth2Sso
 public class MyAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
   private static final String DEMO_RESOURCE_ID = "order";
   @Autowired

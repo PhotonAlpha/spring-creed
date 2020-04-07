@@ -16,6 +16,11 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * 自定义框架异常信息格式：
+ *
+ * @param <T>
+ */
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseVO<T> implements Serializable {
@@ -104,13 +109,17 @@ public class ResponseVO<T> implements Serializable {
     return new ResponseVO<>(responseEnum, data);
   }
 
-/*  public static ResponseVO error(OAuth2Exception oEx){
-    return new ResponseVO(HttpStatus.BAD_REQUEST.value(), oEx.getOAuth2ErrorCode(), oEx.getMessage());
-  }*/
   public static ResponseVO errorParams(String msg){
     return new ResponseVO(ResponseEnum.INCORRECT_PARAMS.getCode(), msg);
   }
 
+  /**
+   * //TODO
+   * localization 异常信息
+   * @param result
+   * @param messageSource
+   * @return
+   */
   public static ResponseVO error(BindingResult result, MessageSource messageSource) {
     StringBuffer msg = new StringBuffer();
     //获取错误字段集合
