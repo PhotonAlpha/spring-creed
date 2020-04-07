@@ -14,23 +14,27 @@ import com.ethan.entity.BloggerDO;
 import com.ethan.entity.GroupDO;
 import com.ethan.entity.GroupEnum;
 import com.ethan.entity.RoleDO;
+import com.ethan.mapper.BloggerMapper;
 import com.ethan.service.BloggerService;
 import com.ethan.snow.Snowflake;
+import com.ethan.vo.BloggerVO;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class BloggerServiceImpl implements BloggerService {
   private final AtomicInteger atomicInteger = new AtomicInteger(1);
@@ -40,6 +44,9 @@ public class BloggerServiceImpl implements BloggerService {
   private RoleDao roleDao;
   @Resource
   private GroupDao groupDao;
+
+  @Autowired
+  private BloggerMapper bloggerMapper;
 
   @PostConstruct
   public void onInit() {
@@ -67,8 +74,9 @@ public class BloggerServiceImpl implements BloggerService {
     int i = 0;
     do {
       int index = ran.nextInt(3);
+      int gIndex = ran.nextInt(4);
       RoleDO authority = Arrays.asList(adminRole, bloggerRole, moderatorRole).get(index);
-      List<GroupDO> randomBloggerGroup = pickNRandom(groups, index);
+      List<GroupDO> randomBloggerGroup = pickNRandom(groups, gIndex);
 
 
       int identity = atomicInteger.getAndIncrement();
@@ -97,12 +105,16 @@ public class BloggerServiceImpl implements BloggerService {
   }
 
   @Override
-  public Page<BloggerDO> findAll() {
+  public List<BloggerVO> findAll() {
     // Sort sort = new Sort(Sort.Direction.ASC, "nickName");
     // PageRequest pageable = PageRequest.of(0, 5, sort);
     PageRequest pageable = PageRequest.of(0, 5);
     Page<BloggerDO> result = bloggerDao.findAll(pageable);
-    return result;
+    log.info("pagination current:{} total page:{} total size:{}", result.getNumber(),
+        result.getTotalPages(), result.getTotalElements());
+    List<BloggerVO> vos = result.getContent().stream().map(bloggerMapper :: bloggerToVo).collect(Collectors.toList());
+
+    return vos;
   }
 
   @Override
@@ -114,5 +126,11 @@ public class BloggerServiceImpl implements BloggerService {
   public void delete(Long id) {
     BloggerDO blogger = bloggerDao.getOne(id);
     bloggerDao.delete(blogger);
+  }
+
+  @Override
+  public BloggerVO loadUserByUsername(String username) {
+    BloggerDO blogger = bloggerDao.loadUserByUsername(username);
+    return bloggerMapper.bloggerToVo(blogger);
   }
 }

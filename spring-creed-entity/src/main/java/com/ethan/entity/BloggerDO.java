@@ -7,8 +7,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -92,13 +93,61 @@ public class BloggerDO extends BaseDo {
    */
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(name = "ethan_blogger_role",
-      joinColumns = {@JoinColumn(name = "b_id", referencedColumnName = "b_id")},
-      inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "role_id")})
+      joinColumns = { @JoinColumn(name = "b_id", referencedColumnName = "b_id") },
+      inverseJoinColumns = { @JoinColumn(name = "role_id", referencedColumnName = "role_id") })
   private List<RoleDO> roles;
 
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(name = "ethan_blogger_group",
-      joinColumns = {@JoinColumn(name = "b_id", referencedColumnName = "b_id")},
-      inverseJoinColumns = {@JoinColumn(name = "group_id", referencedColumnName = "group_id")})
+      joinColumns = { @JoinColumn(name = "b_id", referencedColumnName = "b_id") },
+      inverseJoinColumns = { @JoinColumn(name = "group_id", referencedColumnName = "group_id") })
   private List<GroupDO> groups;
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+
+    if (! (o instanceof BloggerDO)) return false;
+
+    BloggerDO aDo = (BloggerDO) o;
+
+    return new EqualsBuilder()
+        .appendSuper(super.equals(o))
+        .append(bloggerId, aDo.bloggerId)
+        .append(name, aDo.name)
+        .append(phone, aDo.phone)
+        .append(email, aDo.email)
+        .append(gender, aDo.gender)
+        .append(ip, aDo.ip)
+        .isEquals();
+  }
+
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder(17, 37)
+        .appendSuper(super.hashCode())
+        .append(bloggerId)
+        .append(name)
+        .append(phone)
+        .append(email)
+        .append(gender)
+        .append(ip)
+        .toHashCode();
+  }
+
+  @Override
+  public String toString() {
+    return "BloggerDO{" +
+        "bloggerId=" + bloggerId +
+        ", name='" + name + '\'' +
+        ", phone='" + phone + '\'' +
+        ", email='" + email + '\'' +
+        ", password='" + password + '\'' +
+        ", nickName='" + nickName + '\'' +
+        ", birth='" + birth + '\'' +
+        ", age=" + age +
+        ", gender=" + gender +
+        ", ip='" + ip + '\'' +
+        '}';
+  }
 }

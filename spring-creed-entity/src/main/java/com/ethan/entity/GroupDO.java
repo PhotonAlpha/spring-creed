@@ -4,12 +4,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -18,8 +18,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.List;
@@ -45,13 +43,40 @@ public class GroupDO {
   @Enumerated(EnumType.STRING)
   private GroupEnum groupName;
 
-  @ManyToMany(mappedBy = "groups")
+  @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY)
   private List<BloggerDO> bloggers;
 
-  @ManyToMany(fetch = FetchType.LAZY)
-  @JoinTable(name = "ethan_role_group",
-      joinColumns = @JoinColumn(name = "group_id", referencedColumnName = "group_id"),
-      inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id")
-  )
+  @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY)
   private List<RoleDO> roles;
+
+  @Override
+  public String toString() {
+    return "GroupDO{" +
+        "groupId=" + groupId +
+        ", groupParentId=" + groupParentId +
+        ", groupName=" + groupName +
+        '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+
+    if (! (o instanceof GroupDO)) return false;
+
+    GroupDO groupDO = (GroupDO) o;
+
+    return new EqualsBuilder()
+        .append(groupId, groupDO.groupId)
+        .append(groupName, groupDO.groupName)
+        .isEquals();
+  }
+
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder(17, 37)
+        .append(groupId)
+        .append(groupName)
+        .toHashCode();
+  }
 }
