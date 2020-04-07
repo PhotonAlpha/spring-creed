@@ -1,7 +1,6 @@
 package com.ethan.auth.authentication.resource;
 
 import com.ethan.auth.handler.UnAuthExceptionHandler;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
@@ -9,6 +8,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 
 /**
  * spring OAuth2 资源服务器配置
+ * {@link org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfiguration#configure(HttpSecurity)}
  */
 @EnableResourceServer
 public class OAuth2ResourceServer extends ResourceServerConfigurerAdapter {
