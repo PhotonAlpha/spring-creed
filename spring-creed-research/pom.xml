@@ -25,6 +25,7 @@
         <module>spring-creed-mybatis-plus</module>
         <module>spring-creed-jasperreports</module>
       <module>spring-creed-jpa</module>
+      <module>spring-creed-sso-component</module>
     </modules>
 
     <dependencies>

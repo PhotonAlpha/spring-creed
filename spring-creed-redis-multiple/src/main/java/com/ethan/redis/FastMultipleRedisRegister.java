@@ -29,6 +29,10 @@ import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
+/**
+ * Spring Binder 用法,可以方便的转换对象
+ * 可用于framework设计
+ */
 @Slf4j
 public class FastMultipleRedisRegister implements EnvironmentAware, ImportBeanDefinitionRegistrar {
   private static Map<String, Object> registerBean = new ConcurrentHashMap<>();

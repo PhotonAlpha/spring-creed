@@ -23,6 +23,10 @@ article:
 # 终极指南
 http://www.iocoder.cn/Spring-Security/OAuth2-learning/
 
+https://www.cnkirito.moe/Spring-Security-OAuth2-1/
+
+https://www.jianshu.com/p/7458a5852636
+
 ---------------------------------------------------------
 
 # springboot 2.0使用spring-security-oauth2的迁移指南

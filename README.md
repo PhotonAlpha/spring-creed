@@ -10,8 +10,8 @@ java 8 interface feature:
 https://beginnersbook.com/2017/10/java-8-interface-changes-default-method-and-static-method/
 
 任务列表  
-- [ ] multiple readable redis dataSource and RedisTemplate (spring-creed-redis-multiple) [reference](https://github.com/louislivi/fastdep/blob/master/fastdep-redis/src/main/java/com/louislivi/fastdep/redis/FastDepRedisProperties.java)
-- [ ] integrate spring distribute session in spring-creed-app 
+- [x] multiple readable redis dataSource and RedisTemplate (spring-creed-redis-multiple) [reference](https://github.com/louislivi/fastdep/blob/master/fastdep-redis/src/main/java/com/louislivi/fastdep/redis/FastDepRedisProperties.java)
+- [x] integrate spring distribute session in spring-creed-app 
 - [ ] spring distribute session (EnableRedisWebSession & can be configurable)
 - [ ] create sso login example
 - [x] implement OAuth2 and understand source code

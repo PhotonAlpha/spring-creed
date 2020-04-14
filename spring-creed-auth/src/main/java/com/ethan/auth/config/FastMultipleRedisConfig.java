@@ -1,4 +1,4 @@
-package com.ethan.app.config;
+package com.ethan.auth.config;
 
 import com.ethan.context.utils.InstanceUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -23,6 +23,9 @@ import org.springframework.session.data.redis.config.annotation.SpringSessionRed
 
 import java.util.Optional;
 
+/**
+ * redis 多环境配置, 应用于不同的 redisTemplate
+ */
 @Configuration
 public class FastMultipleRedisConfig {
   @Bean
