@@ -4,18 +4,16 @@
  * @author xxx
  * @date 2020/04/08
  */
-package com.ethan.app1;
+package com.ethan.sso;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
-@SpringBootApplication(exclude = {
-    SecurityAutoConfiguration.class
-})
-public class App1Application {
+@SpringBootApplication
+public class SsoClientApplication {
   public static void main(String[] args) {
-    SpringApplication.run(App1Application.class, args);
+    SpringApplication.run(SsoClientApplication.class, args);
   }
 
   /*@Bean

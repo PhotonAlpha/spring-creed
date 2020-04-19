@@ -4,7 +4,7 @@
  * @author xxx
  * @date 2020/04/13
  */
-package com.ethan.app1.config;
+package com.ethan.sso.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

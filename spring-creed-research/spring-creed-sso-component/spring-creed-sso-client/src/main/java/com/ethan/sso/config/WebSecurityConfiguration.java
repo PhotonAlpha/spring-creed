@@ -1,4 +1,4 @@
-package com.ethan.app1.config;
+package com.ethan.sso.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;

@@ -11,12 +11,14 @@ security:
 #    authorization:
 #      check-token-access: isAuthenticated()
 server:
-  port: 8081
+  port: 8083
   servlet:
     context-path: /authserver
 logging:
   level:
     org.springframework.security: DEBUG
+  file:
+    max-size:
 
 spring:
   thymeleaf:

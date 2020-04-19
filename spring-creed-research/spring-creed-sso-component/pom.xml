@@ -10,8 +10,8 @@
   <modelVersion>4.0.0</modelVersion>
   <packaging>pom</packaging>
   <modules>
-    <module>spring-creed-sso-app1</module>
-    <module>spring-creed-sso-app2</module>
+    <module>spring-creed-sso-client</module>
+    <module>spring-creed-oauth-client</module>
     <module>spring-creed-sso-server</module>
     <module>spring-creed-sso-resource</module>
   </modules>

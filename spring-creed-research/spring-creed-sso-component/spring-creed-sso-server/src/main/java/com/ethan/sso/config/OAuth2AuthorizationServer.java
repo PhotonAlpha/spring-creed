@@ -1,14 +1,9 @@
-/**
- * describe: copy right by @author
- *
- * @author xxx
- * @date 2020/04/08
- */
 package com.ethan.sso.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -17,6 +12,9 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 @Configuration
 @EnableAuthorizationServer
@@ -27,7 +25,7 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
   @Override
   public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
     /* 配置token获取合验证时的策略 */
-    security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
+    security.tokenKeyAccess("permitAll()").checkTokenAccess("permitAll()");
   }
 
   /**
@@ -44,9 +42,9 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
     //此处server可通过redis 或者 jdbc 验证，默认配置inMemory读取
     // 一般小项目设计可以使用 授权码模式 & 客户端模式
     clients.inMemory()
-        .withClient("oauth2_client").secret("oauth2_client_secret") // Client 账号、密码。
+        .withClient("oauth2_client").secret("{noop}oauth2_client_secret") // Client 账号、密码。
         // .resourceIds(Resources.RESOURCE_ID)
-        .redirectUris("http://localhost:8080/login") // 配置回调地址，选填。
+        .redirectUris("http://localhost:8080/login", "http://localhost:8080/notes") // 配置回调地址，选填。
         .authorizedGrantTypes("authorization_code", "refresh_token") // 授权码模式
         //.autoApprove(true)
         .autoApprove(".*")
@@ -57,12 +55,24 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
   @Override
   public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
     // 配置tokenStore
-    endpoints.authenticationManager(authenticationManager).tokenStore(memoryTokenStore());
+    //endpoints.authenticationManager(authenticationManager).tokenStore(tokenStore());
+    endpoints.authenticationManager(authenticationManager).tokenStore(tokenStore()).tokenEnhancer(accessTokenConverter());
   }
   // 使用最基本的InMemoryTokenStore生成token
   @Bean
-  public TokenStore memoryTokenStore() {
-    return new InMemoryTokenStore();
+  public TokenStore tokenStore() {
+    //KeyStoreKeyFactory
+
+    return new JwtTokenStore(accessTokenConverter());
+    //InMemoryTokenStore
+    //return new InMemoryTokenStore();
+  }
+
+  private JwtAccessTokenConverter accessTokenConverter() {
+    KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("ethan-jwt.jks"), "ethan123".toCharArray());
+    JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+    converter.setKeyPair(keyStoreKeyFactory.getKeyPair("ethan-jwt"));
+    return converter;
   }
 
 }

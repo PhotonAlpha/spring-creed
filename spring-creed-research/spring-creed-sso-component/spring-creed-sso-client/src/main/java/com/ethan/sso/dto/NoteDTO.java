@@ -1,4 +1,4 @@
-package com.ethan.app1.dto;
+package com.ethan.sso.dto;
 
 
 public class NoteDTO {

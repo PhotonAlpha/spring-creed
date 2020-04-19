@@ -1,7 +1,7 @@
-package com.ethan.app1.controller;
+package com.ethan.sso.controller;
 
-import com.ethan.app1.dto.NoteDTO;
-import com.ethan.app1.service.NoteService;
+import com.ethan.sso.dto.NoteDTO;
+import com.ethan.sso.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

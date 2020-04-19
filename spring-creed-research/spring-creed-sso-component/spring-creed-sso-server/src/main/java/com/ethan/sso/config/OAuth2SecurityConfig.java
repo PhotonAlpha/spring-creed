@@ -40,16 +40,6 @@ public class OAuth2SecurityConfig extends WebSecurityConfigurerAdapter {
         AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER"));
   }
 
-  /* // inMemoryAuthentication setup
-  @Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.inMemoryAuthentication()
-        .withUser("admin")
-        .password(PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("admin"))
-        .roles("test")
-    ;
-  }*/
-
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.csrf().disable()

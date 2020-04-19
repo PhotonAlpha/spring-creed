@@ -1,4 +1,4 @@
-auth-server: http://localhost:8081/authserver
+auth-server: http://localhost:8083/authserver
 resource-server: http://localhost:8082/resource
 
 server:

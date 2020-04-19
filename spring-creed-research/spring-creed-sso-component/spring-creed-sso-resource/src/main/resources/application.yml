@@ -1,4 +1,4 @@
-auth-server: http://localhost:8081/authserver # 认证服务器地址
+auth-server: http://localhost:8083/authserver # 认证服务器地址
 
 server:
   port: 8082
@@ -9,14 +9,15 @@ spring:
   datasource:
     platform: h2
 
-security:
-  oauth2:
-    client:
-      client-id: oauth2_client
-      client-secret: oauth2_client_secret
-      access-token-uri: ${auth-server}/oauth/token # 获取access token接口
-      user-authorization-uri: ${auth-server}/oauth/authorize #  获取Authorization Code接口
-    resource:
-      token-info-uri: ${auth-server}/oauth/check_token # 验证token的接口
+#security:
+#  oauth2:
+#    client:
+#      client-id: oauth2_client
+#      client-secret: oauth2_client_secret
+#    resource:
+#      token-info-uri: ${auth-server}/oauth/check_token # 验证token的接口
 #      user-info-uri: ${auth-server}/user # 一个可以获取认证授权的自定义接口，可以在授权服务器，也可以在其他服务器上
 #      prefer-token-info: true # 如果同时配置了token-info-uri 和 user-info-uri，这个现象设置使用哪个取验证授
+logging:
+  level:
+    root: debug

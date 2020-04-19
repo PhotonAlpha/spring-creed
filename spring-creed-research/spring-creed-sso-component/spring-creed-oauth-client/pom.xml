@@ -9,7 +9,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>spring-creed-sso-app2</artifactId>
+  <artifactId>spring-creed-oauth-client</artifactId>
 
 
 </project>

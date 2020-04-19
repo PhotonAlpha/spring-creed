@@ -1,7 +1,7 @@
-package com.ethan.app1.service;
+package com.ethan.sso.service;
 
 
-import com.ethan.app1.dto.NoteDTO;
+import com.ethan.sso.dto.NoteDTO;
 
 import java.util.Collection;
 
