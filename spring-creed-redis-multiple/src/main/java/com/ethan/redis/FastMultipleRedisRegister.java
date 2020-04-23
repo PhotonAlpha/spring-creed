@@ -26,10 +26,12 @@ import org.springframework.util.StringUtils;
 import java.time.Duration;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 /**
+ * https://gitee.com/skyarthur1987/spring-boot-demo/tree/redis/
  * Spring Binder 用法,可以方便的转换对象
  * 可用于framework设计
  */
@@ -42,62 +44,56 @@ public class FastMultipleRedisRegister implements EnvironmentAware, ImportBeanDe
   @Override
   public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
     // get all redis config
-    Map<String, Map> multipleRedis;
+    FastMultipleRedisProperties multipleRedis;
     try {
-      multipleRedis = binder.bind("multi.redis", Map.class).get();
+      multipleRedis = binder.bind("multi", FastMultipleRedisProperties.class).get();
     } catch (NoSuchElementException e) {
       log.error("Failed to configure fastDep redis: 'multi.redis' attribute is not specified and no embedded redis could be configured.");
       return;
     }
     boolean onPrimary = true;
-    for (String key : multipleRedis.keySet()) {
-      Map map = binder.bind("multi.redis." + key, Map.class).get();
+    for (Map.Entry<String, RedisProperties> entry : multipleRedis.getRedis().entrySet()) {
+      String nickname = entry.getKey();
+      RedisProperties properties = entry.getValue();
       // RedisStandaloneConfiguration
       RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
-      configuration.setHostName(String.valueOf(map.get("host")));
-      configuration.setPort(Integer.parseInt(String.valueOf(map.get("port"))));
-      configuration.setDatabase(Integer.parseInt(String.valueOf(map.get("database"))));
-      String password = String.valueOf(map.get("password"));
+      configuration.setHostName(properties.getHost());
+      configuration.setPort(properties.getPort());
+      configuration.setDatabase(properties.getDatabase());
+      String password = properties.getPassword();
       if (!StringUtils.isEmpty(password)) {
         RedisPassword redisPassword = RedisPassword.of(password);
         configuration.setPassword(redisPassword);
       }
       // GenericObjectPoolConfig
       GenericObjectPoolConfig genericObjectPoolConfig = new GenericObjectPoolConfig();
-      try {
-        RedisProperties.Pool pool = binder.bind("multi.redis." + key + ".lettuce.pool", RedisProperties.Pool.class).get();
-        genericObjectPoolConfig.setMaxIdle(pool.getMaxIdle());
-        genericObjectPoolConfig.setMaxTotal(pool.getMaxActive());
-        genericObjectPoolConfig.setMinIdle(pool.getMinIdle());
-        if (pool.getMaxWait() != null) {
-          genericObjectPoolConfig.setMaxWaitMillis(pool.getMaxWait().toMillis());
-        }
-      } catch (NoSuchElementException ignore) {
+      RedisProperties.Pool pool = properties.getLettuce().getPool();
+      genericObjectPoolConfig.setMaxIdle(pool.getMaxIdle());
+      genericObjectPoolConfig.setMaxTotal(pool.getMaxActive());
+      genericObjectPoolConfig.setMinIdle(pool.getMinIdle());
+      if (pool.getMaxWait() != null) {
+        genericObjectPoolConfig.setMaxWaitMillis(pool.getMaxWait().toMillis());
       }
+
       //LettuceConnectionFactory
       Supplier<LettuceConnectionFactory> lettuceConnectionFactorySupplier = () -> {
-        LettuceConnectionFactory factory = (LettuceConnectionFactory) registerBean.get(key + "LettuceConnectionFactory");
+        LettuceConnectionFactory factory = (LettuceConnectionFactory) registerBean.get(nickname + "LettuceConnectionFactory");
         if (factory != null) {
           return factory;
         }
         LettucePoolingClientConfiguration.LettucePoolingClientConfigurationBuilder builder = LettucePoolingClientConfiguration.builder();
-        try {
-          Duration shutdownTimeout = binder.bind("multi.redis." + key + ".shutdown-timeout", Duration.class).get();
-          if (shutdownTimeout != null) {
-            builder.shutdownTimeout(shutdownTimeout);
-          }
-        } catch (NoSuchElementException ignore) {
-        }
+        builder.shutdownTimeout(properties.getLettuce().getShutdownTimeout());
+
         LettuceClientConfiguration clientConfiguration = builder.poolConfig(genericObjectPoolConfig).build();
         factory = new LettuceConnectionFactory(configuration, clientConfiguration);
-        registerBean.put(key + "LettuceConnectionFactory", factory);
+        registerBean.put(nickname + "LettuceConnectionFactory", factory);
         return factory;
       };
       LettuceConnectionFactory lettuceConnectionFactory = lettuceConnectionFactorySupplier.get();
       BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(LettuceConnectionFactory.class, lettuceConnectionFactorySupplier);
       AbstractBeanDefinition factoryBean = builder.getRawBeanDefinition();
       factoryBean.setPrimary(onPrimary);
-      registry.registerBeanDefinition(key + "LettuceConnectionFactory", factoryBean);
+      registry.registerBeanDefinition(nickname + "LettuceConnectionFactory", factoryBean);
       // StringRedisTemplate
       GenericBeanDefinition stringRedisTemplate = new GenericBeanDefinition();
       stringRedisTemplate.setBeanClass(StringRedisTemplate.class);
@@ -105,14 +101,14 @@ public class FastMultipleRedisRegister implements EnvironmentAware, ImportBeanDe
       constructorArgumentValues.addIndexedArgumentValue(0, lettuceConnectionFactory);
       stringRedisTemplate.setConstructorArgumentValues(constructorArgumentValues);
       stringRedisTemplate.setAutowireMode(AutowireCapableBeanFactory.AUTOWIRE_BY_NAME);
-      registry.registerBeanDefinition(key + "StringRedisTemplate", stringRedisTemplate);
+      registry.registerBeanDefinition(nickname + "StringRedisTemplate", stringRedisTemplate);
       // RedisTemplate
       GenericBeanDefinition redisTemplate = new GenericBeanDefinition();
       redisTemplate.setBeanClass(RedisTemplate.class);
       redisTemplate.getPropertyValues().add("connectionFactory", lettuceConnectionFactory);
       redisTemplate.setAutowireMode(AutowireCapableBeanFactory.AUTOWIRE_BY_NAME);
-      registry.registerBeanDefinition(key + "RedisTemplate", redisTemplate);
-      log.info("Registration redis ({}) !", key);
+      registry.registerBeanDefinition(nickname + "RedisTemplate", redisTemplate);
+      log.info("Registration redis ({}) !", nickname);
       if (onPrimary) {
         onPrimary = false;
       }

@@ -44,6 +44,8 @@
         <module>spring-creed-research</module>
         <module>spring-creed-entity</module>
         <module>spring-creed-redis-multiple</module>
+        <module>spring-creed-authorization-server</module>
+        <module>spring-creed-data-source-multiple</module>
     </modules>
 
     <dependencyManagement>
@@ -142,6 +144,13 @@
                 <artifactId>spring-creed-auth</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <!-- redis-multiple-data-source -->
+            <dependency>
+                <groupId>com.ethan</groupId>
+                <artifactId>spring-creed-redis-multiple</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.ethan</groupId>
                 <artifactId>spring-creed-test</artifactId>

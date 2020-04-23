@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+	<springProperty scope="context" name="springAppName" source="spring.application.name" defaultValue="creed"/>
+	<springProperty scope="context" name="countryCode" source="logging" defaultValue="CN"/>
+	<springProfile name="dev">
+		<springProperty scope="context" name="log-directory" source="logging.dir" defaultValue="/logs" />
+		<springProperty scope="context" name="instance" source="logging.instance" defaultValue="spring-authorization-server" />
+	</springProfile>
+	<springProfile name="!dev">
+		<springProperty scope="context" name="log-directory" source="logging.dir" defaultValue="/logs" />
+		<springProperty scope="context" name="instance" source="logging.instance" defaultValue="spring-authorization-server" />
+	</springProfile>
+
+	<property scope="context" name="max-file-size" value="250MB" />
+	<property scope="context" name="max-history" value="20" />
+	<property scope="context" name="total-size-cap" value="5GB" />
+
+	<property scope="context" name="log-pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [${countryCode}] ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%15.15t] %-40.40logger{39}[%line] : %m%n" />
+	<property scope="context" name="console-pattern" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} [${countryCode}] %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan}[%line] %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />
+
+	<appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${console-pattern}</pattern>
+			<charset>utf8</charset>
+		</encoder>
+	</appender>
+
+	<appender name="rolling" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log-directory}/${instance}.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${log-directory}/${instance}.log-%d{yyyy-MM-dd}.%i</fileNamePattern>
+			<!-- each file should be at most 250MB, keep 60 days worth of history,
+				but at most 20GB -->
+			<maxFileSize>${max-file-size}</maxFileSize>
+			<maxHistory>${max-history}</maxHistory>
+			<totalSizeCap>${total-size-cap}</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${log-pattern} </pattern>
+			<charset>utf8</charset>
+		</encoder>
+	</appender>
+
+	<!-- logstash: https://github.com/spring-cloud-samples/sleuth-documentation-apps/blob/master/service1/src/main/resources/logback-spring.xml -->
+
+	<logger name="com.netflix.loadbalancer" level="debug" additivity="false">
+		<appender-ref ref="consoleAppender" />
+		<appender-ref ref="rolling" />
+	</logger>
+	<logger name="com.ethan" level="debug" additivity="false">
+		<appender-ref ref="consoleAppender" />
+		<appender-ref ref="rolling" />
+	</logger>
+
+	<!-- dev 配置 -->
+	<springProfile name="dev | default">
+		<root>
+			<level value="info" />
+			<appender-ref ref="consoleAppender" />
+			<appender-ref ref="rolling" />
+		</root>
+	</springProfile>
+
+	<!-- product 配置 -->
+	<springProfile name="!dev">
+		<root>
+			<level value="info" />
+			<appender-ref ref="rolling" />
+		</root>
+	</springProfile>
+
+</configuration>

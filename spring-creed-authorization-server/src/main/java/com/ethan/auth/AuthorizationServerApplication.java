@@ -1,17 +1,11 @@
-/**
- * describe: copy right by @author
- *
- * @author xxx
- * @date 2020/04/08
- */
-package com.ethan.app2;
+package com.ethan.auth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class App2Application {
+public class AuthorizationServerApplication {
   public static void main(String[] args) {
-    SpringApplication.run(App2Application.class, args);
+    SpringApplication.run(AuthorizationServerApplication.class, args);
   }
 }

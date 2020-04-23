@@ -9,19 +9,16 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>spring-creed-redis-multiple</artifactId>
+    <artifactId>spring-creed-data-source-multiple</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <artifactId>spring-boot-starter-jta-atomikos</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>com.ethan</groupId>
-            <artifactId>spring-creed-context</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-
     </dependencies>
-
 </project>

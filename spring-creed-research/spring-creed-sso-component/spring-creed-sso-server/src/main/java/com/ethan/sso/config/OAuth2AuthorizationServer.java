@@ -45,7 +45,7 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
         .withClient("oauth2_client").secret("{noop}oauth2_client_secret") // Client 账号、密码。
         // .resourceIds(Resources.RESOURCE_ID)
         .redirectUris("http://localhost:8080/login", "http://localhost:8080/notes") // 配置回调地址，选填。
-        .authorizedGrantTypes("authorization_code", "refresh_token") // 授权码模式
+        .authorizedGrantTypes("authorization_code", "refresh_token", "password") // 授权码模式
         //.autoApprove(true)
         .autoApprove(".*")
         .scopes("read", "write") // 可授权的 Scope
