@@ -21,6 +21,10 @@
             <groupId>com.ethan</groupId>
             <artifactId>spring-creed-context</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.ethan</groupId>
+            <artifactId>spring-creed-redis-multiple</artifactId>
+        </dependency>
 
     </dependencies>
 

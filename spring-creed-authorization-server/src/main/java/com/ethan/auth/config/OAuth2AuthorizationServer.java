@@ -2,7 +2,6 @@ package com.ethan.auth.config;
 
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +20,6 @@ import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import javax.sql.DataSource;
@@ -37,13 +35,14 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
   public static final String RESOURCE_ID = "creed";
 
   private final AuthenticationManager authenticationManager;
+  private final DataSource dataSource;
+  private final RedisConnectionFactory redisOAuthLettuceConnectionFactory;
 
-  @Autowired
-  private DataSource dataSource;
-
-  public OAuth2AuthorizationServer(AuthenticationManager authenticationManager) {
+  public OAuth2AuthorizationServer(AuthenticationManager authenticationManager, DataSource dataSource, RedisConnectionFactory redisOAuthLettuceConnectionFactory) {
     log.info("OAuth2AuthorizationServer start init.");
     this.authenticationManager = authenticationManager;
+    this.dataSource = dataSource;
+    this.redisOAuthLettuceConnectionFactory = redisOAuthLettuceConnectionFactory;
   }
 
   @Bean
@@ -55,6 +54,8 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
   }
 
   /**
+   * {@link org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter}
+   *
    * token 是在 {@link  org.springframework.security.oauth2.provider.token.AbstractTokenGranter#grant(String, TokenRequest)} 开始 生成token
    * getAccessToken(client, tokenRequest) 会调用services生成token {@link org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices}
    *
@@ -67,16 +68,15 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
    *  main extension point for customizations is the {@link org.springframework.security.oauth2.provider.token.TokenEnhancer} which will be called after the access and
    *  refresh tokens have been generated but before they are stored.
    */
-  //@Autowired
-  //RedisConnectionFactory redisOAuthLettuceConnectionFactory;
+
 
   @Bean
   @ConditionalOnMissingBean(TokenStore.class)
   public TokenStore tokenStore() {
-    InMemoryTokenStore tokenStore = new InMemoryTokenStore();
-    return tokenStore;
+    //InMemoryTokenStore tokenStore = new InMemoryTokenStore();
+    //return tokenStore;
     // 需要使用 redis 的话，放开这里
-    // return new RedisTokenStore(redisOAuthLettuceConnectionFactory);
+     return new RedisTokenStore(redisOAuthLettuceConnectionFactory);
   }
 
   /**
@@ -140,7 +140,8 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
     /* 配置token获取合验证时的策略 */
     security.tokenKeyAccess("permitAll()").checkTokenAccess("permitAll()");
     //security.tokenKeyAccess("hasAuthority('ROLE_TRUSTED_CLIENT')").checkTokenAccess("hasAuthority('ROLE_TRUSTED_CLIENT')");
-    security.realm(RESOURCE_ID).allowFormAuthenticationForClients();
+    security.allowFormAuthenticationForClients();
+    //security.realm(RESOURCE_ID).allowFormAuthenticationForClients();
   }
 
   /**

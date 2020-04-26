@@ -6,15 +6,26 @@
  */
 package com.ethan.auth.config;
 
+import com.ethan.redis.multiple.FastRedisRegister;
+import com.ethan.redis.multiple.util.FastMultipleRedisUtil;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.session.data.redis.config.annotation.SpringSessionRedisConnectionFactory;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.session.web.http.CookieHttpSessionIdResolver;
 import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.session.web.http.HttpSessionIdResolver;
 
+import java.util.function.Supplier;
+
 @Configuration
 @EnableRedisHttpSession(redisNamespace = "creed:session")
+@FastRedisRegister(exclude = "redisSession")
 public class SessionConfiguration {
 
 
@@ -36,4 +47,30 @@ public class SessionConfiguration {
     //return HeaderHttpSessionIdResolver.authenticationInfo();
     //return HeaderHttpSessionIdResolver.xAuthToken();
   }
+
+  /**
+   * set redis specify connection factory
+   * @param redisSessionLettuceConnectionFactory
+   * @return
+   */
+  @Bean
+  @ConfigurationProperties(prefix = "multi.redis.redis-session")
+  public RedisProperties sessionRedisProperties() {
+    return new RedisProperties();
+  }
+
+
+  @Bean
+  @SpringSessionRedisConnectionFactory
+  public RedisConnectionFactory springSessionRedisConnectionFactory() {
+    RedisProperties properties = sessionRedisProperties();
+    Supplier<LettuceConnectionFactory> factorySupply = FastMultipleRedisUtil.getLettuceConnectionFactory(properties);
+    return factorySupply.get();
+  }
+
+/*  @Bean
+  @SpringSessionRedisConnectionFactory
+  public RedisConnectionFactory springSessionRedisConnectionFactory(RedisConnectionFactory redisSessionLettuceConnectionFactory) {
+    return redisSessionLettuceConnectionFactory;
+  }*/
 }

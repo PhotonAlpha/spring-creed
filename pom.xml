@@ -36,7 +36,7 @@
         <module>spring-creed-core</module>
         <module>spring-creed-common</module>
         <module>spring-creed-cloud</module>
-        <module>spring-creed-app</module>
+        <module>spring-creed-app-standalone</module>
         <module>spring-creed-component</module>
         <module>spring-creed-test</module>
         <module>spring-creed-context</module>

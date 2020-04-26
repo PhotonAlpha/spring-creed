@@ -14,8 +14,11 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController
-@RequestMapping("/session")
+/**
+ * spring session local test only
+ */
+//@RestController
+//@RequestMapping("/session")
 public class SessionController {
 
   @GetMapping("/set") // 其实 PostMapping 更合适，单纯为了方便

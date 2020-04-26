@@ -26,9 +26,10 @@ import java.util.Map;
 
 /**
  * 参考 {@link org.springframework.security.oauth2.provider.error.DefaultWebResponseExceptionTranslator}
+ * local test only
  */
-@RestController
-@RequestMapping("/auth")
+//@RestController
+////@RequestMapping("/auth")
 public class OAuthGrantController {
   private final ServerConfig serverConfig;
   private final RestTemplate restTemplate;
