@@ -2,8 +2,8 @@ package com.ethan.auth.controller;
 
 import com.ethan.auth.config.ServerConfig;
 import com.ethan.auth.vo.AuthResponseVO;
-import com.ethan.common.constant.UrlEnum;
-import com.ethan.common.vo.ResponseVO;
+import com.ethan.context.constant.UrlEnum;
+import com.ethan.context.vo.ResponseVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;

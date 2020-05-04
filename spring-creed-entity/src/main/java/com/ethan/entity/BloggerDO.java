@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * 博主表
  * https://stackoverflow.com/questions/34241718/lombok-builder-and-jpa-default-constructor
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -35,7 +36,7 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Entity
 @Table(name = "ethan_blogger")
-public class BloggerDO extends BaseDo {
+public class BloggerDO extends BaseDO {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "b_id", length = 20)

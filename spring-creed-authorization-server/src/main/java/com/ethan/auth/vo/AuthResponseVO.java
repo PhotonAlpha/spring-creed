@@ -1,6 +1,6 @@
 package com.ethan.auth.vo;
 
-import com.ethan.common.vo.ResponseVO;
+import com.ethan.context.vo.ResponseVO;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 

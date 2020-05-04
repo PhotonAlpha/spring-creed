@@ -24,7 +24,7 @@ public class Demo07Producer {
     // <1> 创建 Demo07Message 消息
     Message message = MessageBuilder.withPayload(new Demo07Message().setId(id)).build();
     // <2> 发送事务消息
-    TransactionSendResult localState = mqTemplate.sendMessageInTransaction(Demo07Message.TOPIC, message, id);
+    TransactionSendResult localState = mqTemplate.sendMessageInTransaction("", Demo07Message.TOPIC, message, id);
     return localState;
   }
 

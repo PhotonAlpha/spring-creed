@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @SpringBootApplication(scanBasePackages = "com.ethan")
 @EnableJpaRepositories("com.ethan.app.dao")
-@EntityScan("com.ethan.app.model")
+@EntityScan("com.ethan.entity")
 @EnableCaching
 /*@EnableWebMvc @see application配置失效yu自动配置的静态资源失效.md*/
 public class CreedApplication {

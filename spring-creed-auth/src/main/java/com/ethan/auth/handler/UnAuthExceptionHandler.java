@@ -1,7 +1,7 @@
 package com.ethan.auth.handler;
 
 import com.ethan.auth.vo.AuthResponseVO;
-import com.ethan.common.constant.ResponseEnum;
+import com.ethan.context.constant.ResponseEnum;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;

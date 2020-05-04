@@ -1,3 +1,8 @@
+# spring-creed-app-standalone 为 独立项目，可以用于小项目快速投入生产
+
+
+-------------------------------------------
+
 http://localhost:8080/oauth/authorize?client_id=clientapp&redirect_uri=http://localhost:8080/auth/grant&response_type=code&scope=read_userinfo read_contacts
 
 

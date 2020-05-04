@@ -36,29 +36,29 @@ public class MultiDataSourceRegister implements EnvironmentAware, ImportBeanDefi
       return;
     }
 
-    for (Map.Entry<String, MDataSourceProperties> entry : multipleDataSources.getDatasource().entrySet()) {
-      String nickname = entry.getKey();
-      MDataSourceProperties properties = entry.getValue();
-      // datasource
-      Supplier<DataSource> dataSourceSupplier = () -> {
-        //获取注册数据
-        AtomikosDataSourceBean registerDataSource = (AtomikosDataSourceBean) registerBean.get(nickname + "DataSource");
-        if (registerDataSource != null) {
-          return registerDataSource;
-        }
-        registerDataSource = new AtomikosDataSourceBean();
-        registerDataSource.setXaDataSourceClassName("com.alibaba.druid.pool.xa.DruidXADataSource");
-        //registerDataSource.setUniqueResourceName(key);
-        //registerDataSource.setMinPoolSize(fastDepDataSource.getMinIdle());
-        //registerDataSource.setMaxPoolSize(fastDepDataSource.getMaxActive());
-        //registerDataSource.setBorrowConnectionTimeout((int) fastDepDataSource.getTimeBetweenEvictionRunsMillis());
-        //registerDataSource.setMaxIdleTime((int) fastDepDataSource.getMaxEvictableIdleTimeMillis());
-        //registerDataSource.setTestQuery(fastDepDataSource.getValidationQuery());
-        //registerDataSource.setXaDataSource(fastDepDataSource);
-        //registerBean.put(key + "DataSource", registerDataSource);
-        return registerDataSource;
-      };
-    }
+    //for (Map.Entry<String, MDataSourceProperties> entry : multipleDataSources.getDatasource().entrySet()) {
+    //  String nickname = entry.getKey();
+    //  MDataSourceProperties properties = entry.getValue();
+    //  // datasource
+    //  Supplier<DataSource> dataSourceSupplier = () -> {
+    //    //获取注册数据
+    //    AtomikosDataSourceBean registerDataSource = (AtomikosDataSourceBean) registerBean.get(nickname + "DataSource");
+    //    if (registerDataSource != null) {
+    //      return registerDataSource;
+    //    }
+    //    registerDataSource = new AtomikosDataSourceBean();
+    //    //registerDataSource.setXaDataSourceClassName("com.alibaba.druid.pool.xa.DruidXADataSource");
+    //    //registerDataSource.setUniqueResourceName(key);
+    //    //registerDataSource.setMinPoolSize(fastDepDataSource.getMinIdle());
+    //    //registerDataSource.setMaxPoolSize(fastDepDataSource.getMaxActive());
+    //    //registerDataSource.setBorrowConnectionTimeout((int) fastDepDataSource.getTimeBetweenEvictionRunsMillis());
+    //    //registerDataSource.setMaxIdleTime((int) fastDepDataSource.getMaxEvictableIdleTimeMillis());
+    //    //registerDataSource.setTestQuery(fastDepDataSource.getValidationQuery());
+    //    //registerDataSource.setXaDataSource(fastDepDataSource);
+    //    //registerBean.put(key + "DataSource", registerDataSource);
+    //    return registerDataSource;
+    //  };
+    //}
   }
 
   @Override

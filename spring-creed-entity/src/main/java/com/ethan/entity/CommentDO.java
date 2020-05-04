@@ -10,10 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 
+/**
+ * 评论表
+ */
 @Data
 @Entity
 @Table(name = "ethan_comment")
-public class CommentDO extends BaseDo {
+public class CommentDO extends BaseDO {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "comm_id", length = 20)

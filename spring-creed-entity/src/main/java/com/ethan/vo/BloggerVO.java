@@ -1,6 +1,6 @@
 package com.ethan.vo;
 
-import com.ethan.entity.BaseDo;
+import com.ethan.entity.BaseDO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BloggerVO extends BaseDo {
+public class BloggerVO extends BaseDO {
   private Long bloggerId;
 
   private String name;

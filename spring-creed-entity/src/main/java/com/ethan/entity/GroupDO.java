@@ -22,6 +22,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.List;
 
+/**
+ * 用户组表，用来组成权限的一部分
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
 @Getter

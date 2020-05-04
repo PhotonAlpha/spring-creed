@@ -4,7 +4,7 @@ spring:
       enabled: true
       path: /h2-console
   datasource:
-    url: jdbc:h2:mem:local;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:~/test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     driver-class-name: org.h2.Driver
     username: sa
     password:
@@ -13,20 +13,20 @@ spring:
       ddl-auto: create
     database-platform: org.hibernate.dialect.H2Dialect
     show-sql: true
-  redis:
-    database: 0
-    host: 127.0.0.1
-    port: 6379
-    jedis:
-      pool:
-        max-active: 50
-        max-wait: 3000ms
-        max-idle: 20
-        min-idle: 2
-    timeout: 5000ms
+#  redis:
+#    database: 0
+#    host: 127.0.0.1
+#    port: 6379
+#    jedis:
+#      pool:
+#        max-active: 50
+#        max-wait: 3000ms
+#        max-idle: 20
+#        min-idle: 2
+#    timeout: 5000ms
 
-jwt:
-  header: Authorization
+#jwt:
+#  header: Authorization
 
 layering:
   config:
@@ -41,3 +41,8 @@ layering:
         forceRefresh: true
         usePrefix: true
         enablePrimaryCache: true
+
+
+swagger2:
+  enable: true
+  basePackage: com.ethan.app.controller
