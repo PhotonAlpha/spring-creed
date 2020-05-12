@@ -32,6 +32,16 @@ public class BlogController {
   public ResponseEntity<ResponseVO> getBlogList() {
     return ResponseEntity.ok(blogService.findByCondition(null));
   }
+  @ApiOperation("查询博客列表")
+  @GetMapping("blogs1")
+  public ResponseEntity<ResponseVO> getBlogList1() {
+    return ResponseEntity.ok(blogService.findByCondition1(null));
+  }
+  @ApiOperation("查询博客列表")
+  @GetMapping("blogs2")
+  public ResponseEntity<ResponseVO> getBlogList2() {
+    return ResponseEntity.ok(blogService.findByCondition2(null));
+  }
 
   @ApiOperation("查询指定博客")
   @GetMapping("blogs/{id}")

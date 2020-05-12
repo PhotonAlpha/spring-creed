@@ -9,6 +9,8 @@ import com.ethan.context.constant.ResponseEnum;
 import com.ethan.context.vo.ResponseVO;
 import com.ethan.entity.BlogDO;
 import com.ethan.vo.BlogVO;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +27,9 @@ public class BlogServiceImpl implements BlogService {
   }
 
   @Override
+  @Cacheable(cacheNames = "cache_user", key = "'blog' + #root.methodName")
   public ResponseVO<List<BlogVO>> findByCondition(BlogSearchConditionDTO condition) {
+    System.out.println("-----------> 未触发缓存");
     //TODO
     List<BlogDO> blogList = blogDao.findAll();
     List<BlogVO> result = blogMapper.blogListToVo(blogList);
@@ -33,6 +37,27 @@ public class BlogServiceImpl implements BlogService {
   }
 
   @Override
+  @Cacheable(cacheNames = "cache1", key = "'blog' + #root.methodName", unless = "#result == null ")
+  public ResponseVO<List<BlogVO>> findByCondition1(BlogSearchConditionDTO condition) {
+    System.out.println("-----------> 未触发缓存1");
+    //TODO
+    List<BlogDO> blogList = blogDao.findAll();
+    List<BlogVO> result = blogMapper.blogListToVo(blogList);
+    return ResponseVO.success(result);
+  }
+
+  @Override
+  @Cacheable(cacheNames = "cache2", key = "'blog' + #root.methodName", unless = "#result == null ")
+  public ResponseVO<List<BlogVO>> findByCondition2(BlogSearchConditionDTO condition) {
+    System.out.println("-----------> 未触发缓存2");
+    //TODO
+    List<BlogDO> blogList = blogDao.findAll();
+    List<BlogVO> result = blogMapper.blogListToVo(blogList);
+    return ResponseVO.success(result);
+  }
+
+  @Override
+  @CachePut(cacheNames = "cache_user", key = "'blog' + #root.methodName")
   public ResponseVO<BlogVO> createBlog(BlogDTO blogDTO) {
     BlogDO blogDO = blogMapper.blogToDo(blogDTO);
 

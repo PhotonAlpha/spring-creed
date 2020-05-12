@@ -11,6 +11,10 @@
 
     <artifactId>spring-creed-app-standalone</artifactId>
 
+    <properties>
+        <caffeine.cache.version>2.8.2</caffeine.cache.version>
+    </properties>
+
     <dependencies>
         <!-- spring-boot 依赖 -->
         <dependency>
@@ -50,8 +54,21 @@
             <groupId>com.ethan</groupId>
             <artifactId>spring-creed-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.ethan</groupId>
+            <artifactId>spring-creed-redis-multiple</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ethan</groupId>
+            <artifactId>spring-creed-gradation-cache</artifactId>
+        </dependency>
 
 
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <version>${caffeine.cache.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
