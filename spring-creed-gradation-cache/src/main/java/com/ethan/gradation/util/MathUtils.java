@@ -9,7 +9,7 @@ public final class MathUtils {
   }
   public static long calculateInterval(@NotNull TimeUnit timeUnit, long expire) {
     long timeSeconds = timeUnit.toSeconds(expire);
-    int intervalValue = Math.round(timeSeconds / 10);
+    int intervalValue = Math.round(timeSeconds / 10F);
     int intervalValueRandom = ThreadLocalRandom.current().nextInt(intervalValue);
     return timeSeconds - intervalValueRandom;
   }

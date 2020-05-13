@@ -1,0 +1,132 @@
+{
+  "hints": [
+    {
+      "name": "spring.gradation",
+      "values": [
+        {
+          "value": "cache_default"
+        }
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "sourceType": "com.ethan.gradation.config.GradationCacheProperty",
+      "name": "gradation cache properties",
+      "type": "com.ethan.gradation.config.GradationCacheProperty"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.ethan.gradation.config.GradationCacheProperty",
+      "name": "spring.gradation.example.depict",
+      "type": "java.lang.String",
+      "description": "cache description"
+    },
+    {
+      "sourceType": "com.ethan.gradation.config.GradationCacheProperty",
+      "name": "spring.gradation.example.use-first-cache",
+      "type": "java.lang.Boolean",
+      "defaultValue": true
+    },
+    {
+      "sourceType": "com.ethan.gradation.config.GradationCacheProperty",
+      "name": "spring.gradation.example.allow-null-value",
+      "type": "java.lang.Boolean",
+      "defaultValue": false
+    },
+
+    {
+      "sourceType": "com.ethan.gradation.config.CaffeineCacheProperty",
+      "name": "spring.gradation.example.caffeineCache.initial-capacity",
+      "type": "java.lang.Integer",
+      "defaultValue": 10
+    },
+    {
+      "sourceType": "com.ethan.gradation.config.CaffeineCacheProperty",
+      "name": "spring.gradation.example.caffeineCache.maximum-size",
+      "type": "java.lang.Long",
+      "defaultValue": 50
+    },
+    {
+      "sourceType": "com.ethan.gradation.config.CaffeineCacheProperty",
+      "name": "spring.gradation.example.caffeineCache.expire-time",
+      "type": "java.lang.Long",
+      "defaultValue": 600
+    },
+    {
+      "sourceType": "com.ethan.gradation.config.CaffeineCacheProperty",
+      "name": "spring.gradation.example.caffeineCache.time-unit",
+      "type": "java.util.concurrent.TimeUnit",
+      "defaultValue": "SECONDS"
+    },
+    {
+      "sourceType": "com.ethan.gradation.config.CaffeineCacheProperty",
+      "name": "spring.gradation.example.caffeineCache.expire-mode",
+      "type": "com.ethan.gradation.constant.ExpireMode",
+      "defaultValue": "EXPIRE_AFTER_WRITE"
+    },
+    {
+      "sourceType": "com.ethan.gradation.config.CaffeineCacheProperty",
+      "name": "spring.gradation.example.caffeineCache.stats",
+      "type": "java.lang.Boolean",
+      "defaultValue": false
+    },
+    {
+      "sourceType": "com.ethan.gradation.config.CaffeineCacheProperty",
+      "name": "spring.gradation.example.caffeineCache.weak-values",
+      "type": "java.lang.Boolean",
+      "defaultValue": true
+    },
+    {
+      "sourceType": "com.ethan.gradation.config.CaffeineCacheProperty",
+      "name": "spring.gradation.example.caffeineCache.weak-keys",
+      "type": "java.lang.Boolean",
+      "defaultValue": false
+    },
+
+
+    {
+      "sourceType": "com.ethan.gradation.config.RedisCacheProperty",
+      "name": "spring.gradation.example.redisCache.expiration",
+      "type": "java.lang.Long",
+      "defaultValue": 1200
+    },
+    {
+      "sourceType": "com.ethan.gradation.config.RedisCacheProperty",
+      "name": "spring.gradation.example.redisCache.preload-time",
+      "type": "java.lang.Long",
+      "defaultValue": 24
+    },
+    {
+      "sourceType": "com.ethan.gradation.config.RedisCacheProperty",
+      "name": "spring.gradation.example.redisCache.time-unit",
+      "type": "java.util.concurrent.TimeUnit",
+      "defaultValue": "SECONDS"
+    },
+    {
+      "sourceType": "com.ethan.gradation.config.RedisCacheProperty",
+      "name": "spring.gradation.example.redisCache.force-refresh",
+      "type": "java.lang.Boolean",
+      "defaultValue": false
+    },
+    {
+      "sourceType": "com.ethan.gradation.config.RedisCacheProperty",
+      "name": "spring.gradation.example.redisCache.use-prefix",
+      "type": "java.lang.Boolean",
+      "defaultValue": true
+    },
+    {
+      "sourceType": "com.ethan.gradation.config.RedisCacheProperty",
+      "name": "spring.gradation.example.redisCache.magnification",
+      "type": "java.lang.Integer",
+      "defaultValue": 1
+    },
+    {
+      "sourceType": "com.ethan.gradation.config.RedisCacheProperty",
+      "name": "spring.gradation.example.redisCache.stats",
+      "type": "java.lang.Boolean",
+      "defaultValue": false
+    }
+  ]
+}

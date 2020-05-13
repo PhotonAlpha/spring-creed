@@ -3,6 +3,7 @@ package com.ethan.gradation.config;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.function.Supplier;
 
 /**
  * 多级缓存配置项
@@ -25,22 +26,26 @@ public class GradationCacheProperty implements Serializable {
     /**
      * 一级缓存配置
      */
-    private CaffeineCacheProperty caffeineCacheProperty;
+    private CaffeineCacheProperty caffeineCache;
 
     /**
      * 二级缓存配置
      */
-    private RedisCacheProperty redisCacheProperty;
+    private RedisCacheProperty redisCache;
 
     public GradationCacheProperty(CaffeineCacheProperty caffeineCacheProperty, RedisCacheProperty redisCacheProperty, String depict) {
-        this.caffeineCacheProperty = caffeineCacheProperty;
-        this.redisCacheProperty = redisCacheProperty;
+        this.caffeineCache = caffeineCacheProperty;
+        this.redisCache = redisCacheProperty;
         this.depict = depict;
     }
 
     public GradationCacheProperty(CaffeineCacheProperty caffeineCacheProperty, RedisCacheProperty redisCacheProperty) {
-        this.caffeineCacheProperty = caffeineCacheProperty;
-        this.redisCacheProperty = redisCacheProperty;
+        this.caffeineCache = caffeineCacheProperty;
+        this.redisCache = redisCacheProperty;
+    }
+    public GradationCacheProperty(Supplier<CaffeineCacheProperty> caffeineSupplier, Supplier<RedisCacheProperty> redisSupplier) {
+        this.caffeineCache = caffeineSupplier.get();
+        this.redisCache = redisSupplier.get();
     }
 
     public GradationCacheProperty() {

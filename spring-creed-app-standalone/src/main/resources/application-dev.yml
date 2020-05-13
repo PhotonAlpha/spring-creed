@@ -28,21 +28,6 @@ spring:
 #jwt:
 #  header: Authorization
 
-layering:
-  config:
-    - cacheName: short-term-cache
-      caffeine:
-        initialCapacity: 50
-        maximumSize: 500
-        expireAfterWriteMins: 5
-      redis:
-        preloadTime: 30
-        expirationTime: 60
-        forceRefresh: true
-        usePrefix: true
-        enablePrimaryCache: true
-
-
 swagger2:
   enable: true
   basePackage: com.ethan.app.controller

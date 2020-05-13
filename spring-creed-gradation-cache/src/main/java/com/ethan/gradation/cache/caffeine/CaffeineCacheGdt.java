@@ -4,6 +4,7 @@ import com.ethan.gradation.cache.CacheStatsManager;
 import com.github.benmanes.caffeine.cache.stats.CacheStats;
 import org.springframework.cache.caffeine.CaffeineCache;
 
+import java.util.Objects;
 import java.util.concurrent.Callable;
 
 /**
@@ -38,11 +39,17 @@ public class CaffeineCacheGdt extends CaffeineCache implements CacheStatsManager
 
   @Override
   public void put(Object key, Object value) {
+    if (!isAllowNullValues() && Objects.isNull(value)) {
+      return;
+    }
     super.put(key, value);
   }
 
   @Override
   public ValueWrapper putIfAbsent(Object key, Object value) {
+    if (!isAllowNullValues() && Objects.isNull(value)) {
+      return null;
+    }
     return super.putIfAbsent(key, value);
   }
 

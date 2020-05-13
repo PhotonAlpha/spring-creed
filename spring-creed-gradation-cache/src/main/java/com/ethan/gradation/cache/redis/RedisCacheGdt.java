@@ -1,7 +1,6 @@
 package com.ethan.gradation.cache.redis;
 
 import com.ethan.context.utils.InstanceUtils;
-import com.ethan.context.utils.SpringContextUtils;
 import com.ethan.context.utils.ThreadTaskUtils;
 import com.ethan.gradation.cache.CacheStatsManager;
 import com.ethan.gradation.config.RedisCacheProperty;
@@ -19,7 +18,6 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
@@ -94,13 +92,13 @@ public class RedisCacheGdt extends RedisCache implements CacheStatsManager {
   protected Object lookup(Object key) {
     Object result = super.lookup(key);
     if (isStats()) {
-      if (Objects.isNull(result)) {
+      if (result == NullValue.INSTANCE) {
         getStatsCounter().recordMisses(1);
       } else {
         getStatsCounter().recordHits(1);
       }
     }
-/*    if (result != null && this.preloadTime > 0) {
+/**    if (result != null && this.preloadTime > 0) {
       // 刷新缓存
       refreshCache(key, valueLoader, result);
     }*/
@@ -108,7 +106,7 @@ public class RedisCacheGdt extends RedisCache implements CacheStatsManager {
   }
 
   @Override
-  public <T> T get(Object key, Callable<T> valueLoader) {
+  public synchronized  <T> T get(Object key, Callable<T> valueLoader) {
 
     String redisKey = createCacheKey(key);
     log.info("redis缓存 key= {} 查询redis缓存如果没有命中，从数据库获取数据", redisKey);
@@ -220,7 +218,7 @@ public class RedisCacheGdt extends RedisCache implements CacheStatsManager {
     String redisKey = createCacheKey(key);
     Object result = toStoreValue(value);
     // redis 缓存不允许直接存NULL，如果结果返回NULL需要删除缓存
-    if (result == null) {
+    if (result == NullValue.INSTANCE) {
       redisTemplate.delete(redisKey);
       return result;
     }
@@ -253,7 +251,7 @@ public class RedisCacheGdt extends RedisCache implements CacheStatsManager {
     if (flag) {
       preload = preload / getMagnification();
     }
-    if (null != ttl && ttl > 0 && TimeUnit.SECONDS.toMillis(ttl) <= preload) {
+    if (ttl > 0 && TimeUnit.SECONDS.toMillis(ttl) <= preload) {
       // 判断是否需要强制刷新在开启刷新线程
       if (!isForceRefresh()) {
         log.info("redis缓存 key={} 软刷新缓存模式", redisKey);

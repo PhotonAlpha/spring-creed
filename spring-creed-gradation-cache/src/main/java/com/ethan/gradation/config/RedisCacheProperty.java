@@ -3,7 +3,6 @@ package com.ethan.gradation.config;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -15,7 +14,7 @@ public class RedisCacheProperty implements Serializable {
   /**
    * 缓存有效时间
    */
-  private Long expiration = 120L;
+  private Long expiration = 1200L;
 
   /**
    * 缓存主动在失效前强制刷新缓存的时间

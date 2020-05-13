@@ -1,32 +1,16 @@
 package com.ethan.app.config;
 
-import com.ethan.gradation.config.CaffeineCacheProperty;
-import com.ethan.gradation.config.GradationCacheProperty;
-import com.ethan.gradation.config.RedisCacheProperty;
+import com.ethan.gradation.config.GradationConfigurationMapper;
 import com.ethan.gradation.listener.CaffeineRemovalListener;
 import com.ethan.gradation.manager.GradationCacheManager;
 import com.ethan.redis.multiple.FastRedisRegister;
-import com.google.common.cache.Cache;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.caffeine.CaffeineCache;
-import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.cache.CacheKeyPrefix;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.RedisSerializationContext;
-import org.springframework.data.redis.serializer.RedisSerializer;
-
-import java.time.Duration;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @Configuration
 @FastRedisRegister(exclude = "redisSession")
@@ -37,12 +21,16 @@ public class CacheConfiguration {
   }
 
   @Bean
-  public CacheManager cacheManager(RedisTemplate redisCacheRedisTemplate) {
-    GradationCacheProperty prop = new GradationCacheProperty();
-    prop.setCaffeineCacheProperty(new CaffeineCacheProperty());
-    prop.setRedisCacheProperty(new RedisCacheProperty());
+  public GradationConfigurationMapper gradationConfigurationList() {
+    return new GradationConfigurationMapper();
+  }
 
-    return new GradationCacheManager(prop, redisCacheRedisTemplate, caffeineRemovalListener());
+  @Bean
+  public CacheManager cacheManager(RedisTemplate redisCacheRedisTemplate, GradationConfigurationMapper gradationConfigurationList) {
+    return GradationCacheManager.GradationCacheManagerBuilder.fromRedisTemplate(redisCacheRedisTemplate)
+        .withCaffeineRemovalListener(caffeineRemovalListener())
+        .withInitialCacheConfigurations(gradationConfigurationList.getGradation())
+        .build();
   }
   /*@Bean
   public CacheKeyPrefix cacheKeyPrefix() {

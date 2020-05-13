@@ -13,7 +13,6 @@ import java.util.List;
 public interface BlogService {
   ResponseVO<List<BlogVO>> findByCondition(BlogSearchConditionDTO condition);
   ResponseVO<List<BlogVO>> findByCondition1(BlogSearchConditionDTO condition);
-  ResponseVO<List<BlogVO>> findByCondition2(BlogSearchConditionDTO condition);
 
   ResponseVO<BlogVO> createBlog(BlogDTO blogDTO);
 

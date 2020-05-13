@@ -5,7 +5,6 @@ import com.ethan.gradation.listener.RedisMessageListener;
 import com.ethan.gradation.stats.CacheStatsInfo;
 import com.ethan.gradation.stats.StatsService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -57,7 +56,7 @@ public abstract class AbstractCacheManagerGdt implements CacheManager, Initializ
     /**
      * 缓存名称容器
      */
-    private volatile Set<String> cacheNames = Collections.emptySet();
+    private Set<String> cacheNames = Collections.emptySet();
 
     /**
      * 是否开启统计
@@ -106,13 +105,13 @@ public abstract class AbstractCacheManagerGdt implements CacheManager, Initializ
         synchronized (this.cacheMap) {
             this.cacheNames = Collections.emptySet();
             this.cacheMap.clear();
-            Set<String> cacheNames = new LinkedHashSet<>(caches.size());
+            Set<String> defaultCacheNames = new LinkedHashSet<>(caches.size());
             for (Cache cache : caches) {
                 String name = cache.getName();
                 this.cacheMap.put(name, decorateCache(cache));
-                cacheNames.add(name);
+                defaultCacheNames.add(name);
             }
-            this.cacheNames = Collections.unmodifiableSet(cacheNames);
+            this.cacheNames = Collections.unmodifiableSet(defaultCacheNames);
         }
     }
 
@@ -140,10 +139,7 @@ public abstract class AbstractCacheManagerGdt implements CacheManager, Initializ
                 if (cache == null) {
                     cache = decorateCache(missingCache);
                     this.cacheMap.put(name, cache);
-                    // 更新缓存名称
                     updateCacheNames(name);
-                    // 创建redis监听
-                    addMessageListener(name);
                 }
             }
         }
@@ -166,10 +162,10 @@ public abstract class AbstractCacheManagerGdt implements CacheManager, Initializ
      * @param name 需要添加的缓存名称
      */
     private void updateCacheNames(String name) {
-        Set<String> cacheNames = new LinkedHashSet<>(this.cacheNames.size() + 1);
-        cacheNames.addAll(this.cacheNames);
-        cacheNames.add(name);
-        this.cacheNames = Collections.unmodifiableSet(cacheNames);
+        Set<String> defaultCacheNames = new LinkedHashSet<>(this.cacheNames.size() + 1);
+        defaultCacheNames.addAll(this.cacheNames);
+        defaultCacheNames.add(name);
+        this.cacheNames = Collections.unmodifiableSet(defaultCacheNames);
     }
 
 
@@ -180,6 +176,10 @@ public abstract class AbstractCacheManagerGdt implements CacheManager, Initializ
      * @return 装饰过后的Cache实例
      */
     protected Cache decorateCache(Cache cache) {
+        // 更新缓存名称
+        updateCacheNames(cache.getName());
+        // 创建redis监听
+        addMessageListener(cache.getName());
         return cache;
     }
 
@@ -276,11 +276,15 @@ public abstract class AbstractCacheManagerGdt implements CacheManager, Initializ
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 
     public static Set<AbstractCacheManagerGdt> getCacheManagers() {
         return cacheManagers;
+    }
+
+    public GradationCacheProperty getGradationCacheProperty() {
+        return gradationCacheProperty;
     }
 }

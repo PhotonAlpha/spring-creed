@@ -9,15 +9,23 @@ import com.ethan.context.constant.ResponseEnum;
 import com.ethan.context.vo.ResponseVO;
 import com.ethan.entity.BlogDO;
 import com.ethan.vo.BlogVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class BlogServiceImpl implements BlogService {
+  @Autowired
+  private CacheManager cacheManager;
+
   private final BlogDao blogDao;
   private final BlogMapper blogMapper;
 
@@ -37,7 +45,7 @@ public class BlogServiceImpl implements BlogService {
   }
 
   @Override
-  @Cacheable(cacheNames = "cache1", key = "'blog' + #root.methodName", unless = "#result == null ")
+  @Cacheable(cacheNames = "cache_blog", key = "'blog' + #root.methodName", unless = "#result == null ")
   public ResponseVO<List<BlogVO>> findByCondition1(BlogSearchConditionDTO condition) {
     System.out.println("-----------> 未触发缓存1");
     //TODO
@@ -47,17 +55,7 @@ public class BlogServiceImpl implements BlogService {
   }
 
   @Override
-  @Cacheable(cacheNames = "cache2", key = "'blog' + #root.methodName", unless = "#result == null ")
-  public ResponseVO<List<BlogVO>> findByCondition2(BlogSearchConditionDTO condition) {
-    System.out.println("-----------> 未触发缓存2");
-    //TODO
-    List<BlogDO> blogList = blogDao.findAll();
-    List<BlogVO> result = blogMapper.blogListToVo(blogList);
-    return ResponseVO.success(result);
-  }
-
-  @Override
-  @CachePut(cacheNames = "cache_user", key = "'blog' + #root.methodName")
+  @CacheEvict(cacheNames = "cache_user", key = "'blogfindByCondition'")
   public ResponseVO<BlogVO> createBlog(BlogDTO blogDTO) {
     BlogDO blogDO = blogMapper.blogToDo(blogDTO);
 
@@ -68,6 +66,7 @@ public class BlogServiceImpl implements BlogService {
   }
 
   @Override
+  @CacheEvict(cacheNames = "cache_user", key = "'blogfindByCondition'")
   public ResponseVO updateBlog(Long id, BlogDTO blogDTO) {
     Optional<BlogDO> optional = blogDao.findById(id);
     if (optional.isPresent()) {
@@ -86,6 +85,10 @@ public class BlogServiceImpl implements BlogService {
 
   @Override
   public ResponseVO deleteBlog(Long id) {
+    Collection<String> cacheNames = cacheManager.getCacheNames();
+    Cache cache = cacheManager.getCache("cache_user");
+    cache.clear();
+
     Optional<BlogDO> optional = blogDao.findById(id);
     if (optional.isPresent()) {
       blogDao.delete(optional.get());

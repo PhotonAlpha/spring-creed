@@ -27,12 +27,17 @@ public class AwaitThreadContainer {
         if (Thread.interrupted()) {
             throw new InterruptedException();
         }
-        Set<Thread> threadSet = threadMap.get(key);
+        /**
+         * Set<Thread> threadSet = threadMap.get(key);
         // 判断线程容器是否是null，如果是就新创建一个
         if (threadSet == null) {
             threadSet = new ConcurrentSkipListSet<>(Comparator.comparing(Thread::toString));
             threadMap.put(key, threadSet);
-        }
+
+        }*/
+        // 判断线程容器是否是null，如果是就新创建一个
+        Set<Thread> threadSet = new ConcurrentSkipListSet<>(Comparator.comparing(Thread::toString));
+        threadMap.putIfAbsent(key, threadSet);
         // 将线程放到容器
         threadSet.add(Thread.currentThread());
         // 阻塞一定的时间

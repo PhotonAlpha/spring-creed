@@ -2,6 +2,7 @@ package com.ethan.redis.multiple;
 
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.AliasFor;
 
@@ -15,6 +16,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @AutoConfigureBefore(RedisAutoConfiguration.class)
+@EnableConfigurationProperties({ FastMultipleRedisProperties.class })
 @Import(FastMultipleRedisRegister.class)
 public @interface FastRedisRegister {
   /**

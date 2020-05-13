@@ -33,7 +33,6 @@
     </properties>
 
     <modules>
-        <module>spring-creed-cache</module>
         <module>spring-creed-core</module>
         <module>spring-creed-common</module>
         <module>spring-creed-cloud</module>

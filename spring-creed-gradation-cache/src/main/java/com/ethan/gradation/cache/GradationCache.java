@@ -66,8 +66,10 @@ public class GradationCache extends AbstractValueAdaptingCache implements CacheS
     }
     if (result == null) {
       result = fromValueWrapperValue(secondCache.get(key));
-      firstCache.putIfAbsent(key, result);
-      log.info("查询二级缓存,并将数据放到一级缓存。 key={},返回值是:{}", key, result);
+      if (useFirstCache) {
+        firstCache.putIfAbsent(key, result);
+        log.info("查询二级缓存,并将数据放到一级缓存。 key={},返回值是:{}", key, result);
+      }
     }
     return result;
   }
@@ -102,8 +104,10 @@ public class GradationCache extends AbstractValueAdaptingCache implements CacheS
     }
 
     T result = secondCache.get(key, valueLoader);
-    firstCache.putIfAbsent(key, result);
-    log.info("查询二级缓存,并将数据放到一级缓存。 key={},返回值是:{}", key, result);
+    if (useFirstCache) {
+      firstCache.putIfAbsent(key, result);
+      log.info("查询二级缓存,并将数据放到一级缓存。 key={},返回值是:{}", key, result);
+    }
     return (T) fromStoreValue(result);
   }
 
@@ -118,8 +122,10 @@ public class GradationCache extends AbstractValueAdaptingCache implements CacheS
     }
 
     T result = secondCache.get(key, type);
-    firstCache.putIfAbsent(key, result);
-    log.info("查询二级缓存,并将数据放到一级缓存。 key={},返回值是:{}", key, result);
+    if (useFirstCache) {
+      firstCache.putIfAbsent(key, result);
+      log.info("查询二级缓存,并将数据放到一级缓存。 key={},返回值是:{}", key, result);
+    }
     return (T) fromStoreValue(result);
   }
 

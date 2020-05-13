@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -23,12 +22,12 @@ public class CaffeineCacheProperty implements Serializable {
   /**
    * 缓存最大Size
    */
-  private Integer maximumSize = 500;
+  private Long maximumSize = 50L;
 
   /**
    * 缓存有效时间
    */
-  private Integer expireTime = 60;
+  private Long expireTime = 600L;
 
   /**
    * 缓存时间单位
