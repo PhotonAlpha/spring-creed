@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: dev
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
@@ -119,7 +121,7 @@ multi:
 
 swagger2:
   enable: true
-  basePackage: com.ethan.controller
+  basePackage: com.ethan.app.controller
   pathRegex: /api*
 
 logging:

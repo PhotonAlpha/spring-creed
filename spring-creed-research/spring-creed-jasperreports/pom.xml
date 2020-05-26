@@ -12,10 +12,10 @@
     <artifactId>spring-creed-jasperreports</artifactId>
 
     <dependencies>
-        <!--<dependency>
+        <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
-            <version>6.11.0</version>
-        </dependency>-->
+            <version>6.12.1</version>
+        </dependency>
     </dependencies>
 </project>

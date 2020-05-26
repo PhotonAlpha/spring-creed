@@ -1,0 +1,10 @@
+spring:
+  sleuth:
+    sampler:
+      probability: 1.0
+  data:
+    elasticsearch:
+      host: localhost
+      port: 9200
+      username:
+      password:

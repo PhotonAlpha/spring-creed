@@ -9,6 +9,7 @@ import com.ethan.context.constant.ResponseEnum;
 import com.ethan.context.vo.ResponseVO;
 import com.ethan.entity.BlogDO;
 import com.ethan.vo.BlogVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -21,6 +22,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class BlogServiceImpl implements BlogService {
   @Autowired
@@ -37,10 +39,11 @@ public class BlogServiceImpl implements BlogService {
   @Override
   @Cacheable(cacheNames = "cache_user", key = "'blog' + #root.methodName")
   public ResponseVO<List<BlogVO>> findByCondition(BlogSearchConditionDTO condition) {
-    System.out.println("-----------> 未触发缓存");
+    log.info("-----------> 未触发缓存");
     //TODO
     List<BlogDO> blogList = blogDao.findAll();
     List<BlogVO> result = blogMapper.blogListToVo(blogList);
+    log.info("findByCondition result-------->{}", result);
     return ResponseVO.success(result);
   }
 
@@ -51,6 +54,7 @@ public class BlogServiceImpl implements BlogService {
     //TODO
     List<BlogDO> blogList = blogDao.findAll();
     List<BlogVO> result = blogMapper.blogListToVo(blogList);
+    log.info("findByCondition1 result-------->{}", result);
     return ResponseVO.success(result);
   }
 
@@ -62,6 +66,7 @@ public class BlogServiceImpl implements BlogService {
     blogDao.save(blogDO);
 
     BlogVO result = blogMapper.blogToVo(blogDO);
+    log.info("createBlog result-------->{}", result);
     return ResponseVO.success(result);
   }
 
@@ -77,6 +82,7 @@ public class BlogServiceImpl implements BlogService {
       blogDao.save(pendingUpdateDO);
 
       BlogVO result = blogMapper.blogToVo(pendingUpdateDO);
+      log.info("updateBlog result-------->{}", result);
       return ResponseVO.success(result);
     } else {
       return ResponseVO.error(ResponseEnum.INCORRECT_PARAMS);
@@ -85,6 +91,7 @@ public class BlogServiceImpl implements BlogService {
 
   @Override
   public ResponseVO deleteBlog(Long id) {
+    log.info("deleteBlog-------->{}", id);
     Collection<String> cacheNames = cacheManager.getCacheNames();
     Cache cache = cacheManager.getCache("cache_user");
     cache.clear();
