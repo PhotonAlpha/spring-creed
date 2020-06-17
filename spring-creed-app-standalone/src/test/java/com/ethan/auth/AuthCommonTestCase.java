@@ -2,6 +2,7 @@ package com.ethan.auth;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -38,5 +39,12 @@ public class AuthCommonTestCase {
           .toEpochSecond(ZoneId.systemDefault().getRules().getOffset(Instant.now()));
       System.out.println(seconds);
     }
+  }
+
+  @Test
+  void testUUID() {
+    String str = "hello world 123";
+    String newStr = StringUtils.leftPad(str, 7, " ");
+    System.out.println("--" + newStr + "--");
   }
 }

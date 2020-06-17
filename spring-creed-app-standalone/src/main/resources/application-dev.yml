@@ -28,6 +28,3 @@ spring:
 #jwt:
 #  header: Authorization
 
-swagger2:
-  enable: true
-  basePackage: com.ethan.app.controller

@@ -27,6 +27,7 @@
         <module>spring-creed-sso-component</module>
         <module>spring-creed-propertysource-parent</module>
         <module>spring-creed-propertysource-child</module>
+        <module>spring-creed-elasticsearch</module>
     </modules>
 
     <dependencies>
