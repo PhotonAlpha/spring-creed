@@ -1,0 +1,5 @@
+rules:
+  reportTemplatePath: "jasper/"
+
+gng-export-ms-cluster:
+  protocol: https
