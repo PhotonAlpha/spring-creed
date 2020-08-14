@@ -1,6 +1,7 @@
 package com.ethan.auth;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -8,11 +9,11 @@ import java.util.regex.Pattern;
 public class BCryptPasswordEncoderTest {
   @Test
   void testBCryptPasswordEncoder() {
-    //BCryptPasswordEncoder cryptPasswordEncoder = new BCryptPasswordEncoder();
-    //String adminStr = cryptPasswordEncoder.encode("admin");
-    //String normalStr = cryptPasswordEncoder.encode("normal");
-    //System.out.println(adminStr);
-    //System.out.println(normalStr);
+    BCryptPasswordEncoder cryptPasswordEncoder = new BCryptPasswordEncoder();
+    String adminStr = cryptPasswordEncoder.encode("admin");
+    String normalStr = cryptPasswordEncoder.encode("normal");
+    System.out.println(adminStr);
+    System.out.println(normalStr);
 
   }
 
