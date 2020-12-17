@@ -12,9 +12,9 @@
     <properties>
         <revision>1.1.0-SNAPSHOT</revision>
 
-        <java.version>13</java.version>
-        <maven.compiler.source>13</maven.compiler.source>
-        <maven.compiler.target>13</maven.compiler.target>
+        <java.version>12</java.version>
+        <maven.compiler.source>12</maven.compiler.source>
+        <maven.compiler.target>12</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -46,6 +46,7 @@
         <module>spring-creed-authorization-server</module>
         <module>spring-creed-data-source-multiple</module>
         <module>spring-creed-gradation-cache</module>
+        <module>spring-creed-e2e-security</module>
     </modules>
 
     <dependencyManagement>

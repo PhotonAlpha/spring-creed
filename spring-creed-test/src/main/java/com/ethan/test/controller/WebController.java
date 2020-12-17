@@ -4,15 +4,20 @@
  * @author xxx
  * @date 2020/01/05
  */
-package com.ethan.test.comtroller;
+package com.ethan.test.controller;
 
+import com.ethan.test.config.ClientIp;
 import com.ethan.test.mapper.AuditingEntityMapper;
 import com.ethan.test.model.StudentA;
 import com.ethan.test.model.StudentB;
+import com.ethan.test.utils.IpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 public class WebController {
@@ -27,5 +32,10 @@ public class WebController {
 
     StudentB sb = auditingEntityMapper.convert(sa);
     return ResponseEntity.ok(sb);
+  }
+
+  @GetMapping("/ip")
+  public ResponseEntity<String> getIpAddr(@ClientIp String ip) {
+    return ResponseEntity.ok(ip);
   }
 }

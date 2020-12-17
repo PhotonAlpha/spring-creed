@@ -1,12 +1,11 @@
 package com.ethan.cache;
 
 import com.ethan.cache.model.CqMembers;
-import com.ethan.test.CreedApplication;
+import com.ethan.test.CreedTestApplication;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -16,7 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Date;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = CreedApplication.class)
+@SpringBootTest(classes = CreedTestApplication.class)
 @TestPropertySource(locations = "classpath:application.yml")
 public class FirstSampleApplicationTests {
   @Autowired

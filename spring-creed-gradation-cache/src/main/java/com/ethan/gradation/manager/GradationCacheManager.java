@@ -132,7 +132,8 @@ public class GradationCacheManager extends AbstractCacheManagerGdt {
    * @param cacheProperty 一级缓存配置
    * @return {@link com.github.benmanes.caffeine.cache.Cache}
    */
-  private CaffeineCacheGdt createCaffeineCache(String name, @NotNull CaffeineCacheProperty cacheProperty, boolean allowNullValue) {
+  private CaffeineCacheGdt
+  createCaffeineCache(String name, @NotNull CaffeineCacheProperty cacheProperty, boolean allowNullValue) {
     // 根据配置创建Caffeine builder
     Caffeine<Object, Object> builder = Caffeine.newBuilder()
         .initialCapacity(cacheProperty.getInitialCapacity())
