@@ -1,0 +1,3 @@
+dependencies {
+    compile 'org.apache.rocketmq:rocketmq-spring-boot-starter:2.0.4'
+}

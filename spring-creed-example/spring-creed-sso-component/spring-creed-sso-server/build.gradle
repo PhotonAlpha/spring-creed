@@ -1,0 +1,6 @@
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    compile 'org.webjars:jquery:2.2.1'
+    compile 'org.webjars:materializecss:0.99.0'
+    compile 'org.webjars:material-design-icons:3.0.1'
+}

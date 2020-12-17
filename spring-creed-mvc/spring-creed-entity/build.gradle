@@ -1,0 +1,9 @@
+dependencies {
+//    Starting with Boot 2.3, we also need to explicitly add the spring-boot-starter-validation dependency:
+    compile "org.springframework.boot:spring-boot-starter-validation"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa"
+    compile project(":spring-creed-mvc:spring-creed-context")
+
+    compile 'org.mapstruct:mapstruct'
+    compileOnly 'org.mapstruct:mapstruct-processor'
+}

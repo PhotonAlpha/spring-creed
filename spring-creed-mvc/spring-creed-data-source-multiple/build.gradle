@@ -1,0 +1,7 @@
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-data-jpa"
+    compile "org.springframework:spring-aspects"
+    compileOnly "com.h2database:h2"
+
+    compile 'org.apache.shardingsphere:sharding-jdbc-spring-boot-starter'
+}

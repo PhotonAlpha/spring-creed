@@ -1,0 +1,14 @@
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-security"
+    compile "org.springframework.boot:spring-boot-starter-web"
+    compile "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure"
+    compile "org.springframework.boot:spring-boot-starter-thymeleaf"
+    compile "org.springframework.session:spring-session-data-redis"
+    compile 'io.lettuce:lettuce-core'
+
+    compileOnly "com.h2database:h2"
+
+    compile project(":spring-creed-mvc:spring-creed-context")
+    compile project(":spring-creed-mvc:spring-creed-common")
+    compile project(":spring-creed-mvc:spring-creed-redis-multiple")
+}

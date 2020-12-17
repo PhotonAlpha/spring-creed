@@ -1,0 +1,6 @@
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-data-redis"
+    compile 'io.lettuce:lettuce-core'
+
+    compile project(":spring-creed-mvc:spring-creed-context")
+}

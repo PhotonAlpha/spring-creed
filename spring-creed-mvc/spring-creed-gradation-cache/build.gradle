@@ -1,0 +1,9 @@
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-validation"
+    compile "org.springframework.boot:spring-boot-starter-cache"
+    compile "org.springframework.boot:spring-boot-starter-data-redis"
+    compile 'com.github.ben-manes.caffeine:caffeine'
+
+    compile project(":spring-creed-mvc:spring-creed-context")
+    compile project(":spring-creed-mvc:spring-creed-redis-multiple")
+}

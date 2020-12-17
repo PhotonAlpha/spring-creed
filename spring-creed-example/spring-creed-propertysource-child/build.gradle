@@ -1,0 +1,4 @@
+dependencies {
+
+    compile project(":spring-creed-example:spring-creed-propertysource-parent")
+}
