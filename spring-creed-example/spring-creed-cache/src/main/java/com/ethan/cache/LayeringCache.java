@@ -6,7 +6,7 @@ import com.ethan.cache.listener.RedisPublisher;
 import com.ethan.cache.model.RedisCacheBean;
 import com.ethan.cache.redis.CustomizedRedisCache;
 import com.ethan.context.utils.InstanceUtils;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.cache.support.AbstractValueAdaptingCache;
 import org.springframework.cache.support.NullValue;
@@ -23,9 +23,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
-@Slf4j
 public class LayeringCache extends AbstractValueAdaptingCache {
-  /**
+	private static final Logger log = org.slf4j.LoggerFactory.getLogger(LayeringCache.class);
+	/**
    * cache name
    */
   private final String name;

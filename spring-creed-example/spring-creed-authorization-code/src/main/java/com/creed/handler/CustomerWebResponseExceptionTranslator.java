@@ -2,7 +2,7 @@ package com.creed.handler;
 
 import com.creed.constant.ResponseEnum;
 import com.creed.vo.ResponseVO;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +21,9 @@ import java.io.IOException;
 /**
  * 自定义异常message， 规范参考 README.md
  */
-@Slf4j
 public class CustomerWebResponseExceptionTranslator implements WebResponseExceptionTranslator<OAuth2Exception> {
-  private ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
+	private static final Logger log = org.slf4j.LoggerFactory.getLogger(CustomerWebResponseExceptionTranslator.class);
+	private ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
 
   @Override
   public ResponseEntity<OAuth2Exception> translate(Exception e) throws Exception {

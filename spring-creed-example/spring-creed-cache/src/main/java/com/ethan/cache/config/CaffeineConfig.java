@@ -1,13 +1,12 @@
 package com.ethan.cache.config;
 
-import com.ethan.cache.model.CaffeineCacheBean;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalCause;
 import com.github.benmanes.caffeine.cache.RemovalListener;
-import lombok.extern.slf4j.Slf4j;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.slf4j.Logger;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.cache.support.SimpleCacheManager;
@@ -56,9 +55,10 @@ public class CaffeineConfig {
     manager.setCaches(caches);
     return manager;
   }
-  @Slf4j
   static class CacheRemovalListener implements RemovalListener<Object, Object> {
-    @Override
+		private static final Logger log = org.slf4j.LoggerFactory.getLogger(CacheRemovalListener.class);
+
+		@Override
     public void onRemoval(@Nullable Object o, @Nullable Object o2, @NonNull RemovalCause removalCause) {
       log.info("CacheRemovalListener:{} :{}", new Object[]{o, removalCause});
     }

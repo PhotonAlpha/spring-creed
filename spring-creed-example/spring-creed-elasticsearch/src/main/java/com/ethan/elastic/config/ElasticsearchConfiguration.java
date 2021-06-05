@@ -1,27 +1,24 @@
 package com.ethan.elastic.config;
 
-import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHost;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
 
-@Slf4j
 @Configuration
 public class ElasticsearchConfiguration
         implements FactoryBean<RestHighLevelClient>, InitializingBean, DisposableBean
 {
-    @Value("${spring.data.elasticsearch.host}")
+	private static final Logger log = org.slf4j.LoggerFactory.getLogger(ElasticsearchConfiguration.class);
+	@Value("${spring.data.elasticsearch.host}")
     private String host;
     @Value("${spring.data.elasticsearch.port}")
     private int port;

@@ -4,8 +4,8 @@ import com.ethan.cache.LayeringCache;
 import com.ethan.cache.redis.expression.CacheOperationExpressionEvaluator;
 import com.ethan.context.utils.ReflectionUtils;
 import com.ethan.context.utils.SpringContextUtils;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
 import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
@@ -28,10 +28,10 @@ import java.util.concurrent.TimeUnit;
 /**
  * refresh cache manually
  */
-@Slf4j
 @Component
 public class CacheSupportImpl implements CacheSupport {
-  private final CacheOperationExpressionEvaluator evaluator = new CacheOperationExpressionEvaluator();
+	private static final Logger log = org.slf4j.LoggerFactory.getLogger(CacheSupportImpl.class);
+	private final CacheOperationExpressionEvaluator evaluator = new CacheOperationExpressionEvaluator();
 
   private static final String SEPARATOR = "#";
 

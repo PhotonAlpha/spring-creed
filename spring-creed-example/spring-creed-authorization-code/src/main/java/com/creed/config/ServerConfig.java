@@ -1,6 +1,6 @@
 package com.creed.config;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.context.WebServerInitializedEvent;
 import org.springframework.context.ApplicationListener;
@@ -12,10 +12,10 @@ import java.net.UnknownHostException;
 /**
  * 设置服务器初始化时的IP值
  */
-@Slf4j
 @Component
 public class ServerConfig implements ApplicationListener<WebServerInitializedEvent> {
-  @Value("${server.host}")
+	private static final Logger log = org.slf4j.LoggerFactory.getLogger(ServerConfig.class);
+	@Value("${server.host}")
   private String ip;
 
   private int serverPort;

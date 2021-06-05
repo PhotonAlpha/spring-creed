@@ -1,7 +1,6 @@
 package com.ethan.sso.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.token.TokenService;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;

@@ -18,7 +18,7 @@ import com.ethan.mapper.BloggerMapper;
 import com.ethan.service.BloggerService;
 import com.ethan.snow.Snowflake;
 import com.ethan.vo.BloggerVO;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,10 +34,10 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Service
 public class BloggerServiceImpl implements BloggerService {
-  private final AtomicInteger atomicInteger = new AtomicInteger(1);
+	private static final Logger log = org.slf4j.LoggerFactory.getLogger(BloggerServiceImpl.class);
+	private final AtomicInteger atomicInteger = new AtomicInteger(1);
   @Resource
   private BloggerDao bloggerDao;
   @Resource

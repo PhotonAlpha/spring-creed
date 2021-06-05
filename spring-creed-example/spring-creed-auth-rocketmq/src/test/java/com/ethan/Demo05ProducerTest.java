@@ -1,10 +1,9 @@
 package com.ethan;
 
-import com.ethan.producer.Demo04Producer;
 import com.ethan.producer.Demo05Producer;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -15,9 +14,9 @@ import java.util.concurrent.CountDownLatch;
  */
 //@ExtendWith(SpringExtension.class)
 @SpringBootTest
-@Slf4j
 public class Demo05ProducerTest {
-  @Autowired
+	private static final Logger log = org.slf4j.LoggerFactory.getLogger(Demo05ProducerTest.class);
+	@Autowired
   private Demo05Producer producer;
 
   @Test

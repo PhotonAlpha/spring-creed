@@ -1,24 +1,26 @@
 package com.ethan.elastic.util;
 
-import lombok.extern.slf4j.Slf4j;
-import org.elasticsearch.action.bulk.*;
+import org.elasticsearch.action.bulk.BackoffPolicy;
+import org.elasticsearch.action.bulk.BulkItemResponse;
+import org.elasticsearch.action.bulk.BulkProcessor;
+import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.unit.ByteSizeUnit;
 import org.elasticsearch.common.unit.ByteSizeValue;
 import org.elasticsearch.common.unit.TimeValue;
-import org.elasticsearch.threadpool.ThreadPool;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.concurrent.TimeUnit;
 
-@Slf4j
 @Component
 public class ElasticSearchBulkUtil {
-    private final RestHighLevelClient restHighLevelClient;
+	private static final Logger log = org.slf4j.LoggerFactory.getLogger(ElasticSearchBulkUtil.class);
+	private final RestHighLevelClient restHighLevelClient;
 
     private BulkProcessor bulkProcessor;
 

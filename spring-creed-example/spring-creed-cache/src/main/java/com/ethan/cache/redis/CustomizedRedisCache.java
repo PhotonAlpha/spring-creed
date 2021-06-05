@@ -4,7 +4,7 @@ import com.ethan.cache.model.RedisCacheBean;
 import com.ethan.cache.redis.lock.RedisLock;
 import com.ethan.context.utils.SpringContextUtils;
 import com.ethan.context.utils.ThreadTaskUtils;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.data.redis.cache.RedisCache;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheWriter;
@@ -14,7 +14,6 @@ import org.springframework.data.redis.core.ValueOperations;
 
 import java.util.concurrent.TimeUnit;
 
-@Slf4j
 public class CustomizedRedisCache extends RedisCache {
 
   public static final String INVOCATION_CACHE_KEY_SUFFIX = ":invocation_suffix";
@@ -22,8 +21,9 @@ public class CustomizedRedisCache extends RedisCache {
    * refresh cache retry times
    */
   private static final int RETRY_COUNT = 5;
+	private static final Logger log = org.slf4j.LoggerFactory.getLogger(CustomizedRedisCache.class);
 
-  ThreadAwaitContainer container = new ThreadAwaitContainer();
+	ThreadAwaitContainer container = new ThreadAwaitContainer();
 
   private final RedisOperations redisOperations;
 

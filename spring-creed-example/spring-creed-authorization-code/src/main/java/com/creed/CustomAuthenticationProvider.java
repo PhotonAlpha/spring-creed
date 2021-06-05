@@ -1,7 +1,6 @@
 package com.creed;
 
 import com.creed.model.Account;
-import com.creed.service.AccountService;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

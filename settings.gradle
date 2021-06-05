@@ -36,4 +36,5 @@ include 'spring-creed-example:spring-creed-sso-component:spring-creed-sso-server
 include 'spring-creed-example:spring-creed-dubbo-component:spring-creed-dubbo-api'
 include 'spring-creed-example:spring-creed-dubbo-component:spring-creed-dubbo-consumer'
 include 'spring-creed-example:spring-creed-dubbo-component:spring-creed-dubbo-provider'
+include 'java-lock'
 

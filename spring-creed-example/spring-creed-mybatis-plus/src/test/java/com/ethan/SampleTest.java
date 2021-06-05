@@ -2,7 +2,6 @@ package com.ethan;
 
 import com.ethan.entity.UserDO;
 import com.ethan.mapper.UserMapper;
-import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

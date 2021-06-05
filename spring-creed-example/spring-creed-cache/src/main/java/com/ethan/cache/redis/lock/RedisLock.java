@@ -1,8 +1,8 @@
 package com.ethan.cache.redis.lock;
 
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.util.Assert;
@@ -33,9 +33,9 @@ import java.util.concurrent.TimeUnit;
  * 如果服务器返回 OK ，那么这个客户端获得锁。
  * 如果服务器返回 NIL ，那么客户端获取锁失败，可以在稍后再重试。
  */
-@Slf4j
 public class RedisLock {
-  private RedisTemplate<String, Object> redisTemplate;
+	private static final Logger log = org.slf4j.LoggerFactory.getLogger(RedisLock.class);
+	private RedisTemplate<String, Object> redisTemplate;
 
   /**
    * 默认请求锁的超时时间(ms 毫秒)

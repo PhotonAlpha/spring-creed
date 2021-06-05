@@ -1,8 +1,6 @@
 package com.ethan.elastic;
 
 import com.ethan.elastic.util.ElasticSearchBulkUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.util.Maps;
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.bulk.BulkProcessor;
 import org.elasticsearch.action.bulk.BulkRequest;
@@ -18,14 +16,10 @@ import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.Cancellable;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.common.unit.TimeValue;
-import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentType;
-import org.elasticsearch.common.xcontent.json.JsonXContent;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.script.ScriptType;
 import org.elasticsearch.search.SearchHit;
@@ -36,23 +30,26 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
  * https://discuss.elastic.co/t/problem-setting-text-field-as-not-analyzed/90763/3    Java设置properties
  */
-@Slf4j
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = ElasticApplication.class)
 public class ElasticTest {
     public static final String INDEX_NAME = "my_index";
-    @Autowired
+	private static final Logger log = org.slf4j.LoggerFactory.getLogger(ElasticTest.class);
+	@Autowired
     private RestHighLevelClient client;
     @Autowired
     private ElasticSearchBulkUtil bulkUtil;

@@ -5,7 +5,7 @@ import com.ethan.cache.constants.CacheConstant;
 import com.ethan.cache.constants.ChannelTopicEnum;
 import com.ethan.context.utils.InstanceUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -20,10 +20,10 @@ import java.util.Map;
 /**
  * redis message subscribe channel
  */
-@Slf4j
 @Component
 public class RedisMessageListener extends MessageListenerAdapter {
-  @Autowired
+	private static final Logger log = org.slf4j.LoggerFactory.getLogger(RedisMessageListener.class);
+	@Autowired
   private CacheManager cacheManager;
 
   private static final ObjectMapper MAPPER = InstanceUtils.getMapperInstance();

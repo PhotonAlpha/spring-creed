@@ -1,14 +1,12 @@
 package com.ethan.consumer;
 
-import com.ethan.message.Demo04Message;
 import com.ethan.message.Demo05Message;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.annotation.MessageModel;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
-@Slf4j
 @Component
 @RocketMQMessageListener(
     topic = Demo05Message.TOPIC,
@@ -16,7 +14,9 @@ import org.springframework.stereotype.Component;
     messageModel = MessageModel.BROADCASTING
 )
 public class Demo05Consumer implements RocketMQListener<Demo05Message> {
-  @Override
+	private static final Logger log = org.slf4j.LoggerFactory.getLogger(Demo05Consumer.class);
+
+	@Override
   public void onMessage(Demo05Message message) {
     log.info("[onMessage][线程编号:{} 消息内容：{}]", Thread.currentThread().getId(), message);
   }

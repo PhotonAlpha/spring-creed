@@ -3,12 +3,12 @@ package com.ethan.interceptor;
 import com.ethan.annotation.LocalLock;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
 import org.springframework.context.annotation.Configuration;
 
 import java.lang.reflect.Method;
@@ -17,7 +17,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * 基于本地缓存
  */
-@Slf4j
 @Configuration
 @Aspect
 public class LockMethodInterceptor {
@@ -25,8 +24,9 @@ public class LockMethodInterceptor {
         .maximumSize(10_000)
         .expireAfterWrite(5, TimeUnit.SECONDS)
         .build();
+	private static final Logger log = org.slf4j.LoggerFactory.getLogger(LockMethodInterceptor.class);
 
-  @Around("execution(public * * (..)) && @annotation(com.ethan.annotation.LocalLock)")
+	@Around("execution(public * * (..)) && @annotation(com.ethan.annotation.LocalLock)")
   public Object interceptor(ProceedingJoinPoint point) {
     MethodSignature signature = (MethodSignature) point.getSignature();
     Method method = signature.getMethod();

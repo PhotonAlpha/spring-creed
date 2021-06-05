@@ -1,8 +1,6 @@
 package com.ethan.producer;
 
-import com.ethan.message.Demo01Message;
 import com.ethan.message.Demo02Message;
-import org.apache.rocketmq.client.producer.SendCallback;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;

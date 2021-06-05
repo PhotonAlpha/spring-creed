@@ -1,6 +1,5 @@
 package com.ethan.producer;
 
-import com.ethan.message.Demo04Message;
 import com.ethan.message.Demo05Message;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;

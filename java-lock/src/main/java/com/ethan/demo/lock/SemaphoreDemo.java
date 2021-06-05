@@ -1,0 +1,34 @@
+package com.ethan.demo.lock;
+
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * @className: SemaphoreDemo
+ * @author: Ethan
+ * @date: 2/5/2021
+ *
+ * 抢车位
+ **/
+public class SemaphoreDemo {
+    public static final Semaphore SEMAPHORE = new Semaphore(3); //模拟3个车位
+
+    public static void main(String[] args) {
+        for (int i = 1; i <= 6; i++) {//6辆汽车
+            new Thread(() -> {
+                try {
+                    System.out.println(Thread.currentThread().getName() + "\t 开始抢车位");
+                    SEMAPHORE.acquire();
+                    System.out.println(Thread.currentThread().getName() + "\t 抢到车位");
+                    TimeUnit.SECONDS.sleep(3);
+                    System.out.println(Thread.currentThread().getName() + "\t 离开车位");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    SEMAPHORE.release();
+                }
+            }, "t" + i).start();
+
+        }
+    }
+}

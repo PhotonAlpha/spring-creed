@@ -1,12 +1,12 @@
 package com.ethan.producer;
 
 import com.ethan.message.Demo07Message;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.TransactionSendResult;
 import org.apache.rocketmq.spring.annotation.RocketMQTransactionListener;
 import org.apache.rocketmq.spring.core.RocketMQLocalTransactionListener;
 import org.apache.rocketmq.spring.core.RocketMQLocalTransactionState;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
@@ -14,10 +14,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-@Slf4j
 @Component
 public class Demo07Producer {
-  @Autowired
+	private static final Logger log = org.slf4j.LoggerFactory.getLogger(Demo07Producer.class);
+	@Autowired
   RocketMQTemplate mqTemplate;
 
   public TransactionSendResult sendMessageInTransaction(Integer id) {

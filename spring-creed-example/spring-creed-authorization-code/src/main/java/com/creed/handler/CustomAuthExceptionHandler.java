@@ -3,14 +3,13 @@ package com.creed.handler;
 import com.creed.constant.ResponseEnum;
 import com.creed.vo.ResponseVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,10 +21,11 @@ import java.io.IOException;
  * @description 自定义未授权 token无效 权限不足返回信息处理类
  * @date 2019/3/4 15:49
  */
-@Slf4j
 public class CustomAuthExceptionHandler implements AuthenticationEntryPoint, AccessDeniedHandler {
     private static final ObjectMapper MAPPER = new ObjectMapper();
-    @Override
+	private static final Logger log = org.slf4j.LoggerFactory.getLogger(CustomAuthExceptionHandler.class);
+
+	@Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
 
         Throwable cause = authException.getCause();

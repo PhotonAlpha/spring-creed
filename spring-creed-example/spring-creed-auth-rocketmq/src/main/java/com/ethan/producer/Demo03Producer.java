@@ -1,6 +1,5 @@
 package com.ethan.producer;
 
-import com.ethan.message.Demo02Message;
 import com.ethan.message.Demo03Message;
 import org.apache.rocketmq.client.producer.SendCallback;
 import org.apache.rocketmq.client.producer.SendResult;
@@ -9,10 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 @Component
 public class Demo03Producer {
