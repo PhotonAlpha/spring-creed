@@ -2,6 +2,7 @@ package com.ethan.config;
 
 import com.ethan.dto.CommonResult;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.ReactiveAdapterRegistry;
 import org.springframework.http.codec.HttpMessageWriter;
@@ -13,9 +14,11 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.logging.Logger;
 
-@Slf4j
 public class GlobalResponseBodyHandler extends ResponseBodyResultHandler {
+	private static final org.slf4j.Logger log = LoggerFactory.getLogger(GlobalResponseBodyHandler.class)
+
 	private static MethodParameter METHOD_PARAMETER_MONO_COMMON_RESULT;
 
 	private static final CommonResult COMMON_RESULT_SUCCESS = CommonResult.success(null);
