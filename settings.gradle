@@ -39,5 +39,5 @@ include 'spring-creed-example:spring-creed-dubbo-component:spring-creed-dubbo-pr
 include 'java-lock'
 include 'java-algorithm'
 include 'spring-creed-mvc:springboot-slice-upload'
-findProject(':spring-creed-mvc:springboot-slice-upload')?.name = 'springboot-slice-upload'
+include 'spring-creed-example:spring-creed-batch'
 

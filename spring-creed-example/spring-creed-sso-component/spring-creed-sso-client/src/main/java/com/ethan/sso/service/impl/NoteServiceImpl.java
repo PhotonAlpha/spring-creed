@@ -4,7 +4,7 @@ import com.ethan.sso.dto.NoteDTO;
 import com.ethan.sso.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.hateoas.Resources;
+// import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Service;
@@ -21,8 +21,9 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public Collection<NoteDTO> getAllNotes() {
-        Resources<NoteDTO> notes = restTemplate.getForObject(notesURL, Resources.class);
-        return notes.getContent();
+        // Resources<NoteDTO> notes = restTemplate.getForObject(notesURL, Resources.class);
+        // return notes.getContent();
+        return null;
     }
 
     @Override

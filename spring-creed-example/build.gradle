@@ -30,5 +30,8 @@ subprojects {
 //
 //        compile 'org.springframework.boot:spring-boot-starter-undertow'
         compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth'
+        compile "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure"
+        compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+        compile "org.springframework.boot:spring-boot-starter-data-jpa"
     }
 }

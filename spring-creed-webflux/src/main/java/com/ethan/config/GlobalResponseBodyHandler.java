@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class GlobalResponseBodyHandler extends ResponseBodyResultHandler {
-	private static final org.slf4j.Logger log = LoggerFactory.getLogger(GlobalResponseBodyHandler.class)
+	private static final org.slf4j.Logger log = LoggerFactory.getLogger(GlobalResponseBodyHandler.class);
 
 	private static MethodParameter METHOD_PARAMETER_MONO_COMMON_RESULT;
 

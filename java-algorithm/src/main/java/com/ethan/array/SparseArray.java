@@ -1,4 +1,4 @@
-package com.ethan.chapter_01;
+package com.ethan.array;
 
 /**
  * @className: SparseArray

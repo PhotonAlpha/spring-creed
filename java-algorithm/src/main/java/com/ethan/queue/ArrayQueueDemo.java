@@ -1,4 +1,4 @@
-package com.ethan.chapter02_queue;
+package com.ethan.queue;
 
 import java.util.Scanner;
 
