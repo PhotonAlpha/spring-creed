@@ -1,0 +1,16 @@
+spring:
+  batch:
+    job:
+      enabled: false #需要设置false,否则在启动的时候，没有给定 names 的情况下，会启动所有job
+  #      names: abc
+  h2:
+    console:
+      enabled: true
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect

@@ -1,0 +1,35 @@
+<beanio xmlns="http://www.beanio.org/2012/03"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.beanio.org/2012/03 http://www.beanio.org/2012/03/mapping.xsd">
+
+    <stream name="employeeFile" format="fixedlength">
+        <record name="header" minOccurs="1" maxOccurs="1" class="com.creed.dto.EmployeeHeader">
+            <field name="recordType" rid="true" literal="Header" />
+            <field name="fileDate" format="MMddyyyy" length="8" />
+        </record>
+        <record name="employee" minOccurs="0" maxOccurs="unbounded" class="com.creed.dto.Employee">
+            <field name="recordType" rid="true" literal="Detail" />
+            <field name="firstName" length="10"/>
+            <field name="lastName" length="10"/>
+            <field name="title" length="20"/>
+            <field name="salary" length="10"/>
+            <field name="hireDate" format="MMddyyyy" length="8" />
+        </record>
+        <record name="trailer" minOccurs="1" maxOccurs="1" class="com.creed.dto.EmployeeTrailer">
+            <field name="recordType" rid="true" literal="Trailer" />
+            <field name="recordCount" length="unbounded" />
+        </record>
+    </stream>
+
+    <stream name="employeeFileOut" format="fixedlength">
+        <record name="employee" minOccurs="0" class="com.creed.dto.Employee">
+            <field name="recordType" rid="true" literal="Detail" />
+            <field name="firstName" length="10"/>
+            <field name="lastName" length="10"/>
+            <field name="title" length="20"/>
+            <field name="salary" length="10"/>
+            <field name="hireDate" format="MMddyyyy" length="8" />
+            <field name="endType" length="8" default="ddneendd" />
+        </record>
+    </stream>
+</beanio>

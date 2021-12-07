@@ -1,4 +1,10 @@
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.springframework.boot:spring-boot-starter-batch"
+
+    compile "com.h2database:h2"
+
+    implementation group: 'org.beanio', name: 'beanio', version: '2.1.0'
+    compile 'org.apache.commons:commons-lang3'
+
 }
