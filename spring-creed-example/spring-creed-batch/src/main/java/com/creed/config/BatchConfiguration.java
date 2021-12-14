@@ -2,6 +2,7 @@ package com.creed.config;
 
 import com.creed.constant.IStream;
 import com.creed.handler.AbstractFileVerificationSkipper;
+import com.creed.handler.ArchiveTasklet;
 import com.creed.handler.EmployeeProcess;
 import com.creed.handler.EmployeeProcessListener;
 import com.creed.handler.EmployeeWriter;
@@ -9,6 +10,7 @@ import com.creed.handler.EmployeeWriterListener;
 import lombok.extern.slf4j.Slf4j;
 import org.beanio.StreamFactory;
 import org.beanio.spring.BeanIOFlatFileItemReader;
+import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.ItemProcessListener;
 import org.springframework.batch.core.ItemWriteListener;
 import org.springframework.batch.core.Job;
@@ -65,7 +67,12 @@ public class BatchConfiguration {
         log.info("...myFirstJob...");
         return jobBuilderFactory.get("myFirstJob")
                 .incrementer(new RunIdIncrementer())
-                .start(myFirstStep())
+                // .start(myFirstStep())
+
+                // .flow(myFirstStep()).on(ExitStatus.FAILED.getExitCode()).to(failureTasklet())
+                // .from(myFirstStep()).on("*").to(archiveTasklet()).end()
+
+                .flow(myFirstStep()).on("*").to(archiveTasklet()).end()
                 .build();
     }
 
@@ -78,6 +85,15 @@ public class BatchConfiguration {
                 .listener(itemProcessorListener())
                 .writer(itemWriter())
                 .listener(itemWriteListener())
+                .build();
+    }
+
+    @Autowired
+    private ArchiveTasklet archiveTasklet;
+    @Bean
+    public Step archiveTasklet() {
+        return stepBuilderFactory.get("archiveTasklet")
+                .tasklet(archiveTasklet)
                 .build();
     }
 
