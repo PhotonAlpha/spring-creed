@@ -1,10 +1,10 @@
 dependencies {
     compileOnly 'com.h2database:h2'
 
-    compile "org.springframework.boot:spring-boot-starter-data-jpa"
-    compile 'com.baomidou:mybatis-plus-boot-starter:3.3.1'
-    compile 'com.baomidou:mybatis-plus-generator:3.3.1'
-    compile 'org.freemarker:freemarker:2.3.30'
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation 'com.baomidou:mybatis-plus-boot-starter:3.3.1'
+    implementation 'com.baomidou:mybatis-plus-generator:3.3.1'
+    implementation 'org.freemarker:freemarker:2.3.30'
 
-    compile project(":spring-creed-mvc:spring-creed-entity")
+    implementation project(":spring-creed-mvc:spring-creed-entity")
 }

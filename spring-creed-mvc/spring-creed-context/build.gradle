@@ -1,12 +1,12 @@
 dependencies {
-    compile group: 'org.springframework', name: 'spring-aspects'
-    compile 'org.apache.commons:commons-collections4'
-    compile 'org.apache.commons:commons-text'
-    compile 'org.apache.commons:commons-lang3'
-    compile 'commons-io:commons-io'
-    compile 'org.apache.commons:commons-pool2'
+    implementation group: 'org.springframework', name: 'spring-aspects'
+    implementation 'org.apache.commons:commons-collections4'
+    implementation 'org.apache.commons:commons-text'
+    implementation 'org.apache.commons:commons-lang3'
+    implementation 'commons-io:commons-io'
+    implementation 'org.apache.commons:commons-pool2'
 
-    compile('org.springframework.boot:spring-boot-starter-web') {
+    implementation('org.springframework.boot:spring-boot-starter-web') {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
     }
 }

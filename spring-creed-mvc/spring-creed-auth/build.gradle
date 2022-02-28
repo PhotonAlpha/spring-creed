@@ -1,10 +1,10 @@
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter-security"
-    compile "org.springframework.boot:spring-boot-starter-web"
-    compile "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure"
-    compile "org.springframework.session:spring-session-data-redis"
-    compile 'io.lettuce:lettuce-core'
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure"
+    implementation "org.springframework.session:spring-session-data-redis"
+    implementation 'io.lettuce:lettuce-core'
 
-    compile project(":spring-creed-mvc:spring-creed-context")
-    compile project(":spring-creed-mvc:spring-creed-common")
+    implementation project(":spring-creed-mvc:spring-creed-context")
+    implementation project(":spring-creed-mvc:spring-creed-common")
 }

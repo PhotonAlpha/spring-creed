@@ -1,9 +1,9 @@
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter-validation"
-    compile "org.springframework.boot:spring-boot-starter-cache"
-    compile "org.springframework.boot:spring-boot-starter-data-redis"
-    compile 'com.github.ben-manes.caffeine:caffeine'
+    implementation "org.springframework.boot:spring-boot-starter-validation"
+    implementation "org.springframework.boot:spring-boot-starter-cache"
+    implementation "org.springframework.boot:spring-boot-starter-data-redis"
+    implementation 'com.github.ben-manes.caffeine:caffeine'
 
-    compile project(":spring-creed-mvc:spring-creed-context")
-    compile project(":spring-creed-mvc:spring-creed-redis-multiple")
+    implementation project(":spring-creed-mvc:spring-creed-context")
+    implementation project(":spring-creed-mvc:spring-creed-redis-multiple")
 }

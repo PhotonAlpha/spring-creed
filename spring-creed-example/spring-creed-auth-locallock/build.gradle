@@ -1,10 +1,10 @@
 dependencies {
-    compile 'com.github.ben-manes.caffeine:caffeine:2.8.1'
+    implementation 'com.github.ben-manes.caffeine:caffeine:2.8.1'
 
-    compile "org.springframework.boot:spring-boot-starter-aop"
-    compile "org.springframework.boot:spring-boot-starter-data-redis"
-    compile "org.springframework.boot:spring-boot-starter-security"
+    implementation "org.springframework.boot:spring-boot-starter-aop"
+    implementation "org.springframework.boot:spring-boot-starter-data-redis"
+    implementation "org.springframework.boot:spring-boot-starter-security"
 
-    compile project(":spring-creed-mvc:spring-creed-context")
-    compile project(":spring-creed-mvc:spring-creed-entity")
+    implementation project(":spring-creed-mvc:spring-creed-context")
+    implementation project(":spring-creed-mvc:spring-creed-entity")
 }

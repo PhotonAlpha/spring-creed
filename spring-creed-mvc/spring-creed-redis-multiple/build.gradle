@@ -1,6 +1,6 @@
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter-data-redis"
-    compile 'io.lettuce:lettuce-core'
+    implementation "org.springframework.boot:spring-boot-starter-data-redis"
+    implementation 'io.lettuce:lettuce-core'
 
-    compile project(":spring-creed-mvc:spring-creed-context")
+    implementation project(":spring-creed-mvc:spring-creed-context")
 }

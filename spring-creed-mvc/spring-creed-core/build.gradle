@@ -1,9 +1,9 @@
 dependencies {
-    compile group: 'io.jsonwebtoken', name: 'jjwt-api'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api'
     compileOnly group: 'io.jsonwebtoken', name: 'jjwt-impl'
     compileOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson'
-    compile group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-mobile'
+    implementation group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mobile'
 }

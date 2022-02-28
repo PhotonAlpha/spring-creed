@@ -1,17 +1,27 @@
 buildscript {
     ext {
-        springBootVersion = '2.3.7.RELEASE'
-        springCloudVersion = 'Hoxton.SR9'
+        springBootVersion = '2.6.4'
+        springCloudVersion = '2021.0.1'
     }
 
     repositories {
         // 本地maven仓库
-        mavenLocal()
-//        maven { url = 'http://maven.aliyun.com/nexus/content/groups/public/' }
-        mavenCentral()
-//        maven { url = 'http://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/' }
-        //和maven中央仓库一样的另一个依赖管理仓库,主要是java
-        jcenter()
+//        mavenLocal()
+////        maven { url = 'http://maven.aliyun.com/nexus/content/groups/public/' }
+//        mavenCentral()
+////        maven { url = 'http://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/' }
+//        //和maven中央仓库一样的另一个依赖管理仓库,主要是java
+//        jcenter()
+//        设置阿里镜像
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url 'https://maven.aliyun.com/repository/spring' }
+        maven { url 'https://maven.aliyun.com/repository/spring-plugin' }
+        maven { url 'https://maven.aliyun.com/repository/grails-core' }
+        maven { url 'https://maven.aliyun.com/repository/apache-snapshots' }
     }
 
     dependencies {
@@ -43,12 +53,26 @@ subprojects {
 
     repositories {
         // 本地maven仓库
-        mavenLocal()
-//        maven { url = 'http://maven.aliyun.com/nexus/content/groups/public/' }
-        mavenCentral()
-//        maven { url = 'http://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/' }
-        //和maven中央仓库一样的另一个依赖管理仓库,主要是java
-        jcenter()
+//        mavenLocal()
+////        maven { url = 'http://maven.aliyun.com/nexus/content/groups/public/' }
+//        mavenCentral()
+////        maven { url = 'http://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/' }
+//        //和maven中央仓库一样的另一个依赖管理仓库,主要是java
+//        jcenter()
+
+//        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+//        maven { url 'https://maven.aliyun.com/repository/google' }
+//        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+//        maven { url 'https://maven.aliyun.com/repository/jcenter'}
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url 'https://maven.aliyun.com/repository/spring' }
+        maven { url 'https://maven.aliyun.com/repository/spring-plugin' }
+        maven { url 'https://maven.aliyun.com/repository/grails-core' }
+        maven { url 'https://maven.aliyun.com/repository/apache-snapshots' }
     }
 
     dependencyManagement {

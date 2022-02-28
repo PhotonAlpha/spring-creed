@@ -1,7 +1,7 @@
 dependencies {
     compileOnly 'com.h2database:h2'
 
-    compile "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-web"
 
-    compile project(":spring-creed-mvc:spring-creed-entity")
+    implementation project(":spring-creed-mvc:spring-creed-entity")
 }

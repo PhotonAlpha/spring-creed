@@ -8,18 +8,18 @@ subprojects {
 
     dependencies {
         // https://mvnrepository.com/artifact/com.alibaba/dubbo-dependencies-bom
-        compile group: 'com.alibaba', name: 'dubbo-dependencies-bom', version: '2.6.8', ext: 'pom'
+        implementation group: 'com.alibaba', name: 'dubbo-dependencies-bom', version: '2.6.8', ext: 'pom'
 
         // https://mvnrepository.com/artifact/org.apache.dubbo/dubbo-dependencies-zookeeper
-        compile group: 'org.apache.dubbo', name: 'dubbo-dependencies-zookeeper', version: '2.7.5', ext: 'pom'
+        implementation group: 'org.apache.dubbo', name: 'dubbo-dependencies-zookeeper', version: '2.7.5', ext: 'pom'
 
-        compile 'org.apache.dubbo:dubbo-spring-boot-starter:2.7.5'
-        compile ('org.apache.dubbo:dubbo:2.7.5') {
+        implementation 'org.apache.dubbo:dubbo-spring-boot-starter:2.7.5'
+        implementation ('org.apache.dubbo:dubbo:2.7.5') {
 //            exclude 'org.springframework:spring'
 //            exclude 'javax.servlet:servlet-api'
 //            exclude 'log4j:log4j'
         }
 
-        compile "org.springframework.boot:spring-boot-starter-web"
+        implementation "org.springframework.boot:spring-boot-starter-web"
     }
 }
