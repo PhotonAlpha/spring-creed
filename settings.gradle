@@ -40,4 +40,5 @@ include 'java-lock'
 include 'java-algorithm'
 include 'spring-creed-mvc:springboot-slice-upload'
 include 'spring-creed-example:spring-creed-batch'
+include 'java-netty'
 
