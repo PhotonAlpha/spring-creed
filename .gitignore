@@ -3,3 +3,4 @@
 *.hprof
 **/build
 **/out
+java_pid*/**

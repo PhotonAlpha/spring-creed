@@ -7,8 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -104,37 +102,7 @@ public class BloggerDO extends BaseDO {
       inverseJoinColumns = { @JoinColumn(name = "group_id", referencedColumnName = "group_id") })
   private List<GroupDO> groups;
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
 
-    if (! (o instanceof BloggerDO)) return false;
-
-    BloggerDO aDo = (BloggerDO) o;
-
-    return new EqualsBuilder()
-        .appendSuper(super.equals(o))
-        .append(bloggerId, aDo.bloggerId)
-        .append(name, aDo.name)
-        .append(phone, aDo.phone)
-        .append(email, aDo.email)
-        .append(gender, aDo.gender)
-        .append(ip, aDo.ip)
-        .isEquals();
-  }
-
-  @Override
-  public int hashCode() {
-    return new HashCodeBuilder(17, 37)
-        .appendSuper(super.hashCode())
-        .append(bloggerId)
-        .append(name)
-        .append(phone)
-        .append(email)
-        .append(gender)
-        .append(ip)
-        .toHashCode();
-  }
 
   @Override
   public String toString() {

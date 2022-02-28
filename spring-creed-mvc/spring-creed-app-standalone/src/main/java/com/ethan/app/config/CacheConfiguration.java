@@ -28,7 +28,7 @@ public class CacheConfiguration {
   @Bean
   public CacheManager cacheManager(RedisTemplate redisCacheRedisTemplate, GradationConfigurationMapper gradationConfigurationList) {
     return GradationCacheManager.GradationCacheManagerBuilder.fromRedisTemplate(redisCacheRedisTemplate)
-        .withCaffeineRemovalListener(caffeineRemovalListener())
+        // .withCaffeineRemovalListener(caffeineRemovalListener())
         .withInitialCacheConfigurations(gradationConfigurationList.getGradation())
         .build();
   }

@@ -8,4 +8,8 @@ dependencies {
     implementation project(":spring-creed-mvc:spring-creed-context")
     implementation project(":spring-creed-mvc:spring-creed-core")
     implementation project(":spring-creed-mvc:spring-creed-gradation-cache")
+
+    implementation project(":spring-creed-mvc:spring-creed-redis-multiple")
+    implementation "org.springframework.boot:spring-boot-starter-data-redis"
+    implementation 'io.lettuce:lettuce-core'
 }

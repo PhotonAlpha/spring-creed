@@ -7,8 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -61,25 +59,5 @@ public class GroupDO {
         '}';
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
 
-    if (! (o instanceof GroupDO)) return false;
-
-    GroupDO groupDO = (GroupDO) o;
-
-    return new EqualsBuilder()
-        .append(groupId, groupDO.groupId)
-        .append(groupName, groupDO.groupName)
-        .isEquals();
-  }
-
-  @Override
-  public int hashCode() {
-    return new HashCodeBuilder(17, 37)
-        .append(groupId)
-        .append(groupName)
-        .toHashCode();
-  }
 }

@@ -3,7 +3,6 @@ package com.ethan.cloud.filter;
 import brave.Span;
 import brave.Tracer;
 import org.slf4j.MDC;
-import org.springframework.cloud.sleuth.instrument.web.TraceWebServletAutoConfiguration;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
@@ -16,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-@Order(TraceWebServletAutoConfiguration.TRACING_FILTER_ORDER + 1)
+// @Order(TraceWebServletAutoConfiguration.TRACING_FILTER_ORDER + 1)
 public class CustomTracingFilter extends GenericFilterBean {
   private final Tracer tracer;
 
