@@ -1,7 +1,6 @@
 package com.ethan.cache;
 
 import com.ethan.cache.model.CqMembers;
-import com.ethan.test.CreedTestApplication;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Date;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = CreedTestApplication.class)
+// @SpringBootTest(classes = CreedTestApplication.class)
 @TestPropertySource(locations = "classpath:application.yml")
 public class FirstSampleApplicationTests {
   @Autowired
