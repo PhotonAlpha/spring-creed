@@ -1,0 +1,17 @@
+dependencies {
+    api 'org.springframework.boot:spring-boot-starter-web'
+    api "org.springframework.boot:spring-boot-starter-validation"
+    api "org.springframework.boot:spring-boot-configuration-processor"
+    api "org.springframework.boot:spring-boot-starter-data-redis"
+
+    api 'com.baomidou:mybatis-plus-boot-starter:3.5.1'
+    api 'org.apache.httpcomponents:httpcore:4.4.15'
+    api 'org.apache.commons:commons-lang3:3.12.0'
+    api 'joda-time:joda-time:2.10.13'
+    api 'com.google.code.gson:gson:2.9.0'
+    api 'org.apache.shiro:shiro-spring:1.8.0'
+    api 'org.apache.shiro:shiro-core:1.8.0'
+    api 'commons-io:commons-io:2.11.0'
+
+    api 'mysql:mysql-connector-java:8.0.17'
+}
