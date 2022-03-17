@@ -47,7 +47,7 @@ subprojects {
     apply plugin: 'application' // 识别mainClassName 插件
 
 //    如果是多模块项目,需要指定一个程序入口,必须指定,否则无法build,单模块可以不用指定
-//    mainClassName = 'cm.hou.blogweb.BlogWebApplication'
+//    mainClassName = 'com.BlogWebApplication'
 //     java编译的时候缺省状态下会因为中文字符而失败
     [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
 
@@ -78,6 +78,7 @@ subprojects {
     dependencyManagement {
         imports {
             mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+            mavenBom 'com.alibaba.cloud:spring-cloud-alibaba-dependencies:2021.0.1.0'
         }
     }
 

@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: creedmall-coupon
+  cloud:
+    nacos:
+      config:
+        server-addr: hadoop100:8848
+        namespace: ac2b161f-ab07-4db7-b36a-d173bf7ff273
+        group: dev
+        extension-configs:
+          - data-id: datasource.yml
+            group: dev
+            refresh: true
+          - data-id: mybatis.yml
+            group: dev
+            refresh: true
+          - data-id: datasource.yml
+            group: dev
+            refresh: true
