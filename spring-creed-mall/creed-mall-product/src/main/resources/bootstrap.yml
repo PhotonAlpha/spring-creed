@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: creedmall-product
+  cloud:
+    nacos:
+      config:
+        server-addr: hadoop100:8848
+        namespace: dafc4819-9b63-4073-94a0-8eff8e13ac2a
+        group: dev
