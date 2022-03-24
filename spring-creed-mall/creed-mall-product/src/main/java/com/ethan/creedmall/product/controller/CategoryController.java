@@ -1,6 +1,7 @@
 package com.ethan.creedmall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 // import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -31,6 +32,16 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    /**
+     * 查询所有分类以及子分类,以树形结构列出来
+     */
+    @RequestMapping("/list/tree")
+    // @RequiresPermissions("product:category:list")
+    public R listTree(){
+        List<CategoryEntity> categoryEntities = categoryService.listWithTree();
+
+        return R.ok().put("category", categoryEntities);
+    }
     /**
      * 列表
      */
@@ -66,6 +77,16 @@ public class CategoryController {
     }
 
     /**
+     * 批量修改
+     */
+    @RequestMapping("/update/sort")
+    // @RequiresPermissions("product:category:update")
+    public R updateSort(@RequestBody List<CategoryEntity> category){
+		categoryService.updateBatchById(category);
+
+        return R.ok();
+    }
+    /**
      * 修改
      */
     @RequestMapping("/update")
@@ -82,7 +103,7 @@ public class CategoryController {
     @RequestMapping("/delete")
     // @RequiresPermissions("product:category:delete")
     public R delete(@RequestBody Long[] catIds){
-		categoryService.removeByIds(Arrays.asList(catIds));
+		categoryService.removeMenuByIds(Arrays.asList(catIds));
 
         return R.ok();
     }

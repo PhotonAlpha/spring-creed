@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: renren-fast
+  cloud:
+    nacos:
+      discovery:
+        server-addr: hadoop100:8848

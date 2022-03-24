@@ -48,5 +48,6 @@ include 'spring-creed-mall:creed-mall-member'
 include 'spring-creed-mall:creed-mall-order'
 include 'spring-creed-mall:creed-mall-ware'
 include 'spring-creed-mall:creed-mall-common'
-findProject(':spring-creed-mall:creed-mall-common')?.name = 'creed-mall-common'
+include 'spring-creed-mall:creed-mall-gateway'
+include 'spring-creed-mall:creed-mall-admin'
 

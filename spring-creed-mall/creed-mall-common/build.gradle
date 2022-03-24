@@ -18,6 +18,7 @@ dependencies {
 //    }
 //    api 'io.lettuce:lettuce-core:6.1.6.RELEASE'
 
+    api 'org.springframework.boot:spring-boot-starter-actuator'
 
     api 'com.baomidou:mybatis-plus-boot-starter:3.5.1'
     api 'org.apache.httpcomponents:httpcore:4.4.15'
