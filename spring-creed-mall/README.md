@@ -36,3 +36,9 @@
 - 每个微服务创建自己的命名空间,使用配置分组区分环境, dev, sit, prod
 
 # Gateway网关
+
+# 文件上传 OSS
+
+
+creed-mall-third-party
+

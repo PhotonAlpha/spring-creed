@@ -1,7 +1,7 @@
 package com.ethan.creedmall.coupon.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ethan.common.utils.PageUtils;
+import com.ethan.creedmall.common.utils.PageUtils;
 import com.ethan.creedmall.coupon.entity.HomeAdvEntity;
 
 import java.util.Map;

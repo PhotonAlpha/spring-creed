@@ -1,9 +1,7 @@
 package com.ethan.creedmall.product.service.impl;
 
-import com.google.common.cache.Weigher;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -11,8 +9,8 @@ import java.util.stream.Collectors;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ethan.common.utils.PageUtils;
-import com.ethan.common.utils.Query;
+import com.ethan.creedmall.common.utils.PageUtils;
+import com.ethan.creedmall.common.utils.Query;
 
 import com.ethan.creedmall.product.dao.CategoryDao;
 import com.ethan.creedmall.product.entity.CategoryEntity;

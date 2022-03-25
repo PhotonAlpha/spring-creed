@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ethan.creedmall.coupon.entity.SeckillSessionEntity;
 import com.ethan.creedmall.coupon.service.SeckillSessionService;
-import com.ethan.common.utils.PageUtils;
-import com.ethan.common.utils.R;
+import com.ethan.creedmall.common.utils.PageUtils;
+import com.ethan.creedmall.common.utils.R;
 
 
 

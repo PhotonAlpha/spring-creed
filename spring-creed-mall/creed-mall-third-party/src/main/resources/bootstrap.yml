@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: creed-mall-third-party
+  cloud:
+    nacos:
+      config:
+        server-addr: hadoop100:8848
+        namespace: 12477c06-863c-464b-a277-6bc07b0f947c
+        group: dev
+        extension-configs:
+          - data-id: oss.yml
+            group: DEFAULT_GROUP
+            refresh: true

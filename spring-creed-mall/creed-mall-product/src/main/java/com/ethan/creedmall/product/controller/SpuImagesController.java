@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ethan.creedmall.product.entity.SpuImagesEntity;
 import com.ethan.creedmall.product.service.SpuImagesService;
-import com.ethan.common.utils.PageUtils;
-import com.ethan.common.utils.R;
+import com.ethan.creedmall.common.utils.PageUtils;
+import com.ethan.creedmall.common.utils.R;
 
 
 
