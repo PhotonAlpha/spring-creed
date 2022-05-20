@@ -1,5 +1,6 @@
 package com.ethan.creedmall.common.utils;
 
+import com.ethan.creedmall.common.constant.ICode;
 import org.apache.http.HttpStatus;
 
 import java.util.HashMap;
@@ -26,6 +27,13 @@ public class R extends HashMap<String, Object> {
 		return error(HttpStatus.SC_INTERNAL_SERVER_ERROR, msg);
 	}
 	
+	public static R error(ICode icode) {
+		R r = new R();
+		r.put("code", icode.getStatusCode());
+		r.put("msg", icode.getMsg());
+		return r;
+	}
+
 	public static R error(int code, String msg) {
 		R r = new R();
 		r.put("code", code);

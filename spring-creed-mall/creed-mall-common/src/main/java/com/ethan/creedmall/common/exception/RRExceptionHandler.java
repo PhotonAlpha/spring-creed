@@ -1,5 +1,6 @@
 package com.ethan.creedmall.common.exception;
 
+import com.ethan.creedmall.common.constant.BizCodeEnum;
 import com.ethan.creedmall.common.utils.R;
 import org.apache.shiro.authz.AuthorizationException;
 import org.slf4j.Logger;
@@ -55,7 +56,7 @@ public class RRExceptionHandler {
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public R handleException(MethodArgumentNotValidException e){
-		logger.error(e.getMessage(), e);
+		// logger.error(e.getMessage(), e);
 		BindingResult result = e.getBindingResult();
 		var map = new HashMap<String, String>();
 		for (FieldError fieldError : result.getFieldErrors()) {
@@ -63,9 +64,9 @@ public class RRExceptionHandler {
 			String field = fieldError.getField();
 			map.put(field, defaultMessage);
 		}
-		return R.error(400, "数据检验异常").put("data", map);
+		return R.error(BizCodeEnum.VALID_EXCEPTION).put("data", map);
 	}
-	
+
 	@ExceptionHandler(Exception.class)
 	public R handleException(Exception e){
 		logger.error(e.getMessage(), e);
