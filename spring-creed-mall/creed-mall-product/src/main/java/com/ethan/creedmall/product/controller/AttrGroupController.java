@@ -1,9 +1,11 @@
 package com.ethan.creedmall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 // import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.ethan.creedmall.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ethan.creedmall.product.entity.AttrGroupEntity;
 import com.ethan.creedmall.product.service.AttrGroupService;
-import com.ethan.common.utils.PageUtils;
-import com.ethan.common.utils.R;
+import com.ethan.creedmall.common.utils.PageUtils;
+import com.ethan.creedmall.common.utils.R;
 
 
 
@@ -30,7 +32,19 @@ import com.ethan.common.utils.R;
 public class AttrGroupController {
     @Autowired
     private AttrGroupService attrGroupService;
+    @Autowired
+    private CategoryService categoryService;
 
+    /**
+     * 列表
+     */
+    @RequestMapping("/list/{catId}")
+    // @RequiresPermissions("product:attrgroup:list")
+    public R listByCatId(@RequestParam Map<String, Object> params, @PathVariable("catId") Long catId){
+        PageUtils page = attrGroupService.queryPage(params, catId);
+
+        return R.ok().put("page", page);
+    }
     /**
      * 列表
      */
@@ -50,7 +64,10 @@ public class AttrGroupController {
     // @RequiresPermissions("product:attrgroup:info")
     public R info(@PathVariable("attrGroupId") Long attrGroupId){
 		AttrGroupEntity attrGroup = attrGroupService.getById(attrGroupId);
-
+        Long catelogId = attrGroup.getCatelogId();
+        // get catelog path
+        List<Long> catelogPath = categoryService.findCatelogPath(catelogId);
+        // attrGroup.set
         return R.ok().put("attrGroup", attrGroup);
     }
 

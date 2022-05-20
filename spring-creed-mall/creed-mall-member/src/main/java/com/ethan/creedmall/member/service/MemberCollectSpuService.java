@@ -1,7 +1,7 @@
 package com.ethan.creedmall.member.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ethan.common.utils.PageUtils;
+import com.ethan.creedmall.common.utils.PageUtils;
 import com.ethan.creedmall.member.entity.MemberCollectSpuEntity;
 
 import java.util.Map;

@@ -50,4 +50,8 @@ include 'spring-creed-mall:creed-mall-ware'
 include 'spring-creed-mall:creed-mall-common'
 include 'spring-creed-mall:creed-mall-gateway'
 include 'spring-creed-mall:creed-mall-admin'
+include 'spring-creed-mall:creed-mall-third-party'
+findProject(':spring-creed-mall:creed-mall-third-party')?.name = 'creed-mall-third-party'
+include 'spring-creed-mall:creed-mall-core'
+findProject(':spring-creed-mall:creed-mall-core')?.name = 'creed-mall-core'
 

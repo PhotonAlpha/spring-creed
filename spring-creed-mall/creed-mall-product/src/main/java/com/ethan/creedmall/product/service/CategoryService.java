@@ -1,7 +1,7 @@
 package com.ethan.creedmall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ethan.common.utils.PageUtils;
+import com.ethan.creedmall.common.utils.PageUtils;
 import com.ethan.creedmall.product.entity.CategoryEntity;
 
 import java.util.List;
@@ -21,5 +21,7 @@ public interface CategoryService extends IService<CategoryEntity> {
     List<CategoryEntity> listWithTree();
 
     boolean removeMenuByIds(List<Long> ids);
+
+    List<Long> findCatelogPath(Long catelogId);
 }
 

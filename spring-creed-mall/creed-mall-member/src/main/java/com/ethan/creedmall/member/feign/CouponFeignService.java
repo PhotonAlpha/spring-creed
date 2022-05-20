@@ -1,6 +1,6 @@
 package com.ethan.creedmall.member.feign;
 
-import com.ethan.common.utils.R;
+import com.ethan.creedmall.common.utils.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 

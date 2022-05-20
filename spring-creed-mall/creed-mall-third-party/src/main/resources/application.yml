@@ -1,0 +1,8 @@
+server:
+  port: 8050
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: hadoop100:8848

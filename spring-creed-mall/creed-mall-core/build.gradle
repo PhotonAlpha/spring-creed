@@ -1,0 +1,22 @@
+dependencies {
+//    注册发现
+    api 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
+//    配置中心
+    api 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
+// !! 想用bootstrap，需要将spring.cloud.bootstrap.enabled设为true（注意这个必须设为系统变量或者环境变量）或  引入一个依赖
+    api 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+
+    api 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    api 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
+
+    api "org.springframework.boot:spring-boot-starter-validation"
+    api "org.springframework.boot:spring-boot-starter-aop"
+    api "org.springframework.boot:spring-boot-configuration-processor"
+
+    api 'org.springframework.boot:spring-boot-starter-actuator'
+
+    api 'org.apache.httpcomponents:httpcore:4.4.15'
+    api 'org.apache.commons:commons-lang3:3.12.0'
+    api 'commons-io:commons-io:2.11.0'
+
+}

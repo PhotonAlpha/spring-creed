@@ -8,6 +8,7 @@
 
 package io.renren;
 
+import com.alibaba.nacos.client.naming.utils.SignUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class RenrenApplication {
 
 	public static void main(String[] args) {
+		SignUtil.sign()
 		SpringApplication.run(RenrenApplication.class, args);
 	}
 

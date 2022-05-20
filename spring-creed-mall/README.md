@@ -36,3 +36,15 @@
 - 每个微服务创建自己的命名空间,使用配置分组区分环境, dev, sit, prod
 
 # Gateway网关
+
+# 文件上传 OSS
+
+
+creed-mall-third-party
+
+
+# SPU 与 SKU
+### SPU： Standard Product Unit(标准化产品单元)
+指商品信息聚合的最小单元，是一组可复合、易检索的标准化信息的集合，**该集合描述了一个产品的特性**。
+### SKU： Stock Keeping Unit(库存量单元)
+指库存进出计量的基本单元，可以以件、盒、托盘等为单位，现在已经被引申为产品统一编号的简称，每种产品均对应有唯一的SKU号。

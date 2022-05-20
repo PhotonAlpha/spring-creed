@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ethan.creedmall.product.entity.BrandEntity;
 import com.ethan.creedmall.product.service.BrandService;
-import com.ethan.common.utils.PageUtils;
-import com.ethan.common.utils.R;
+import com.ethan.creedmall.common.utils.PageUtils;
+import com.ethan.creedmall.common.utils.R;
 
+import javax.validation.Valid;
 
 
 /**
@@ -59,8 +60,19 @@ public class BrandController {
      */
     @RequestMapping("/save")
     // @RequiresPermissions("product:brand:save")
-    public R save(@RequestBody BrandEntity brand){
-		brandService.save(brand);
+    public R save(@Valid @RequestBody BrandEntity brand) {
+        // if (bindingResult.hasErrors()) {
+        //     var map = new HashMap<>();
+        //     for (FieldError fieldError : bindingResult.getFieldErrors()) {
+        //         String defaultMessage = fieldError.getDefaultMessage();
+        //         String field = fieldError.getField();
+        //         map.put(field, defaultMessage);
+        //     }
+        //     return R.error(400, "提交的数据不合法").put("data", map);
+        // } else {
+
+        brandService.save(brand);
+        // }
 
         return R.ok();
     }

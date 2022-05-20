@@ -1,33 +1,17 @@
 dependencies {
-//    注册发现
-    api 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
-//    配置中心
-    api 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
-// !! 想用bootstrap，需要将spring.cloud.bootstrap.enabled设为true（注意这个必须设为系统变量或者环境变量）或  引入一个依赖
-    api 'org.springframework.cloud:spring-cloud-starter-bootstrap'
-
-    api 'org.springframework.cloud:spring-cloud-starter-openfeign'
-    api 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
+    api project(":spring-creed-mall:creed-mall-core")
 
     api 'org.springframework.boot:spring-boot-starter-web'
-    api "org.springframework.boot:spring-boot-starter-validation"
-    api "org.springframework.boot:spring-boot-starter-aop"
-    api "org.springframework.boot:spring-boot-configuration-processor"
 //    api ("org.springframework.boot:spring-boot-starter-data-redis") {
 //        exclude group: "io.lettuce", module: "lettuce-core"
 //    }
 //    api 'io.lettuce:lettuce-core:6.1.6.RELEASE'
 
-    api 'org.springframework.boot:spring-boot-starter-actuator'
-
     api 'com.baomidou:mybatis-plus-boot-starter:3.5.1'
-    api 'org.apache.httpcomponents:httpcore:4.4.15'
-    api 'org.apache.commons:commons-lang3:3.12.0'
     api 'joda-time:joda-time:2.10.13'
     api 'com.google.code.gson:gson:2.9.0'
     api 'org.apache.shiro:shiro-spring:1.8.0'
     api 'org.apache.shiro:shiro-core:1.8.0'
-    api 'commons-io:commons-io:2.11.0'
 
     api 'mysql:mysql-connector-java:8.0.17'
 }

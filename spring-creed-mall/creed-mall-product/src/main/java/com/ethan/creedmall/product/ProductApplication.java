@@ -11,7 +11,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @date: 15/3/2022
  **/
 @EnableDiscoveryClient
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.ethan.creedmall")
 @MapperScan("com.ethan.creedmall.product.dao")
 public class ProductApplication {
     public static void main(String[] args) {
