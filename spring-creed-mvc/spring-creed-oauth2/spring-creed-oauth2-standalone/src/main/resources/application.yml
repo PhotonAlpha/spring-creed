@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/auth
+    password:
+    username: root
+
+  main:
+    allow-bean-definition-overriding: true
+server:
+  port: 8080
+
+logging:
+  level:
+    #    root: debug
+    root: trace
+    org.apache.tomcat: info
+
