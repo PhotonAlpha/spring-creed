@@ -29,4 +29,19 @@ public class EncryptUtils {
         byte[] bytes = digest.digest(value.getBytes(StandardCharsets.UTF_8));
         return String.format("%032x", new BigInteger(1, bytes));
     }
+    public static String sha256(String value) {
+        if (value == null) {
+            return null;
+        }
+        MessageDigest digest;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        }
+        catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException("SHA-256 algorithm not available.  Fatal (should be in the JDK).");
+        }
+
+        byte[] bytes = digest.digest(value.getBytes(StandardCharsets.UTF_8));
+        return String.format("%032x", new BigInteger(1, bytes));
+    }
 }

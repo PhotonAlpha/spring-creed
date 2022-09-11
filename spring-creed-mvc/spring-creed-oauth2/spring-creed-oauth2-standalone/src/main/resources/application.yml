@@ -7,6 +7,11 @@ spring:
 
   main:
     allow-bean-definition-overriding: true
+  thymeleaf:
+    enabled: true
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
 #  jpa:
 #    hibernate:
 #      ddl-auto: update
@@ -18,6 +23,5 @@ logging:
     #    root: debug
     root: trace
     org.apache.tomcat: info
-
 
 

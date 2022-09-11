@@ -80,6 +80,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
                 .tokenServices(tokenServices())
                 .authorizationCodeServices(authorizationCodeServices())
                 .approvalStore(approvalStore())
+                .pathMapping("/oauth/confirm_access", "/external/oauth/confirm_access")
         ;
     }
     @Override

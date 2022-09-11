@@ -18,7 +18,7 @@ import java.util.Set;
  */
 @Controller
  //必须配置
-@SessionAttributes("authorizationRequest")
+// @SessionAttributes("authorizationRequest")
 public class BootGrantController {
   private final CsrfTokenRepository tokenRepository;
 
@@ -26,7 +26,7 @@ public class BootGrantController {
     this.tokenRepository = tokenRepository;
   }
 
-  @RequestMapping("/oauth/confirm_access")
+  @RequestMapping("/external/oauth/confirm_access")
   public ModelAndView getAccessConfirmation(Map<String, Object> model, HttpServletRequest request) throws Exception {
     CsrfToken tokenRepo = tokenRepository.loadToken(request);
     String token = Optional.ofNullable(tokenRepo)

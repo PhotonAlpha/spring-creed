@@ -175,7 +175,7 @@ public class CustomizeTokenStore implements TokenStore {
     public OAuth2Authentication readAuthenticationForRefreshToken(String tokenValue) {
         OAuth2Authentication authentication = null;
         try {
-            authentication = refreshTokenRepository.findToken(extractTokenKey(tokenValue))
+            authentication = refreshTokenRepository.findAuthentication(extractTokenKey(tokenValue))
                     .map(OauthRefreshToken::getAuthentication)
                     .map(this::deserializeAuthentication)
                     .orElse(null);
