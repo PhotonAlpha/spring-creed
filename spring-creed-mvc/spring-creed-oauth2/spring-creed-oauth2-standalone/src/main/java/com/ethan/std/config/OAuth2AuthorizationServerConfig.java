@@ -14,6 +14,10 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.approval.ApprovalStore;
+import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
+import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
@@ -42,6 +46,14 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
         return tokenStore;
         // return new JdbcTokenStore(dataSource);
     }
+    @Bean
+    public AuthorizationCodeServices authorizationCodeServices() {
+        return new JdbcAuthorizationCodeServices(dataSource);
+    }
+    @Bean
+    public ApprovalStore approvalStore() {
+        return new JdbcApprovalStore(dataSource);
+    }
 
     @Bean
     public ClientDetailsService clientDetailsService() {
@@ -66,6 +78,8 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
                 .tokenStore(tokenStore())
                 // .tokenEnhancer(tokenEnhancer())
                 .tokenServices(tokenServices())
+                .authorizationCodeServices(authorizationCodeServices())
+                .approvalStore(approvalStore())
         ;
     }
     @Override
@@ -86,7 +100,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
         // ;
 
         // http://localhost:8080/oauth/authorize?client_id=clientapp&redirect_uri=http://localhost:8090/callback&response_type=code&scope=read_userinfo
-        // http://localhost:8080/oauth/authorize?client_id=clientapp&redirect_uri=http://localhost:8090/callback2&response_type=token&scope=read_userinfo
+        // http://localhost:8080/oauth/authorize?client_id=clientapp&redirect_uri=http://localhost:8090/callback&response_type=token&scope=read_userinfo
 
 
 

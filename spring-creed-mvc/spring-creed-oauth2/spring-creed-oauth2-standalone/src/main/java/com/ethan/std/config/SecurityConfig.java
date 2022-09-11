@@ -2,17 +2,23 @@ package com.ethan.std.config;
 
 import com.ethan.std.provider.CustomizeUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.HttpSecurityBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 
 import javax.sql.DataSource;
 
@@ -70,8 +76,105 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
            http.csrf().disable()
                    .authorizeRequests()
                    .mvcMatchers("/token/demo/revoke").permitAll()
-                   .antMatchers("/oauth/**").permitAll()
                    .anyRequest().authenticated()
+
+                   /**
+                    * <url>https://www.baeldung.com/spring-security-session?fireglass_rsn=true</url>
+                    * By default, Spring Security will create a session when it needs one — this is “ifRequired“.
+                    * For a more stateless application, the “never” option will ensure that Spring Security itself won't create any session. But if the application creates one, Spring Security will make use of it.
+                    * Finally, the strictest session creation option, “stateless“, is a guarantee that the application won't create any session at all.
+                    *
+                    * This stateless architecture plays well with REST APIs and their Statelessness constraint. They also work well with authentication mechanisms such as Basic and Digest Authentication.
+                    *
+                    * Before running the Authentication process, Spring Security will run a filter responsible for storing the Security Context between requests. This is the {@link org.springframework.security.web.context.SecurityContextPersistenceFilter}.
+                    * The context will be stored according to the strategy HttpSessionSecurityContextRepository by default, which uses the HTTP Session as storage.
+                    * For the strict create-session=”stateless” attribute, this strategy will be replaced with another — {@link org.springframework.security.web.context.NullSecurityContextRepository} — and no session will be created or used to keep the context.
+                    *
+                    *  *Concurrent Session Control*
+                    *  When a user that is already authenticated tries to authenticate again, the application can deal with that event in one of a few ways.
+                    *  It can either invalidate the active session of the user and authenticate the user again with a new session, or allow both sessions to exist concurrently.
+                    *
+                    *  {@link HttpSessionEventPublisher }
+                    *  @Bean
+                    * public HttpSessionEventPublisher httpSessionEventPublisher() {
+                    *     return new HttpSessionEventPublisher();
+                    * }
+                    *
+                    * This is essential to make sure that the Spring Security session registry is notified when the session is destroyed.
+                    *
+                    * We can easily configure the Session timeout value of the embedded server using properties:
+                    * server.servlet.session.timeout=15m
+                    */
+                   .and()
+                   .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+
+                   .and()
+                   // 需要添加 formLogin。 否则只会有 {@link Http403ForbiddenEntryPoint} 而不是 {@link DelegatingAuthenticationEntryPoint},
+                   // 这样会导致 oauth/** api一直处于access denied 情况
+                   // login源码页面参考 {@link org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter}
+                   .formLogin()
+                        .loginPage("/oauth/index") // 登陆 URL 地址
+                        .loginProcessingUrl("/oauth/login")
+                        .failureUrl("/login?error")
+                        .defaultSuccessUrl("/user/info")
+                        .permitAll()
+                   .and()
+                   .logout().permitAll()
+
            ;
        }
+
+  // http
+  //         .headers().cacheControl()
+  //       .and().frameOptions().sameOrigin()
+  //
+  //       .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+  //
+  //       .and().authorizeRequests()
+  //       .antMatchers("/oauth/index", "/oauth/login", "/login").permitAll()
+  //       .antMatchers("/**.js", "/**.css").permitAll()
+  //       .antMatchers("/static/**").permitAll()
+  //       .antMatchers(AUTH_WHITELIST).permitAll()
+  //       .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+  //       .anyRequest().authenticated()
+  //
+  //       .and().formLogin()
+  //       .loginPage("/oauth/index") // 登陆 URL 地址
+  //       .loginProcessingUrl("/oauth/login")
+  //       .failureUrl("/login?error")
+  //       .defaultSuccessUrl("/user/info")
+  //   //.failureHandler()
+  //       .permitAll()
+  //       .and().logout().permitAll()
+  //
+  //       .and().exceptionHandling()
+  //   //.accessDeniedHandler(customAuthExceptionHandler)
+  //   //.authenticationEntryPoint(customAuthExceptionHandler)
+  //
+  //   /**
+  //    * !!!设置默认值是为了不被form中的 LoginUrlAuthenticationEntryPoint覆盖
+  //    * !!!注意 与spring security & form 结合的时候，
+  //    * 为了只允许 oauth相关的API能够跳转登录URL. 其他的URL应该交由authResourceServer去进行验证与访问的控制。
+  //    * 需要进行以下配置。
+  //    * {@link org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfiguration#configure(HttpSecurity)}
+  //    * {@link org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer#createDefaultEntryPoint(HttpSecurityBuilder)}
+  //    * 意思是除了/oauth/**以外的API 不在进入form的重定向，而是被自定义的AuthenticationEntryPoint替代
+  //    *
+  //    * 否则会进入LoginUrlAuthenticationEntryPoint 跳转登录页面
+  //    * {@link org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint}
+  //    *
+  //    * 这不是我们所期望的。
+  //    *
+  //    * */
+  //       .defaultAuthenticationEntryPointFor(exceptionHandler(), requestMatcher)
+  //           .defaultAccessDeniedHandlerFor(exceptionHandler(), requestMatcher)
+  //
+  //           .and()
+  //   /**
+  //    * 设置 CSRF protection back into this endpoint
+  //    * 配置csrf端口保护
+  //    * {@link org.springframework.security.web.csrf.CsrfFilter}
+  //    */
+  //       .csrf()
+  //       .csrfTokenRepository(tokenRepository());
 }
