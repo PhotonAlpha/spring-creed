@@ -18,8 +18,9 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .anyRequest().authenticated()
+                .antMatchers("/oauth/**").permitAll()
                 // 设置 /api/ 开头的 URL 需要保护
+                .anyRequest().authenticated()
                 .and().requestMatchers().antMatchers("/api/**");
     }
 

@@ -33,5 +33,7 @@ subprojects {
             exclude group: "io.lettuce", module: "lettuce-core"
         }
         implementation 'io.lettuce:lettuce-core:6.1.6.RELEASE'
+
+        implementation 'org.apache.commons:commons-lang3'
     }
 }

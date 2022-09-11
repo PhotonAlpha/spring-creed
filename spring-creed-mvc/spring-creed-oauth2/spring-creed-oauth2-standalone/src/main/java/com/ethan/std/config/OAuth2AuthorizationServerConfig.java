@@ -1,20 +1,21 @@
 package com.ethan.std.config;
 
+import com.ethan.std.provider.CustomizeAuthenticationKeyGenerator;
+import com.ethan.std.provider.CustomizeClientDetailsService;
+import com.ethan.std.provider.CustomizeTokenServices;
+import com.ethan.std.provider.CustomizeTokenStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.oauth2.config.annotation.configuration.ClientDetailsServiceConfiguration;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
 import javax.sql.DataSource;
 
@@ -36,19 +37,35 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
     @Bean
     public TokenStore tokenStore() {
-        return new JdbcTokenStore(dataSource);
+        CustomizeTokenStore tokenStore = new CustomizeTokenStore();
+        // tokenStore.setAuthenticationKeyGenerator(new CustomizeAuthenticationKeyGenerator());
+        return tokenStore;
+        // return new JdbcTokenStore(dataSource);
     }
 
     @Bean
     public ClientDetailsService clientDetailsService() {
-        return new JdbcClientDetailsService(dataSource);
+        return new CustomizeClientDetailsService();
+    }
+    @Bean
+    public AuthorizationServerTokenServices tokenServices() {
+        CustomizeTokenServices tokenServices = new CustomizeTokenServices();
+        tokenServices.setTokenStore(tokenStore());
+        tokenServices.setAlwaysCreateToken(true);// always create new token
+        tokenServices.setSupportRefreshToken(true);
+        tokenServices.setReuseRefreshToken(false);
+        tokenServices.setClientDetailsService(clientDetailsService());
+        // addUserDetailsService(tokenServices, this.userDetailsService);
+        return tokenServices;
+
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.authenticationManager(authenticationManager)
                 .tokenStore(tokenStore())
-                // .userDetailsService(service)
+                // .tokenEnhancer(tokenEnhancer())
+                .tokenServices(tokenServices())
         ;
     }
     @Override
@@ -67,8 +84,12 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
         //         .scopes("read_userinfo", "read_contacts") // 可授权的 Scope
         // //                .and().withClient() // 可以继续配置新的 Client
         // ;
-        // http://localhost:8080/oauth/authorize?client_id=client_2&redirect_uri=http://localhost:8090/callback&response_type=code&scope=read_userinfo
-        // http://localhost:8080/oauth/authorize?client_id=client_2&redirect_uri=http://localhost:8090/callback2&response_type=token&scope=read_userinfo
+
+        // http://localhost:8080/oauth/authorize?client_id=clientapp&redirect_uri=http://localhost:8090/callback&response_type=code&scope=read_userinfo
+        // http://localhost:8080/oauth/authorize?client_id=clientapp&redirect_uri=http://localhost:8090/callback2&response_type=token&scope=read_userinfo
+
+
+
 
         clients
                 .withClientDetails(clientDetailsService());

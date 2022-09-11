@@ -1,5 +1,6 @@
 package com.ethan.std.config;
 
+import com.ethan.std.provider.CustomizeUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,8 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
@@ -38,13 +37,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     @Bean(name = BeanIds.USER_DETAILS_SERVICE)
     public UserDetailsService userDetailsServiceBean() throws Exception {
-        return super.userDetailsServiceBean();
+        return new CustomizeUserDetailsService();
     }
 
-    /* @Bean // default is PasswordEncoderFactories.createDelegatingPasswordEncoder()
+    @Bean // default is PasswordEncoderFactories.createDelegatingPasswordEncoder()
     public static PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    } */
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -55,9 +54,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //         .passwordEncoder(passwordEncoder())
         //         // 配置 yunai 用户
         //         .withUser("yunai").password("{noop}1024").roles("USER");
-        auth.userDetailsService()
-        auth.jdbcAuthentication()
-                .dataSource(dataSource);
+        auth
+            .userDetailsService(userDetailsServiceBean())
+        // .and().authenticationProvider();
+        // auth.jdbcAuthentication()
+        //         .dataSource(dataSource);
+        ;
     }
        @Override
        protected void configure(HttpSecurity http) throws Exception {
@@ -68,6 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
            http.csrf().disable()
                    .authorizeRequests()
                    .mvcMatchers("/token/demo/revoke").permitAll()
+                   .antMatchers("/oauth/**").permitAll()
                    .anyRequest().authenticated()
            ;
        }
