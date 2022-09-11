@@ -84,12 +84,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //return new HttpSessionCsrfTokenRepository();
     }
     
-    @Bean
-    public SignAuthFilter signAuthFilter() {
-        SignAuthFilter signAuthFilter = new SignAuthFilter();
-        signAuthFilter.setAccessDeniedHandler(exceptionHandler());
-        return signAuthFilter;
-    }
+    // @Bean
+    // public SignAuthFilter signAuthFilter() {
+    //     SignAuthFilter signAuthFilter = new SignAuthFilter();
+    //     signAuthFilter.setAccessDeniedHandler(exceptionHandler());
+    //     return signAuthFilter;
+    // }
 
     @Bean
     public UnAuthExceptionHandler exceptionHandler() {
@@ -121,6 +121,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
            //         .anyRequest()
            //         .authenticated();
            http
+                   // .httpBasic()
+                   //      .authenticationEntryPoint(exceptionHandler())
+                   // .and()
                    .authorizeRequests()
                    // .mvcMatchers("/token/demo/revoke").permitAll()
                    .antMatchers("/auth/grant", "/oauth/index", "/oauth/login", "/login", "/external/**").permitAll()

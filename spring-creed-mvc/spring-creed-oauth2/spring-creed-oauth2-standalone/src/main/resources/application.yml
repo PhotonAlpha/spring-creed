@@ -23,5 +23,7 @@ logging:
     #    root: debug
     root: trace
     org.apache.tomcat: info
+    org.apache.catalina: info
+    com.zaxxer.hikari.pool: info
 
 

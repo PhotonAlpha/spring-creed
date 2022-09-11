@@ -4,6 +4,7 @@ import com.ethan.std.provider.CustomizeAuthenticationKeyGenerator;
 import com.ethan.std.provider.CustomizeClientDetailsService;
 import com.ethan.std.provider.CustomizeTokenServices;
 import com.ethan.std.provider.CustomizeTokenStore;
+import com.ethan.std.provider.UnAuthExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,7 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
@@ -38,6 +40,8 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
     private UserDetailsService service;
     @Autowired
     private DataSource dataSource;
+    @Autowired
+    private UnAuthExceptionHandler exceptionHandler;
 
     @Bean
     public TokenStore tokenStore() {
@@ -60,7 +64,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
         return new CustomizeClientDetailsService();
     }
     @Bean
-    public AuthorizationServerTokenServices tokenServices() {
+    public CustomizeTokenServices tokenServices() {
         CustomizeTokenServices tokenServices = new CustomizeTokenServices();
         tokenServices.setTokenStore(tokenStore());
         tokenServices.setAlwaysCreateToken(true);// always create new token
@@ -108,5 +112,13 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
         clients
                 .withClientDetails(clientDetailsService());
+    }
+
+    @Override
+    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+        /* 配置token获取合验证时的策略 */
+        security
+                .tokenKeyAccess("permitAll()").checkTokenAccess("permitAll()")
+                .authenticationEntryPoint(exceptionHandler);
     }
 }

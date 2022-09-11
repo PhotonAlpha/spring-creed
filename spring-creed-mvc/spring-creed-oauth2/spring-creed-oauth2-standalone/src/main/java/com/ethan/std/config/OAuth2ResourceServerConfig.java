@@ -28,13 +28,13 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
     private CsrfTokenRepository tokenRepository;
     @Autowired
     private UnAuthExceptionHandler exceptionHandler;
-    @Autowired
-    private SignAuthFilter signAuthFilter;
+    // @Autowired
+    // private SignAuthFilter signAuthFilter;
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                // .antMatchers("/oauth/**").permitAll()
                 // 设置 /api/ 开头的 URL 需要保护
+                // .antMatchers("/oauth/check_token").permitAll() see {@link OAuth2AuthorizationServerConfig#configure()}
                 .anyRequest().authenticated()
                 .and().requestMatchers().antMatchers("/api/**")
 
