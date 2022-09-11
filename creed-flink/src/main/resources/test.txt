@@ -1,5 +1,6 @@
-Higher spending
-lower income gains
-How to cope with inflation and rising cost of living (The Straits Times, 24 August 2022) :
-Singapore’s core inflation – which excludes private transport and accommodation – was at 4.8 per cent last month,
-the highest in almost 14 years.
+hello world
+hello scala
+hello flink for scala
+hello spark for scala
+hello java
+hello flink for java

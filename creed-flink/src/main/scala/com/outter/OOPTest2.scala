@@ -1,6 +1,6 @@
 package com.outter
 
-import com.ethan.oop.Worker
+import com.learnscala.oop.Worker
 
 /**
  * @description: spring-creed

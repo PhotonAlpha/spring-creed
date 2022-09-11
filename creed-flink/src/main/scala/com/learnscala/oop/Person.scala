@@ -10,7 +10,7 @@ class Person() {
   private var idCard ="UNKNOW"
   protected var name = "alice"
   var sex = "gender"
-  private[ethan] var age = 18
+  private[learnscala] var age = 18
 
   println("父类的主构造器")
 

@@ -1,6 +1,14 @@
 apply plugin: 'scala'
 
+buildscript {
+    mainClassName = 'com.flink.stream.BoundedStreamWordCount'
+}
+
 dependencies {
+    implementation 'org.apache.flink:flink-scala_2.12:1.15.2'
+    implementation 'org.apache.flink:flink-streaming-scala_2.12:1.15.2'
+    implementation 'org.apache.flink:flink-clients:1.15.2'
+
     implementation 'org.scala-lang:scala-library:2.12.16'
     testImplementation 'org.scalatest:scalatest_2.12:3.2.13'
 }
