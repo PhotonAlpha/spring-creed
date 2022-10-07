@@ -41,10 +41,16 @@ allprojects {
 
 subprojects {
     apply plugin: 'java-library'
-    apply plugin: 'idea'
+//    apply plugin: 'idea'
+    configure(subprojects.findAll {it.name == 'creed-flink'}) {
+        apply plugin: 'java'
+    }
+
     apply plugin: 'org.springframework.boot' //使用springboot插件
     apply plugin: 'io.spring.dependency-management' //版本管理插件
     apply plugin: 'application' // 识别mainClassName 插件
+
+
 
 //    如果是多模块项目,需要指定一个程序入口,必须指定,否则无法build,单模块可以不用指定
 //    mainClassName = 'com.BlogWebApplication'

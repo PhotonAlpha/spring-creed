@@ -1,0 +1,23 @@
+/**
+ * Copyright the original author or authors.
+ *
+ * @author: EthanCao
+ * @email: ethan.caoq@foxmail.com
+ */
+package com.ethan.dto;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
+
+/**
+ * @description: vue-console
+ * @author: EthanCao
+ * @email: ethan.caoq@foxmail.com
+ * @date: 9/15/2022 4:46 PM
+ */
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class CommandReqDto {
+    private String command;
+}
