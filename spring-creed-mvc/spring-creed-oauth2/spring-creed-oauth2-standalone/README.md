@@ -15,3 +15,15 @@
     `org.springframework.security.oauth2.provider.endpoint.CheckTokenEndpoint`
 
 # 核心拦截器 org.springframework.security.web.access.intercept.FilterSecurityInterceptor
+
+- org.springframework.security.oauth2.provider.client.JdbcClientDetailsService
+- org.springframework.security.oauth2.provider.token.store.JdbcTokenStore
+- org.springframework.security.oauth2.provider.endpoint.TokenEndpoint
+- org.springframework.security.oauth2.provider.token.DefaultTokenServices
+- -------↑token store↑------------
+- org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerEndpointsConfiguration
+- org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerSecurityConfiguration
+- org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer
+- org.springframework.security.web.authentication.DelegatingAuthenticationEntryPoint
+- org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint
+
