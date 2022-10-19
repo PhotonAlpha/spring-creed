@@ -7,6 +7,7 @@
 package com.ethan.service;
 
 import com.ethan.dto.CommandReqDto;
+import com.ethan.dto.DownloadReqDto;
 import com.ethan.vo.R;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

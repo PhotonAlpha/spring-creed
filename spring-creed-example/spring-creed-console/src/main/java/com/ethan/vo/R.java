@@ -44,7 +44,7 @@ public class R<T> implements Serializable {
   public R() {}
 
   public R(Integer code, String msg) {
-    this.code = code;
+    this.responseCode = code;
     this.message = msg;
     this.success = false;
   }

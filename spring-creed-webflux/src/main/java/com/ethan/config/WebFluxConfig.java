@@ -6,7 +6,7 @@ import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.web.reactive.accept.RequestedContentTypeResolver;
 import org.springframework.web.reactive.result.method.annotation.ResponseBodyResultHandler;
 
-@Configuration
+// @Configuration
 public class WebFluxConfig {
 	@Bean
 	public ResponseBodyResultHandler responseWrapper(ServerCodecConfigurer serverCodecConfigurer, RequestedContentTypeResolver requestedContentTypeResolver) {

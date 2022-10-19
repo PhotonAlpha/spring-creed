@@ -25,6 +25,8 @@ public class SemaphoreDemo {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
+                    System.out.println("availablePermits:"+SEMAPHORE.availablePermits());
+                    // int a = 1 / 0;
                     SEMAPHORE.release();
                 }
             }, "t" + i).start();

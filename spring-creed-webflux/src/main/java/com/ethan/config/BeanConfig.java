@@ -1,4 +1,4 @@
-package com.ethan.core.config;
+package com.ethan.config;
 
 import org.apache.http.HeaderElement;
 import org.apache.http.HeaderElementIterator;
@@ -35,20 +35,6 @@ import java.util.concurrent.TimeUnit;
 
 @Configuration
 public class BeanConfig {
-  /**
-   * Algorithm Reference: https://github.com/auth0/java-jwt/blob/master/lib/src/main/java/com/auth0/jwt/algorithms/Algorithm.java
-   * @return JWTVerifier
-   * @Deprecated because of have more powerful tools
-   */
-  /*@Bean
-  public JWTVerifier jwtVerifier() {
-    Algorithm algorithm = Algorithm.HMAC512(secret);
-    return JWT.require(algorithm)
-        .withIssuer(issuer)
-        .acceptLeeway(leeway)
-        .build();
-  }*/
-
   private static final Logger log = LoggerFactory.getLogger(BeanConfig.class);
     /**
      * send request time limit milliseconds
@@ -61,16 +47,24 @@ public class BeanConfig {
     private Integer socketTimeout;
     /**
      * connect thread pool time limit milliseconds
+     * 从连接池中获取连接的等待数量，与 ${@link defaultMaxPerRoute} 有关
+     * QPS ~= connectionRequestTimeout * defaultMaxPerRoute
+     * 如果是 5s * 100 ~= 500
      */
-    private Integer connectionRequestTimeout = 5_000;
+    private Integer connectionRequestTimeout = 10_000;
     /**
      * min thread pool
+     * maxPerRoute每个域名请求下最大的连接数
+     *
+     * www.google.com
+     * www.baidu.com
+     * www.bing.com
      */
-    private Integer defaultMaxPerRoute = 100;
+    private Integer defaultMaxPerRoute = 200;
     /**
      * max thread pool
      */
-    private Integer maxTotal = 300;
+    private Integer maxTotal = 600;
     private static final int DEFAULT_KEEP_ALIVE_TIME_MILLIS = 20 * 1000;
 
     protected PoolingHttpClientConnectionManager poolingHttpClientConnectionManager(SSLConnectionSocketFactory csf) {
@@ -115,7 +109,7 @@ public class BeanConfig {
         // HostnameVerifier strategy
         final HostnameVerifier verifier = (String s, SSLSession sslSession) -> s.equals(sslSession.getPeerHost());
         // HttpClients final config
-        CloseableHttpClient httpClient = HttpClients.custom()
+        return  HttpClients.custom()
                 .setConnectionManager(poolingHttpClientConnectionManager(csf))
                 .setSSLSocketFactory(csf)
                 .setSSLHostnameVerifier(verifier)
@@ -124,7 +118,6 @@ public class BeanConfig {
                 .setConnectionTimeToLive(1000, TimeUnit.MILLISECONDS) // solve the "Connection is still allocated issue"
                 .setRetryHandler(new DefaultHttpRequestRetryHandler(3, true))
                 .build();
-        return httpClient;
     }
 
 
