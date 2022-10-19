@@ -12,6 +12,8 @@ import com.ethan.service.ExecutionServiceImpl;
 import com.ethan.vo.R;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.aspectj.weaver.ast.Var;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.sleuth.http.HttpServerRequest;
 import org.springframework.cloud.sleuth.http.HttpServerResponse;
 import org.springframework.core.io.ByteArrayResource;
@@ -49,6 +51,7 @@ import java.nio.file.Paths;
 @RestController
 @RequestMapping("/api/v1")
 public class ExecutionController {
+    private static final Logger log = LoggerFactory.getLogger(ExecutionController.class);
     private static final ObjectMapper MAPPER = new ObjectMapper();
     @Resource
     private ExecutionServiceImpl executionService;
@@ -62,6 +65,7 @@ public class ExecutionController {
     @PostMapping("/download-repo")
     public void downloadRepo(@RequestBody DownloadReqDto dto, HttpServletRequest request, HttpServletResponse response) throws IOException {
         Path path = Path.of(dto.getPath());
+        log.info("starting downloadRepo:{}", path);
         FileSystemResource fileResource = new FileSystemResource(path);
         if (!fileResource.exists()) {
             response.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
@@ -85,6 +89,17 @@ public class ExecutionController {
                 FileCopyUtils.copy(in, out);
             }
 
+        }
+    }
+    @PostMapping("/file-remove")
+    public R removeFile(@RequestBody DownloadReqDto dto) throws IOException {
+        Path path = Path.of(dto.getPath());
+        FileSystemResource fileResource = new FileSystemResource(path);
+        if (!fileResource.exists()) {
+            return R.error(400, "file not exist");
+        } else {
+            Files.delete(path);
+            return R.success( "remove successful");
         }
     }
 
