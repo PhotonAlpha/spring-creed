@@ -3,21 +3,20 @@ package com.ethan.app.dto;
 import com.ethan.entity.CategoryDO;
 import com.ethan.entity.LabelDO;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
 
-@ApiModel("博客实体")
+@Schema(name = "博客实体")
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BlogDTO {
   private Long blogId;
 
   //发表用户ID
-  @ApiModelProperty("发表用户ID")
+  @Schema(name = "发表用户ID", example = "11111")
   private Long bloggerId;
 
   //博文标题

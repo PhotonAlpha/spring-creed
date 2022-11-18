@@ -1,7 +1,4 @@
 dependencies {
-    api ('io.springfox:springfox-swagger2:2.9.2') {
-        exclude group: 'org.mapstruct', module: 'mapstruct'
-    }
-    api 'io.springfox:springfox-swagger-ui:2.9.2'
+    api 'org.springdoc:springdoc-openapi-ui:1.6.12'
 }
 

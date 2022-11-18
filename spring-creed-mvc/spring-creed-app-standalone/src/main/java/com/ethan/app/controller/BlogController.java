@@ -3,8 +3,10 @@ package com.ethan.app.controller;
 import com.ethan.app.dto.BlogDTO;
 import com.ethan.app.service.BlogService;
 import com.ethan.context.vo.ResponseVO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 
-@Api("博客相关接口")
+@Tag(name = "博客相关接口")
 @RestController
 @RequestMapping("/api/v1")
 public class BlogController {
@@ -27,37 +29,50 @@ public class BlogController {
     this.blogService = blogService;
   }
 
-  @ApiOperation("查询博客列表")
+  @Operation(summary = "查询博客列表", description = "")
   @GetMapping("blogs")
   public ResponseEntity<ResponseVO> getBlogList() {
     return ResponseEntity.ok(blogService.findByCondition(null));
   }
-  @ApiOperation("查询博客列表")
+  @Operation(summary = "查询博客列表", description = "")
   @GetMapping("blogs1")
   public ResponseEntity<ResponseVO> getBlogList1() {
     return ResponseEntity.ok(blogService.findByCondition1(null));
   }
 
-  @ApiOperation("查询指定博客")
+  @Operation(summary = "查询指定博客", description = "")
   @GetMapping("blogs/{id}")
   public ResponseEntity<ResponseVO> getBlog(@PathVariable("id") Long id) {
     return ResponseEntity.ok(blogService.findByCondition(null));
   }
 
-  @ApiOperation("新增博客")
+  @Operation(summary = "新增博客", description = "",
+    requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+      description = "新增博客",
+      content = @Content(
+        examples = {
+          @ExampleObject(
+            name = "Blog Request Payload",
+            summary = "Blog Request Payload sample",
+            value = "{\"bloggerTitle\": \"testing\"}"
+          )
+        }
+      )
+    )
+  )
   @PostMapping("blogs")
   public ResponseEntity<ResponseVO> createBlog(@RequestBody BlogDTO blogDTO) {
     blogDTO = newBlogDTO();
     return ResponseEntity.ok(blogService.createBlog(blogDTO));
   }
 
-  @ApiOperation("更新博客")
+  @Operation(summary = "更新博客", description = "")
   @PutMapping("blogs/{id}")
   public ResponseEntity<ResponseVO> updateBlog(@PathVariable("id") Long id, @RequestBody BlogDTO blogDTO) {
     return ResponseEntity.ok(blogService.updateBlog(id, blogDTO));
   }
 
-  @ApiOperation("删除博客")
+  @Operation(summary = "删除博客", description = "")
   @DeleteMapping("blogs/{id}")
   public ResponseEntity<ResponseVO> deleteBlog(@PathVariable("id") Long id) {
     return ResponseEntity.ok(blogService.deleteBlog(id));

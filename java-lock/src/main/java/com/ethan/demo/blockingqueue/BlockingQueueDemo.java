@@ -14,9 +14,9 @@ import java.util.concurrent.TimeUnit;
  **/
 public class BlockingQueueDemo {
     public static void main(String[] args) {
-        testArrayBlockingQueue();
+        // testArrayBlockingQueue();
 
-        // testSynchronousQueue();
+        testSynchronousQueue();
     }
     public static void testSynchronousQueue() {
         SynchronousQueue<String> synchronousQueue = new SynchronousQueue<>();
@@ -54,19 +54,23 @@ public class BlockingQueueDemo {
 
     public static void testArrayBlockingQueue() {
         ArrayBlockingQueue<String> blockingQueue = new ArrayBlockingQueue<>(3);
-/*        blockingQueue.put("a");
-        blockingQueue.put("b");
-        blockingQueue.put("c");
-        //阻塞
-        // blockingQueue.put("d");
-        System.out.println("===========");
+        try {
+            blockingQueue.put("a");
+            blockingQueue.put("b");
+            blockingQueue.put("c");
+            //阻塞
+            // blockingQueue.put("d");
+            System.out.println("===========");
 
-        blockingQueue.take();
-        blockingQueue.take();
-        blockingQueue.take();
-        //阻塞
-        // blockingQueue.take();*/
-
+            blockingQueue.take();
+            blockingQueue.take();
+            blockingQueue.take();
+            //阻塞
+            blockingQueue.take();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //
         try {
             StopWatch stopWatch = new StopWatch("CrunchifyThreads");
             stopWatch.start();

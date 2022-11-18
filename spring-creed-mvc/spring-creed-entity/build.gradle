@@ -5,7 +5,7 @@ dependencies {
     api project(":spring-creed-mvc:spring-creed-context")
 
     api 'org.mapstruct:mapstruct'
-    compileOnly 'org.mapstruct:mapstruct-processor'
+    annotationProcessor 'org.mapstruct:mapstruct-processor'
 
     api 'org.springframework.boot:spring-boot-starter-json'
 }
