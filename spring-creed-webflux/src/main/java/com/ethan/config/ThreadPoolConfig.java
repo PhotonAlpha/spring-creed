@@ -18,7 +18,7 @@ public class ThreadPoolConfig {
         taskExecutor.setMaxPoolSize(20);
         taskExecutor.setQueueCapacity(20);
         taskExecutor.setKeepAliveSeconds(200);
-        taskExecutor.setThreadNamePrefix("PSL-Asy-");
+        taskExecutor.setThreadNamePrefix("Asy-");
         taskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         taskExecutor.setWaitForTasksToCompleteOnShutdown(true);
         taskExecutor.setAwaitTerminationSeconds(60);

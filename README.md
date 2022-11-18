@@ -1,3 +1,9 @@
+Intellij encoding configuration
+```txt
+-Xmx2008m
+-Dfile.encoding=UTF-8
+```
+
 spring-creed
 - spring-creed-app `main-entry`
 - spring-creed-core `core configuration`

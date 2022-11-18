@@ -55,6 +55,7 @@ include 'spring-creed-mvc:spring-creed-oauth2'
 include 'spring-creed-mvc:spring-creed-oauth2:spring-creed-oauth2-resource'
 include 'spring-creed-mvc:spring-creed-oauth2:spring-creed-oauth2-authorization-server'
 include 'spring-creed-mvc:spring-creed-oauth2:spring-creed-oauth2-standalone'
+include 'spring-creed-mvc:spring-creed-micrometer'
 include 'creed-flink'
 include 'spring-creed-example:spring-creed-console'
 

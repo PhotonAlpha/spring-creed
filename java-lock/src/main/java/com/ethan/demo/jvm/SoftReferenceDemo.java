@@ -1,6 +1,7 @@
 package com.ethan.demo.jvm;
 
 import java.lang.ref.SoftReference;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @className: SoftReferenceDemo
@@ -39,6 +40,8 @@ public class SoftReferenceDemo {
         o1 = null;
         try {
             byte[] bytes = new byte[50 * 1024 * 1024];
+            System.gc();
+            TimeUnit.SECONDS.sleep(5);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

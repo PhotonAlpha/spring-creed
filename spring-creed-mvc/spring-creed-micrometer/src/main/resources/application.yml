@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: spring-creed-prometheus
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+#          - prometheus
+#          - health
+#          - metrics
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    export:
+      prometheus:
+        enabled: true
+
+      jmx:
+        enabled: true
+
+  endpoint:
+    health:
+      show-details: always
+server:
+  tomcat:
+    mbeanregistry:
+      enabled: true
