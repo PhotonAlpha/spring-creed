@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Version;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -37,7 +39,7 @@ public class CommentDO extends BaseDO {
   private String commentContent;
 
   @Column(name = "comm_time")
-  private Date commentTime;
+  private LocalDateTime commentTime;
 
   @Column(name = "comm_likes")
   private Long commentLikes;

@@ -1,7 +1,11 @@
 dependencies {
-    compileOnly 'com.h2database:h2'
+//    compileOnly 'com.h2database:h2'
+    implementation 'org.mariadb.jdbc:mariadb-java-client:2.3.0'
 
     implementation "org.springframework.boot:spring-boot-starter-web"
 
     implementation project(":spring-creed-mvc:spring-creed-entity")
+
+    implementation 'org.springframework:spring-aspects'
+    implementation 'org.springframework.retry:spring-retry'
 }

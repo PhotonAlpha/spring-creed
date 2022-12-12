@@ -62,11 +62,11 @@ public class BeanConfig {
     /**
      * connect thread pool time limit milliseconds
      */
-    private Integer connectionRequestTimeout = 500;
+    private Integer connectionRequestTimeout = 5_000;
     /**
      * min thread pool
      */
-    private Integer defaultMaxPerRoute = 20;
+    private Integer defaultMaxPerRoute = 100;
     /**
      * max thread pool
      */
