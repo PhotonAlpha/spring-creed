@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -84,4 +85,7 @@ public class CreedOAuth2Authorization {
     @Lob @Basic(fetch=LAZY)
     @Column
     private String oidcIdTokenClaims;
+
+    @Version
+    private int version;
 }

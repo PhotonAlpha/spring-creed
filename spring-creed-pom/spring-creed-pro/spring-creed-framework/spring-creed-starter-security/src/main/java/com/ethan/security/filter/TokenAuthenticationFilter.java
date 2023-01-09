@@ -6,7 +6,6 @@ import com.ethan.common.utils.servlet.ServletUtils;
 import com.ethan.security.config.SecurityProperties;
 import com.ethan.security.oauth2.OAuth2TokenApi;
 import com.ethan.security.oauth2.dto.OAuth2AccessTokenCheckRespDTO;
-import com.ethan.security.userdetails.LoginUser;
 import com.ethan.security.utils.SecurityFrameworkUtils;
 import com.ethan.security.utils.WebFrameworkUtils;
 import com.nimbusds.oauth2.sdk.token.BearerAccessToken;

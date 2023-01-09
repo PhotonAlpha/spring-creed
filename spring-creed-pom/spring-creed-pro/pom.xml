@@ -12,6 +12,7 @@
         <module>spring-creed-framework</module>
         <module>spring-creed-module-system</module>
         <module>spring-creed-server</module>
+        <module>spring-creed-testing</module>
     </modules>
     <packaging>pom</packaging>
 

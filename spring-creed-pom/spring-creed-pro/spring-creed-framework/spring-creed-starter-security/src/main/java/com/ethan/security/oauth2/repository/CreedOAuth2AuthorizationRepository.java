@@ -19,7 +19,7 @@ public interface CreedOAuth2AuthorizationRepository extends JpaRepository<CreedO
 
     Optional<CreedOAuth2Authorization> findByRefreshTokenValue(String refreshToken);
 
-    @Query("select a from CreedConsumer a where a.state = :token" +
+    @Query("select a from CreedOAuth2Authorization a where a.state = :token" +
             " or a.authorizationCodeValue = :token" +
             " or a.accessTokenValue = :token" +
             " or a.refreshTokenValue = :token"

@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -35,4 +36,7 @@ public class CreedOAuth2RegisteredClient {
     private String clientSettings;
     @Column(length = 2000)
     private String tokenSettings;
+
+    @Version
+    private int version;
 }
