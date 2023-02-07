@@ -1,4 +1,4 @@
-package com.ethan.server;
+package com.ethan;
 
 
 import org.springframework.boot.SpringApplication;
@@ -7,10 +7,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(scanBasePackages = "com.ethan")
-@EnableJpaRepositories(basePackages = {"com.ethan.security.oauth2.repository", "com.ethan.security.websecurity.repository"})
-@EntityScan(basePackages = {"com.ethan.security.oauth2.entity", "com.ethan.security.websecurity.entity"})
-public class ServerApplication {
+public class TestingServerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ServerApplication.class, args);
+        SpringApplication.run(TestingServerApplication.class, args);
     }
 }
