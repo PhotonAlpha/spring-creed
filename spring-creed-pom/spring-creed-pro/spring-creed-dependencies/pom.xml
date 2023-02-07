@@ -103,6 +103,11 @@
                 <artifactId>spring-creed-starter-security</artifactId>
                 <version>${spring-creed-boot.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.ethan</groupId>
+                <artifactId>spring-creed-starter-banner</artifactId>
+                <version>${spring-creed-boot.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.ethan</groupId>

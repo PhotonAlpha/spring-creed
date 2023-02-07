@@ -12,6 +12,7 @@
     <modules>
         <module>spring-creed-starter-security</module>
         <module>spring-creed-common</module>
+        <module>spring-creed-starter-banner</module>
     </modules>
 
     <groupId>com.ethan</groupId>

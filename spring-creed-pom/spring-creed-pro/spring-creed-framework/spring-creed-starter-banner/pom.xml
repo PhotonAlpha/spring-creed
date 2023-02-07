@@ -3,13 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>spring-creed-module-system</artifactId>
+        <artifactId>spring-creed-framework</artifactId>
         <groupId>com.ethan</groupId>
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>spring-creed-module-system-biz</artifactId>
+    <groupId>com.ethan</groupId>
+    <artifactId>spring-creed-starter-banner</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -19,21 +20,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.ethan</groupId>
-            <artifactId>spring-creed-common</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.ethan</groupId>
-            <artifactId>spring-creed-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.ethan</groupId>
-            <artifactId>spring-creed-starter-banner</artifactId>
-        </dependency>
-<!--        <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>-->
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
