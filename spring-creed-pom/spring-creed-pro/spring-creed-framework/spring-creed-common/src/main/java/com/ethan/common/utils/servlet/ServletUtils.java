@@ -18,6 +18,10 @@ import java.io.IOException;
 import java.io.Writer;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.stream.Stream;
 
 @UtilityClass
@@ -153,4 +157,19 @@ public class ServletUtils {
     }
 
 
+    public static Map<String, String> getParamMap(HttpServletRequest request) {
+        Map<String, String> params = new HashMap();
+        Iterator var2 = getParams(request).entrySet().iterator();
+
+        while(var2.hasNext()) {
+            Map.Entry<String, String[]> entry = (Map.Entry)var2.next();
+            String[] value = entry.getValue();
+            params.put(entry.getKey(), String.join(",", value));
+        }
+        return params;
+    }
+    public static Map<String, String[]> getParams(ServletRequest request) {
+        Map<String, String[]> map = request.getParameterMap();
+        return Collections.unmodifiableMap(map);
+    }
 }

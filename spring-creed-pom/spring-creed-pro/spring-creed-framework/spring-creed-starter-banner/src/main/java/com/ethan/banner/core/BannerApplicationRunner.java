@@ -38,11 +38,11 @@ public class BannerApplicationRunner implements ApplicationRunner, InitializingB
 
             // 数据报表
             if (isNotPresent("com.ethan.framework.security.config.SecurityConfiguration")) {
-                System.out.println("[报表模块 yudao-module-visualization - 已禁用][参考 https://doc.iocoder.cn/report/ 开启]");
+                System.out.println("[报表模块 ethan-module-visualization - 已禁用][参考 https://doc.iocoder.cn/report/ 开启]");
             }
             // 工作流
             if (isNotPresent("com.ethan.framework.flowable.config.FlowableConfiguration")) {
-                System.out.println("[工作流模块 yudao-module-bpm - 已禁用][参考 https://doc.iocoder.cn/bpm/ 开启]");
+                System.out.println("[工作流模块 ethan-module-bpm - 已禁用][参考 https://doc.iocoder.cn/bpm/ 开启]");
             }
         });
     }

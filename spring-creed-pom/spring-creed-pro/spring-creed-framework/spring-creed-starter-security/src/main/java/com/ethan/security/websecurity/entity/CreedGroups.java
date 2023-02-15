@@ -1,5 +1,6 @@
 package com.ethan.security.websecurity.entity;
 
+import com.ethan.common.pojo.BaseDO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

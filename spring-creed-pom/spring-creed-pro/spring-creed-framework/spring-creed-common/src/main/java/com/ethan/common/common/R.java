@@ -78,9 +78,14 @@ public class R<T> implements Serializable {
 
     public static <T> R<T> success(T data) {
         R<T> result = new R<>();
-        result.code = ResponseCodeEnum.SUCCESS.getCode();
-        result.data = data;
-        result.msg = "";
+        if (Objects.isNull(data)) {
+            result.code = ResponseCodeEnum.BAD_REQUEST.getCode();
+            result.msg = "No data received.";
+        } else {
+            result.code = ResponseCodeEnum.SUCCESS.getCode();
+            result.data = data;
+            result.msg = "";
+        }
         return result;
     }
 
