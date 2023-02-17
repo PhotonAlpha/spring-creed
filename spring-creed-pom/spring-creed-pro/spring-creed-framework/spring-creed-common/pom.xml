@@ -6,21 +6,7 @@
         <artifactId>spring-creed-framework</artifactId>
         <groupId>com.ethan</groupId>
         <version>${revision}</version>
-    </parent>CREATE TABLE client (
-    id varchar(255) NOT NULL,
-    clientId varchar(255) NOT NULL,
-    clientIdIssuedAt timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    clientSecret varchar(255) DEFAULT NULL,
-    clientSecretExpiresAt timestamp DEFAULT NULL,
-    clientName varchar(255) NOT NULL,
-    clientAuthenticationMethods varchar(1000) NOT NULL,
-    authorizationGrantTypes varchar(1000) NOT NULL,
-    redirectUris varchar(1000) DEFAULT NULL,
-    scopes varchar(1000) NOT NULL,
-    clientSettings varchar(2000) NOT NULL,
-    tokenSettings varchar(2000) NOT NULL,
-    PRIMARY KEY (id)
-    );
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ethan</groupId>
@@ -56,19 +42,30 @@
             <artifactId>spring-expression</artifactId>
             <scope>provided</scope> <!-- 设置为 provided，只有工具类需要使用到 -->
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
-            <scope>provided</scope> <!-- 设置为 provided，只有工具类需要使用到 -->
+            <scope>provided</scope> &lt;!&ndash; 设置为 provided，只有工具类需要使用到 &ndash;&gt;
         </dependency>
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
-            <scope>provided</scope> <!-- 设置为 provided，只有工具类需要使用到 -->
+            <scope>provided</scope> &lt;!&ndash; 设置为 provided，只有工具类需要使用到 &ndash;&gt;
+        </dependency>-->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
         </dependency>
 
         <dependency>
@@ -79,10 +76,14 @@
         </dependency>
 
         <!-- Web 相关 -->
-        <dependency>
+<!--        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <scope>provided</scope> <!-- 设置为 provided，只有工具类需要使用到 -->
+            <scope>provided</scope> &lt;!&ndash; 设置为 provided，只有工具类需要使用到 &ndash;&gt;
+        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
         <!-- 工具类相关 -->

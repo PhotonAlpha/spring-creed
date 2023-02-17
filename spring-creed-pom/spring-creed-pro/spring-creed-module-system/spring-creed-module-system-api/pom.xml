@@ -17,4 +17,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.ethan</groupId>
+            <artifactId>spring-creed-common</artifactId>
+        </dependency>
+    </dependencies>
 </project>

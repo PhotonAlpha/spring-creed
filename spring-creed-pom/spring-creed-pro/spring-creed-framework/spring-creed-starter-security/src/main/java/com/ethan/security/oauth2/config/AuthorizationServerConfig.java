@@ -7,11 +7,13 @@ import com.ethan.security.oauth2.repository.CreedOAuth2AuthorizationConsentRepos
 import com.ethan.security.oauth2.repository.CreedOAuth2AuthorizationRepository;
 import com.ethan.security.oauth2.repository.CreedOAuth2RegisteredClientRepository;
 import com.ethan.security.provider.UnAuthExceptionHandler;
+import com.ethan.security.websecurity.filter.LoginTokenAuthenticationFilter;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import jakarta.annotation.Resource;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletRequest;
@@ -87,11 +89,13 @@ import org.springframework.security.oauth2.server.authorization.web.authenticati
 import org.springframework.security.oauth2.server.authorization.web.authentication.PublicClientAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
 import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
+import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -111,6 +115,8 @@ import java.util.UUID;
 // @Import(OAuth2AuthorizationServerConfiguration.class)
 @EnableWebSecurity
 public class AuthorizationServerConfig {
+    @Resource
+    private LoginTokenAuthenticationFilter loginTokenAuthenticationFilter;
 
 
     /**
@@ -219,6 +225,12 @@ public class AuthorizationServerConfig {
      *          - {@link JwtAuthenticationProvider}
      *      iii. this.authenticationSuccessHandler.onAuthenticationSuccess(request, response, authenticationResult); 会设置全局login authentication
      *             其中 AuthenticationSuccessHandler authenticationSuccessHandler = (request, response, authentication) -> onAuthenticationSuccess(request, response, authentication); = this::onAuthenticationSuccess
+     *
+     *
+     *
+     *  bearer token 验证
+     * {@link  OAuth2ClientAuthenticationFilter}
+     * {@link  BearerTokenAuthenticationFilter}
      */
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -244,6 +256,7 @@ public class AuthorizationServerConfig {
                 )
 
                 // Accept access tokens for User Info and/or Client Registration
+                .addFilterAfter(loginTokenAuthenticationFilter, AnonymousAuthenticationFilter.class)
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 // add api validation by token
                 .securityMatcher(additionalRequestMatcher)

@@ -1,5 +1,6 @@
 package com.ethan.security.utils;
 
+import com.ethan.common.utils.WebFrameworkUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,6 +12,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationCo
 import org.springframework.util.StringUtils;
 
 import java.util.Collections;
+import java.util.Optional;
 
 public class SecurityFrameworkUtils {
     private BasicAuthenticationConverter authenticationConverter = new BasicAuthenticationConverter();
@@ -80,17 +82,21 @@ public class SecurityFrameworkUtils {
      *
      * @param loginUser 登录用户
      * @param request 请求
-     *//*
-    public static void setLoginUser(LoginUser loginUser, HttpServletRequest request) {
+     */
+    public static void setLoginUser(HttpServletRequest request) {
         // 创建 Authentication，并设置到上下文
-        Authentication authentication = buildAuthentication(loginUser, request);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        // Authentication authentication = buildAuthentication(loginUser, request);
+        // SecurityContextHolder.getContext().setAuthentication(authentication);
         // TODO 记录访问日志
         // 额外设置到 request 中，用于 ApiAccessLogFilter 可以获取到用户编号；
         // 原因是，Spring Security 的 Filter 在 ApiAccessLogFilter 后面，在它记录访问日志时，线上上下文已经没有用户编号等信息
-        // WebFrameworkUtils.setLoginUserId(request, loginUser.getId());
+        // String userId = Optional.ofNullable(SecurityContextHolder.getContext())
+        //         .map(SecurityContext::getAuthentication)
+        //         .map(Authentication::getPrincipal);
+
+        WebFrameworkUtils.setLoginUserId(request, -1L);
         // WebFrameworkUtils.setLoginUserType(request, loginUser.getUserType());
-    } */
+    }
 
 /*     private static Authentication buildAuthentication(LoginUser loginUser, HttpServletRequest request) {
         // 创建 UsernamePasswordAuthenticationToken 对象

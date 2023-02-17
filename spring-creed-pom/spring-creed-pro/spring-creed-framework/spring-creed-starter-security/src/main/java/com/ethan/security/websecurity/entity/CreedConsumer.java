@@ -2,6 +2,7 @@ package com.ethan.security.websecurity.entity;
 
 import com.ethan.common.constant.CommonStatusEnum;
 import com.ethan.common.constant.SexEnum;
+import com.ethan.common.pojo.BaseDO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
