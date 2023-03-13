@@ -12,7 +12,7 @@ public class RoleUpdateStatusReqVO {
 
     @Schema(name = "角色编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     @NotNull(message = "角色编号不能为空")
-    private Long id;
+    private String id;
 
     @Schema(name = "状态", requiredMode = Schema.RequiredMode.REQUIRED, example = "1", description = "见 CommonStatusEnum 枚举")
     @NotNull(message = "状态不能为空")

@@ -1,4 +1,4 @@
-package com.ethan.system.constant.permission;
+package com.ethan.security.websecurity.constant;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

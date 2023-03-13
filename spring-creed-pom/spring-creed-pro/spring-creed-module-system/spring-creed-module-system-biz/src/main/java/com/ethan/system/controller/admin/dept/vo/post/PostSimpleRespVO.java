@@ -14,7 +14,7 @@ public class PostSimpleRespVO {
     @Schema(name = "岗位编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     private Long id;
 
-    @Schema(name = "岗位名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
+    @Schema(name = "岗位名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "TEST")
     private String name;
 
 }

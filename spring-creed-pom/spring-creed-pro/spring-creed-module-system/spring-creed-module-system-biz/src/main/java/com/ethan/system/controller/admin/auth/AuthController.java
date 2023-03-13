@@ -3,6 +3,8 @@ package com.ethan.system.controller.admin.auth;
 import com.ethan.common.common.R;
 import com.ethan.common.constant.CommonStatusEnum;
 import com.ethan.common.utils.collection.SetUtils;
+import com.ethan.framework.operatelog.annotations.OperateLog;
+import com.ethan.security.websecurity.entity.CreedAuthorities;
 import com.ethan.security.websecurity.entity.CreedConsumer;
 import com.ethan.system.constant.logger.LoginLogTypeEnum;
 import com.ethan.system.constant.permission.MenuTypeEnum;
@@ -15,13 +17,11 @@ import com.ethan.system.controller.admin.auth.vo.AuthSmsSendReqVO;
 import com.ethan.system.controller.admin.auth.vo.AuthSocialLoginReqVO;
 import com.ethan.system.convert.auth.AuthConvert;
 import com.ethan.system.dal.entity.permission.MenuDO;
-import com.ethan.system.dal.entity.permission.RoleDO;
 import com.ethan.system.service.auth.AdminAuthService;
 import com.ethan.system.service.permission.PermissionService;
 import com.ethan.system.service.permission.RoleService;
 import com.ethan.system.service.social.SocialUserService;
 import com.ethan.system.service.user.AdminUserService;
-import com.ethan.framework.operatelog.annotations.OperateLog;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -71,6 +71,7 @@ public class AuthController {
     @Schema(name = "使用账号密码登录")
     @OperateLog(enable = false) // 避免 Post 请求被记录操作日志
     public R<AuthLoginRespVO> login(@RequestBody @Valid AuthLoginReqVO reqVO) {
+        System.out.println("abc==>test2");
         return success(authService.login(reqVO));
     }
 
@@ -105,8 +106,8 @@ public class AuthController {
             return null;
         }
         // 获得角色列表
-        Set<Long> roleIds = permissionService.getUserRoleIdsFromCache(Long.parseLong(getLoginUserId()), singleton(CommonStatusEnum.ENABLE.getStatus()));
-        List<RoleDO> roleList = roleService.getRolesFromCache(roleIds);
+        Set<String> roleIds = permissionService.getUserRoleIdsFromCache(getLoginUserId(), singleton(CommonStatusEnum.ENABLE.getStatus()));
+        List<CreedAuthorities> roleList = roleService.getRolesFromCache(roleIds);
         // 获得菜单列表
         List<MenuDO> menuList = permissionService.getRoleMenuListFromCache(roleIds,
                 SetUtils.asSet(MenuTypeEnum.DIR.getType(), MenuTypeEnum.MENU.getType(), MenuTypeEnum.BUTTON.getType()),
@@ -119,7 +120,7 @@ public class AuthController {
     @Schema(name = "获得登录用户的菜单列表")
     public R<List<AuthMenuRespVO>> getMenus() {
         // 获得角色列表
-        Set<Long> roleIds = permissionService.getUserRoleIdsFromCache(Long.parseLong(getLoginUserId()), singleton(CommonStatusEnum.ENABLE.getStatus()));
+        Set<String> roleIds = permissionService.getUserRoleIdsFromCache(getLoginUserId(), singleton(CommonStatusEnum.ENABLE.getStatus()));
         // 获得用户拥有的菜单列表
         List<MenuDO> menuList = permissionService.getRoleMenuListFromCache(roleIds,
                 SetUtils.asSet(MenuTypeEnum.DIR.getType(), MenuTypeEnum.MENU.getType()), // 只要目录和菜单类型

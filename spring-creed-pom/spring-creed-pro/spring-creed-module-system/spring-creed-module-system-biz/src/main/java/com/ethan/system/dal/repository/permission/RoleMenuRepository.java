@@ -12,20 +12,20 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 
 @Repository
 public interface RoleMenuRepository extends JpaRepository<RoleMenuDO, Long>, JpaSpecificationExecutor<RoleMenuDO> {
 
-    long countByUpdateTimeGreaterThan(LocalDateTime maxUpdateTime);
+    long countByUpdateTimeGreaterThan(Instant maxUpdateTime);
 
-    List<RoleMenuDO> findByRoleId(Long roleId);
+    List<RoleMenuDO> findByRoleId(String roleId);
 
-    void deleteByRoleIdAndMenuIdIn(Long roleId, Collection<Long> deleteMenuIds);
+    void deleteByRoleIdAndMenuIdIn(String roleId, Collection<Long> deleteMenuIds);
 
-    void deleteByRoleId(Long roleId);
+    void deleteByRoleId(String roleId);
 
     void deleteByMenuId(Long menuId);
 }

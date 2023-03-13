@@ -1,5 +1,7 @@
 package com.ethan.system.mq.permission;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,7 +11,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class RoleProducer {
-
+    private static final Logger log = LoggerFactory.getLogger(RoleProducer.class);
     // @Resource
     // private RedisMQTemplate redisMQTemplate;
 
@@ -17,6 +19,7 @@ public class RoleProducer {
      * 发送 {@link RoleRefreshMessage} 消息
      */
     public void sendRoleRefreshMessage() {
+        log.info("sendRoleRefreshMessage");
         // RoleRefreshMessage message = new RoleRefreshMessage();
         // redisMQTemplate.send(message);
     }

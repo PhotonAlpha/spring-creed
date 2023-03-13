@@ -16,13 +16,13 @@ import java.util.List;
 @Builder
 public class AuthMenuRespVO {
 
-    @Schema(name = "菜单名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
+    @Schema(name = "菜单名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "TEST")
     private Long id;
 
     @Schema(name = "父菜单 ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     private Long parentId;
 
-    @Schema(name = "菜单名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
+    @Schema(name = "菜单名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "TEST")
     private String name;
 
     @Schema(name = "路由地址", example = "post", description = "仅菜单类型为菜单或者目录时，才需要传")

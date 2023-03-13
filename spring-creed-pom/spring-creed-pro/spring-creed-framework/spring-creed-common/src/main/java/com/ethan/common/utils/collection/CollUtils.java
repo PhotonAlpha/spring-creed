@@ -1,6 +1,7 @@
 package com.ethan.common.utils.collection;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Sets;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -194,10 +195,12 @@ public class CollUtils {
         return deptId == null ? Collections.emptyList() : Collections.singleton(deptId);
     }
 
-    public static Collection<Long> subtract(Set<Long> menuIds, Set<Long> dbMenuIds) {
-        return menuIds.stream()
-                .filter(e -> !dbMenuIds.contains(e))
-                .collect (Collectors.toList()); // (3)
+    public static <T> Collection<T> subtract(Set<T> menuIds, Set<T> dbMenuIds) {
+        return Sets.difference(menuIds, dbMenuIds).stream().toList();
+        // return menuIds.stream()
+        //         .filter(e -> !dbMenuIds.contains(e))
+        //         .collect (Collectors.toList()); // (3)
+
     }
 
 

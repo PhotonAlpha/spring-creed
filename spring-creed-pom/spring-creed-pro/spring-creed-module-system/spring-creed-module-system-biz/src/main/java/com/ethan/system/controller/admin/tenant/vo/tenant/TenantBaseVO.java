@@ -14,7 +14,7 @@ import java.util.Date;
 @Data
 public class TenantBaseVO {
 
-    @Schema(name = "租户名", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
+    @Schema(name = "租户名", requiredMode = Schema.RequiredMode.REQUIRED, example = "TES")
     @NotNull(message = "租户名不能为空")
     private String name;
 

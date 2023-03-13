@@ -10,14 +10,12 @@ package com.ethan.security.oauth2.entity;
 
 import com.ethan.common.constant.UserTypeEnum;
 import com.ethan.common.converter.SetTypeConverter;
-import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,8 +23,6 @@ import lombok.experimental.Accessors;
 
 import java.time.Instant;
 import java.util.Set;
-
-import static jakarta.persistence.FetchType.LAZY;
 
 @Table(name = "creed_oauth2_authorized_client")
 @Entity
@@ -51,9 +47,7 @@ public class CreedOAuth2AuthorizedClient {
     @Column
     private String accessTokenType;
 
-    @Lob
-    @Basic(fetch=LAZY)
-    @Column
+    @Column(length = 4000)
     private String accessTokenValue;
 
     private Instant accessTokenIssuedAt;
@@ -62,6 +56,7 @@ public class CreedOAuth2AuthorizedClient {
     @Convert(converter = SetTypeConverter.class)
     private Set<String> accessTokenScopes;
 
+    @Column(length = 4000)
     private String refreshTokenValue;
 
     private Instant refreshTokenIssuedAt;

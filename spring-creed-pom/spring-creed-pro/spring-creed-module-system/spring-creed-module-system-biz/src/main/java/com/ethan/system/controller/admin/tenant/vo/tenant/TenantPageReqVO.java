@@ -18,7 +18,7 @@ import java.util.Date;
 @ToString(callSuper = true)
 public class TenantPageReqVO extends PageParam {
 
-    @Schema(name = "租户名", example = "芋道")
+    @Schema(name = "租户名", example = "TES")
     private String name;
 
     @Schema(name = "联系人", example = "芋艿")

@@ -60,7 +60,7 @@ public class OAuth2ClientConfig {
     @Bean
     public ClientRegistrationRepository clientRegistrationRepository() {
         ClientRegistration clientRegistration = ClientRegistration.withRegistrationId("okta")
-                .tokenUri("http://localhost:8081/admin-api/oauth2/token")
+                .tokenUri("http://localhost:8081/oauth2/token")
                 .clientId("default")
                 .clientSecret("secret")
                 .scope(StringUtils.split("openid,profile,message.read,message.write", ","))

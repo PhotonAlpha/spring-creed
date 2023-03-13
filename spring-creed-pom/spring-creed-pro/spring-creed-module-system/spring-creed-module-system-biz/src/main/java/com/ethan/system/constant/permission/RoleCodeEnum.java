@@ -11,8 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 @AllArgsConstructor
 public enum RoleCodeEnum {
 
-    SUPER_ADMIN("super_admin", "超级管理员"),
-    TENANT_ADMIN("tenant_admin", "租户管理员"),
+    SUPER_ADMIN("SUPER_ADMIN", "超级管理员"),
+    TENANT_ADMIN("TENANT_ADMIN", "租户管理员"),
     ;
 
     /**
@@ -25,7 +25,7 @@ public enum RoleCodeEnum {
     private final String name;
 
     public static boolean isSuperAdmin(String code) {
-        return StringUtils.equalsAny(code, SUPER_ADMIN.getCode());
+        return StringUtils.equalsAnyIgnoreCase(code, SUPER_ADMIN.getCode());
     }
 
 }

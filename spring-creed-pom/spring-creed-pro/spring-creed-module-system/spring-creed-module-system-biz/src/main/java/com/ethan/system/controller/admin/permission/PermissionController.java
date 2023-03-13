@@ -43,7 +43,7 @@ public class PermissionController {
     @Parameter(name = "roleId", description = "角色编号", required = true, schema = @Schema(implementation = Long.class))
     @GetMapping("/list-role-resources")
     @PreAuthorize("@ss.hasPermission('system:permission:assign-role-menu')")
-    public R<Set<Long>> listRoleMenus(Long roleId) {
+    public R<Set<Long>> listRoleMenus(String roleId) {
         return success(permissionService.getRoleMenuIds(roleId));
     }
 
@@ -71,7 +71,7 @@ public class PermissionController {
     @Parameter(name = "userId", description = "用户编号", required = true, schema = @Schema(implementation = Long.class))
     @GetMapping("/list-user-roles")
     @PreAuthorize("@ss.hasPermission('system:permission:assign-user-role')")
-    public R<Set<Long>> listAdminRoles(@RequestParam("userId") Long userId) {
+    public R<Set<String>> listAdminRoles(@RequestParam("userId") String userId) {
         return success(permissionService.getUserRoleIdListByUserId(userId));
     }
 

@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 public class DeptBaseVO {
 
-    @Schema(name = "菜单名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
+    @Schema(name = "菜单名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "TEST")
     @NotBlank(message = "部门名称不能为空")
     @Size(max = 30, message = "部门名称长度不能超过30个字符")
     private String name;

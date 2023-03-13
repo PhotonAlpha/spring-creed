@@ -2,33 +2,28 @@ package com.ethan.entity;
 
 import com.ethan.common.constant.CommonStatusEnum;
 import com.ethan.common.constant.SexEnum;
-import jakarta.persistence.CascadeType;
+import com.ethan.listener.CreedConsumerEvent;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
+import org.springframework.data.domain.AfterDomainEventPublication;
+import org.springframework.data.domain.DomainEvents;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Entity
 @Table(name = "creed_consumer")
@@ -135,5 +130,18 @@ public class CreedConsumer extends BaseDO {
     @Override
     public int hashCode() {
         return Objects.hash(id, username);
+    }
+
+
+    // 返回类型定义
+    @DomainEvents
+    public List<Object> domainEvents(){
+        System.out.println("CreedConsumerEvent domainEvents");
+        return Stream.of(new CreedConsumerEvent(this)).collect(Collectors.toList());
+    }
+    // 事件发布后callback
+    @AfterDomainEventPublication
+    void callback() {
+        System.err.println("CreedConsumerEvent ok");
     }
 }

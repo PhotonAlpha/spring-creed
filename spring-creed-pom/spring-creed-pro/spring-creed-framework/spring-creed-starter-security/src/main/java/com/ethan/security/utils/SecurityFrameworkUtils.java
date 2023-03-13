@@ -1,14 +1,22 @@
 package com.ethan.security.utils;
 
 import com.ethan.common.utils.WebFrameworkUtils;
+import com.ethan.security.oauth2.entity.CreedOAuth2AuthorizedClient;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.authentication.www.BasicAuthenticationConverter;
 import org.springframework.util.StringUtils;
 
+import java.util.Collections;
+
 public class SecurityFrameworkUtils {
+    private static final Logger log = LoggerFactory.getLogger(SecurityFrameworkUtils.class);
     private BasicAuthenticationConverter authenticationConverter = new BasicAuthenticationConverter();
     public static final String AUTHORIZATION_BEARER = "Bearer";
 
@@ -74,29 +82,29 @@ public class SecurityFrameworkUtils {
      *//**
      * 设置当前用户
      *
-     * @param loginUser 登录用户
+     * @param authorizedClient 登录用户
      * @param request 请求
      */
-    public static void setLoginUser(HttpServletRequest request) {
+    public static void setLoginUser(CreedOAuth2AuthorizedClient authorizedClient, HttpServletRequest request) {
+        if (authorizedClient == null) {
+            log.warn("setLoginUser failed, because authorizedClient is null");
+            return;
+        }
         // 创建 Authentication，并设置到上下文
-        // Authentication authentication = buildAuthentication(loginUser, request);
+        // Authentication authentication = buildAuthentication(authorizedClient, request);
         // SecurityContextHolder.getContext().setAuthentication(authentication);
-        // TODO 记录访问日志
+
         // 额外设置到 request 中，用于 ApiAccessLogFilter 可以获取到用户编号；
         // 原因是，Spring Security 的 Filter 在 ApiAccessLogFilter 后面，在它记录访问日志时，线上上下文已经没有用户编号等信息
-        // String userId = Optional.ofNullable(SecurityContextHolder.getContext())
-        //         .map(SecurityContext::getAuthentication)
-        //         .map(Authentication::getPrincipal);
-
-        WebFrameworkUtils.setLoginUserId(request, "-1");
+        WebFrameworkUtils.setLoginUserId(request, authorizedClient.getUserId());
         // WebFrameworkUtils.setLoginUserType(request, loginUser.getUserType());
     }
 
-/*     private static Authentication buildAuthentication(LoginUser loginUser, HttpServletRequest request) {
+    private static Authentication buildAuthentication(CreedOAuth2AuthorizedClient authorizedClient, HttpServletRequest request) {
         // 创建 UsernamePasswordAuthenticationToken 对象
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                loginUser, null, Collections.emptyList());
+                authorizedClient, null, Collections.emptyList());
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         return authenticationToken;
-    } */
+    }
 }

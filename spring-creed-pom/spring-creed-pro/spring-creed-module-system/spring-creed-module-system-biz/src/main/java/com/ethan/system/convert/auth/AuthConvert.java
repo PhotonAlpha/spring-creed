@@ -2,6 +2,7 @@ package com.ethan.system.convert.auth;
 
 import com.ethan.common.utils.collection.CollUtils;
 import com.ethan.security.oauth2.entity.CreedOAuth2AuthorizedClient;
+import com.ethan.security.websecurity.entity.CreedAuthorities;
 import com.ethan.security.websecurity.entity.CreedConsumer;
 import com.ethan.system.constant.permission.MenuIdEnum;
 import com.ethan.system.controller.admin.auth.vo.AuthLoginRespVO;
@@ -14,7 +15,6 @@ import com.ethan.system.controller.admin.sms.dto.code.SmsCodeSendReqDTO;
 import com.ethan.system.controller.admin.sms.dto.code.SmsCodeUseReqDTO;
 import com.ethan.system.controller.admin.social.dto.SocialUserBindReqDTO;
 import com.ethan.system.dal.entity.permission.MenuDO;
-import com.ethan.system.dal.entity.permission.RoleDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -44,10 +44,10 @@ public interface AuthConvert {
         return instant == null ? null : LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
 
-    default AuthPermissionInfoRespVO convert(CreedConsumer user, List<RoleDO> roleList, List<MenuDO> menuList) {
+    default AuthPermissionInfoRespVO convert(CreedConsumer user, List<CreedAuthorities> roleList, List<MenuDO> menuList) {
         return AuthPermissionInfoRespVO.builder()
             .user(AuthPermissionInfoRespVO.UserVO.builder().id(user.getId()).nickname(user.getNickname()).avatar(user.getAvatar()).build())
-            .roles(CollUtils.convertSet(roleList, RoleDO::getCode))
+            .roles(CollUtils.convertSet(roleList, CreedAuthorities::getAuthority))
             .permissions(CollUtils.convertSet(menuList, MenuDO::getPermission))
             .build();
     }

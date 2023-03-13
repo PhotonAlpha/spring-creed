@@ -18,7 +18,7 @@ public class LoginLogPageReqVO extends PageParam {
     @Schema(name = "用户 IP", example = "127.0.0.1", description = "模拟匹配")
     private String userIp;
 
-    @Schema(name = "用户账号", example = "芋道", description = "模拟匹配")
+    @Schema(name = "用户账号", example = "TEST", description = "模拟匹配")
     private String username;
 
     @Schema(name = "操作状态", example = "true")

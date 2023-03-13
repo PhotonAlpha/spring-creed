@@ -32,6 +32,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.HttpSecurityBuilder;
@@ -40,7 +41,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -118,11 +118,19 @@ public class SecurityConfig {
         Multimap<HttpMethod, String> permitAllUrls = getPermitAllUrlsFromAnnotations();
 
         http
+                .cors().and() //开启跨域
+                .csrf().disable() // CSRF 禁用，因为不使用 Session
+
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.NEVER)
                 // 添加自定义filter
                 .and().addFilterAfter(loginTokenAuthenticationFilter(), AnonymousAuthenticationFilter.class)
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::opaqueToken) // {@see myIntrospector()}
+                // .oauth2ResourceServer(OAuth2ResourceServerConfigurer::opaqueToken) // {@see myIntrospector()}
+                .oauth2ResourceServer(oauth2 ->
+                        oauth2.opaqueToken(Customizer.withDefaults())
+                        .authenticationEntryPoint(exceptionHandler())
+                )
+
                 // .oauth2ResourceServer(oauth2 ->
                 //     oauth2.opaqueToken(opaqueToken ->
                 //         opaqueToken.introspector(myIntrospector())
@@ -141,7 +149,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
 
-                .csrf().disable()
+
 
                 // Form login handles the redirect to the login page from the
                 // authorization server filter chain
@@ -159,7 +167,7 @@ public class SecurityConfig {
 
     @Bean
     public OpaqueTokenIntrospector defaultIntrospector() {
-        return new NimbusOpaqueTokenIntrospector("http://localhost:8081/admin-api/oauth2/introspect", "messaging-client", "secret");
+        return new NimbusOpaqueTokenIntrospector("http://localhost:8081/oauth2/introspect", "messaging-client", "secret");
     }
 
     private Multimap<HttpMethod, String> getPermitAllUrlsFromAnnotations() {
@@ -178,7 +186,7 @@ public class SecurityConfig {
                 continue;
             }
 
-            Set<String> urls1 = Optional.ofNullable(entry.getKey())
+            Set<String> urls1 = Optional.of(entry.getKey())
                     .map(RequestMappingInfo::getPatternsCondition)
                     .map(PatternsRequestCondition::getPatterns)
                     .orElse(Collections.emptySet());
@@ -192,18 +200,11 @@ public class SecurityConfig {
             // 根据请求方法，添加到 result 结果
             entry.getKey().getMethodsCondition().getMethods().forEach(requestMethod -> {
                 switch (requestMethod) {
-                    case GET:
-                        result.putAll(HttpMethod.GET, urls);
-                        break;
-                    case POST:
-                        result.putAll(HttpMethod.POST, urls);
-                        break;
-                    case PUT:
-                        result.putAll(HttpMethod.PUT, urls);
-                        break;
-                    case DELETE:
-                        result.putAll(HttpMethod.DELETE, urls);
-                        break;
+                    case GET -> result.putAll(HttpMethod.GET, urls);
+                    case POST -> result.putAll(HttpMethod.POST, urls);
+                    case PUT -> result.putAll(HttpMethod.PUT, urls);
+                    case DELETE -> result.putAll(HttpMethod.DELETE, urls);
+                    default -> {}
                 }
             });
         }

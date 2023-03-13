@@ -14,7 +14,7 @@ public class DeptSimpleRespVO {
     @Schema(name = "部门编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     private Long id;
 
-    @Schema(name = "部门名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
+    @Schema(name = "部门名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "TEST")
     private String name;
 
     @Schema(name = "父部门 ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")

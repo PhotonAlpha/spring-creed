@@ -17,11 +17,11 @@ import static com.ethan.common.utils.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_M
 @EqualsAndHashCode(callSuper = true)
 public class RolePageReqVO extends PageParam {
 
-    @Schema(name = "角色名称", example = "芋道", description = "模糊匹配")
-    private String name;
+    @Schema(name = "角色名称", example = "管理员", description = "模糊匹配")
+    private String description;
 
-    @Schema(name = "角色标识", example = "yudao", description = "模糊匹配")
-    private String code;
+    @Schema(name = "角色标识", example = "ADMIN", description = "模糊匹配")
+    private String authority;
 
     @Schema(name = "展示状态", example = "1", description = "参见 CommonStatusEnum 枚举类")
     private Integer status;

@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 public class MenuBaseVO {
 
-    @Schema(name = "菜单名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
+    @Schema(name = "菜单名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "TES")
     @NotBlank(message = "菜单名称不能为空")
     @Size(max = 50, message = "菜单名称长度不能超过50个字符")
     private String name;

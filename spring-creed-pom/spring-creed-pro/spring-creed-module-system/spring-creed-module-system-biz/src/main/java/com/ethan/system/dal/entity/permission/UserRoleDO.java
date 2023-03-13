@@ -18,6 +18,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Deprecated(forRemoval = true)
 public class UserRoleDO extends BaseDO {
 
     /**

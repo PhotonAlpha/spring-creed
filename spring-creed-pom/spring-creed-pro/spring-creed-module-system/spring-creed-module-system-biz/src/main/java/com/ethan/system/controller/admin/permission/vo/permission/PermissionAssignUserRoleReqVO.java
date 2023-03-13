@@ -14,9 +14,9 @@ public class PermissionAssignUserRoleReqVO {
 
     @Schema(name = "用户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @NotNull(message = "用户编号不能为空")
-    private Long userId;
+    private String userId;
 
     @Schema(name = "角色编号列表", example = "1,3,5")
-    private Set<Long> roleIds = Collections.emptySet(); // 兜底
+    private Set<String> roleIds = Collections.emptySet(); // 兜底
 
 }

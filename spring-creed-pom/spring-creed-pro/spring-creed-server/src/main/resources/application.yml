@@ -3,9 +3,9 @@ server:
 #  servlet:
 #    context-path: /admin-api
 
-#logging:
-#  level:
-#    root: debug
+logging:
+  level:
+    root: debug
 
 spring:
   datasource:
@@ -17,7 +17,15 @@ spring:
     allow-circular-references: true
   jpa:
     show-sql: true
-
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        type: trace
 
 springdoc:
   show-actuator: true
@@ -35,11 +43,7 @@ management:
     web:
       exposure:
         include: "*"
-logging:
-  level:
-    org:
-      hibernate:
-        type: trace
+
 
 #spring:
 #  security:

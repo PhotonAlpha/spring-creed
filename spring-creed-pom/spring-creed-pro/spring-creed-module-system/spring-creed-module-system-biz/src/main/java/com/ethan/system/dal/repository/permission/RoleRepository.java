@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+@Deprecated(forRemoval = true)
 public interface RoleRepository extends JpaRepository<RoleDO, Long>, JpaSpecificationExecutor<RoleDO> {
 
     long countByUpdateTimeGreaterThan(LocalDateTime maxUpdateTime);

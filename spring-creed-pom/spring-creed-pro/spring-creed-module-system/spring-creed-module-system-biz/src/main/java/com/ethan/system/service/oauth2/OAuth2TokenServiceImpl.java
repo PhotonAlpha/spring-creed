@@ -85,19 +85,41 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
 
 /*         Duration timeToLive = TokenSettings.withSettings(registeredClient.getClientSettings()).build()
                 .getAccessTokenTimeToLive(); */
-        CreedOAuth2AuthorizedClient accessTokenDO = new CreedOAuth2AuthorizedClient()
-                .setUserId(authorize.getPrincipalName())
-                .setUserType(UserTypeEnum.ADMIN.getValue())
-                .setClientRegistrationId(registeredClient.getClientId())
-                .setPrincipalName(authorize.getPrincipalName())
-                .setAccessTokenType(accessToken.getTokenType().getValue())
-                .setAccessTokenValue(accessToken.getTokenValue())
-                .setAccessTokenScopes(registeredClient.getScopes())
-                .setAccessTokenIssuedAt(accessToken.getIssuedAt())
-                .setAccessTokenExpiresAt(accessToken.getExpiresAt())
-                .setRefreshTokenValue(refreshTokenVal)
-                .setRefreshTokenIssuedAt(issueTimeVal)
-                .setRefreshTokenExpiresAt(expiresTimeVal);
+        Optional<CreedOAuth2AuthorizedClient> authorizedClientOptional = authorizedClientRepository.findByAccessTokenValue(accessToken.getTokenType().getValue());
+        CreedOAuth2AuthorizedClient accessTokenDO;
+        if (authorizedClientOptional.isEmpty()) {
+            accessTokenDO = new CreedOAuth2AuthorizedClient()
+                    .setUserId(authorize.getPrincipalName())
+                    .setUserType(UserTypeEnum.ADMIN.getValue())
+                    .setClientRegistrationId(registeredClient.getClientId())
+                    .setPrincipalName(authorize.getPrincipalName())
+                    .setAccessTokenType(accessToken.getTokenType().getValue())
+                    .setAccessTokenValue(accessToken.getTokenValue())
+                    .setAccessTokenScopes(registeredClient.getScopes())
+                    .setAccessTokenIssuedAt(accessToken.getIssuedAt())
+                    .setAccessTokenExpiresAt(accessToken.getExpiresAt())
+                    .setRefreshTokenValue(refreshTokenVal)
+                    .setRefreshTokenIssuedAt(issueTimeVal)
+                    .setRefreshTokenExpiresAt(expiresTimeVal)
+                    .setCreatedAt(Instant.now());
+        } else {
+            CreedOAuth2AuthorizedClient creedOAuth2AuthorizedClient = authorizedClientOptional.get();
+            creedOAuth2AuthorizedClient
+                    .setUserId(authorize.getPrincipalName())
+                    .setUserType(UserTypeEnum.ADMIN.getValue())
+                    .setClientRegistrationId(registeredClient.getClientId())
+                    .setPrincipalName(authorize.getPrincipalName())
+                    .setAccessTokenType(accessToken.getTokenType().getValue())
+                    .setAccessTokenValue(accessToken.getTokenValue())
+                    .setAccessTokenScopes(registeredClient.getScopes())
+                    .setAccessTokenIssuedAt(accessToken.getIssuedAt())
+                    .setAccessTokenExpiresAt(accessToken.getExpiresAt())
+                    .setRefreshTokenValue(refreshTokenVal)
+                    .setRefreshTokenIssuedAt(issueTimeVal)
+                    .setRefreshTokenExpiresAt(expiresTimeVal);
+            accessTokenDO = creedOAuth2AuthorizedClient;
+        }
+
         authorizedClientRepository.save(accessTokenDO);
 
         // OAuth2AccessTokenDO accessTokenDO = new OAuth2AccessTokenDO().setAccessToken(accessToken.getTokenValue())

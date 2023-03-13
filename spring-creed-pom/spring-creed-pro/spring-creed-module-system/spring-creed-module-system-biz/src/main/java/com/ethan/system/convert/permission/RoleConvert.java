@@ -13,6 +13,7 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 
 @Mapper
+@Deprecated(forRemoval = true)
 public interface RoleConvert {
 
     RoleConvert INSTANCE = Mappers.getMapper(RoleConvert.class);

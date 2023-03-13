@@ -35,7 +35,7 @@ public class OperateLogBaseVO {
     @NotNull(message = "操作分类不能为空")
     private Integer type;
 
-    @Schema(name = "操作明细", example = "修改编号为 1 的用户信息，将性别从男改成女，将姓名从芋道改成源码。")
+    @Schema(name = "操作明细", example = "修改编号为 1 的用户信息，将性别从男改成女，将姓名从TEST改成源码。")
     private String content;
 
     @Schema(name = "拓展字段", example = "{'orderId': 1}")

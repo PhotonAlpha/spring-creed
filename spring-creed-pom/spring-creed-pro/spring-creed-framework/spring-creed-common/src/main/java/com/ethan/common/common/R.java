@@ -27,6 +27,7 @@ import java.util.Objects;
  */
 @Data
 public class R<T> implements Serializable {
+    private static final String CODE_MUST_BE_ERROR = "code 必须是错误的！";
     /**
      * 错误码
      *
@@ -56,20 +57,24 @@ public class R<T> implements Serializable {
     public static <T> R<T> error(R<?> result) {
         return error(result.getCode(), result.getMsg());
     }
-
-    public static <T> R<T> error(Integer code, String message) {
-        Assert.isTrue(!ResponseCodeEnum.SUCCESS.getCode().equals(code), "code 必须是错误的！");
+    public static <T> R<T> of(Integer code, String msg) {
         R<T> result = new R<>();
         result.code = code;
-        result.msg = message;
+        result.msg = msg;
         return result;
     }
+
+    public static <T> R<T> error(Integer code, String message) {
+        Assert.isTrue(!ResponseCodeEnum.SUCCESS.getCode().equals(code), CODE_MUST_BE_ERROR);
+        return R.of(code, message);
+    }
     public static <T> R<T> error(ResponseCodeEnum code) {
-        Assert.isTrue(!ResponseCodeEnum.SUCCESS.getCode().equals(code), "code 必须是错误的！");
-        R<T> result = new R<>();
-        result.code = code.getCode();
-        result.msg = code.getMessage();
-        return result;
+        Assert.isTrue(!ResponseCodeEnum.SUCCESS.getCode().equals(code), CODE_MUST_BE_ERROR);
+        return R.of(code.getCode(), code.getMessage());
+    }
+    public static <T> R<T> error(ResponseCodeEnum code, String message) {
+        Assert.isTrue(!ResponseCodeEnum.SUCCESS.getCode().equals(code), CODE_MUST_BE_ERROR);
+        return R.of(code.getCode(), message);
     }
 
     public static <T> R<T> error(ErrorCode errorCode) {

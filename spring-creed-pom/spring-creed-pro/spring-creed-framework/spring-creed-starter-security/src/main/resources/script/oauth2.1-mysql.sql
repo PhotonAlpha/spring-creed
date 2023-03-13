@@ -19,7 +19,7 @@ CREATE TABLE creed_oauth2_registered_client
 
 
 ALTER TABLE `creed_oauth2_registered_client`
-    ADD COLUMN `enabled` INT(1) NOT NULL DEFAULT 1 AFTER `status`;
+    ADD COLUMN `enabled` INT(1) NOT NULL DEFAULT 0 AFTER `status`;
 ALTER TABLE `creed_oauth2_registered_client`
     ADD COLUMN `create_time` timestamp NOT NULL DEFAULT current_timestamp();
 ALTER TABLE `creed_oauth2_registered_client`

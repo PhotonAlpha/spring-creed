@@ -241,7 +241,7 @@ public class CreedUserDetailsManager implements UserDetailsManager, GroupManager
 
     private void deleteUserAuthorities(CreedConsumer consumer) {
         Assert.notNull(consumer, "CreedConsumer can not be null");
-        List<CreedConsumerAuthorities> arr = consumerAuthorityRepository.findByConsumerId(consumer.getId()).orElse(Collections.emptyList());
+        List<CreedConsumerAuthorities> arr = consumerAuthorityRepository.findByConsumerId(consumer.getId());
         consumerAuthorityRepository.deleteAll(arr);
     }
 

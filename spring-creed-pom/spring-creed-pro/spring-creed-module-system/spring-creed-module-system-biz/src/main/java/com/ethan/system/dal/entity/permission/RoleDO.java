@@ -2,8 +2,8 @@ package com.ethan.system.dal.entity.permission;
 
 import com.ethan.common.constant.CommonStatusEnum;
 import com.ethan.common.converter.SetJacksonConverter;
-import com.ethan.system.constant.permission.DataScopeEnum;
-import com.ethan.system.constant.permission.RoleTypeEnum;
+import com.ethan.security.websecurity.constant.DataScopeEnum;
+import com.ethan.security.websecurity.constant.RoleTypeEnum;
 import com.ethan.system.dal.entity.tenant.TenantBaseDO;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -25,6 +25,7 @@ import java.util.Set;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Deprecated(forRemoval = true)
 public class RoleDO extends TenantBaseDO {
 
     /**

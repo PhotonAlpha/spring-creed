@@ -22,7 +22,7 @@ public class ApiErrorLogBaseVO {
 
     @Schema(name = "用户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "666")
     @NotNull(message = "用户编号不能为空")
-    private Integer userId;
+    private String userId;
 
     @Schema(name = "用户类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @NotNull(message = "用户类型不能为空")

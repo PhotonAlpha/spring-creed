@@ -6,6 +6,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -34,6 +36,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService {
+    private static final Logger log = LoggerFactory.getLogger(JpaOAuth2AuthorizationService.class);
     private static final String VERSION = "version";
     private final CreedOAuth2AuthorizationRepository authorizationRepository;
     private final RegisteredClientRepository registeredClientRepository;
@@ -55,6 +58,7 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
     @Transactional(rollbackFor = Exception.class)
     public void save(OAuth2Authorization authorization) {
         Assert.notNull(authorization, "authorization cannot be null");
+        log.info("going to save with id:{} token:{}", authorization.getId(), authorization.getAccessToken().getToken().getTokenValue());
         this.authorizationRepository.save(toEntity(authorization));
     }
 
