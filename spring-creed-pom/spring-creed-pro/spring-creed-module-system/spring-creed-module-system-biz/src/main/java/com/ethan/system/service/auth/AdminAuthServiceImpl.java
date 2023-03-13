@@ -1,28 +1,49 @@
 package com.ethan.system.service.auth;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.ethan.common.constant.CommonStatusEnum;
 import com.ethan.common.constant.UserTypeEnum;
 import com.ethan.common.utils.monitor.TracerUtils;
 import com.ethan.common.utils.servlet.ServletUtils;
 import com.ethan.common.utils.validation.ValidationUtils;
+import com.ethan.security.oauth2.entity.CreedOAuth2AuthorizedClient;
+import com.ethan.security.websecurity.entity.CreedConsumer;
 import com.ethan.system.api.constant.sms.SmsSceneEnum;
 import com.ethan.system.constant.logger.LoginLogTypeEnum;
 import com.ethan.system.constant.logger.LoginResultEnum;
+import com.ethan.system.constant.oauth2.OAuth2ClientConstants;
 import com.ethan.system.controller.admin.auth.vo.AuthLoginReqVO;
 import com.ethan.system.controller.admin.auth.vo.AuthLoginRespVO;
 import com.ethan.system.controller.admin.auth.vo.AuthSmsLoginReqVO;
 import com.ethan.system.controller.admin.auth.vo.AuthSmsSendReqVO;
 import com.ethan.system.controller.admin.auth.vo.AuthSocialLoginReqVO;
-import com.ethan.system.dal.entity.user.AdminUserDO;
+import com.ethan.system.controller.admin.social.dto.SocialUserBindReqDTO;
+import com.ethan.system.convert.auth.AuthConvert;
+import com.ethan.system.service.captcha.CaptchaService;
+import com.ethan.system.service.logger.LoginLogService;
+import com.ethan.system.service.member.MemberService;
+import com.ethan.system.service.oauth2.OAuth2TokenService;
+import com.ethan.system.service.sms.SmsCodeService;
 import com.ethan.system.service.social.SocialUserService;
 import com.ethan.system.service.user.AdminUserService;
+import com.ethan.framework.logger.core.dto.LoginLogCreateReqDTO;
 import com.google.common.annotations.VisibleForTesting;
 import jakarta.annotation.Resource;
 import jakarta.validation.Validator;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+
+import static com.ethan.common.exception.util.ServiceExceptionUtil.exception;
+import static com.ethan.system.constant.ErrorCodeConstants.AUTH_LOGIN_BAD_CREDENTIALS;
+import static com.ethan.system.constant.ErrorCodeConstants.AUTH_LOGIN_CAPTCHA_CODE_ERROR;
+import static com.ethan.system.constant.ErrorCodeConstants.AUTH_LOGIN_CAPTCHA_NOT_FOUND;
+import static com.ethan.system.constant.ErrorCodeConstants.AUTH_LOGIN_USER_DISABLED;
+import static com.ethan.system.constant.ErrorCodeConstants.AUTH_MOBILE_NOT_EXISTS;
+import static com.ethan.system.constant.ErrorCodeConstants.AUTH_THIRD_LOGIN_NOT_BIND;
+import static com.ethan.system.constant.ErrorCodeConstants.USER_NOT_EXISTS;
 
 /**
  * Auth Service 实现类
@@ -49,14 +70,17 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     private Validator validator;
 
     @Resource
-    private SmsCodeApi smsCodeApi;
+    private SmsCodeService smsCodeService;
+
+
+
 
     @Override
-    public AdminUserDO authenticate(String username, String password) {
+    public CreedConsumer authenticate(String username, String password) {
         final LoginLogTypeEnum logTypeEnum = LoginLogTypeEnum.LOGIN_USERNAME;
         // 校验账号是否存在
-        AdminUserDO user = userService.getUserByUsername(username);
-        if (user == null) {
+        CreedConsumer user = userService.getUserByUsername(username);
+        if (Objects.isNull(user)) {
             createLoginLog(null, username, logTypeEnum, LoginResultEnum.BAD_CREDENTIALS);
             throw exception(AUTH_LOGIN_BAD_CREDENTIALS);
         }
@@ -65,7 +89,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
             throw exception(AUTH_LOGIN_BAD_CREDENTIALS);
         }
         // 校验是否禁用
-        if (ObjectUtil.notEqual(user.getStatus(), CommonStatusEnum.ENABLE.getStatus())) {
+        if (ObjectUtil.notEqual(user.getEnabled(), CommonStatusEnum.ENABLE)) {
             createLoginLog(user.getId(), username, logTypeEnum, LoginResultEnum.USER_DISABLED);
             throw exception(AUTH_LOGIN_USER_DISABLED);
         }
@@ -78,7 +102,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         verifyCaptcha(reqVO);
 
         // 使用账号密码，进行登录
-        AdminUserDO user = authenticate(reqVO.getUsername(), reqVO.getPassword());
+        CreedConsumer user = authenticate(reqVO.getUsername(), reqVO.getPassword());
 
         // 如果 socialType 非空，说明需要绑定社交用户
         if (reqVO.getSocialType() != null) {
@@ -97,16 +121,16 @@ public class AdminAuthServiceImpl implements AdminAuthService {
             throw exception(AUTH_MOBILE_NOT_EXISTS);
         }
         // 发送验证码
-        smsCodeApi.sendSmsCode(AuthConvert.INSTANCE.convert(reqVO).setCreateIp(getClientIP()));
+        smsCodeService.sendSmsCode(AuthConvert.INSTANCE.convert(reqVO).setCreateIp(ServletUtils.getClientIP()));
     }
 
     @Override
     public AuthLoginRespVO smsLogin(AuthSmsLoginReqVO reqVO) {
         // 校验验证码
-        smsCodeApi.useSmsCode(AuthConvert.INSTANCE.convert(reqVO, SmsSceneEnum.ADMIN_MEMBER_LOGIN.getScene(), getClientIP()));
+        smsCodeService.useSmsCode(AuthConvert.INSTANCE.convert(reqVO, SmsSceneEnum.ADMIN_MEMBER_LOGIN.getScene(), ServletUtils.getClientIP()));
 
         // 获得用户信息
-        AdminUserDO user = userService.getUserByMobile(reqVO.getMobile());
+        CreedConsumer user = userService.getUserByMobile(reqVO.getMobile());
         if (user == null) {
             throw exception(USER_NOT_EXISTS);
         }
@@ -141,7 +165,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         captchaService.deleteCaptchaCode(reqVO.getUuid());
     }
 
-    private void createLoginLog(Long userId, String username,
+    private void createLoginLog(String userId, String username,
                                 LoginLogTypeEnum logTypeEnum, LoginResultEnum loginResult) {
         // 插入登录日志
         LoginLogCreateReqDTO reqDTO = new LoginLogCreateReqDTO();
@@ -155,7 +179,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         reqDTO.setResult(loginResult.getResult());
         loginLogService.createLoginLog(reqDTO);
         // 更新最后登录时间
-        if (userId != null && Objects.equals(LoginResultEnum.SUCCESS.getResult(), loginResult.getResult())) {
+        if (StringUtils.isNotBlank(userId) && Objects.equals(LoginResultEnum.SUCCESS.getResult(), loginResult.getResult())) {
             userService.updateUserLogin(userId, ServletUtils.getClientIP());
         }
     }
@@ -163,15 +187,15 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     @Override
     public AuthLoginRespVO socialLogin(AuthSocialLoginReqVO reqVO) {
         // 使用 code 授权码，进行登录。然后，获得到绑定的用户编号
-        Long userId = socialUserService.getBindUserId(UserTypeEnum.ADMIN.getValue(), reqVO.getType(),
+        String userId = socialUserService.getBindUserId(UserTypeEnum.ADMIN.getValue(), reqVO.getType(),
                 reqVO.getCode(), reqVO.getState());
         if (userId == null) {
             throw exception(AUTH_THIRD_LOGIN_NOT_BIND);
         }
 
         // 获得用户
-        AdminUserDO user = userService.getUser(userId);
-        if (user == null) {
+        CreedConsumer user = userService.getUser(userId);
+        if (Objects.isNull(user)) {
             throw exception(USER_NOT_EXISTS);
         }
 
@@ -181,24 +205,24 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Override
     public AuthLoginRespVO refreshToken(String refreshToken) {
-        OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.refreshAccessToken(refreshToken, OAuth2ClientConstants.CLIENT_ID_DEFAULT);
+        CreedOAuth2AuthorizedClient accessTokenDO = oauth2TokenService.refreshAccessToken(refreshToken, OAuth2ClientConstants.CLIENT_ID_DEFAULT);
         return AuthConvert.INSTANCE.convert(accessTokenDO);
     }
 
-    private AuthLoginRespVO createTokenAfterLoginSuccess(Long userId, String username, LoginLogTypeEnum logType) {
+    private AuthLoginRespVO createTokenAfterLoginSuccess(String userId, String username, LoginLogTypeEnum logType) {
         // 插入登陆日志
         createLoginLog(userId, username, logType, LoginResultEnum.SUCCESS);
         // 创建访问令牌
-        OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.createAccessToken(userId, getUserType().getValue(),
+        CreedOAuth2AuthorizedClient accessTokenClient = oauth2TokenService.createAccessToken(userId, getUserType().getValue(),
                 OAuth2ClientConstants.CLIENT_ID_DEFAULT, null);
         // 构建返回结果
-        return AuthConvert.INSTANCE.convert(accessTokenDO);
+        return AuthConvert.INSTANCE.convert(accessTokenClient);
     }
 
     @Override
     public void logout(String token, Integer logType) {
         // 删除访问令牌
-        OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.removeAccessToken(token);
+        CreedOAuth2AuthorizedClient accessTokenDO = oauth2TokenService.removeAccessToken(token);
         if (accessTokenDO == null) {
             return;
         }
@@ -206,7 +230,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         createLogoutLog(accessTokenDO.getUserId(), accessTokenDO.getUserType(), logType);
     }
 
-    private void createLogoutLog(Long userId, Integer userType, Integer logType) {
+    private void createLogoutLog(String userId, Integer userType, Integer logType) {
         LoginLogCreateReqDTO reqDTO = new LoginLogCreateReqDTO();
         reqDTO.setLogType(logType);
         reqDTO.setTraceId(TracerUtils.getTraceId());
@@ -215,7 +239,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         if (ObjectUtil.equal(getUserType().getValue(), userType)) {
             reqDTO.setUsername(getUsername(userId));
         } else {
-            reqDTO.setUsername(memberService.getMemberUserMobile(userId));
+            reqDTO.setUsername(memberService.getMemberUserMobile(Long.parseLong(userId)));
         }
         reqDTO.setUserAgent(ServletUtils.getUserAgent());
         reqDTO.setUserIp(ServletUtils.getClientIP());
@@ -223,11 +247,11 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         loginLogService.createLoginLog(reqDTO);
     }
 
-    private String getUsername(Long userId) {
+    private String getUsername(String userId) {
         if (userId == null) {
             return null;
         }
-        AdminUserDO user = userService.getUser(userId);
+        CreedConsumer user = userService.getUser(userId);
         return user != null ? user.getUsername() : null;
     }
 

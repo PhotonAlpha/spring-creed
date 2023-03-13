@@ -40,6 +40,11 @@
             <artifactId>spring-creed-module-system-api</artifactId>
             <version>${revision}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-core</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

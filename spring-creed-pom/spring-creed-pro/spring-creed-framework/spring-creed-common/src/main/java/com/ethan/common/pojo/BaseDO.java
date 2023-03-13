@@ -4,8 +4,8 @@ import com.ethan.common.constant.CommonStatusEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.Version;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -15,6 +15,7 @@ import java.time.Instant;
  */
 @Data
 @MappedSuperclass
+@Accessors(chain = true)
 public abstract class BaseDO implements Serializable {
     /**
      * 创建时间
@@ -48,8 +49,10 @@ public abstract class BaseDO implements Serializable {
      *
      * 枚举 {@link CommonStatusEnum}
      */
+    // @Convert(converter = CommonStatusEnum.Converter.class)
+    // protected CommonStatusEnum enabled= CommonStatusEnum.ENABLE;
     @Convert(converter = CommonStatusEnum.Converter.class)
-    protected CommonStatusEnum enabled= CommonStatusEnum.ENABLE;
+    protected CommonStatusEnum deleted= CommonStatusEnum.ENABLE;
 
 /*     @Version
     protected int version; */

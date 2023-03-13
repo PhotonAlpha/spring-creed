@@ -1,6 +1,6 @@
 package com.ethan.security.websecurity.entity;
 
-import com.ethan.common.pojo.BaseDO;
+import com.ethan.common.pojo.BaseXDO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,7 +21,7 @@ import java.util.Objects;
 @Data
 @EqualsAndHashCode
 @ToString(exclude = "consumerAuthorities")
-public class CreedAuthorities extends BaseDO {
+public class CreedAuthorities extends BaseXDO {
 
     /**
      * 角色标识

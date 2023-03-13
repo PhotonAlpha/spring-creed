@@ -9,11 +9,11 @@ import lombok.Data;
 @Data
 public class UserUpdateStatusReqVO {
 
-    @Schema(name = "用户编号", required = true, example = "1024")
+    @Schema(name = "用户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     @NotNull(message = "角色编号不能为空")
-    private Long id;
+    private String id;
 
-    @Schema(name = "状态", required = true, example = "1", description = "见 CommonStatusEnum 枚举")
+    @Schema(name = "状态", requiredMode = Schema.RequiredMode.REQUIRED, example = "1", description = "见 CommonStatusEnum 枚举")
     @NotNull(message = "状态不能为空")
 //    @InEnum(value = CommonStatusEnum.class, message = "修改状态必须是 {value}")
     private Integer status;

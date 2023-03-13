@@ -1,14 +1,15 @@
 package com.ethan.system.service.permission;
 
-import cn.iocoder.yudao.framework.common.pojo.PageResult;
-import cn.iocoder.yudao.module.system.controller.admin.permission.vo.role.RoleCreateReqVO;
-import cn.iocoder.yudao.module.system.controller.admin.permission.vo.role.RoleExportReqVO;
-import cn.iocoder.yudao.module.system.controller.admin.permission.vo.role.RolePageReqVO;
-import cn.iocoder.yudao.module.system.controller.admin.permission.vo.role.RoleUpdateReqVO;
-import cn.iocoder.yudao.module.system.dal.dataobject.permission.RoleDO;
+
+import com.ethan.system.controller.admin.permission.vo.role.RoleCreateReqVO;
+import com.ethan.system.controller.admin.permission.vo.role.RoleExportReqVO;
+import com.ethan.system.controller.admin.permission.vo.role.RolePageReqVO;
+import com.ethan.system.controller.admin.permission.vo.role.RoleUpdateReqVO;
+import com.ethan.system.dal.entity.permission.RoleDO;
+import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.lang.Nullable;
 
-import javax.validation.Valid;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +17,7 @@ import java.util.Set;
 /**
  * 角色 Service 接口
  *
- * @author 芋道源码
+ * 
  */
 public interface RoleService {
 
@@ -121,7 +122,7 @@ public interface RoleService {
      * @param reqVO 角色分页查询
      * @return 角色分页结果
      */
-    PageResult<RoleDO> getRolePage(RolePageReqVO reqVO);
+    Page<RoleDO> getRolePage(RolePageReqVO reqVO);
 
     /**
      * 获得角色列表

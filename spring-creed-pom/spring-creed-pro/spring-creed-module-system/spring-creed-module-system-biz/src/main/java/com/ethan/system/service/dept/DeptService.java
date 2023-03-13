@@ -107,6 +107,6 @@ public interface DeptService {
             return Collections.emptyMap();
         }
         List<DeptDO> list = getSimpleDepts(ids);
-        return list.stream().collect(Collectors.toMap(DeptDO::getId, Function.identity()))
+        return list.stream().collect(Collectors.toMap(DeptDO::getId, Function.identity()));
     }
 }

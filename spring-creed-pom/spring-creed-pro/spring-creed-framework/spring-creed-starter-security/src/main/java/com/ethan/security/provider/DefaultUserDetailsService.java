@@ -3,9 +3,6 @@ package com.ethan.security.provider;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.UserDetailsManager;
-import org.springframework.util.Assert;
-
-import javax.sql.DataSource;
 
 public class DefaultUserDetailsService implements UserDetailsManager {
     // private final JdbcTemplate jdbcTemplate;

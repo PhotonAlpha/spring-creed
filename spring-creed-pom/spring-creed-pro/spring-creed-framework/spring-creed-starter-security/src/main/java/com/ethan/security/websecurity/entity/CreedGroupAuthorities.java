@@ -1,6 +1,6 @@
 package com.ethan.security.websecurity.entity;
 
-import com.ethan.common.pojo.BaseDO;
+import com.ethan.common.pojo.BaseXDO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 @Table(name = "creed_group_authorities")
 @Data
 @EqualsAndHashCode
-public class CreedGroupAuthorities extends BaseDO {
+public class CreedGroupAuthorities extends BaseXDO {
     /**
      * 组织名
      */

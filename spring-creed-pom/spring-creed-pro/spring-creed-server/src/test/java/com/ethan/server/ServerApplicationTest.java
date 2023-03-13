@@ -5,7 +5,7 @@ import com.ethan.security.websecurity.entity.CreedAuthorities;
 import com.ethan.security.websecurity.entity.CreedConsumer;
 import com.ethan.security.websecurity.repository.CreedAuthorityRepository;
 import com.ethan.security.websecurity.repository.CreedConsumerRepository;
-import com.ethan.security.consumer.repository.CreedGroupMembersRepository;
+import com.ethan.security.websecurity.repository.CreedGroupsMembersRepository;
 import com.ethan.security.websecurity.repository.CreedGroupsRepository;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
@@ -28,7 +28,7 @@ public class ServerApplicationTest {
     @Autowired
     CreedAuthorityRepository authorityRepository;
     @Autowired
-    CreedGroupMembersRepository membersRepository;
+    CreedGroupsMembersRepository membersRepository;
     @Autowired
     CreedGroupsRepository groupsRepository;
 
@@ -51,7 +51,7 @@ public class ServerApplicationTest {
         consumer.setPassword("{noop}test");
         consumer.setSex(SexEnum.MALE);
         consumer.setRemark("admin");
-        consumer.setAuthorities(authorities);
+        // consumer.setConsumerAuthorities(List.of(authorities.toArray(CreedAuthorities[]::new)));
         consumerRepository.save(consumer);
 
     }

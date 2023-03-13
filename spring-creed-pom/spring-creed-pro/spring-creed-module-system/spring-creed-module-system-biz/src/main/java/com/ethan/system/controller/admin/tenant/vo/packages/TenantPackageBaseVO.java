@@ -24,7 +24,7 @@ public class TenantPackageBaseVO {
     @Schema(name = "备注", example = "好")
     private String remark;
 
-    @Schema(name = "关联的菜单编号", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "关联的菜单编号", required = true)
     @NotNull(message = "关联的菜单编号不能为空")
     private Set<Long> menuIds;
 

@@ -2,17 +2,11 @@ package com.ethan.security.utils;
 
 import com.ethan.common.utils.WebFrameworkUtils;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.lang.Nullable;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.authentication.www.BasicAuthenticationConverter;
 import org.springframework.util.StringUtils;
-
-import java.util.Collections;
-import java.util.Optional;
 
 public class SecurityFrameworkUtils {
     private BasicAuthenticationConverter authenticationConverter = new BasicAuthenticationConverter();
@@ -94,7 +88,7 @@ public class SecurityFrameworkUtils {
         //         .map(SecurityContext::getAuthentication)
         //         .map(Authentication::getPrincipal);
 
-        WebFrameworkUtils.setLoginUserId(request, -1L);
+        WebFrameworkUtils.setLoginUserId(request, "-1");
         // WebFrameworkUtils.setLoginUserType(request, loginUser.getUserType());
     }
 

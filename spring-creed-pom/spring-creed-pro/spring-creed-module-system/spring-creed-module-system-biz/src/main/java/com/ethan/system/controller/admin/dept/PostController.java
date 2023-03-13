@@ -2,6 +2,7 @@ package com.ethan.system.controller.admin.dept;
 
 import com.ethan.common.common.R;
 import com.ethan.common.constant.CommonStatusEnum;
+import com.ethan.common.pojo.PageResult;
 import com.ethan.system.controller.admin.dept.vo.post.PostCreateReqVO;
 import com.ethan.system.controller.admin.dept.vo.post.PostExcelVO;
 import com.ethan.system.controller.admin.dept.vo.post.PostExportReqVO;
@@ -12,15 +13,14 @@ import com.ethan.system.controller.admin.dept.vo.post.PostUpdateReqVO;
 import com.ethan.system.convert.dept.PostConvert;
 import com.ethan.system.dal.entity.dept.PostDO;
 import com.ethan.system.service.dept.PostService;
-import com.ethan.web.operatelog.annotations.OperateLog;
-import com.ethan.web.operatelog.constant.OperateTypeEnum;
+import com.ethan.framework.operatelog.annotations.OperateLog;
+import com.ethan.framework.operatelog.constant.OperateTypeEnum;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -94,7 +94,7 @@ public class PostController {
     @GetMapping("/page")
     @Schema(name = "获得岗位分页列表")
     @PreAuthorize("@ss.hasPermission('system:post:query')")
-    public R<Page<PostRespVO>> getPostPage(@Validated PostPageReqVO reqVO) {
+    public R<PageResult<PostRespVO>> getPostPage(@Validated PostPageReqVO reqVO) {
         return success(PostConvert.INSTANCE.convertPage(postService.getPostPage(reqVO)));
     }
 

@@ -1,5 +1,11 @@
 package com.ethan.common.constant;
 
+import com.ethan.common.converter.AbstractEnumConverter;
+import com.ethan.common.converter.PersistEnum2DB;
+
+import java.util.Objects;
+import java.util.stream.Stream;
+
 public enum SexEnum implements PersistEnum2DB<Integer> {
     /** 男 */
     MALE(1),
@@ -14,6 +20,11 @@ public enum SexEnum implements PersistEnum2DB<Integer> {
 
     SexEnum(Integer sex) {
         this.sex = sex;
+    }
+
+    public static SexEnum findByValue(Integer value) {
+        return Stream.of(values()).filter(e -> Objects.equals(e.getSex(), value))
+                .findFirst().orElse(UNKNOWN);
     }
 
     public Integer getSex() {

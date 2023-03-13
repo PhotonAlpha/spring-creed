@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PostSimpleRespVO {
 
-    @Schema(name = "岗位编号", required = true, example = "1024")
+    @Schema(name = "岗位编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     private Long id;
 
-    @Schema(name = "岗位名称", required = true, example = "芋道")
+    @Schema(name = "岗位名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
     private String name;
 
 }

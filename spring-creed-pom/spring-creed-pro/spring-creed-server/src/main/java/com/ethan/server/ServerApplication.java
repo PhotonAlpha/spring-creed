@@ -10,15 +10,15 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories(basePackages = {
         "com.ethan.security.oauth2.repository",
         "com.ethan.security.websecurity.repository",
-        "com.ethan.web.operatelog.repository",
-        "com.ethan.web.logger.core",
+        "com.ethan.framework.operatelog.repository",
+        "com.ethan.framework.logger.core",
         "com.ethan.system.dal.repository"
 })
 @EntityScan(basePackages = {
         "com.ethan.security.oauth2.entity",
         "com.ethan.security.websecurity.entity",
-        "com.ethan.web.operatelog.entity",
-        "com.ethan.web.logger.core.entity",
+        "com.ethan.framework.operatelog.entity",
+        "com.ethan.framework.logger.core.entity",
         "com.ethan.system.dal.entity"
 })
 public class ServerApplication {

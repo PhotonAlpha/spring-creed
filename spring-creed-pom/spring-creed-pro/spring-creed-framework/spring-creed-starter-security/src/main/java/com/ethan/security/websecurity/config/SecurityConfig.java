@@ -46,6 +46,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.server.resource.introspection.NimbusOpaqueTokenIntrospector;
+import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
@@ -78,6 +80,9 @@ import java.util.stream.Stream;
 public class SecurityConfig {
     @Resource
     private ApplicationContext applicationContext;
+
+    @Resource
+    private CreedSecurityProperties securityProperties;
 
     @Bean
     public UnAuthExceptionHandler exceptionHandler() {
@@ -117,19 +122,26 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.NEVER)
                 // 添加自定义filter
                 .and().addFilterAfter(loginTokenAuthenticationFilter(), AnonymousAuthenticationFilter.class)
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::opaqueToken) // {@see myIntrospector()}
+                // .oauth2ResourceServer(oauth2 ->
+                //     oauth2.opaqueToken(opaqueToken ->
+                //         opaqueToken.introspector(myIntrospector())
+                //     )
+                // )
 
 
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/css/**", "/js/**", "/fonts/**").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/fonts/**", "/*.html").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/actuator/**", "/webjars/**", "/resources/**", "/static/**").permitAll()
                         .requestMatchers(HttpMethod.GET, permitAllUrls.get(HttpMethod.GET).toArray(new String[0])).permitAll()
                         .requestMatchers(HttpMethod.POST, permitAllUrls.get(HttpMethod.POST).toArray(new String[0])).permitAll()
                         .requestMatchers(HttpMethod.PUT, permitAllUrls.get(HttpMethod.PUT).toArray(new String[0])).permitAll()
                         .requestMatchers(HttpMethod.DELETE, permitAllUrls.get(HttpMethod.DELETE).toArray(new String[0])).permitAll()
+                        .requestMatchers(securityProperties.getPermitAllUrls().toArray(new String[0])).permitAll()
                         .anyRequest().authenticated()
                 )
 
-                // .csrf().disable()
+                .csrf().disable()
 
                 // Form login handles the redirect to the login page from the
                 // authorization server filter chain
@@ -139,7 +151,15 @@ public class SecurityConfig {
                 .and()
                 // .formLogin(Customizer.withDefaults())
                 .httpBasic();
+
+        // {@see https://docs.spring.io/spring-security/reference/servlet/oauth2/client/authorization-grants.html#_requesting_an_access_token_2}
+        // http.oauth2Client()
         return http.build();
+    }
+
+    @Bean
+    public OpaqueTokenIntrospector defaultIntrospector() {
+        return new NimbusOpaqueTokenIntrospector("http://localhost:8081/admin-api/oauth2/introspect", "messaging-client", "secret");
     }
 
     private Multimap<HttpMethod, String> getPermitAllUrlsFromAnnotations() {

@@ -1,7 +1,7 @@
 package com.ethan.system.service.permission;
 
-import cn.iocoder.yudao.module.system.api.permission.dto.DeptDataPermissionRespDTO;
-import cn.iocoder.yudao.module.system.dal.dataobject.permission.MenuDO;
+import com.ethan.system.controller.admin.permission.vo.menu.DeptDataPermissionRespDTO;
+import com.ethan.system.dal.entity.permission.MenuDO;
 import org.springframework.lang.Nullable;
 
 import java.util.Collection;
@@ -13,7 +13,7 @@ import java.util.Set;
  *
  * 提供用户-角色、角色-菜单、角色-部门的关联权限处理
  *
- * @author 芋道源码
+ * 
  */
 public interface PermissionService {
 

@@ -2,18 +2,20 @@ package com.ethan.security.websecurity.entity;
 
 import com.ethan.common.constant.CommonStatusEnum;
 import com.ethan.common.constant.SexEnum;
-import com.ethan.common.pojo.BaseDO;
+import com.ethan.common.pojo.BaseXDO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.Instant;
@@ -22,11 +24,14 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "creed_consumer")
+@Table(name = "creed_consumer", indexes = {
+        @Index(name = "CC_IDX_COMMON", columnList = "username,nickname,email,phone")
+})
 @Data
 @EqualsAndHashCode
 @ToString(exclude = "consumerAuthorities")
-public class CreedConsumer extends BaseDO {
+@Accessors(chain = true)
+public class CreedConsumer extends BaseXDO {
     @Id
     @Column
     @GenericGenerator(name = "snowflakeId", strategy = "com.ethan.security.utils.SnowFlakeIdGenerator")

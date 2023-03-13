@@ -8,6 +8,7 @@
 package com.ethan.common.utils.date;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -33,6 +34,9 @@ public class DateUtils {
 
     public static boolean isExpired(Date time) {
         return System.currentTimeMillis() > time.getTime();
+    }
+    public static boolean isExpired(Instant time) {
+        return System.currentTimeMillis() > time.toEpochMilli();
     }
 
     public static long diff(Date endTime, Date startTime) {
@@ -135,6 +139,13 @@ public class DateUtils {
             return false;
         }
         LocalDate localDate = LocalDate.ofInstant(date.toInstant(), ZoneId.systemDefault());
+        return LocalDate.now().equals(localDate);
+    }
+    public static boolean isToday(Instant date) {
+        if (date == null) {
+            return false;
+        }
+        LocalDate localDate = LocalDate.ofInstant(date, ZoneId.systemDefault());
         return LocalDate.now().equals(localDate);
     }
 }

@@ -1,5 +1,8 @@
 package com.ethan.common.constant;
 
+import com.ethan.common.converter.AbstractEnumConverter;
+import com.ethan.common.converter.PersistEnum2DB;
+
 import java.util.Arrays;
 
 public enum CommonStatusEnum implements IntArrayValuable, PersistEnum2DB<Integer> {

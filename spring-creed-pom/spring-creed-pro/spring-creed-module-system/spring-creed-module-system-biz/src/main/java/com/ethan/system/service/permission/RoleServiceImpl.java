@@ -1,52 +1,64 @@
 package com.ethan.system.service.permission;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.ObjectUtil;
-import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
-import cn.iocoder.yudao.framework.common.pojo.PageResult;
-import cn.iocoder.yudao.framework.common.util.collection.CollectionUtils;
-import cn.iocoder.yudao.framework.tenant.core.aop.TenantIgnore;
-import cn.iocoder.yudao.module.system.controller.admin.permission.vo.role.RoleCreateReqVO;
-import cn.iocoder.yudao.module.system.controller.admin.permission.vo.role.RoleExportReqVO;
-import cn.iocoder.yudao.module.system.controller.admin.permission.vo.role.RolePageReqVO;
-import cn.iocoder.yudao.module.system.controller.admin.permission.vo.role.RoleUpdateReqVO;
-import cn.iocoder.yudao.module.system.convert.permission.RoleConvert;
-import cn.iocoder.yudao.module.system.dal.dataobject.permission.RoleDO;
-import cn.iocoder.yudao.module.system.dal.mysql.permission.RoleMapper;
-import cn.iocoder.yudao.module.system.enums.permission.DataScopeEnum;
-import cn.iocoder.yudao.module.system.enums.permission.RoleCodeEnum;
-import cn.iocoder.yudao.module.system.enums.permission.RoleTypeEnum;
-import cn.iocoder.yudao.module.system.mq.producer.permission.RoleProducer;
+import com.ethan.common.constant.CommonStatusEnum;
+import com.ethan.common.utils.collection.CollUtils;
+import com.ethan.system.constant.permission.DataScopeEnum;
+import com.ethan.system.constant.permission.RoleCodeEnum;
+import com.ethan.system.constant.permission.RoleTypeEnum;
+import com.ethan.system.controller.admin.permission.vo.role.RoleCreateReqVO;
+import com.ethan.system.controller.admin.permission.vo.role.RoleExportReqVO;
+import com.ethan.system.controller.admin.permission.vo.role.RolePageReqVO;
+import com.ethan.system.controller.admin.permission.vo.role.RoleUpdateReqVO;
+import com.ethan.system.convert.permission.RoleConvert;
+import com.ethan.system.dal.entity.permission.RoleDO;
+import com.ethan.system.dal.repository.permission.RoleRepository;
+import com.ethan.system.mq.permission.RoleProducer;
 import com.google.common.annotations.VisibleForTesting;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
+import jakarta.persistence.criteria.Predicate;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.Nullable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
-import static cn.iocoder.yudao.module.system.enums.ErrorCodeConstants.*;
+import static com.ethan.common.exception.util.ServiceExceptionUtil.exception;
+import static com.ethan.system.constant.ErrorCodeConstants.ROLE_ADMIN_CODE_ERROR;
+import static com.ethan.system.constant.ErrorCodeConstants.ROLE_CAN_NOT_UPDATE_SYSTEM_TYPE_ROLE;
+import static com.ethan.system.constant.ErrorCodeConstants.ROLE_CODE_DUPLICATE;
+import static com.ethan.system.constant.ErrorCodeConstants.ROLE_IS_DISABLE;
+import static com.ethan.system.constant.ErrorCodeConstants.ROLE_NAME_DUPLICATE;
+import static com.ethan.system.constant.ErrorCodeConstants.ROLE_NOT_EXISTS;
+
 
 /**
  * 角色 Service 实现类
  *
- * @author 芋道源码
+ * 
  */
 @Service
 @Slf4j
@@ -70,13 +82,13 @@ public class RoleServiceImpl implements RoleService {
      * 缓存角色的最大更新时间，用于后续的增量轮询，判断是否有更新
      */
     @Getter
-    private volatile Date maxUpdateTime;
+    private volatile Instant maxUpdateTime;
 
     @Resource
     private PermissionService permissionService;
 
     @Resource
-    private RoleMapper roleMapper;
+    private RoleRepository roleRepository;
 
     @Resource
     private RoleProducer roleProducer;
@@ -90,17 +102,17 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     @PostConstruct
-    @TenantIgnore // 忽略自动多租户，全局初始化缓存
+    // @TenantIgnore // 忽略自动多租户，全局初始化缓存
     public void initLocalCache() {
         // 获取角色列表，如果有更新
         List<RoleDO> roleList = loadRoleIfUpdate(maxUpdateTime);
-        if (CollUtil.isEmpty(roleList)) {
+        if (CollectionUtils.isEmpty(roleList)) {
             return;
         }
 
         // 写入缓存
-        roleCache = CollectionUtils.convertMap(roleList, RoleDO::getId);
-        maxUpdateTime = CollectionUtils.getMaxValue(roleList, RoleDO::getUpdateTime);
+        roleCache = CollUtils.convertMap(roleList, RoleDO::getId);
+        maxUpdateTime = CollUtils.getMaxValue(roleList, RoleDO::getUpdateTime);
         log.info("[initLocalCache][初始化 Role 数量为 {}]", roleList.size());
     }
 
@@ -116,18 +128,18 @@ public class RoleServiceImpl implements RoleService {
      * @param maxUpdateTime 当前角色的最大更新时间
      * @return 角色列表
      */
-    private List<RoleDO> loadRoleIfUpdate(Date maxUpdateTime) {
+    private List<RoleDO> loadRoleIfUpdate(Instant maxUpdateTime) {
         // 第一步，判断是否要更新。
         if (maxUpdateTime == null) { // 如果更新时间为空，说明 DB 一定有新数据
             log.info("[loadRoleIfUpdate][首次加载全量角色]");
         } else { // 判断数据库中是否有更新的角色
-            if (roleMapper.selectCountByUpdateTimeGt(maxUpdateTime) == 0) {
+            if (roleRepository.countByUpdateTimeGreaterThan(LocalDateTime.ofInstant(maxUpdateTime, ZoneId.systemDefault())) == 0) {
                 return null;
             }
             log.info("[loadRoleIfUpdate][增量加载全量角色]");
         }
         // 第二步，如果有更新，则从数据库加载所有角色
-        return roleMapper.selectList();
+        return roleRepository.findAll();
     }
 
     @Override
@@ -137,10 +149,10 @@ public class RoleServiceImpl implements RoleService {
         checkDuplicateRole(reqVO.getName(), reqVO.getCode(), null);
         // 插入到数据库
         RoleDO role = RoleConvert.INSTANCE.convert(reqVO);
-        role.setType(ObjectUtil.defaultIfNull(type, RoleTypeEnum.CUSTOM.getType()));
+        role.setType(ObjectUtils.defaultIfNull(type, RoleTypeEnum.CUSTOM.getType()));
         role.setStatus(CommonStatusEnum.ENABLE.getStatus());
         role.setDataScope(DataScopeEnum.ALL.getScope()); // 默认可查看所有数据。原因是，可能一些项目不需要项目权限
-        roleMapper.insert(role);
+        roleRepository.save(role);
         // 发送刷新消息
         TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
             @Override
@@ -161,7 +173,7 @@ public class RoleServiceImpl implements RoleService {
 
         // 更新到数据库
         RoleDO updateObject = RoleConvert.INSTANCE.convert(reqVO);
-        roleMapper.updateById(updateObject);
+        roleRepository.save(updateObject);
         // 发送刷新消息
         roleProducer.sendRoleRefreshMessage();
     }
@@ -174,7 +186,7 @@ public class RoleServiceImpl implements RoleService {
         RoleDO updateObject = new RoleDO();
         updateObject.setId(id);
         updateObject.setStatus(status);
-        roleMapper.updateById(updateObject);
+        roleRepository.save(updateObject);
         // 发送刷新消息
         roleProducer.sendRoleRefreshMessage();
     }
@@ -188,7 +200,7 @@ public class RoleServiceImpl implements RoleService {
         updateObject.setId(id);
         updateObject.setDataScope(dataScope);
         updateObject.setDataScopeDeptIds(dataScopeDeptIds);
-        roleMapper.updateById(updateObject);
+        roleRepository.save(updateObject);
         // 发送刷新消息
         roleProducer.sendRoleRefreshMessage();
     }
@@ -199,7 +211,7 @@ public class RoleServiceImpl implements RoleService {
         // 校验是否可以更新
         this.checkUpdateRole(id);
         // 标记删除
-        roleMapper.deleteById(id);
+        roleRepository.deleteById(id);
         // 删除相关数据
         permissionService.processRoleDeleted(id);
         // 发送刷新消息. 注意，需要事务提交后，在进行发送刷新消息。不然 db 还未提交，结果缓存先刷新了
@@ -220,15 +232,15 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<RoleDO> getRoles(@Nullable Collection<Integer> statuses) {
-        if (CollUtil.isEmpty(statuses)) {
-    		return roleMapper.selectList();
+        if (CollectionUtils.isEmpty(statuses)) {
+    		return roleRepository.findAll();
 		}
-        return roleMapper.selectListByStatus(statuses);
+        return roleRepository.findByStatusIn(statuses);
     }
 
     @Override
     public List<RoleDO> getRolesFromCache(Collection<Long> ids) {
-        if (CollectionUtil.isEmpty(ids)) {
+        if (CollectionUtils.isEmpty(ids)) {
             return Collections.emptyList();
         }
         return roleCache.values().stream().filter(roleDO -> ids.contains(roleDO.getId()))
@@ -237,7 +249,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public boolean hasAnySuperAdmin(Collection<RoleDO> roleList) {
-        if (CollectionUtil.isEmpty(roleList)) {
+        if (CollectionUtils.isEmpty(roleList)) {
             return false;
         }
         return roleList.stream().anyMatch(role -> RoleCodeEnum.isSuperAdmin(role.getCode()));
@@ -245,17 +257,59 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDO getRole(Long id) {
-        return roleMapper.selectById(id);
+        return roleRepository.findById(id).orElse(null);
     }
 
     @Override
-    public PageResult<RoleDO> getRolePage(RolePageReqVO reqVO) {
-        return roleMapper.selectPage(reqVO);
+    public Page<RoleDO> getRolePage(RolePageReqVO reqVO) {
+        return roleRepository.findAll(getRoleSpecification(reqVO), PageRequest.of(reqVO.getPageNo(), reqVO.getPageSize()));
+    }
+
+
+    private static Specification<RoleDO> getRoleSpecification(RolePageReqVO reqVO) {
+        return (Specification<RoleDO>) (root, query, cb) -> {
+            List<Predicate> predicateList = new ArrayList<>();
+            if (org.apache.commons.lang3.StringUtils.isNotBlank(reqVO.getName())) {
+                predicateList.add(cb.like(root.get("name"),
+                        "%" + reqVO.getName() + "%"));
+            }
+            if (org.apache.commons.lang3.StringUtils.isNotBlank(reqVO.getCode())) {
+                predicateList.add(cb.like(root.get("code"),
+                        "%" + reqVO.getCode() + "%"));
+            }
+            if (Objects.nonNull(reqVO.getStatus())) {
+                predicateList.add(cb.equal(root.get("status"), reqVO.getStatus()));
+            }
+            if (Objects.nonNull(reqVO.getStatus())) {
+                predicateList.add(cb.greaterThan(root.get("createTime"), reqVO.getCreateTime()));
+            }
+            return cb.and(predicateList.toArray(new Predicate[0]));
+        };
+    }
+    private static Specification<RoleDO> getExportReqSpecification(RoleExportReqVO reqVO) {
+        return (Specification<RoleDO>) (root, query, cb) -> {
+            List<Predicate> predicateList = new ArrayList<>();
+            if (org.apache.commons.lang3.StringUtils.isNotBlank(reqVO.getName())) {
+                predicateList.add(cb.like(root.get("name"),
+                        "%" + reqVO.getName() + "%"));
+            }
+            if (org.apache.commons.lang3.StringUtils.isNotBlank(reqVO.getCode())) {
+                predicateList.add(cb.like(root.get("code"),
+                        "%" + reqVO.getCode() + "%"));
+            }
+            if (Objects.nonNull(reqVO.getStatus())) {
+                predicateList.add(cb.equal(root.get("status"), reqVO.getStatus()));
+            }
+            if (Objects.nonNull(reqVO.getStatus())) {
+                predicateList.add(cb.greaterThan(root.get("createTime"), reqVO.getCreateTime()));
+            }
+            return cb.and(predicateList.toArray(new Predicate[0]));
+        };
     }
 
     @Override
     public List<RoleDO> getRoleList(RoleExportReqVO reqVO) {
-        return roleMapper.selectList(reqVO);
+        return roleRepository.findAll(getExportReqSpecification(reqVO));
     }
 
     /**
@@ -275,8 +329,8 @@ public class RoleServiceImpl implements RoleService {
             throw exception(ROLE_ADMIN_CODE_ERROR, code);
         }
         // 1. 该 name 名字被其它角色所使用
-        RoleDO role = roleMapper.selectByName(name);
-        if (role != null && !role.getId().equals(id)) {
+        Optional<RoleDO> roleOptional = roleRepository.findByName(name);
+        if (roleOptional.isPresent() && !roleOptional.get().getId().equals(id)) {
             throw exception(ROLE_NAME_DUPLICATE, name);
         }
         // 2. 是否存在相同编码的角色
@@ -284,8 +338,8 @@ public class RoleServiceImpl implements RoleService {
             return;
         }
         // 该 code 编码被其它角色所使用
-        role = roleMapper.selectByCode(code);
-        if (role != null && !role.getId().equals(id)) {
+        roleOptional = roleRepository.findByCode(code);
+        if (roleOptional.isPresent() && !roleOptional.get().getId().equals(id)) {
             throw exception(ROLE_CODE_DUPLICATE, code);
         }
     }
@@ -297,24 +351,24 @@ public class RoleServiceImpl implements RoleService {
      */
     @VisibleForTesting
     public void checkUpdateRole(Long id) {
-        RoleDO roleDO = roleMapper.selectById(id);
-        if (roleDO == null) {
+        Optional<RoleDO> roleOptional = roleRepository.findById(id);
+        if (roleOptional.isEmpty()) {
             throw exception(ROLE_NOT_EXISTS);
         }
         // 内置角色，不允许删除
-        if (RoleTypeEnum.SYSTEM.getType().equals(roleDO.getType())) {
+        if (RoleTypeEnum.SYSTEM.getType().equals(roleOptional.get().getType())) {
             throw exception(ROLE_CAN_NOT_UPDATE_SYSTEM_TYPE_ROLE);
         }
     }
 
     @Override
     public void validRoles(Collection<Long> ids) {
-        if (CollUtil.isEmpty(ids)) {
+        if (CollectionUtils.isEmpty(ids)) {
             return;
         }
         // 获得角色信息
-        List<RoleDO> roles = roleMapper.selectBatchIds(ids);
-        Map<Long, RoleDO> roleMap = CollectionUtils.convertMap(roles, RoleDO::getId);
+        List<RoleDO> roles = roleRepository.findAllById(ids);
+        Map<Long, RoleDO> roleMap = CollUtils.convertMap(roles, RoleDO::getId);
         // 校验
         ids.forEach(id -> {
             RoleDO role = roleMap.get(id);

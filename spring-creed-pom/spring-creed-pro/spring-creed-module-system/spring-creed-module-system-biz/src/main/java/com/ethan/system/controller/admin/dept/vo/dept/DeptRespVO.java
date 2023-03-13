@@ -11,13 +11,13 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 public class DeptRespVO extends DeptBaseVO {
 
-    @Schema(name = "部门编号", required = true, example = "1024")
+    @Schema(name = "部门编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     private Long id;
 
-    @Schema(name = "状态", required = true, example = "1", description = "参见 CommonStatusEnum 枚举类")
+    @Schema(name = "状态", requiredMode = Schema.RequiredMode.REQUIRED, example = "1", description = "参见 CommonStatusEnum 枚举类")
     private Integer status;
 
-    @Schema(name = "创建时间", required = true, example = "时间戳格式")
+    @Schema(name = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED, example = "时间戳格式")
     private Date createTime;
 
 }

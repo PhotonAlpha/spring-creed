@@ -1,23 +1,23 @@
 package com.ethan.system.service.dept;
 
-import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
-import cn.iocoder.yudao.framework.common.pojo.PageResult;
-import cn.iocoder.yudao.module.system.controller.admin.dept.vo.post.PostCreateReqVO;
-import cn.iocoder.yudao.module.system.controller.admin.dept.vo.post.PostExportReqVO;
-import cn.iocoder.yudao.module.system.controller.admin.dept.vo.post.PostPageReqVO;
-import cn.iocoder.yudao.module.system.controller.admin.dept.vo.post.PostUpdateReqVO;
-import cn.iocoder.yudao.module.system.dal.dataobject.dept.PostDO;
+import com.ethan.common.constant.CommonStatusEnum;
+import com.ethan.common.pojo.PageResult;
+import com.ethan.system.controller.admin.dept.vo.post.PostCreateReqVO;
+import com.ethan.system.controller.admin.dept.vo.post.PostExportReqVO;
+import com.ethan.system.controller.admin.dept.vo.post.PostPageReqVO;
+import com.ethan.system.controller.admin.dept.vo.post.PostUpdateReqVO;
+import com.ethan.system.dal.entity.dept.PostDO;
 import org.springframework.lang.Nullable;
 
 import java.util.Collection;
 import java.util.List;
 
-import static cn.iocoder.yudao.framework.common.util.collection.SetUtils.asSet;
+import static com.ethan.common.utils.collection.SetUtils.asSet;
 
 /**
  * 岗位 Service 接口
  *
- * @author 芋道源码
+ * 
  */
 public interface PostService {
 

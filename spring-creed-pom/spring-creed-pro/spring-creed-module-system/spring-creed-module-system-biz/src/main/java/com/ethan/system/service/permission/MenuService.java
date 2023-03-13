@@ -1,9 +1,9 @@
 package com.ethan.system.service.permission;
 
-import cn.iocoder.yudao.module.system.controller.admin.permission.vo.menu.MenuCreateReqVO;
-import cn.iocoder.yudao.module.system.controller.admin.permission.vo.menu.MenuListReqVO;
-import cn.iocoder.yudao.module.system.controller.admin.permission.vo.menu.MenuUpdateReqVO;
-import cn.iocoder.yudao.module.system.dal.dataobject.permission.MenuDO;
+import com.ethan.system.controller.admin.permission.vo.menu.MenuCreateReqVO;
+import com.ethan.system.controller.admin.permission.vo.menu.MenuListReqVO;
+import com.ethan.system.controller.admin.permission.vo.menu.MenuUpdateReqVO;
+import com.ethan.system.dal.entity.permission.MenuDO;
 
 import java.util.Collection;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 菜单 Service 接口
  *
- * @author 芋道源码
+ * 
  */
 public interface MenuService {
 
