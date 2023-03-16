@@ -1,5 +1,6 @@
 package com.ethan.system.mq.message.sms;
 
+import com.ethan.mq.core.pubsub.AbstractChannelMessage;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

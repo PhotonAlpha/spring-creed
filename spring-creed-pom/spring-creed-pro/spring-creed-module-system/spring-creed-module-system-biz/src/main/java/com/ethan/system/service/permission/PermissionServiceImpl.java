@@ -16,7 +16,7 @@ import com.ethan.system.dal.entity.dept.DeptDO;
 import com.ethan.system.dal.entity.permission.MenuDO;
 import com.ethan.system.dal.entity.permission.RoleMenuDO;
 import com.ethan.system.dal.repository.permission.RoleMenuRepository;
-import com.ethan.system.mq.permission.PermissionProducer;
+import com.ethan.system.mq.producer.permission.PermissionProducer;
 import com.ethan.system.service.dept.DeptService;
 import com.ethan.system.service.user.AdminUserService;
 import com.google.common.annotations.VisibleForTesting;

@@ -1,3 +1,5 @@
+
+
 server:
   port: 8081
 #  servlet:
@@ -6,8 +8,16 @@ server:
 logging:
   level:
     root: debug
+    org:
+      redisson:
+        command:
+          RedisExecutor: info
 
 spring:
+  profiles:
+    active: redis
+  application:
+    name: spring-creed-server
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3306/ruoyi-vue-pro

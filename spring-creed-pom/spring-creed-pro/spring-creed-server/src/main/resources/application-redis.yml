@@ -1,0 +1,7 @@
+spring:
+  data:
+    # Redis 配置。Redisson 默认的配置足够使用，一般不需要进行调优
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      database: 0

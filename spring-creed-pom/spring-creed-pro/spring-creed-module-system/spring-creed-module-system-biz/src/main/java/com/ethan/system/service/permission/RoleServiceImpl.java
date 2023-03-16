@@ -15,7 +15,7 @@ import com.ethan.system.controller.admin.permission.vo.role.RolePageReqVO;
 import com.ethan.system.controller.admin.permission.vo.role.RoleSimpleRespVO;
 import com.ethan.system.controller.admin.permission.vo.role.RoleUpdateReqVO;
 import com.ethan.system.convert.permission.AuthorityConvert;
-import com.ethan.system.mq.permission.RoleProducer;
+import com.ethan.system.mq.producer.permission.RoleProducer;
 import com.google.common.annotations.VisibleForTesting;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;

@@ -10,7 +10,7 @@ import com.ethan.system.controller.admin.dept.vo.dept.DeptUpdateReqVO;
 import com.ethan.system.convert.dept.DeptConvert;
 import com.ethan.system.dal.entity.dept.DeptDO;
 import com.ethan.system.dal.repository.dept.DeptRepository;
-import com.ethan.system.mq.dept.DeptProducer;
+import com.ethan.system.mq.producer.dept.DeptProducer;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;

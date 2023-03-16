@@ -27,6 +27,7 @@
         <springdoc-openapi.version>2.0.2</springdoc-openapi.version>
         <tika-core.version>2.7.0</tika-core.version>
         <hutool-bom.version>5.8.12</hutool-bom.version>
+        <redisson.version>3.20.0</redisson.version>
     </properties>
 
     <dependencyManagement>
@@ -117,6 +118,30 @@
                 <artifactId>spring-creed-starter-web</artifactId>
                 <version>${spring-creed-boot.version}</version>
             </dependency>
+<!--            redis 缓存相关-->
+            <dependency>
+                <groupId>com.ethan</groupId>
+                <artifactId>spring-creed-starter-redis</artifactId>
+                <version>${spring-creed-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+<!--            mq消息中间件相关-->
+            <dependency>
+                <groupId>com.ethan</groupId>
+                <artifactId>spring-creed-starter-mq</artifactId>
+                <version>${spring-creed-boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ethan</groupId>
+                <artifactId>spring-creed-starter-kafka</artifactId>
+                <version>${spring-creed-boot.version}</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>com.ethan</groupId>

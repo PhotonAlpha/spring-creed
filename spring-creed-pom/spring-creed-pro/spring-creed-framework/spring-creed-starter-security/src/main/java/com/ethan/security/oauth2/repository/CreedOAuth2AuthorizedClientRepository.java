@@ -10,10 +10,12 @@ package com.ethan.security.oauth2.repository;
 import com.ethan.security.oauth2.entity.CreedOAuth2AuthorizedClient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface CreedOAuth2AuthorizedClientRepository extends JpaRepository<CreedOAuth2AuthorizedClient, Long>, JpaSpecificationExecutor<CreedOAuth2AuthorizedClient> {
     Optional<CreedOAuth2AuthorizedClient> findByRefreshTokenValue(String refreshToken);
 

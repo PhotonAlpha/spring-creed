@@ -45,4 +45,14 @@ public class UnitTest {
         OAuth2TokenFormat map2 = objectMapper.readValue(s2, OAuth2TokenFormat.class);
         System.out.println(map);
     }
+
+    @Test
+    @SneakyThrows
+    void deserializerTest002() {
+
+        String abc = objectMapper.writeValueAsString("abc");
+        String res = objectMapper.readValue(abc, String.class);
+        System.out.println(abc);
+        System.out.println(res);
+    }
 }

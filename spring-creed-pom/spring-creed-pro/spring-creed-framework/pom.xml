@@ -14,6 +14,9 @@
         <module>spring-creed-common</module>
         <module>spring-creed-starter-banner</module>
         <module>spring-creed-starter-web</module>
+        <module>spring-creed-starter-redis</module>
+        <module>spring-creed-starter-mq</module>
+        <module>spring-creed-starter-kafka</module>
     </modules>
 
     <groupId>com.ethan</groupId>

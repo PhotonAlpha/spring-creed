@@ -10,7 +10,7 @@ import com.ethan.system.controller.admin.permission.vo.menu.MenuUpdateReqVO;
 import com.ethan.system.convert.permission.MenuConvert;
 import com.ethan.system.dal.entity.permission.MenuDO;
 import com.ethan.system.dal.repository.permission.MenuRepository;
-import com.ethan.system.mq.permission.MenuProducer;
+import com.ethan.system.mq.producer.permission.MenuProducer;
 import com.ethan.system.service.tenant.TenantService;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
