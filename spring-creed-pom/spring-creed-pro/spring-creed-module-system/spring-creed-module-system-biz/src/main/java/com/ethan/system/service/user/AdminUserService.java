@@ -1,14 +1,20 @@
 package com.ethan.system.service.user;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.iocoder.yudao.framework.common.pojo.PageResult;
-import cn.iocoder.yudao.framework.common.util.collection.CollectionUtils;
-import cn.iocoder.yudao.module.system.controller.admin.user.vo.profile.UserProfileUpdatePasswordReqVO;
-import cn.iocoder.yudao.module.system.controller.admin.user.vo.profile.UserProfileUpdateReqVO;
-import cn.iocoder.yudao.module.system.controller.admin.user.vo.user.*;
-import cn.iocoder.yudao.module.system.dal.dataobject.user.AdminUserDO;
+import com.ethan.common.constant.CommonStatusEnum;
+import com.ethan.common.pojo.PageResult;
+import com.ethan.common.utils.collection.CollUtils;
+import com.ethan.security.websecurity.entity.CreedConsumer;
+import com.ethan.system.controller.admin.user.vo.profile.UserProfileUpdatePasswordReqVO;
+import com.ethan.system.controller.admin.user.vo.profile.UserProfileUpdateReqVO;
+import com.ethan.system.controller.admin.user.vo.user.UserCreateReqVO;
+import com.ethan.system.controller.admin.user.vo.user.UserExportReqVO;
+import com.ethan.system.controller.admin.user.vo.user.UserImportExcelVO;
+import com.ethan.system.controller.admin.user.vo.user.UserImportRespVO;
+import com.ethan.system.controller.admin.user.vo.user.UserPageReqVO;
+import com.ethan.system.controller.admin.user.vo.user.UserUpdateReqVO;
+import jakarta.validation.Valid;
+import org.springframework.util.CollectionUtils;
 
-import javax.validation.Valid;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
@@ -19,7 +25,7 @@ import java.util.Set;
 /**
  * 后台用户 Service 接口
  *
- * @author 芋道源码
+ * 
  */
 public interface AdminUserService {
 
@@ -29,7 +35,7 @@ public interface AdminUserService {
      * @param reqVO 用户信息
      * @return 用户编号
      */
-    Long createUser(@Valid UserCreateReqVO reqVO);
+    String createUser(@Valid UserCreateReqVO reqVO);
 
     /**
      * 修改用户
@@ -44,7 +50,7 @@ public interface AdminUserService {
      * @param id 用户编号
      * @param loginIp 登陆 IP
      */
-    void updateUserLogin(Long id, String loginIp);
+    void updateUserLogin(String id, String loginIp);
 
     /**
      * 修改用户个人信息
@@ -52,7 +58,7 @@ public interface AdminUserService {
      * @param id 用户编号
      * @param reqVO 用户个人信息
      */
-    void updateUserProfile(Long id, @Valid UserProfileUpdateReqVO reqVO);
+    void updateUserProfile(String id, @Valid UserProfileUpdateReqVO reqVO);
 
     /**
      * 修改用户个人密码
@@ -60,7 +66,7 @@ public interface AdminUserService {
      * @param id 用户编号
      * @param reqVO 更新用户个人密码
      */
-    void updateUserPassword(Long id, @Valid UserProfileUpdatePasswordReqVO reqVO);
+    void updateUserPassword(String id, @Valid UserProfileUpdatePasswordReqVO reqVO);
 
     /**
      * 更新用户头像
@@ -68,7 +74,7 @@ public interface AdminUserService {
      * @param id         用户 id
      * @param avatarFile 头像文件
      */
-    String updateUserAvatar(Long id, InputStream avatarFile) throws Exception;
+    String updateUserAvatar(String id, InputStream avatarFile) throws Exception;
 
     /**
      * 修改密码
@@ -76,7 +82,7 @@ public interface AdminUserService {
      * @param id       用户编号
      * @param password 密码
      */
-    void updateUserPassword(Long id, String password);
+    void updateUserPassword(String id, String password);
 
     /**
      * 修改状态
@@ -84,14 +90,14 @@ public interface AdminUserService {
      * @param id     用户编号
      * @param status 状态
      */
-    void updateUserStatus(Long id, Integer status);
+    void updateUserStatus(String id, Integer status);
 
     /**
      * 删除用户
      *
      * @param id 用户编号
      */
-    void deleteUser(Long id);
+    void deleteUser(String id);
 
     /**
      * 通过用户名查询用户
@@ -99,7 +105,7 @@ public interface AdminUserService {
      * @param username 用户名
      * @return 用户对象信息
      */
-    AdminUserDO getUserByUsername(String username);
+    CreedConsumer getUserByUsername(String username);
 
     /**
      * 通过手机号获取用户
@@ -107,7 +113,7 @@ public interface AdminUserService {
      * @param mobile 手机号
      * @return 用户对象信息
      */
-    AdminUserDO getUserByMobile(String mobile);
+    CreedConsumer getUserByMobile(String mobile);
 
     /**
      * 获得用户分页列表
@@ -115,7 +121,7 @@ public interface AdminUserService {
      * @param reqVO 分页条件
      * @return 分页列表
      */
-    PageResult<AdminUserDO> getUserPage(UserPageReqVO reqVO);
+    PageResult<CreedConsumer> getUserPage(UserPageReqVO reqVO);
 
     /**
      * 通过用户 ID 查询用户
@@ -123,7 +129,7 @@ public interface AdminUserService {
      * @param id 用户ID
      * @return 用户对象信息
      */
-    AdminUserDO getUser(Long id);
+    CreedConsumer getUser(String id);
 
     /**
      * 获得指定部门的用户数组
@@ -131,7 +137,7 @@ public interface AdminUserService {
      * @param deptIds 部门数组
      * @return 用户数组
      */
-    List<AdminUserDO> getUsersByDeptIds(Collection<Long> deptIds);
+    List<CreedConsumer> getUsersByDeptIds(Collection<Long> deptIds);
 
     /**
      * 获得指定岗位的用户数组
@@ -139,7 +145,7 @@ public interface AdminUserService {
      * @param postIds 岗位数组
      * @return 用户数组
      */
-    List<AdminUserDO> getUsersByPostIds(Collection<Long> postIds);
+    List<CreedConsumer> getUsersByPostIds(Collection<Long> postIds);
 
     /**
      * 获得用户列表
@@ -147,7 +153,7 @@ public interface AdminUserService {
      * @param ids 用户编号数组
      * @return 用户列表
      */
-    List<AdminUserDO> getUsers(Collection<Long> ids);
+    List<CreedConsumer> getUsers(Collection<String> ids);
 
     /**
      * 校验用户们是否有效。如下情况，视为无效：
@@ -156,7 +162,7 @@ public interface AdminUserService {
      *
      * @param ids 用户编号数组
      */
-    void validUsers(Set<Long> ids);
+    void validUsers(Set<String> ids);
 
     /**
      * 获得用户 Map
@@ -164,11 +170,11 @@ public interface AdminUserService {
      * @param ids 用户编号数组
      * @return 用户 Map
      */
-    default Map<Long, AdminUserDO> getUserMap(Collection<Long> ids) {
-        if (CollUtil.isEmpty(ids)) {
+    default Map<String, CreedConsumer> getUserMap(Collection<String> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
             return new HashMap<>();
         }
-        return CollectionUtils.convertMap(getUsers(ids), AdminUserDO::getId);
+        return CollUtils.convertMap(getUsers(ids), CreedConsumer::getId);
     }
 
     /**
@@ -177,7 +183,7 @@ public interface AdminUserService {
      * @param reqVO 列表请求
      * @return 用户列表
      */
-    List<AdminUserDO> getUsers(UserExportReqVO reqVO);
+    List<CreedConsumer> getUsers(UserExportReqVO reqVO);
 
     /**
      * 获得用户列表，基于昵称模糊匹配
@@ -185,7 +191,7 @@ public interface AdminUserService {
      * @param nickname 昵称
      * @return 用户列表
      */
-    List<AdminUserDO> getUsersByNickname(String nickname);
+    List<CreedConsumer> getUsersByNickname(String nickname);
 
     /**
      * 获得用户列表，基于用户账号模糊匹配
@@ -193,7 +199,7 @@ public interface AdminUserService {
      * @param username 用户账号
      * @return 用户列表
      */
-    List<AdminUserDO> getUsersByUsername(String username);
+    List<CreedConsumer> getUsersByUsername(String username);
 
     /**
      * 批量导入用户
@@ -210,7 +216,7 @@ public interface AdminUserService {
      * @param status 状态
      * @return 用户们
      */
-    List<AdminUserDO> getUsersByStatus(Integer status);
+    List<CreedConsumer> getUsersByStatus(CommonStatusEnum status);
 
     /**
      * 判断密码是否匹配

@@ -1,15 +1,75 @@
+
+
 server:
   port: 8081
-  servlet:
-    context-path: /admin-api
+#  servlet:
+#    context-path: /admin-api
 
 logging:
   level:
     root: debug
+    org:
+      redisson:
+        command:
+          RedisExecutor: info
 
 spring:
+  profiles:
+    active: redis
+  application:
+    name: spring-creed-server
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3306/ruoyi-vue-pro
     username: root
     password:
+  main:
+    allow-circular-references: true
+  jpa:
+    show-sql: true
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        type: trace
+
+springdoc:
+  show-actuator: true
+  swagger-ui:
+    path: /swagger-ui.html
+    url: /v3/api-docs
+    disable-swagger-default-url: true
+#    enabled: false
+#  api-docs:
+#    enabled: false
+#    path: /api-docs
+#    url: /v3/api-docs
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+
+#spring:
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          okta:
+#            client-id: okta-client-id
+#            client-secret: okta-client-secret
+#            authorization-grant-type: client_credentials
+#            scope: read, write
+#        provider:
+#          okta:
+#            token-uri: https://dev-1234.oktapreview.com/oauth2/v1/token
+
+creed:
+  security:
+    permitAllUrls:
+      - /admin-ui/** # /resources/admin-ui 目录下的静态资源

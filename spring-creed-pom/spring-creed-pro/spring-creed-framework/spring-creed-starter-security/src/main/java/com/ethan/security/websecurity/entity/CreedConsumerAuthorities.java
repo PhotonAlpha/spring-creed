@@ -1,5 +1,8 @@
 package com.ethan.security.websecurity.entity;
 
+import com.ethan.common.pojo.BaseDO;
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,10 +18,11 @@ import java.util.Objects;
 @Entity
 @Table(name = "creed_consumer_authorities")
 // @IdClass(value = CreedConsumerAuthorities.CreedConsumerAuthoritiesId.class)
+@AttributeOverride(name = "deleted", column = @Column(name = "enabled"))
 @Data
 @EqualsAndHashCode
 // @ToString(exclude = "authorities")
-public class CreedConsumerAuthorities {
+public class CreedConsumerAuthorities extends BaseDO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -1,14 +1,16 @@
 package com.ethan.system.service.permission;
 
-import cn.iocoder.yudao.framework.common.pojo.PageResult;
-import cn.iocoder.yudao.module.system.controller.admin.permission.vo.role.RoleCreateReqVO;
-import cn.iocoder.yudao.module.system.controller.admin.permission.vo.role.RoleExportReqVO;
-import cn.iocoder.yudao.module.system.controller.admin.permission.vo.role.RolePageReqVO;
-import cn.iocoder.yudao.module.system.controller.admin.permission.vo.role.RoleUpdateReqVO;
-import cn.iocoder.yudao.module.system.dal.dataobject.permission.RoleDO;
+
+import com.ethan.common.pojo.PageResult;
+import com.ethan.security.websecurity.entity.CreedAuthorities;
+import com.ethan.system.controller.admin.permission.vo.role.RoleCreateReqVO;
+import com.ethan.system.controller.admin.permission.vo.role.RoleExportReqVO;
+import com.ethan.system.controller.admin.permission.vo.role.RolePageReqVO;
+import com.ethan.system.controller.admin.permission.vo.role.RoleSimpleRespVO;
+import com.ethan.system.controller.admin.permission.vo.role.RoleUpdateReqVO;
+import jakarta.validation.Valid;
 import org.springframework.lang.Nullable;
 
-import javax.validation.Valid;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +18,7 @@ import java.util.Set;
 /**
  * 角色 Service 接口
  *
- * @author 芋道源码
+ * 
  */
 public interface RoleService {
 
@@ -32,7 +34,7 @@ public interface RoleService {
      * @param type 角色类型
      * @return 角色编号
      */
-    Long createRole(@Valid RoleCreateReqVO reqVO, Integer type);
+    String createAuthority(@Valid RoleCreateReqVO reqVO, Integer type);
 
     /**
      * 更新角色
@@ -46,7 +48,7 @@ public interface RoleService {
      *
      * @param id 角色编号
      */
-    void deleteRole(Long id);
+    void deleteRole(String id);
 
     /**
      * 更新角色状态
@@ -54,7 +56,7 @@ public interface RoleService {
      * @param id 角色编号
      * @param status 状态
      */
-    void updateRoleStatus(Long id, Integer status);
+    void updateRoleStatus(String id, Integer status);
 
     /**
      * 设置角色的数据权限
@@ -63,7 +65,7 @@ public interface RoleService {
      * @param dataScope 数据范围
      * @param dataScopeDeptIds 部门编号数组
      */
-    void updateRoleDataScope(Long id, Integer dataScope, Set<Long> dataScopeDeptIds);
+    void updateRoleDataScope(String id, Integer dataScope, Set<Long> dataScopeDeptIds);
 
     /**
      * 获得角色，从缓存中
@@ -71,7 +73,7 @@ public interface RoleService {
      * @param id 角色编号
      * @return 角色
      */
-    RoleDO getRoleFromCache(Long id);
+    CreedAuthorities getRoleFromCache(String id);
 
     /**
      * 获得角色列表
@@ -79,7 +81,7 @@ public interface RoleService {
      * @param statuses 筛选的状态。允许空，空时不筛选
      * @return 角色列表
      */
-    List<RoleDO> getRoles(@Nullable Collection<Integer> statuses);
+    List<CreedAuthorities> getRoles(@Nullable Collection<Integer> statuses);
 
     /**
      * 获得角色数组，从缓存中
@@ -87,7 +89,7 @@ public interface RoleService {
      * @param ids 角色编号数组
      * @return 角色数组
      */
-    List<RoleDO> getRolesFromCache(Collection<Long> ids);
+    List<CreedAuthorities> getRolesFromCache(Collection<String> ids);
 
     /**
      * 判断角色数组中，是否有超级管理员
@@ -95,7 +97,7 @@ public interface RoleService {
      * @param roleList 角色数组
      * @return 是否有管理员
      */
-    boolean hasAnySuperAdmin(Collection<RoleDO> roleList);
+    boolean hasAnySuperAdmin(Collection<CreedAuthorities> roleList);
 
     /**
      * 判断角色编号数组中，是否有管理员
@@ -103,7 +105,7 @@ public interface RoleService {
      * @param ids 角色编号数组
      * @return 是否有管理员
      */
-    default boolean hasAnySuperAdmin(Set<Long> ids) {
+    default boolean hasAnySuperAdmin(Set<String> ids) {
         return hasAnySuperAdmin(getRolesFromCache(ids));
     }
 
@@ -113,7 +115,7 @@ public interface RoleService {
      * @param id 角色编号
      * @return 角色
      */
-    RoleDO getRole(Long id);
+    CreedAuthorities getRole(String id);
 
     /**
      * 获得角色分页
@@ -121,7 +123,7 @@ public interface RoleService {
      * @param reqVO 角色分页查询
      * @return 角色分页结果
      */
-    PageResult<RoleDO> getRolePage(RolePageReqVO reqVO);
+    PageResult<RoleSimpleRespVO> getRolePage(RolePageReqVO reqVO);
 
     /**
      * 获得角色列表
@@ -129,7 +131,7 @@ public interface RoleService {
      * @param reqVO 列表查询
      * @return 角色列表
      */
-    List<RoleDO> getRoleList(RoleExportReqVO reqVO);
+    List<CreedAuthorities> getRoleList(RoleExportReqVO reqVO);
 
     /**
      * 校验角色们是否有效。如下情况，视为无效：
@@ -138,6 +140,6 @@ public interface RoleService {
      *
      * @param ids 角色编号数组
      */
-    void validRoles(Collection<Long> ids);
+    void validRoles(Collection<String> ids);
 
 }

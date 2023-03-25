@@ -1,24 +1,24 @@
 package com.ethan.entity;
 
-import jakarta.persistence.CascadeType;
+import com.ethan.listener.CreedAuthoritiesEvent;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.domain.AfterDomainEventPublication;
+import org.springframework.data.domain.DomainEvents;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Entity
 @Table(name = "creed_authorities")
@@ -66,5 +66,18 @@ public class CreedAuthorities extends BaseDO {
     @Override
     public int hashCode() {
         return Objects.hash(id, authority);
+    }
+
+
+    // 返回类型定义
+    @DomainEvents
+    public List<Object> domainEvents(){
+        System.out.println("CreedAuthorities domainEvents");
+        return Stream.of(new CreedAuthoritiesEvent(this)).collect(Collectors.toList());
+    }
+    // 事件发布后callback
+    @AfterDomainEventPublication
+    void callback() {
+        System.err.println("CreedAuthorities ok");
     }
 }

@@ -47,8 +47,8 @@ public class TenantController {
     )
     @GetMapping("/get-id-by-name")
     @PermitAll
-    public R<TenantDO> getTenantIdByName(@RequestParam("name") String name) {
+    public R<Long> getTenantIdByName(@RequestParam("name") String name) {
         TenantDO tenant = tenantService.getTenantByName(name);
-        return R.success(tenant);
+        return R.success(tenant != null ? tenant.getId() : null);
     }
 }

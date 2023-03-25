@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class DeptListReqVO {
 
-    @Schema(name = "部门名称", example = "芋道", description = "模糊匹配")
+    @Schema(name = "部门名称", example = "TEST", description = "模糊匹配")
     private String name;
 
     @Schema(name = "展示状态", example = "1", description = "参见 CommonStatusEnum 枚举类")

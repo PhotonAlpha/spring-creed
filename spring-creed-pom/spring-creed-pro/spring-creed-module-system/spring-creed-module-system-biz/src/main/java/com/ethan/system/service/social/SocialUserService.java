@@ -1,18 +1,18 @@
 package com.ethan.system.service.social;
 
-import cn.iocoder.yudao.framework.common.exception.ServiceException;
-import cn.iocoder.yudao.module.system.api.social.dto.SocialUserBindReqDTO;
-import cn.iocoder.yudao.module.system.dal.dataobject.social.SocialUserDO;
-import cn.iocoder.yudao.module.system.enums.social.SocialTypeEnum;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import com.ethan.system.api.constant.social.SocialTypeEnum;
+import com.ethan.system.controller.admin.social.dto.SocialUserBindReqDTO;
+import com.ethan.system.dal.entity.social.SocialUserDO;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+
 import java.util.List;
 
 /**
  * 社交用户 Service 接口，例如说社交平台的授权登录
  *
- * @author 芋道源码
+ * 
  */
 public interface SocialUserService {
 
@@ -61,7 +61,7 @@ public interface SocialUserService {
      * @param type 社交平台的类型 {@link SocialTypeEnum}
      * @param openid 社交平台的 openid
      */
-    void unbindSocialUser(Long userId, Integer userType, Integer type, String openid);
+    void unbindSocialUser(String userId, Integer userType, Integer type, String openid);
 
     /**
      * 获得社交用户的绑定用户编号
@@ -74,5 +74,5 @@ public interface SocialUserService {
      * @param state state
      * @return 绑定用户编号
      */
-    Long getBindUserId(Integer userType, Integer type, String code, String state);
+    String getBindUserId(Integer userType, Integer type, String code, String state);
 }

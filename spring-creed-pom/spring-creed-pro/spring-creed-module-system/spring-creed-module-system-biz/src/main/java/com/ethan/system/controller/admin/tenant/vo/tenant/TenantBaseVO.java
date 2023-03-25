@@ -14,7 +14,7 @@ import java.util.Date;
 @Data
 public class TenantBaseVO {
 
-    @Schema(name = "租户名", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
+    @Schema(name = "租户名", requiredMode = Schema.RequiredMode.REQUIRED, example = "TES")
     @NotNull(message = "租户名不能为空")
     private String name;
 
@@ -37,7 +37,7 @@ public class TenantBaseVO {
     @NotNull(message = "租户套餐编号不能为空")
     private Long packageId;
 
-    @Schema(name = "过期时间", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "过期时间", required = true)
     @NotNull(message = "过期时间不能为空")
     private Date expireTime;
 

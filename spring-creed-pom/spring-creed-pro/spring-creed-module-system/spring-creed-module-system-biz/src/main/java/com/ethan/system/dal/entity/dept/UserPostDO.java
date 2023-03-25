@@ -1,28 +1,33 @@
 package com.ethan.system.dal.entity.dept;
 
-import cn.iocoder.yudao.framework.mybatis.core.dataobject.BaseDO;
-import cn.iocoder.yudao.module.system.dal.dataobject.user.AdminUserDO;
-import com.baomidou.mybatisplus.annotation.KeySequence;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.ethan.common.pojo.BaseDO;
+import com.ethan.system.dal.entity.user.AdminUserDO;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 /**
  * 用户和岗位关联
  *
  * @author ruoyi
  */
-@TableName("system_user_post")
-@KeySequence("system_user_post_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@Table(name = "system_user_post")
+@Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
 public class UserPostDO extends BaseDO {
 
     /**
      * 自增主键
      */
-    @TableId
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     /**
      * 用户 ID

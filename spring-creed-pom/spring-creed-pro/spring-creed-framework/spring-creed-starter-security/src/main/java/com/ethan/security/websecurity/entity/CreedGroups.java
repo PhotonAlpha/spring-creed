@@ -1,6 +1,6 @@
 package com.ethan.security.websecurity.entity;
 
-import com.ethan.common.pojo.BaseDO;
+import com.ethan.common.pojo.BaseXDO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,7 +18,7 @@ import java.util.List;
 @Table(name = "creed_groups")
 @Data
 @EqualsAndHashCode
-public class CreedGroups extends BaseDO {
+public class CreedGroups extends BaseXDO {
     @Id
     @Column
     @GenericGenerator(name = "snowflakeId", strategy = "com.ethan.security.utils.SnowFlakeIdGenerator")

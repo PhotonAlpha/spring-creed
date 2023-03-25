@@ -7,8 +7,9 @@
 
 package com.ethan.system.dal.entity.tenant;
 
+import com.ethan.common.constant.CommonStatusEnum;
 import com.ethan.common.pojo.BaseDO;
-import jakarta.persistence.AttributeOverride;
+import com.ethan.system.dal.entity.user.AdminUserDO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,7 +27,7 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode
 @ToString(exclude = "consumerAuthorities")
-@AttributeOverride(name = "enabled", column = @Column(name = "deleted"))
+// @AttributeOverride(name = "enabled", column = @Column(name = "deleted"))
 public class TenantDO extends BaseDO {
     /**
      * 租户编号，自增

@@ -6,6 +6,17 @@ CREATE TABLE IF NOT EXISTS `creed_consumer_authorities` (
     KEY `ix_auth_username` (`consumer_id`,`authority_id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+ALTER TABLE `creed_consumer_authorities`
+    ADD COLUMN `enabled` INT(1) NOT NULL DEFAULT 0;
+ALTER TABLE `creed_consumer_authorities`
+    ADD COLUMN `create_time` timestamp NOT NULL DEFAULT current_timestamp();
+ALTER TABLE `creed_consumer_authorities`
+    ADD COLUMN `update_time` timestamp NOT NULL DEFAULT current_timestamp();
+ALTER TABLE `creed_consumer_authorities`
+    ADD COLUMN `creator` varchar(50) DEFAULT NULL;
+ALTER TABLE `creed_consumer_authorities`
+    ADD COLUMN `updater` varchar(50) DEFAULT NULL;
+
 DROP TABLE IF EXISTS `creed_authorities`;
 CREATE TABLE IF NOT EXISTS `creed_authorities` (
     `id` varchar(50) NOT NULL,
@@ -21,6 +32,15 @@ CREATE TABLE IF NOT EXISTS `creed_authorities` (
     `version` int(11) NOT NULL DEFAULT 0,
     PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `creed_authorities`
+    ADD COLUMN `remark` varchar(1000) DEFAULT NULL;
+ALTER TABLE `creed_authorities`
+    ADD COLUMN `type` varchar(1000) NOT NULL DEFAULT 1 COMMENT '角色类型',
+ALTER TABLE `creed_authorities`
+    ADD COLUMN `data_scope` tinyint(4) NOT NULL DEFAULT 1 COMMENT '数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）'
+ALTER TABLE `creed_authorities`
+    ADD COLUMN `data_scope_dept_ids` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '数据范围(指定部门数组)'
 
 DROP TABLE IF EXISTS `creed_consumer`;
 CREATE TABLE IF NOT EXISTS `creed_consumer` (

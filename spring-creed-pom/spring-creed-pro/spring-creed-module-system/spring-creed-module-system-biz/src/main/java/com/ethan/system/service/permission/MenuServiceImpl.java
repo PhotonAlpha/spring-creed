@@ -1,47 +1,58 @@
 package com.ethan.system.service.permission;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.StrUtil;
-import cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil;
-import cn.iocoder.yudao.framework.common.util.collection.CollectionUtils;
-import cn.iocoder.yudao.module.system.controller.admin.permission.vo.menu.MenuCreateReqVO;
-import cn.iocoder.yudao.module.system.controller.admin.permission.vo.menu.MenuListReqVO;
-import cn.iocoder.yudao.module.system.controller.admin.permission.vo.menu.MenuUpdateReqVO;
-import cn.iocoder.yudao.module.system.convert.permission.MenuConvert;
-import cn.iocoder.yudao.module.system.dal.dataobject.permission.MenuDO;
-import cn.iocoder.yudao.module.system.dal.mysql.permission.MenuMapper;
-import cn.iocoder.yudao.module.system.enums.permission.MenuIdEnum;
-import cn.iocoder.yudao.module.system.enums.permission.MenuTypeEnum;
-import cn.iocoder.yudao.module.system.mq.producer.permission.MenuProducer;
-import cn.iocoder.yudao.module.system.service.tenant.TenantService;
+import com.ethan.common.exception.util.ServiceExceptionUtil;
+import com.ethan.common.utils.collection.CollUtils;
+import com.ethan.system.constant.permission.MenuIdEnum;
+import com.ethan.system.constant.permission.MenuTypeEnum;
+import com.ethan.system.controller.admin.permission.vo.menu.MenuCreateReqVO;
+import com.ethan.system.controller.admin.permission.vo.menu.MenuListReqVO;
+import com.ethan.system.controller.admin.permission.vo.menu.MenuUpdateReqVO;
+import com.ethan.system.convert.permission.MenuConvert;
+import com.ethan.system.dal.entity.permission.MenuDO;
+import com.ethan.system.dal.repository.permission.MenuRepository;
+import com.ethan.system.mq.producer.permission.MenuProducer;
+import com.ethan.system.service.tenant.TenantService;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import com.nimbusds.oauth2.sdk.util.CollectionUtils;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
+import jakarta.persistence.criteria.Predicate;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static cn.iocoder.yudao.module.system.enums.ErrorCodeConstants.*;
+import static com.ethan.system.constant.ErrorCodeConstants.MENU_EXISTS_CHILDREN;
+import static com.ethan.system.constant.ErrorCodeConstants.MENU_NAME_DUPLICATE;
+import static com.ethan.system.constant.ErrorCodeConstants.MENU_NOT_EXISTS;
+import static com.ethan.system.constant.ErrorCodeConstants.MENU_PARENT_ERROR;
+import static com.ethan.system.constant.ErrorCodeConstants.MENU_PARENT_NOT_DIR_OR_MENU;
+import static com.ethan.system.constant.ErrorCodeConstants.MENU_PARENT_NOT_EXISTS;
 
 /**
  * 菜单 Service 实现
  *
- * @author 芋道源码
+ * 
  */
 @Service
 @Slf4j
@@ -71,10 +82,10 @@ public class MenuServiceImpl implements MenuService {
     /**
      * 缓存菜单的最大更新时间，用于后续的增量轮询，判断是否有更新
      */
-    private volatile Date maxUpdateTime;
+    private volatile Instant maxUpdateTime;
 
     @Resource
-    private MenuMapper menuMapper;
+    private MenuRepository menuRepository;
     @Resource
     private PermissionService permissionService;
     @Resource
@@ -92,7 +103,7 @@ public class MenuServiceImpl implements MenuService {
     public synchronized void initLocalCache() {
         // 获取菜单列表，如果有更新
         List<MenuDO> menuList = this.loadMenuIfUpdate(maxUpdateTime);
-        if (CollUtil.isEmpty(menuList)) {
+        if (CollectionUtils.isEmpty(menuList)) {
             return;
         }
 
@@ -101,13 +112,13 @@ public class MenuServiceImpl implements MenuService {
         ImmutableMultimap.Builder<String, MenuDO> permMenuCacheBuilder = ImmutableMultimap.builder();
         menuList.forEach(menuDO -> {
             menuCacheBuilder.put(menuDO.getId(), menuDO);
-            if (StrUtil.isNotEmpty(menuDO.getPermission())) { // 会存在 permission 为 null 的情况，导致 put 报 NPE 异常
+            if (StringUtils.isNotEmpty(menuDO.getPermission())) { // 会存在 permission 为 null 的情况，导致 put 报 NPE 异常
                 permMenuCacheBuilder.put(menuDO.getPermission(), menuDO);
             }
         });
         menuCache = menuCacheBuilder.build();
         permissionMenuCache = permMenuCacheBuilder.build();
-        maxUpdateTime = CollectionUtils.getMaxValue(menuList, MenuDO::getUpdateTime);
+        maxUpdateTime = CollUtils.getMaxValue(menuList, MenuDO::getUpdateTime);
         log.info("[initLocalCache][缓存菜单，数量为:{}]", menuList.size());
     }
 
@@ -123,18 +134,18 @@ public class MenuServiceImpl implements MenuService {
      * @param maxUpdateTime 当前菜单的最大更新时间
      * @return 菜单列表
      */
-    private List<MenuDO> loadMenuIfUpdate(Date maxUpdateTime) {
+    private List<MenuDO> loadMenuIfUpdate(Instant maxUpdateTime) {
         // 第一步，判断是否要更新。
         if (maxUpdateTime == null) { // 如果更新时间为空，说明 DB 一定有新数据
             log.info("[loadMenuIfUpdate][首次加载全量菜单]");
         } else { // 判断数据库中是否有更新的菜单
-            if (menuMapper.selectCountByUpdateTimeGt(maxUpdateTime) == 0) {
+            if (menuRepository.countByUpdateTimeGreaterThan(LocalDateTime.ofInstant(maxUpdateTime, ZoneId.systemDefault())) == 0) {
                 return null;
             }
             log.info("[loadMenuIfUpdate][增量加载全量菜单]");
         }
         // 第二步，如果有更新，则从数据库加载所有菜单
-        return menuMapper.selectList();
+        return menuRepository.findAll();
     }
 
     @Override
@@ -146,7 +157,7 @@ public class MenuServiceImpl implements MenuService {
         // 插入数据库
         MenuDO menu = MenuConvert.INSTANCE.convert(reqVO);
         initMenuProperty(menu);
-        menuMapper.insert(menu);
+        menuRepository.save(menu);
         // 发送刷新消息
         menuProducer.sendMenuRefreshMessage();
         // 返回
@@ -156,7 +167,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public void updateMenu(MenuUpdateReqVO reqVO) {
         // 校验更新的菜单是否存在
-        if (menuMapper.selectById(reqVO.getId()) == null) {
+        if (menuRepository.findById(reqVO.getId()) == null) {
             throw ServiceExceptionUtil.exception(MENU_NOT_EXISTS);
         }
         // 校验父菜单存在
@@ -166,7 +177,7 @@ public class MenuServiceImpl implements MenuService {
         // 更新到数据库
         MenuDO updateObject = MenuConvert.INSTANCE.convert(reqVO);
         initMenuProperty(updateObject);
-        menuMapper.updateById(updateObject);
+        menuRepository.save(updateObject);
         // 发送刷新消息
         menuProducer.sendMenuRefreshMessage();
     }
@@ -180,15 +191,15 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public void deleteMenu(Long menuId) {
         // 校验是否还有子菜单
-        if (menuMapper.selectCountByParentId(menuId) > 0) {
+        if (menuRepository.countByParentId(menuId) > 0) {
             throw ServiceExceptionUtil.exception(MENU_EXISTS_CHILDREN);
         }
         // 校验删除的菜单是否存在
-        if (menuMapper.selectById(menuId) == null) {
+        if (menuRepository.findById(menuId) == null) {
             throw ServiceExceptionUtil.exception(MENU_NOT_EXISTS);
         }
         // 标记删除
-        menuMapper.deleteById(menuId);
+        menuRepository.deleteById(menuId);
         // 删除授予给角色的权限
         permissionService.processMenuDeleted(menuId);
         // 发送刷新消息. 注意，需要事务提交后，在进行发送刷新消息。不然 db 还未提交，结果缓存先刷新了
@@ -204,26 +215,40 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuDO> getMenus() {
-        return menuMapper.selectList();
+        return menuRepository.findAll();
     }
 
     @Override
     public List<MenuDO> getTenantMenus(MenuListReqVO reqVO) {
         List<MenuDO> menus = getMenus(reqVO);
         // 开启多租户的情况下，需要过滤掉未开通的菜单
-        tenantService.handleTenantMenu(menuIds -> menus.removeIf(menu -> !CollUtil.contains(menuIds, menu.getId())));
+        tenantService.handleTenantMenu(menuIds -> menus.removeIf(menu -> !menuIds.contains(menu.getId())));
         return menus;
     }
 
     @Override
     public List<MenuDO> getMenus(MenuListReqVO reqVO) {
-        return menuMapper.selectList(reqVO);
+        return menuRepository.findAll(getMenusSpecification(reqVO));
+    }
+
+    private static Specification<MenuDO> getMenusSpecification(MenuListReqVO reqVO) {
+        return (Specification<MenuDO>) (root, query, cb) -> {
+            List<Predicate> predicateList = new ArrayList<>();
+            if (StringUtils.isNotBlank(reqVO.getName())) {
+                predicateList.add(cb.equal(root.get("name"), reqVO.getName()));
+            }
+
+            if (Objects.nonNull(reqVO.getStatus())) {
+                predicateList.add(cb.equal(root.get("status"), reqVO.getStatus()));
+            }
+            return cb.and(predicateList.toArray(new Predicate[0]));
+        };
     }
 
     @Override
     public List<MenuDO> getMenuListFromCache(Collection<Integer> menuTypes, Collection<Integer> menusStatuses) {
         // 任一一个参数为空，则返回空
-        if (CollectionUtils.isAnyEmpty(menuTypes, menusStatuses)) {
+        if (CollUtils.isAnyEmpty(menuTypes, menusStatuses)) {
             return Collections.emptyList();
         }
         // 创建新数组，避免缓存被修改
@@ -236,7 +261,7 @@ public class MenuServiceImpl implements MenuService {
     public List<MenuDO> getMenuListFromCache(Collection<Long> menuIds, Collection<Integer> menuTypes,
                                              Collection<Integer> menusStatuses) {
         // 任一一个参数为空，则返回空
-        if (CollectionUtils.isAnyEmpty(menuIds, menuTypes, menusStatuses)) {
+        if (CollUtils.isAnyEmpty(menuIds, menuTypes, menusStatuses)) {
             return Collections.emptyList();
         }
         return menuCache.values().stream().filter(menu -> menuIds.contains(menu.getId())
@@ -252,7 +277,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public MenuDO getMenu(Long id) {
-        return menuMapper.selectById(id);
+        return menuRepository.findById(id).orElse(null);
     }
 
     /**
@@ -274,14 +299,14 @@ public class MenuServiceImpl implements MenuService {
         if (parentId.equals(childId)) {
             throw ServiceExceptionUtil.exception(MENU_PARENT_ERROR);
         }
-        MenuDO menu = menuMapper.selectById(parentId);
+        Optional<MenuDO> menuOptional = menuRepository.findById(parentId);
         // 父菜单不存在
-        if (menu == null) {
+        if (menuOptional.isEmpty()) {
             throw ServiceExceptionUtil.exception(MENU_PARENT_NOT_EXISTS);
         }
         // 父菜单必须是目录或者菜单类型
-        if (!MenuTypeEnum.DIR.getType().equals(menu.getType())
-            && !MenuTypeEnum.MENU.getType().equals(menu.getType())) {
+        if (!MenuTypeEnum.DIR.getType().equals(menuOptional.get().getType())
+            && !MenuTypeEnum.MENU.getType().equals(menuOptional.get().getType())) {
             throw ServiceExceptionUtil.exception(MENU_PARENT_NOT_DIR_OR_MENU);
         }
     }
@@ -297,15 +322,15 @@ public class MenuServiceImpl implements MenuService {
      */
     @VisibleForTesting
     public void checkResource(Long parentId, String name, Long id) {
-        MenuDO menu = menuMapper.selectByParentIdAndName(parentId, name);
-        if (menu == null) {
+        Optional<MenuDO> menuOptional = menuRepository.findByParentIdAndName(parentId, name);
+        if (menuOptional.isEmpty()) {
             return;
         }
         // 如果 id 为空，说明不用比较是否为相同 id 的菜单
         if (id == null) {
             throw ServiceExceptionUtil.exception(MENU_NAME_DUPLICATE);
         }
-        if (!menu.getId().equals(id)) {
+        if (!menuOptional.get().getId().equals(id)) {
             throw ServiceExceptionUtil.exception(MENU_NAME_DUPLICATE);
         }
     }

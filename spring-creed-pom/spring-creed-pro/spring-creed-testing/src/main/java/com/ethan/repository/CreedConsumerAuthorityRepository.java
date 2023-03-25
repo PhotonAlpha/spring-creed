@@ -10,4 +10,6 @@ import java.util.Optional;
 @Repository
 public interface CreedConsumerAuthorityRepository extends JpaRepository<CreedConsumerAuthorities, Long> {
     Optional<List<CreedConsumerAuthorities>> findByConsumerId(String s);
+
+    List<CreedConsumerAuthorities> findByConsumerUsername(String username);
 }

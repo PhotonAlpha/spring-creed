@@ -2,6 +2,7 @@ package com.ethan.system.service.dept;
 
 import com.ethan.common.constant.CommonStatusEnum;
 import com.ethan.common.utils.collection.CollUtils;
+import com.ethan.system.constant.ErrorCodeConstants;
 import com.ethan.system.constant.dept.DeptIdEnum;
 import com.ethan.system.controller.admin.dept.vo.dept.DeptCreateReqVO;
 import com.ethan.system.controller.admin.dept.vo.dept.DeptListReqVO;
@@ -9,15 +10,17 @@ import com.ethan.system.controller.admin.dept.vo.dept.DeptUpdateReqVO;
 import com.ethan.system.convert.dept.DeptConvert;
 import com.ethan.system.dal.entity.dept.DeptDO;
 import com.ethan.system.dal.repository.dept.DeptRepository;
-import com.ethan.system.mq.dept.DeptProducer;
+import com.ethan.system.mq.producer.dept.DeptProducer;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
+import jakarta.persistence.criteria.Predicate;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -29,11 +32,19 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+
+import static com.ethan.common.exception.util.ServiceExceptionUtil.exception;
+import static com.ethan.system.constant.ErrorCodeConstants.DEPT_EXITS_CHILDREN;
+import static com.ethan.system.constant.ErrorCodeConstants.DEPT_NAME_DUPLICATE;
+import static com.ethan.system.constant.ErrorCodeConstants.DEPT_NOT_ENABLE;
+import static com.ethan.system.constant.ErrorCodeConstants.DEPT_NOT_FOUND;
 
 /**
  * 部门 Service 实现类
  *
- * @author 芋道源码
+ * 
  */
 @Service
 @Validated
@@ -162,17 +173,33 @@ public class DeptServiceImpl implements DeptService {
         checkDeptExists(id);
         // 校验是否有子部门
         if (deptRepository.countByParentId(id) > 0) {
-            throw ExceptionUtils.exception(DEPT_EXITS_CHILDREN);
+            throw exception(DEPT_EXITS_CHILDREN);
         }
         // 删除部门
-        deptMapper.deleteById(id);
+        deptRepository.deleteById(id);
         // 发送刷新消息
         deptProducer.sendDeptRefreshMessage();
     }
 
     @Override
     public List<DeptDO> getSimpleDepts(DeptListReqVO reqVO) {
-        return deptMapper.selectList(reqVO);
+        return deptRepository.findAll(getDeptSpecification(reqVO));
+    }
+
+    private static Specification<DeptDO> getDeptSpecification(DeptListReqVO reqVO) {
+        return (Specification<DeptDO>) (root, query, cb) -> {
+            List<Predicate> predicateList = new ArrayList<>();
+            if (StringUtils.isNotBlank(reqVO.getName())) {
+                predicateList.add(cb.like(cb.lower(root.get("name").as(String.class)),
+                        "%" + reqVO.getName().toLowerCase() + "%"));
+                // predicateList.add(cb.equal(root.get("name"), reqVO.getName()));
+            }
+            if (Objects.nonNull(reqVO.getStatus())) {
+                predicateList.add(cb.equal(root.get("status"), reqVO.getStatus()));
+            }
+            cb.desc(root.get("id"));
+            return cb.and(predicateList.toArray(new Predicate[0]));
+        };
     }
 
     @Override
@@ -204,7 +231,7 @@ public class DeptServiceImpl implements DeptService {
         }
         // 获得子部门
         Collection<DeptDO> depts = parentDeptMap.get(parentId);
-        if (CollUtil.isEmpty(depts)) {
+        if (CollectionUtils.isEmpty(depts)) {
             return;
         }
         result.addAll(depts);
@@ -228,21 +255,22 @@ public class DeptServiceImpl implements DeptService {
         }
         // 不能设置自己为父部门
         if (parentId.equals(id)) {
-            throw ServiceExceptionUtil.exception(DEPT_PARENT_ERROR);
+            throw exception(ErrorCodeConstants.DEPT_PARENT_ERROR);
         }
         // 父岗位不存在
-        DeptDO dept = deptMapper.selectById(parentId);
-        if (dept == null) {
-            throw ServiceExceptionUtil.exception(DEPT_PARENT_NOT_EXITS);
+        Optional<DeptDO> deptOptional = deptRepository.findById(parentId);
+        if (deptOptional.isEmpty()) {
+            throw exception(ErrorCodeConstants.DEPT_PARENT_NOT_EXITS);
         }
+        DeptDO dept = deptOptional.get();
         // 父部门被禁用
         if (!CommonStatusEnum.ENABLE.getStatus().equals(dept.getStatus())) {
-            throw ServiceExceptionUtil.exception(DEPT_NOT_ENABLE);
+            throw exception(DEPT_NOT_ENABLE);
         }
         // 父部门不能是原来的子部门
         List<DeptDO> children = this.getDeptsByParentIdFromCache(id, true);
         if (children.stream().anyMatch(dept1 -> dept1.getId().equals(parentId))) {
-            throw ServiceExceptionUtil.exception(DEPT_PARENT_IS_CHILD);
+            throw exception(ErrorCodeConstants.DEPT_PARENT_IS_CHILD);
         }
     }
 
@@ -250,44 +278,45 @@ public class DeptServiceImpl implements DeptService {
         if (id == null) {
             return;
         }
-        DeptDO dept = deptMapper.selectById(id);
-        if (dept == null) {
-            throw ServiceExceptionUtil.exception(DEPT_NOT_FOUND);
+        Optional<DeptDO> deptOptional = deptRepository.findById(id);
+        if (deptOptional.isEmpty()) {
+            throw exception(DEPT_NOT_FOUND);
         }
     }
 
     private void checkDeptNameUnique(Long id, Long parentId, String name) {
-        DeptDO menu = deptMapper.selectByParentIdAndName(parentId, name);
-        if (menu == null) {
+        Optional<DeptDO> deptOptional = deptRepository.findByParentIdAndName(parentId, name);
+        if (deptOptional.isEmpty()) {
             return;
         }
         // 如果 id 为空，说明不用比较是否为相同 id 的岗位
         if (id == null) {
-            throw ServiceExceptionUtil.exception(DEPT_NAME_DUPLICATE);
+            throw exception(DEPT_NAME_DUPLICATE);
         }
-        if (!menu.getId().equals(id)) {
-            throw ServiceExceptionUtil.exception(DEPT_NAME_DUPLICATE);
+
+        if (deptOptional.map(DeptDO::getId).map(i -> i.equals(id)).isEmpty()) {
+            throw exception(DEPT_NAME_DUPLICATE);
         }
     }
 
     @Override
     public List<DeptDO> getDepts(Collection<Long> ids) {
-        return deptMapper.selectBatchIds(ids);
+        return deptRepository.findAllById(ids);
     }
 
     @Override
     public DeptDO getDept(Long id) {
-        return deptMapper.selectById(id);
+        return deptRepository.findById(id).orElse(null);
     }
 
     @Override
     public void validDepts(Collection<Long> ids) {
-        if (CollUtil.isEmpty(ids)) {
+        if (CollectionUtils.isEmpty(ids)) {
             return;
         }
         // 获得科室信息
-        List<DeptDO> depts = deptMapper.selectBatchIds(ids);
-        Map<Long, DeptDO> deptMap = CollectionUtils.convertMap(depts, DeptDO::getId);
+        List<DeptDO> depts = deptRepository.findAllById(ids);
+        Map<Long, DeptDO> deptMap = CollUtils.convertMap(depts, DeptDO::getId);
         // 校验
         ids.forEach(id -> {
             DeptDO dept = deptMap.get(id);
@@ -302,7 +331,7 @@ public class DeptServiceImpl implements DeptService {
 
     @Override
     public List<DeptDO> getSimpleDepts(Collection<Long> ids) {
-        return deptMapper.selectBatchIds(ids);
+        return deptRepository.findAllById(ids);
     }
 
 }

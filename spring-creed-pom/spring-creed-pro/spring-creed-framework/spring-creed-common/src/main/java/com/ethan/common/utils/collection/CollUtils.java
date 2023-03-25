@@ -1,6 +1,7 @@
 package com.ethan.common.utils.collection;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Sets;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -23,7 +25,7 @@ import java.util.stream.Collectors;
 /**
  * Collection 工具类
  *
- * @author 芋道源码
+ * 
  */
 public class CollUtils {
 
@@ -193,4 +195,30 @@ public class CollUtils {
         return deptId == null ? Collections.emptyList() : Collections.singleton(deptId);
     }
 
+    public static <T> Collection<T> subtract(Set<T> menuIds, Set<T> dbMenuIds) {
+        return Sets.difference(menuIds, dbMenuIds).stream().toList();
+        // return menuIds.stream()
+        //         .filter(e -> !dbMenuIds.contains(e))
+        //         .collect (Collectors.toList()); // (3)
+
+    }
+
+
+    public static <T> Collection<T> addAll(Collection<T> collection, Iterable<T> iterable) {
+        return iterable == null ? collection : addAll(collection, iterable.iterator());
+    }
+
+    public static <T> Collection<T> addAll(Collection<T> collection, Iterator<T> iterator) {
+        if (null != collection && null != iterator) {
+            while(iterator.hasNext()) {
+                collection.add(iterator.next());
+            }
+        }
+
+        return collection;
+    }
+
+    public static void addAll(Set<Long> deptIds, Long aLong) {
+        deptIds.add(aLong);
+    }
 }

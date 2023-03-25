@@ -1,10 +1,12 @@
 package com.ethan.system.dal.entity.dept;
 
-import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
-import cn.iocoder.yudao.framework.mybatis.core.dataobject.BaseDO;
-import com.baomidou.mybatisplus.annotation.KeySequence;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.ethan.common.constant.CommonStatusEnum;
+import com.ethan.common.pojo.BaseDO;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,8 +15,8 @@ import lombok.EqualsAndHashCode;
  *
  * @author ruoyi
  */
-@TableName("system_post")
-@KeySequence("system_post_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@Table(name = "system_post")
+@Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class PostDO extends BaseDO {
@@ -22,7 +24,8 @@ public class PostDO extends BaseDO {
     /**
      * 岗位序号
      */
-    @TableId
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     /**
      * 岗位名称

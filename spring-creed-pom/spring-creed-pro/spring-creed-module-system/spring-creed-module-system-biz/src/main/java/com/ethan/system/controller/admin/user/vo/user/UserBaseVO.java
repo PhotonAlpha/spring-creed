@@ -43,7 +43,10 @@ public class UserBaseVO {
 
     @Schema(name = "手机号码", example = "15601691300")
     @Mobile
-    private String mobile;
+    private String phone;
+
+    @Schema(name = "区域号码", example = "+86")
+    private String phoneCode;
 
     @Schema(name = "用户性别", example = "1", description = "参见 SexEnum 枚举类")
     private Integer sex;

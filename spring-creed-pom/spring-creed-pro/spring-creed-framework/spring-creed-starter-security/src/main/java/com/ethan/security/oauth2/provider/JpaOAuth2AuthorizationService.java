@@ -6,6 +6,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -21,10 +23,12 @@ import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.jackson2.OAuth2AuthorizationServerJackson2Module;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -32,6 +36,8 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService {
+    private static final Logger log = LoggerFactory.getLogger(JpaOAuth2AuthorizationService.class);
+    private static final String VERSION = "version";
     private final CreedOAuth2AuthorizationRepository authorizationRepository;
     private final RegisteredClientRepository registeredClientRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -49,8 +55,10 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void save(OAuth2Authorization authorization) {
         Assert.notNull(authorization, "authorization cannot be null");
+        log.info("going to save with id:{} token:{}", authorization.getId(), authorization.getAccessToken().getToken().getTokenValue());
         this.authorizationRepository.save(toEntity(authorization));
     }
 
@@ -94,6 +102,7 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
         entity.setAuthorizationGrantType(authorization.getAuthorizationGrantType().getValue());
         entity.setAuthorizedScopes(StringUtils.collectionToDelimitedString(authorization.getAuthorizedScopes(), ","));
         entity.setAttributes(writeMap(authorization.getAttributes()));
+        entity.setVersion(writeVersion(authorization.getAttributes()));
         entity.setState(authorization.getAttribute(OAuth2ParameterNames.STATE));
         OAuth2Authorization.Token<OAuth2AuthorizationCode> authorizationCode =
                 authorization.getToken(OAuth2AuthorizationCode.class);
@@ -135,9 +144,13 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
                 entity::setOidcIdTokenMetadata
         );
         if (oidcIdToken != null) {
-            entity.setOidcIdTokenClaims(writeMap(oidcIdToken.getClaims()));
+            entity.setOidcIdTokenClaims(writeMapStr(oidcIdToken.getClaims()));
         }
         return entity;
+    }
+
+    private int writeVersion(Map<String, Object> attributes) {
+        return (int) attributes.getOrDefault(VERSION, 0);
     }
 
     private void setTokenValues(
@@ -145,7 +158,7 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
             Consumer<String> tokenValueConsumer,
             Consumer<Instant> issuedAtConsumer,
             Consumer<Instant> expiresAtConsumer,
-            Consumer<String> metadataConsumer) {
+            Consumer<byte[]> metadataConsumer) {
         if (token != null) {
             OAuth2Token oAuth2Token = token.getToken();
             tokenValueConsumer.accept(oAuth2Token.getTokenValue());
@@ -157,13 +170,32 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
 
 
     @SneakyThrows
+    private Map<String, Object> parseMap(byte[] data) {
+        return this.objectMapper.readValue(data, new TypeReference<Map<String, Object>>() {
+        });
+    }
+    @SneakyThrows
+    private Map<String, Object> parseMap(byte[] data, int version) {
+        Map<String, Object> attributes = this.objectMapper.readValue(data, new TypeReference<Map<String, Object>>() {
+        });
+        // attributes.put(VERSION, version);
+        // return attributes;
+        Map<String, Object> hashMap = new HashMap<>(attributes);
+        hashMap.put(VERSION, version);
+        return hashMap;
+    }
+    @SneakyThrows
     private Map<String, Object> parseMap(String data) {
         return this.objectMapper.readValue(data, new TypeReference<Map<String, Object>>() {
         });
     }
 
     @SneakyThrows
-    private String writeMap(Map<String, Object> metadata) {
+    private byte[] writeMap(Map<String, Object> metadata) {
+        return this.objectMapper.writeValueAsBytes(metadata);
+    }
+    @SneakyThrows
+    private String writeMapStr(Map<String, Object> metadata) {
         return this.objectMapper.writeValueAsString(metadata);
     }
 
@@ -190,7 +222,7 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
                 .principalName(entity.getPrincipalName())
                 .authorizationGrantType(resolveAuthorizationGrantType(entity.getAuthorizationGrantType()))
                 .authorizedScopes(StringUtils.commaDelimitedListToSet(entity.getAuthorizedScopes()))
-                .attributes(attributes -> attributes.putAll(parseMap(entity.getAttributes())));
+                .attributes(attributes -> attributes.putAll(parseMap(entity.getAttributes(), entity.getVersion())));
         if (entity.getState() != null) {
             builder.attribute(OAuth2ParameterNames.STATE, entity.getState());
         }

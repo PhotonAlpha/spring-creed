@@ -2,7 +2,9 @@ package com.ethan.system.dal.entity.user;
 
 import com.ethan.common.constant.CommonStatusEnum;
 import com.ethan.common.constant.SexEnum;
+import com.ethan.common.converter.SetJacksonConverter;
 import com.ethan.system.dal.entity.tenant.TenantBaseDO;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,6 +15,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Date;
@@ -21,7 +24,7 @@ import java.util.Set;
 /**
  * 管理后台的用户 DO
  *
- * @author 芋道源码
+ * 
  */
 @Table(name = "system_users") // 由于 SQL Server 的 system_user 是关键字，所以使用 system_users
 @Entity
@@ -30,6 +33,8 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
+@Deprecated
 public class AdminUserDO extends TenantBaseDO {
 
     /**
@@ -64,6 +69,7 @@ public class AdminUserDO extends TenantBaseDO {
      * 岗位编号数组
      */
     // @TableField(typeHandler = JsonLongSetTypeHandler.class)
+    @Convert(converter = SetJacksonConverter.class)
     private Set<Long> postIds;
     /**
      * 用户邮箱

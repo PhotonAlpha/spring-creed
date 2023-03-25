@@ -84,11 +84,11 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
         entity.setClientSecretExpiresAt(registeredClient.getClientSecretExpiresAt());
         entity.setClientName(registeredClient.getClientName());
         entity.setClientAuthenticationMethods(StringUtils.collectionToCommaDelimitedString(clientAuthenticationMethods));
-        entity.setAuthorizationGrantTypes(StringUtils.collectionToCommaDelimitedString(authorizationGrantTypes));
-        entity.setRedirectUris(StringUtils.collectionToCommaDelimitedString(registeredClient.getRedirectUris()));
-        entity.setScopes(StringUtils.collectionToCommaDelimitedString(registeredClient.getScopes()));
-        entity.setClientSettings(writeMap(registeredClient.getClientSettings().getSettings()));
-        entity.setTokenSettings(writeMap(registeredClient.getTokenSettings().getSettings()));
+        entity.setAuthorizationGrantTypes(authorizationGrantTypes);
+        entity.setRedirectUris(registeredClient.getRedirectUris());
+        entity.setScopes(registeredClient.getScopes());
+        entity.setClientSettings(registeredClient.getClientSettings().getSettings());
+        entity.setTokenSettings(registeredClient.getTokenSettings().getSettings());
         return entity;
     }
 
@@ -100,12 +100,9 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
     private RegisteredClient toObject(CreedOAuth2RegisteredClient client) {
         Set<String> clientAuthenticationMethods = StringUtils.commaDelimitedListToSet(
                 client.getClientAuthenticationMethods());
-        Set<String> authorizationGrantTypes = StringUtils.commaDelimitedListToSet(
-                client.getAuthorizationGrantTypes());
-        Set<String> redirectUris = StringUtils.commaDelimitedListToSet(
-                client.getRedirectUris());
-        Set<String> clientScopes = StringUtils.commaDelimitedListToSet(
-                client.getScopes());
+        List<String> authorizationGrantTypes = client.getAuthorizationGrantTypes();
+        Set<String> redirectUris = client.getRedirectUris();
+        Set<String> clientScopes = client.getScopes();
 
         RegisteredClient.Builder builder = RegisteredClient.withId(client.getId())
                 .clientId(client.getClientId())
@@ -121,16 +118,16 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
                                 grantTypes.add(resolveAuthorizationGrantType(grantType))))
                 .redirectUris(uris -> uris.addAll(redirectUris))
                 .scopes(scopes -> scopes.addAll(clientScopes));
-        Map<String, Object> clientSettingsMap = parseMap(client.getClientSettings());
-        builder.clientSettings(ClientSettings.withSettings(clientSettingsMap).build());
-        Map<String, Object> tokenSettingsMap = parseMap(client.getTokenSettings());
+        // Map<String, Object> clientSettingsMap = parseMap(client.getClientSettings());
+        builder.clientSettings(ClientSettings.withSettings(client.getClientSettings()).build());
 
+        Map<String, Object> tokenSettingsMap = client.getTokenSettings();
         TokenSettings.Builder tokenSettingsBuilder = TokenSettings.withSettings(tokenSettingsMap);
         if (!tokenSettingsMap.containsKey(ConfigurationSettingNames.Token.ACCESS_TOKEN_FORMAT)) {
             tokenSettingsBuilder.accessTokenFormat(OAuth2TokenFormat.SELF_CONTAINED);
         }
         builder.tokenSettings(tokenSettingsBuilder.build());
-
+        // context.getRegisteredClient().getTokenSettings().getAccessTokenFormat()
         return builder.build();
     }
 

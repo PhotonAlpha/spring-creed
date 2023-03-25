@@ -1,9 +1,9 @@
 server:
-  port: 8081
+  port: 8080
 
-logging:
-  level:
-    root: debug
+#logging:
+#  level:
+#    root: debug
 
 spring:
   datasource:
@@ -18,3 +18,18 @@ spring:
 #    properties:
 #      hibernate:
 #        format_sql: true
+springdoc:
+  show-actuator: true
+  swagger-ui:
+    path: /swagger-ui.html
+    url: /v3/api-docs
+    disable-swagger-default-url: true
+#    enabled: false
+#  api-docs:
+#    enabled: false
+#    path: /api-docs
+#    url: /v3/api-docs
+#    config-url: /mySpringdocConfig
+
+
+

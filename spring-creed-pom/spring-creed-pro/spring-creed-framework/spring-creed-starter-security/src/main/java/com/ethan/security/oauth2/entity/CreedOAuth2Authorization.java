@@ -30,23 +30,21 @@ public class CreedOAuth2Authorization {
 
     @Lob @Basic(fetch=LAZY)
     @Column
-    private String attributes;
+    private byte[] attributes;
 
     @Column(length = 500)
     private String state;
 
-    @Lob @Basic(fetch=LAZY)
-    @Column
+    @Column(length = 4000)
     private String authorizationCodeValue;
     private Instant authorizationCodeIssuedAt;
     private Instant authorizationCodeExpiresAt;
 
     @Lob @Basic(fetch=LAZY)
     @Column
-    private String authorizationCodeMetadata;
+    private byte[] authorizationCodeMetadata;
 
-    @Lob @Basic(fetch=LAZY)
-    @Column
+    @Column(length = 4000)
     private String accessTokenValue;
 
     private Instant accessTokenIssuedAt;
@@ -54,25 +52,23 @@ public class CreedOAuth2Authorization {
 
     @Lob @Basic(fetch=LAZY)
     @Column
-    private String accessTokenMetadata;
+    private byte[] accessTokenMetadata;
 
     private String accessTokenType;
 
     @Column(length = 1000)
     private String accessTokenScopes;
 
-    @Lob @Basic(fetch=LAZY)
-    @Column
+    @Column(length = 4000)
     private String refreshTokenValue;
     private Instant refreshTokenIssuedAt;
     private Instant refreshTokenExpiresAt;
 
     @Lob @Basic(fetch=LAZY)
     @Column
-    private String refreshTokenMetadata;
+    private byte[] refreshTokenMetadata;
 
-    @Lob @Basic(fetch=LAZY)
-    @Column
+    @Column(length = 4000)
     private String oidcIdTokenValue;
 
     private Instant oidcIdTokenIssuedAt;
@@ -80,10 +76,9 @@ public class CreedOAuth2Authorization {
 
     @Lob @Basic(fetch=LAZY)
     @Column
-    private String oidcIdTokenMetadata;
+    private byte[] oidcIdTokenMetadata;
 
-    @Lob @Basic(fetch=LAZY)
-    @Column
+    @Column(length = 2000)
     private String oidcIdTokenClaims;
 
     @Version

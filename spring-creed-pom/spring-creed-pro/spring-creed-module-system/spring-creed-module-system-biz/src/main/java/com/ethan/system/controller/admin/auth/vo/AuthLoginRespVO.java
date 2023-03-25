@@ -6,14 +6,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Tag(name = "管理后台 - 登录 Response VO")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Accessors(chain = true)
 public class AuthLoginRespVO {
 
     @Schema(name = "用户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
@@ -25,7 +27,7 @@ public class AuthLoginRespVO {
     @Schema(name = "刷新令牌", requiredMode = Schema.RequiredMode.REQUIRED, example = "nice")
     private String refreshToken;
 
-    @Schema(name = "过期时间", requiredMode = Schema.RequiredMode.REQUIRED)
-    private Date expiresTime;
+    @Schema(name = "过期时间", required = true)
+    private LocalDateTime expiresTime;
 
 }

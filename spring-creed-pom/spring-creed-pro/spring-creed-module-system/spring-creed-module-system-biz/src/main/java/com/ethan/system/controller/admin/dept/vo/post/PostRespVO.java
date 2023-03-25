@@ -11,10 +11,10 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 public class PostRespVO extends PostBaseVO {
 
-    @Schema(name = "岗位序号", required = true, example = "1024")
+    @Schema(name = "岗位序号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     private Long id;
 
-    @Schema(name = "创建时间", required = true, example = "时间戳格式")
+    @Schema(name = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED, example = "时间戳格式")
     private Date createTime;
 
 }

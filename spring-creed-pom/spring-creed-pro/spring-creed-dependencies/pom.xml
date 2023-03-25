@@ -17,7 +17,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <spring.boot.version>3.0.0</spring.boot.version>
-        <springdoc.version>1.6.13</springdoc.version>
         <mapstruct.version>1.5.3.Final</mapstruct.version>
         <guava.version>31.1-jre</guava.version>
         <transmittable-thread-local.version>2.14.2</transmittable-thread-local.version>
@@ -25,7 +24,10 @@
         <commons-io.version>2.11.0</commons-io.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <spring-creed-boot.version>1.1.0</spring-creed-boot.version>
-        <springdoc-openapi.version>1.6.14</springdoc-openapi.version>
+        <springdoc-openapi.version>2.0.2</springdoc-openapi.version>
+        <tika-core.version>2.7.0</tika-core.version>
+        <hutool-bom.version>5.8.12</hutool-bom.version>
+        <redisson.version>3.20.0</redisson.version>
     </properties>
 
     <dependencyManagement>
@@ -38,7 +40,16 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-<!--已经被弃用，迁移至 spring-security-oauth2-authorization-server-->
+
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-bom</artifactId>
+                <version>${hutool-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!--已经被弃用，迁移至 spring-security-oauth2-authorization-server-->
 <!--            <dependency>
                 <groupId>org.springframework.security.oauth.boot</groupId>
                 <artifactId>spring-security-oauth2-autoconfigure</artifactId>
@@ -50,13 +61,6 @@
                 <artifactId>spring-security-oauth2-authorization-server</artifactId>
                 <version>1.0.0</version>
             </dependency>
-
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-ui</artifactId>
-                <version>${springdoc.version}</version>
-            </dependency>
-
 
             <dependency>
                 <groupId>org.mapstruct</groupId>
@@ -114,6 +118,30 @@
                 <artifactId>spring-creed-starter-web</artifactId>
                 <version>${spring-creed-boot.version}</version>
             </dependency>
+<!--            redis 缓存相关-->
+            <dependency>
+                <groupId>com.ethan</groupId>
+                <artifactId>spring-creed-starter-redis</artifactId>
+                <version>${spring-creed-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+<!--            mq消息中间件相关-->
+            <dependency>
+                <groupId>com.ethan</groupId>
+                <artifactId>spring-creed-starter-mq</artifactId>
+                <version>${spring-creed-boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ethan</groupId>
+                <artifactId>spring-creed-starter-kafka</artifactId>
+                <version>${spring-creed-boot.version}</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>com.ethan</groupId>
@@ -129,9 +157,17 @@
 
             <dependency>
                 <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-ui</artifactId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
                 <version>${springdoc-openapi.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.apache.tika</groupId>
+                <artifactId>tika-core</artifactId>
+                <version>${tika-core.version}</version>
+            </dependency>
+
+
         </dependencies>
     </dependencyManagement>
 

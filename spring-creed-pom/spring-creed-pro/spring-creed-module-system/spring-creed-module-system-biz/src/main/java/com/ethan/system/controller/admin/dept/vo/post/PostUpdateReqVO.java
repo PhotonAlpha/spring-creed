@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class PostUpdateReqVO extends PostBaseVO {
 
-    @Schema(name = "岗位编号", required = true, example = "1024")
+    @Schema(name = "岗位编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     @NotNull(message = "岗位编号不能为空")
     private Long id;
 

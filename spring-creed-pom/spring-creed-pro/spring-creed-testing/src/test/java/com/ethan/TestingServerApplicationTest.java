@@ -17,11 +17,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @SpringBootTest(classes = TestingServerApplication.class)
@@ -39,7 +38,37 @@ public class TestingServerApplicationTest {
     @Autowired
     CreedConsumerAuthorityRepository consumerAuthorityRepository;
 
+    @Test
+    void testWithoutGroup() throws InterruptedException {
+        // saveData();
+        // log.info("===end===");
+        // TimeUnit.SECONDS.sleep(10);
+        List<CreedConsumerAuthorities> authoritiesList = consumerAuthorityRepository.findByConsumerUsername("ethan");
+        for (CreedConsumerAuthorities creedConsumerAuthorities : authoritiesList) {
+            CreedConsumer consumer = creedConsumerAuthorities.getConsumer();
+        }
+    }
+    @Transactional
+    public void saveData() {
+        CreedAuthorities authorities = new CreedAuthorities();
+        authorities.setAuthority("COMMON2");
+        authorities.setDescription("普通用户");
+        authorityRepository.save(authorities);
 
+        CreedConsumer consumer = consumerRepository.findByUsername("test2").orElse(null);
+        if (consumer == null) {
+            consumer = new CreedConsumer();
+            consumer.setUsername("test2");
+            consumer.setPassword("{noop}test2");
+            consumer.setSex(SexEnum.MALE);
+            consumer.setRemark("common");
+            consumerRepository.save(consumer);
+        }
+        // int i = 1 / 0;
+        CreedConsumerAuthorities consumerAuthorities = new CreedConsumerAuthorities(consumer, authorities);
+        consumerAuthorityRepository.save(consumerAuthorities);
+
+    }
 
     @Test
     // @Transactional

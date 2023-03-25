@@ -17,7 +17,7 @@ public class TenantRespVO extends TenantBaseVO {
     @Schema(name = "租户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     private Long id;
 
-    @Schema(name = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "创建时间", required = true)
     private Date createTime;
 
 }
