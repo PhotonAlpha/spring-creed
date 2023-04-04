@@ -1,0 +1,27 @@
+/**
+ * Copyright the original author or authors.
+ *
+ * @author: EthanCao
+ * @email: ethan.caoq@foxmail.com
+ */
+
+package com.ethan.reactive.dal.repo.permission;
+
+import com.ethan.reactive.dal.entity.permission.MenuDO;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+@Repository
+public interface MenuRepository extends JpaRepository<MenuDO, Long>, JpaSpecificationExecutor<MenuDO> {
+
+
+    long countByUpdateTimeGreaterThan(LocalDateTime maxUpdateTime);
+
+    long countByParentId(Long menuId);
+
+    Optional<MenuDO> findByParentIdAndName(Long parentId, String name);
+}

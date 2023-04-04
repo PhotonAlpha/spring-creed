@@ -7,7 +7,7 @@ server:
 
 logging:
   level:
-    root: debug
+    root: info
     org:
       redisson:
         command:
@@ -15,7 +15,7 @@ logging:
 
 spring:
   profiles:
-    active: redis
+    active: redis,shardingsphere
   application:
     name: spring-creed-server
   datasource:

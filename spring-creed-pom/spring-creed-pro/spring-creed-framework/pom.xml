@@ -17,6 +17,9 @@
         <module>spring-creed-starter-redis</module>
         <module>spring-creed-starter-mq</module>
         <module>spring-creed-starter-kafka</module>
+        <module>spring-creed-starter-monitor</module>
+        <module>spring-creed-starter-reactive</module>
+        <module>spring-creed-starter-job</module>
     </modules>
 
     <groupId>com.ethan</groupId>

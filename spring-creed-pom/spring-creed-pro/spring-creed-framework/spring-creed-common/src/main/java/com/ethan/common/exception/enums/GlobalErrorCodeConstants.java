@@ -24,6 +24,7 @@ public interface GlobalErrorCodeConstants {
     ErrorCode METHOD_NOT_ALLOWED = new ErrorCode(405, "请求方法不正确");
     ErrorCode LOCKED = new ErrorCode(423, "请求失败，请稍后重试"); // 并发请求，不允许
     ErrorCode TOO_MANY_REQUESTS = new ErrorCode(429, "请求过于频繁，请稍后重试");
+    ErrorCode AUTH_SIGNATURE_ERROR = new ErrorCode(403, "签名错误");
 
     // ========== 服务端错误段 ==========
 
@@ -34,6 +35,7 @@ public interface GlobalErrorCodeConstants {
     ErrorCode DEMO_DENY = new ErrorCode(901, "演示模式，禁止写操作");
 
     ErrorCode UNKNOWN = new ErrorCode(999, "未知错误");
+    ErrorCode ACCESS_TOKEN_INVALID = new ErrorCode(403, "无效的TOKEN");
 
     /**
      * 是否为服务端错误，参考 HTTP 5XX 错误码段

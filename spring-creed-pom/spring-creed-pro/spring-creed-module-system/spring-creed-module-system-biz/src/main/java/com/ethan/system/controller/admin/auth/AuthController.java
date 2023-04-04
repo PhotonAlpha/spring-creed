@@ -43,6 +43,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 import static com.ethan.common.common.R.success;
 import static com.ethan.common.utils.WebFrameworkUtils.getLoginUserId;
@@ -72,6 +73,9 @@ public class AuthController {
     @OperateLog(enable = false) // 避免 Post 请求被记录操作日志
     public R<AuthLoginRespVO> login(@RequestBody @Valid AuthLoginReqVO reqVO) {
         System.out.println("abc==>test2");
+        log.info("====login==={}",reqVO);
+        CompletableFuture<String> future1 = authService.async1();
+        CompletableFuture<String> future2 = authService.async2();
         return success(authService.login(reqVO));
     }
 
