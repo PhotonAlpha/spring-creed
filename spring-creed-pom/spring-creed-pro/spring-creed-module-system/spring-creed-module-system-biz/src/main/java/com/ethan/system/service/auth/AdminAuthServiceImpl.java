@@ -6,6 +6,7 @@ import com.ethan.common.constant.UserTypeEnum;
 import com.ethan.common.utils.monitor.TracerUtils;
 import com.ethan.common.utils.servlet.ServletUtils;
 import com.ethan.common.utils.validation.ValidationUtils;
+import com.ethan.framework.logger.core.dto.LoginLogCreateReqDTO;
 import com.ethan.security.oauth2.entity.CreedOAuth2AuthorizedClient;
 import com.ethan.security.websecurity.entity.CreedConsumer;
 import com.ethan.system.api.constant.sms.SmsSceneEnum;
@@ -26,15 +27,17 @@ import com.ethan.system.service.oauth2.OAuth2TokenService;
 import com.ethan.system.service.sms.SmsCodeService;
 import com.ethan.system.service.social.SocialUserService;
 import com.ethan.system.service.user.AdminUserService;
-import com.ethan.framework.logger.core.dto.LoginLogCreateReqDTO;
 import com.google.common.annotations.VisibleForTesting;
 import jakarta.annotation.Resource;
 import jakarta.validation.Validator;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 import static com.ethan.common.exception.util.ServiceExceptionUtil.exception;
 import static com.ethan.system.constant.ErrorCodeConstants.AUTH_LOGIN_BAD_CREDENTIALS;
@@ -94,6 +97,24 @@ public class AdminAuthServiceImpl implements AdminAuthService {
             throw exception(AUTH_LOGIN_USER_DISABLED);
         }
         return user;
+    }
+
+    @Override
+    @Async
+    public CompletableFuture<String> async1() {
+        log.info("****** async1 testing");
+        return CompletableFuture.completedFuture("succ");
+    }
+
+    @Resource
+    private TaskExecutor taskExecutor;
+
+    @Override
+    @Async("taskExecutor")
+    public CompletableFuture<String> async2() {
+        log.info("****** async2 testing");
+        taskExecutor.execute(() -> log.info("inner async2"));
+        return CompletableFuture.completedFuture("succ");
     }
 
     @Override

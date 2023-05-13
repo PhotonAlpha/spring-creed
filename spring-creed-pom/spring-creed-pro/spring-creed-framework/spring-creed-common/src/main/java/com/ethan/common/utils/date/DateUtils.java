@@ -7,10 +7,14 @@
 
 package com.ethan.common.utils.date;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -21,12 +25,15 @@ public class DateUtils {
      */
     public static final String TIME_ZONE_DEFAULT = "GMT+8";
 
+    public static final String FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECONDS = "uuuu-MM-dd HH:mm:ssSSS";
+    public static final String FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND = "uuuu-MM-dd HH:mm:ss";
+    public static final DateTimeFormatter DEFAULT_FORMATTER = DateTimeFormatter.ofPattern(FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECONDS);
+
     /**
      * 秒转换成毫秒
      */
     public static final long SECOND_MILLIS = 1000;
 
-    public static final String FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND = "yyyy-MM-dd HH:mm:ss";
 
     public static Date addTime(Duration duration) {
         return new Date(System.currentTimeMillis() + duration.toMillis());
@@ -147,5 +154,13 @@ public class DateUtils {
         }
         LocalDate localDate = LocalDate.ofInstant(date, ZoneId.systemDefault());
         return LocalDate.now().equals(localDate);
+    }
+
+    public static boolean expired(String timestamp, long timeoutSeconds) {
+        if (StringUtils.isBlank(timestamp)) {
+            return true;
+        }
+        LocalDateTime expiringTime = LocalDateTime.parse(timestamp, DEFAULT_FORMATTER).plusSeconds(timeoutSeconds);
+        return LocalDateTime.now().isAfter(expiringTime);
     }
 }

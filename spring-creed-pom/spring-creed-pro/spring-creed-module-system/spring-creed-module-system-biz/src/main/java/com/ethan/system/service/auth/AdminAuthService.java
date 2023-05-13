@@ -15,6 +15,8 @@ import com.ethan.system.controller.admin.auth.vo.AuthSmsSendReqVO;
 import com.ethan.system.controller.admin.auth.vo.AuthSocialLoginReqVO;
 import jakarta.validation.Valid;
 
+import java.util.concurrent.CompletableFuture;
+
 public interface AdminAuthService {
     /**
      * 验证账号 + 密码。如果通过，则返回用户
@@ -71,4 +73,9 @@ public interface AdminAuthService {
      * @return 登录结果
      */
     AuthLoginRespVO refreshToken(String refreshToken);
+
+
+    CompletableFuture<String> async1();
+
+    CompletableFuture<String> async2();
 }

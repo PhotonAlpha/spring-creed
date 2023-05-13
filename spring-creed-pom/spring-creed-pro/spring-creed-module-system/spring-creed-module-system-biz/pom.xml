@@ -54,6 +54,10 @@
             <groupId>com.ethan</groupId>
             <artifactId>spring-creed-starter-mq</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.ethan</groupId>
+            <artifactId>spring-creed-starter-monitor</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

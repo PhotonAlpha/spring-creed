@@ -7,6 +7,7 @@
 package com.ethan.security.websecurity.config;
 
 
+import com.ethan.security.core.context.TransmittableThreadLocalSecurityContextHolderStrategy;
 import com.ethan.security.provider.UnAuthExceptionHandler;
 import com.ethan.security.websecurity.filter.LoginTokenAuthenticationFilter;
 import com.ethan.security.websecurity.provider.CreedUserDetailsManager;
@@ -25,6 +26,7 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,6 +45,7 @@ import org.springframework.security.config.annotation.web.configurers.AuthorizeH
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -275,5 +278,19 @@ public class SecurityConfig {
                 groupsMembersRepository,
                 groupsRepository,
                 consumerAuthorityRepository);
+    }
+
+
+    /**
+     * 声明调用 {@link SecurityContextHolder#setStrategyName(String)} 方法，
+     * 设置使用 {@link TransmittableThreadLocalSecurityContextHolderStrategy} 作为 Security 的上下文策略
+     */
+    @Bean
+    public MethodInvokingFactoryBean securityContextHolderMethodInvokingFactoryBean() {
+        MethodInvokingFactoryBean methodInvokingFactoryBean = new MethodInvokingFactoryBean();
+        methodInvokingFactoryBean.setTargetClass(SecurityContextHolder.class);
+        methodInvokingFactoryBean.setTargetMethod("setStrategyName");
+        methodInvokingFactoryBean.setArguments(TransmittableThreadLocalSecurityContextHolderStrategy.class.getName());
+        return methodInvokingFactoryBean;
     }
 }

@@ -44,6 +44,22 @@ public class SignAuthFilter extends OncePerRequestFilter {
         String timestamp = request.getHeader(Constant.SIGN_TIME);
         String nonce = request.getHeader(Constant.SIGN_NONCE);
         String sign = request.getHeader(Constant.SIGN);
+        /**
+         ContentCachingRequestWrapper reqWrapper = new ContentCachingRequestWrapper((HttpServletRequest) req);
+         ContentCachingResponseWrapper resWrapper = new ContentCachingResponseWrapper((HttpServletResponse) res);
+         try {
+            chain.doFilter(reqWrapper, resWrapper);
+            resWrapper.copyBodyToResponse();  // Necessary (see answer by StasKolodyuk above)
+         } catch (IOException | ServletException e) {
+            log.error("Error extracting body", e);
+         }
+
+         if (req instanceof ContentCachingRequestWrapper) {
+             ContentCachingRequestWrapper reqWrapper = (ContentCachingRequestWrapper) req;
+             String payload = new String (reqWrapper.getContentAsByteArray(), "utf-8");
+             log.debug("Request [ {} ] has payload [ {} ]", reqWrapper.getRequestURI(), payload);
+         }
+         */
 
         // 时间限制配置
         long nonce_str_timeout_seconds = 60L;
