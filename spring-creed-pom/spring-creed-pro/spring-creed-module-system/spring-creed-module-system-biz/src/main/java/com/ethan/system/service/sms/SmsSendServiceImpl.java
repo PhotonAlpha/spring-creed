@@ -4,7 +4,7 @@ import cn.hutool.core.lang.Pair;
 import cn.hutool.core.util.StrUtil;
 import com.ethan.common.constant.CommonStatusEnum;
 import com.ethan.common.constant.UserTypeEnum;
-import com.ethan.security.websecurity.entity.CreedConsumer;
+import com.ethan.security.websecurity.entity.CreedUser;
 import com.ethan.system.dal.entity.sms.SmsChannelDO;
 import com.ethan.system.dal.entity.sms.SmsTemplateDO;
 import com.ethan.system.mq.message.sms.SmsSendMessage;
@@ -53,7 +53,7 @@ public class SmsSendServiceImpl implements SmsSendService {
     public Long sendSingleSmsToAdmin(String mobile, Long userId, String templateCode, Map<String, Object> templateParams) {
         // 如果 mobile 为空，则加载用户编号对应的手机号
         if (StrUtil.isEmpty(mobile)) {
-            CreedConsumer user = adminUserService.getUser(userId + "");
+            CreedUser user = adminUserService.getUser(userId + "");
             if (user != null) {
                 mobile = user.getPhone();
             }

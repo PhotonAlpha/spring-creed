@@ -80,7 +80,7 @@ public class SocialUserServiceImpl implements SocialUserService {
     }
 
     @Override
-    public List<SocialUserDO> getSocialUserList(Long userId, Integer userType) {
+    public List<SocialUserDO> getSocialUserList(String userId, Integer userType) {
         // 获得绑定
         List<SocialUserBindDO> socialUserBinds = socialUserBindRepository.findByUserIdAndUserType(userId, userType);
         if (CollectionUtils.isEmpty(socialUserBinds)) {

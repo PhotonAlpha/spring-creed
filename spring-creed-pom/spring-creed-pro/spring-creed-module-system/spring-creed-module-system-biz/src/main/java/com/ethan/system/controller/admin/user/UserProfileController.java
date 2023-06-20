@@ -2,7 +2,7 @@ package com.ethan.system.controller.admin.user;
 
 import com.ethan.common.common.R;
 import com.ethan.common.exception.util.ServiceExceptionUtil;
-import com.ethan.security.websecurity.entity.CreedConsumer;
+import com.ethan.security.websecurity.entity.CreedUser;
 import com.ethan.system.constant.ErrorCodeConstants;
 import com.ethan.system.controller.admin.user.vo.profile.UserProfileRespVO;
 import com.ethan.system.controller.admin.user.vo.profile.UserProfileUpdatePasswordReqVO;
@@ -57,7 +57,7 @@ public class UserProfileController {
     // @DataPermission(enable = false) // 关闭数据权限，避免只查看自己时，查询不到部门。
     public R<UserProfileRespVO> profile() {
         // 获得用户基本信息
-        CreedConsumer user = userService.getUser(getLoginUserId());
+        CreedUser user = userService.getUser(getLoginUserId());
         UserProfileRespVO resp = UserConvert.INSTANCE.convert03(user);
         // 获得用户角色
         // List<RoleDO> userRoles = roleService.getRolesFromCache(permissionService.getUserRoleIdListByUserId(user.getId()));

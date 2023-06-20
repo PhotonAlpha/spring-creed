@@ -8,7 +8,7 @@ import com.ethan.common.utils.servlet.ServletUtils;
 import com.ethan.common.utils.validation.ValidationUtils;
 import com.ethan.framework.logger.core.dto.LoginLogCreateReqDTO;
 import com.ethan.security.oauth2.entity.CreedOAuth2AuthorizedClient;
-import com.ethan.security.websecurity.entity.CreedConsumer;
+import com.ethan.security.websecurity.entity.CreedUser;
 import com.ethan.system.api.constant.sms.SmsSceneEnum;
 import com.ethan.system.constant.logger.LoginLogTypeEnum;
 import com.ethan.system.constant.logger.LoginResultEnum;
@@ -79,10 +79,10 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
 
     @Override
-    public CreedConsumer authenticate(String username, String password) {
+    public CreedUser authenticate(String username, String password) {
         final LoginLogTypeEnum logTypeEnum = LoginLogTypeEnum.LOGIN_USERNAME;
         // 校验账号是否存在
-        CreedConsumer user = userService.getUserByUsername(username);
+        CreedUser user = userService.getUserByUsername(username);
         if (Objects.isNull(user)) {
             createLoginLog(null, username, logTypeEnum, LoginResultEnum.BAD_CREDENTIALS);
             throw exception(AUTH_LOGIN_BAD_CREDENTIALS);
@@ -123,7 +123,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         verifyCaptcha(reqVO);
 
         // 使用账号密码，进行登录
-        CreedConsumer user = authenticate(reqVO.getUsername(), reqVO.getPassword());
+        CreedUser user = authenticate(reqVO.getUsername(), reqVO.getPassword());
 
         // 如果 socialType 非空，说明需要绑定社交用户
         if (reqVO.getSocialType() != null) {
@@ -151,7 +151,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         smsCodeService.useSmsCode(AuthConvert.INSTANCE.convert(reqVO, SmsSceneEnum.ADMIN_MEMBER_LOGIN.getScene(), ServletUtils.getClientIP()));
 
         // 获得用户信息
-        CreedConsumer user = userService.getUserByMobile(reqVO.getMobile());
+        CreedUser user = userService.getUserByMobile(reqVO.getMobile());
         if (user == null) {
             throw exception(USER_NOT_EXISTS);
         }
@@ -215,7 +215,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         }
 
         // 获得用户
-        CreedConsumer user = userService.getUser(userId);
+        CreedUser user = userService.getUser(userId);
         if (Objects.isNull(user)) {
             throw exception(USER_NOT_EXISTS);
         }
@@ -272,7 +272,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         if (userId == null) {
             return null;
         }
-        CreedConsumer user = userService.getUser(userId);
+        CreedUser user = userService.getUser(userId);
         return user != null ? user.getUsername() : null;
     }
 

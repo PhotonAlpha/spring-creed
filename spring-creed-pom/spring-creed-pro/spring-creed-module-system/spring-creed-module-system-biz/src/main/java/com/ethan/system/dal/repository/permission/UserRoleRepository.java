@@ -11,7 +11,7 @@ import com.ethan.system.dal.entity.permission.UserRoleDO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -19,7 +19,7 @@ import java.util.List;
 @Deprecated(forRemoval = true)
 public interface UserRoleRepository extends JpaRepository<UserRoleDO, Long> {
 
-    long countByUpdateTimeGreaterThan(Instant maxUpdateTime);
+    long countByUpdateTimeGreaterThan(ZonedDateTime maxUpdateTime);
 
     List<UserRoleDO> findByUserId(Long userId);
 

@@ -1,12 +1,13 @@
 package com.ethan.server;
 
 import com.ethan.common.constant.SexEnum;
+import com.ethan.security.websecurity.constant.DataScopeEnum;
 import com.ethan.security.websecurity.entity.CreedAuthorities;
-import com.ethan.security.websecurity.entity.CreedConsumer;
+import com.ethan.security.websecurity.entity.CreedUser;
 import com.ethan.security.websecurity.repository.CreedAuthorityRepository;
-import com.ethan.security.websecurity.repository.CreedConsumerRepository;
 import com.ethan.security.websecurity.repository.CreedGroupsMembersRepository;
 import com.ethan.security.websecurity.repository.CreedGroupsRepository;
+import com.ethan.security.websecurity.repository.CreedUserRepository;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import org.junit.jupiter.api.Test;
@@ -14,17 +15,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
 @SpringBootTest(classes = ServerApplication.class)
+@Transactional
 public class ServerApplicationTest {
     @Autowired
     JWKSource<SecurityContext> jwkSource;
     @Autowired
     JwtDecoder jwtDecoder;
     @Autowired
-    CreedConsumerRepository consumerRepository;
+    CreedUserRepository consumerRepository;
     @Autowired
     CreedAuthorityRepository authorityRepository;
     @Autowired
@@ -39,20 +43,27 @@ public class ServerApplicationTest {
     }
 
     @Test
+    @Rollback(false)
     void testJpa() {
         CreedAuthorities creedAuthorities = new CreedAuthorities();
         CreedAuthorities creedAuthorities2 = new CreedAuthorities();
         creedAuthorities.setAuthority("SUPER_ADMIN");
+        creedAuthorities.setDataScope(DataScopeEnum.ALL);
         creedAuthorities2.setAuthority("TEST");
-        Set<CreedAuthorities> authorities = Set.of(creedAuthorities, creedAuthorities2);
+        creedAuthorities2.setDataScope(DataScopeEnum.ALL);
 
-        CreedConsumer consumer = new CreedConsumer();
-        consumer.setUsername("ethan");
-        consumer.setPassword("{noop}test");
-        consumer.setSex(SexEnum.MALE);
-        consumer.setRemark("admin");
-        // consumer.setConsumerAuthorities(List.of(authorities.toArray(CreedAuthorities[]::new)));
-        consumerRepository.save(consumer);
+
+        Set<CreedAuthorities> authorities = Set.of(creedAuthorities, creedAuthorities2);
+        authorityRepository.saveAll(authorities);
+
+        CreedUser user = new CreedUser();
+        user.setUsername("ethan");
+        user.setPassword("{noop}test");
+        user.setSex(SexEnum.MALE);
+        user.setRemark("admin");
+        user.setAuthorities(authorities);
+
+        consumerRepository.save(user);
 
     }
 }

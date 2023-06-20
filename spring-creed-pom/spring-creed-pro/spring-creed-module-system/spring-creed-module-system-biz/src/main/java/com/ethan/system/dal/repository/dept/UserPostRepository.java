@@ -17,7 +17,7 @@ import java.util.List;
 @Repository
 public interface UserPostRepository extends JpaRepository<UserPostDO, Long> {
 
-    List<UserPostDO> findByUserId(String userId);
+    List<UserPostDO> findByUserId(Long userId);
 
     void deleteByUserIdAndPostIdIn(Long userId, Collection<Long> deletePostIds);
 

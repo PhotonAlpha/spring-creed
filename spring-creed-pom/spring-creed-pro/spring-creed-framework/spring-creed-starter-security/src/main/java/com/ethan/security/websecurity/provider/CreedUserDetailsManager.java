@@ -2,20 +2,18 @@ package com.ethan.security.websecurity.provider;
 
 import com.ethan.common.constant.CommonStatusEnum;
 import com.ethan.security.websecurity.entity.CreedAuthorities;
-import com.ethan.security.websecurity.entity.CreedConsumer;
-import com.ethan.security.websecurity.entity.CreedConsumerAuthorities;
 import com.ethan.security.websecurity.entity.CreedGroupAuthorities;
 import com.ethan.security.websecurity.entity.CreedGroupMembers;
 import com.ethan.security.websecurity.entity.CreedGroups;
+import com.ethan.security.websecurity.entity.CreedUser;
 import com.ethan.security.websecurity.repository.CreedAuthorityRepository;
-import com.ethan.security.websecurity.repository.CreedConsumerAuthorityRepository;
-import com.ethan.security.websecurity.repository.CreedConsumerRepository;
 import com.ethan.security.websecurity.repository.CreedGroupsAuthoritiesRepository;
 import com.ethan.security.websecurity.repository.CreedGroupsMembersRepository;
 import com.ethan.security.websecurity.repository.CreedGroupsRepository;
+import com.ethan.security.websecurity.repository.CreedUserRepository;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -52,12 +50,10 @@ import java.util.Set;
 @Slf4j
 public class CreedUserDetailsManager implements UserDetailsManager, GroupManager, MessageSourceAware, InitializingBean {
     private final CreedAuthorityRepository authorityRepository;
-    private final CreedConsumerRepository consumerRepository;
+    private final CreedUserRepository creedUserRepository;
     private final CreedGroupsAuthoritiesRepository groupsAuthoritiesRepository;
     private final CreedGroupsMembersRepository groupsMembersRepository;
     private final CreedGroupsRepository groupsRepository;
-
-    private final CreedConsumerAuthorityRepository consumerAuthorityRepository;
 
     protected MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
 
@@ -75,17 +71,15 @@ public class CreedUserDetailsManager implements UserDetailsManager, GroupManager
 
 
     public CreedUserDetailsManager(CreedAuthorityRepository authorityRepository,
-                                   CreedConsumerRepository consumerRepository,
+                                   CreedUserRepository creedUserRepository,
                                    CreedGroupsAuthoritiesRepository groupsAuthoritiesRepository,
                                    CreedGroupsMembersRepository groupsMembersRepository,
-                                   CreedGroupsRepository groupsRepository,
-                                   CreedConsumerAuthorityRepository consumerAuthorityRepository) {
+                                   CreedGroupsRepository groupsRepository) {
         this.authorityRepository = authorityRepository;
-        this.consumerRepository = consumerRepository;
+        this.creedUserRepository = creedUserRepository;
         this.groupsAuthoritiesRepository = groupsAuthoritiesRepository;
         this.groupsMembersRepository = groupsMembersRepository;
         this.groupsRepository = groupsRepository;
-        this.consumerAuthorityRepository = consumerAuthorityRepository;
     }
 
     @Override
@@ -178,30 +172,30 @@ public class CreedUserDetailsManager implements UserDetailsManager, GroupManager
     @Transactional
     public void createUser(UserDetails user) {
         validateUserDetails(user);
-        CreedConsumer consumer = toEntity(user);
+        CreedUser consumer = toEntity(user);
 
-        consumerRepository.save(consumer);
+        creedUserRepository.save(consumer);
         if (getEnableAuthorities()) {
             insertUserAuthorities(user, consumer);
         }
     }
 
-    private CreedConsumer toEntity(UserDetails user) {
+    private CreedUser toEntity(UserDetails user) {
         Assert.notNull(user, "UserDetails can not be null");
-        CreedConsumer creedConsumer = new CreedConsumer();
-        creedConsumer.setUsername(user.getUsername());
-        creedConsumer.setPassword(user.getPassword());
-        creedConsumer.setEnabled(CommonStatusEnum.convert(user.isEnabled()));
+        CreedUser creedUser = new CreedUser();
+        creedUser.setUsername(user.getUsername());
+        creedUser.setPassword(user.getPassword());
+        creedUser.setEnabled(CommonStatusEnum.convert(user.isEnabled()));
         // NOTE: acc_locked, acc_expired and creds_expired are also to be inserted
-        creedConsumer.setAccNonLocked(CommonStatusEnum.convert(!user.isAccountNonLocked()));
-        creedConsumer.setAccNonExpired(CommonStatusEnum.convert(!user.isAccountNonExpired()));
-        creedConsumer.setCredentialsNonExpired(CommonStatusEnum.convert(!user.isCredentialsNonExpired()));
-        return creedConsumer;
+        creedUser.setAccNonLocked(CommonStatusEnum.convert(!user.isAccountNonLocked()));
+        creedUser.setAccNonExpired(CommonStatusEnum.convert(!user.isAccountNonExpired()));
+        creedUser.setCredentialsNonExpired(CommonStatusEnum.convert(!user.isCredentialsNonExpired()));
+        return creedUser;
     }
 
-    private void insertUserAuthorities(UserDetails user, CreedConsumer consumer) {
+    private void insertUserAuthorities(UserDetails user, CreedUser creedUser) {
         var authorities = new HashSet<CreedAuthorities>();
-        var consumerAuthorities = new ArrayList<CreedConsumerAuthorities>();
+        var creedUserAuthorities = new HashSet<CreedAuthorities>();
         for (GrantedAuthority auth : user.getAuthorities()) {
             Optional<CreedAuthorities> creedAuthoritiesOp = authorityRepository.findByAuthority(auth.getAuthority());
             if (creedAuthoritiesOp.isEmpty()) {
@@ -209,13 +203,13 @@ public class CreedUserDetailsManager implements UserDetailsManager, GroupManager
                 creedAuthorities.setAuthority(auth.getAuthority());
                 authorities.add(creedAuthorities);
 
-                consumerAuthorities.add(new CreedConsumerAuthorities(consumer, creedAuthorities));
+                creedUserAuthorities.add(creedAuthorities);
             } else {
-                consumerAuthorities.add(new CreedConsumerAuthorities(consumer, creedAuthoritiesOp.get()));
+                creedUserAuthorities.add(creedAuthoritiesOp.get());
             }
         }
         authorityRepository.saveAll(authorities);
-        consumerAuthorityRepository.saveAll(consumerAuthorities);
+        creedUser.setAuthorities(creedUserAuthorities);
     }
 
     @Override
@@ -224,13 +218,13 @@ public class CreedUserDetailsManager implements UserDetailsManager, GroupManager
     public void updateUser(UserDetails user) {
         validateUserDetails(user);
 
-        Optional<CreedConsumer> consumerOptional = consumerRepository.findByUsername(user.getUsername());
+        Optional<CreedUser> consumerOptional = creedUserRepository.findByUsername(user.getUsername());
         if (consumerOptional.isPresent()) {
-            CreedConsumer creedConsumer = consumerOptional.get();
+            CreedUser creedUser = consumerOptional.get();
             if (getEnableAuthorities()) {
                 //delete Authorities and insert
-                deleteUserAuthorities(creedConsumer);
-                insertUserAuthorities(user, creedConsumer);
+                deleteUserAuthorities(creedUser);
+                insertUserAuthorities(user, creedUser);
             }
 
             this.userCache.removeUserFromCache(user.getUsername());
@@ -239,21 +233,23 @@ public class CreedUserDetailsManager implements UserDetailsManager, GroupManager
         }
     }
 
-    private void deleteUserAuthorities(CreedConsumer consumer) {
-        Assert.notNull(consumer, "CreedConsumer can not be null");
-        List<CreedConsumerAuthorities> arr = consumerAuthorityRepository.findByConsumerId(consumer.getId());
-        consumerAuthorityRepository.deleteAll(arr);
+    private void deleteUserAuthorities(CreedUser creedUser) {
+        Assert.notNull(creedUser, "CreedConsumer can not be null");
+        Optional<CreedUser> userOptional = creedUserRepository.findById(creedUser.getId());
+        Set<CreedAuthorities> creedAuthorities = userOptional.map(CreedUser::getAuthorities).orElse(Collections.emptySet());
+        authorityRepository.deleteAll(creedAuthorities);
     }
 
     @Override
+    @Transactional
     public void deleteUser(String username) {
-        Optional<CreedConsumer> consumerOptional = consumerRepository.findByUsername(username);
+        Optional<CreedUser> consumerOptional = creedUserRepository.findByUsername(username);
         if (consumerOptional.isPresent()) {
-            CreedConsumer creedConsumer = consumerOptional.get();
+            CreedUser creedUser = consumerOptional.get();
             if (getEnableAuthorities()) {
-                deleteUserAuthorities(creedConsumer);
+                deleteUserAuthorities(creedUser);
             }
-            consumerRepository.deleteByUsername(username);
+            creedUserRepository.deleteByUsername(username);
             this.userCache.removeUserFromCache(username);
         } else {
             log.warn("unknow user:{}", username);
@@ -270,9 +266,9 @@ public class CreedUserDetailsManager implements UserDetailsManager, GroupManager
         }
         String username = currentUser.getName();
 
-        Optional<CreedConsumer> consumerOptional = consumerRepository.findByUsername(username);
+        Optional<CreedUser> consumerOptional = creedUserRepository.findByUsername(username);
         if (consumerOptional.isPresent()) {
-            CreedConsumer creedConsumer = consumerOptional.get();
+            CreedUser creedUser = consumerOptional.get();
             // If an authentication manager has been set, re-authenticate the user with the
             // supplied password.
             if (this.authenticationManager != null) {
@@ -285,14 +281,14 @@ public class CreedUserDetailsManager implements UserDetailsManager, GroupManager
             }
             log.debug("Changing password for user '" + username + "'");
 
-            creedConsumer.setPassword(newPassword);
+            creedUser.setPassword(newPassword);
 
             Authentication authentication = createNewAuthentication(currentUser, newPassword);
             SecurityContext context = this.securityContextHolderStrategy.createEmptyContext();
             context.setAuthentication(authentication);
             this.securityContextHolderStrategy.setContext(context);
 
-            consumerRepository.save(creedConsumer);
+            creedUserRepository.save(creedUser);
 
             this.userCache.removeUserFromCache(username);
         } else {
@@ -310,9 +306,9 @@ public class CreedUserDetailsManager implements UserDetailsManager, GroupManager
 
     @Override
     public boolean userExists(String username) {
-        Optional<CreedConsumer> consumerOptional = null;
+        Optional<CreedUser> consumerOptional = null;
         try {
-            consumerOptional = consumerRepository.findByUsername(username);
+            consumerOptional = creedUserRepository.findByUsername(username);
             return consumerOptional.isPresent();
         } catch (Exception e) {
             throw new IncorrectResultSizeDataAccessException("More than one user found with name '" + username + "'",
@@ -323,7 +319,7 @@ public class CreedUserDetailsManager implements UserDetailsManager, GroupManager
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // List<UserDetails> users = loadUsersByUsername(username);
-        Optional<CreedConsumer> consumerOptional = consumerRepository.findByUsername(username);
+        Optional<CreedUser> consumerOptional = creedUserRepository.findByUsername(username);
         if (consumerOptional.isEmpty()) {
             log.debug("Query returned no results for user '" + username + "'");
             throw new UsernameNotFoundException(this.messages.getMessage("JdbcDaoImpl.notFound",
@@ -378,15 +374,14 @@ public class CreedUserDetailsManager implements UserDetailsManager, GroupManager
     protected void addCustomAuthorities(String username, List<GrantedAuthority> authorities) {
     }
 
-    private List<GrantedAuthority> loadGroupAuthorities(CreedConsumer consumer) {
+    private List<GrantedAuthority> loadGroupAuthorities(CreedUser consumer) {
         // groupsMembersRepository.findUsersInGroup()
         return Collections.emptyList();
     }
 
-    private List<GrantedAuthority> loadUserAuthorities(CreedConsumer consumer) {
-        return consumer.getConsumerAuthorities()
+    private List<GrantedAuthority> loadUserAuthorities(CreedUser consumer) {
+        return consumer.getAuthorities()
                 .stream()
-                .map(CreedConsumerAuthorities::getAuthorities)
                 .map(CreedAuthorities::getAuthority)
                 .map(this::grantedAuthority)
                 .toList();
@@ -396,13 +391,13 @@ public class CreedUserDetailsManager implements UserDetailsManager, GroupManager
         return new SimpleGrantedAuthority(s);
     }
 
-    protected UserDetails loadUsersByUsername(CreedConsumer creedConsumer) {
-        Assert.notNull(creedConsumer, "CreedConsumer can not be null");
-        return new User(creedConsumer.getUsername(), creedConsumer.getPassword(),
-                creedConsumer.getEnabled().enabled(),
-                creedConsumer.getAccNonExpired().enabled(),
-                creedConsumer.getCredentialsNonExpired().enabled(),
-                creedConsumer.getAccNonLocked().enabled(),
+    protected UserDetails loadUsersByUsername(CreedUser creedUser) {
+        Assert.notNull(creedUser, "CreedConsumer can not be null");
+        return new User(creedUser.getUsername(), creedUser.getPassword(),
+                creedUser.getEnabled().enabled(),
+                creedUser.getAccNonExpired().enabled(),
+                creedUser.getCredentialsNonExpired().enabled(),
+                creedUser.getAccNonLocked().enabled(),
                 AuthorityUtils.NO_AUTHORITIES);
     }
 
@@ -469,7 +464,7 @@ public class CreedUserDetailsManager implements UserDetailsManager, GroupManager
         }
     }
 
-    @Autowired
+    @Resource
     public void setAuthenticationManager(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }

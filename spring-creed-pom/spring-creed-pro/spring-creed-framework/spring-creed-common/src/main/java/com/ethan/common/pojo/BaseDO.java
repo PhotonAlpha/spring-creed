@@ -6,9 +6,11 @@ import jakarta.persistence.Convert;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 
 /**
  * basic Object
@@ -22,13 +24,15 @@ public abstract class BaseDO implements Serializable {
      */
     // @CreatedDate TODO 需要使用spring security 框架
     @Column(name = "create_time")
-    protected Instant createTime = Instant.now();
+    @CreationTimestamp
+    protected ZonedDateTime createTime;
     /**
      * 最后更新时间
      */
     // @LastModifiedDate
     @Column(name = "update_time")
-    protected Instant updateTime = Instant.now();
+    @UpdateTimestamp
+    protected ZonedDateTime updateTime;
     /**
      * 创建者，目前使用 SysUser 的 id 编号
      * <p>

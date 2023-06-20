@@ -238,7 +238,7 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
             if (StringUtils.isNotBlank(reqVO.getClientId())) {
                 predicateList.add(cb.greaterThan(root.get("expires_time"), new Date()));
             }
-            cb.desc(root.get("id"));
+            query.orderBy(cb.desc(root.get("id")));
             return cb.and(predicateList.toArray(new Predicate[0]));
         };
     }

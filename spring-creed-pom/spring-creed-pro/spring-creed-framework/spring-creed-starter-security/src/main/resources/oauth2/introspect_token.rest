@@ -1,0 +1,12 @@
+###
+
+# curl --location --request POST 'http://localhost:8081/oauth2/introspect?token=eyJraWQiOiI4YzdkNTE0MS0xMzFjLTQ3OTgtOTMwOC1kNjMxMDNkMDQ4MzAiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkZWZhdWx0IiwiYXVkIjoiZGVmYXVsdCIsIm5iZiI6MTY4NjI3Njc0Mywic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSIsIm1lc3NhZ2UucmVhZCIsIm1lc3NhZ2Uud3JpdGUiXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgxIiwiZXhwIjoxNjg2Mjc4ODQzLCJpYXQiOjE2ODYyNzY3NDMsInV1aWQiOiIyNGE4ZmExZS0yMDVlLTQyMTItYjQ0MS1mMTcwMjgzZjM3ZjUifQ.Dyq3FPi_iVFebm9QAwp3VciB1IKhXAdIoeqm5gY3Aypm3XLlYAlw7LZUEzYda7ig3fjhikYcJPa0i66pEMcNUVJ3G72DCXjEuS8pLlKDCWnlvsN_y8hG4PTp7PylKTQsOPHXpESsKCNYTOCAnew0lNWEev9IdkwMHeyvpmNtZCD2n23AQAQJIjMEp8cJCkyv8AAEJ6CYKi9I3ngntCa5oCC39a29lIyCSu3kFFpuikW4GiJ-X4cFGu4rE929OaTW5s8SueXZS5kP8lJ5tMsOxJGyhqAKK94dG38k101OMyUxCWYhDbOqovqbjgC_B_YE0FJsfQ2AKXGcvMnTGQcJ-g'
+#--header 'Authorization: Basic bWVzc2FnaW5nLWNsaWVudDpzZWNyZXQ='
+#--header 'Cookie: JSESSIONID=243F93D7175D9EB1C9AB9E4FF0FE6415'
+POST http://localhost:8081/oauth2/introspect?
+    token={{auth_token}}
+Authorization: Basic {{username}} {{password}}
+Cookie: JSESSIONID=243F93D7175D9EB1C9AB9E4FF0FE6415
+
+###
+

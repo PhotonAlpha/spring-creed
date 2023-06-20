@@ -12,10 +12,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Repository
 public interface FileConfigRepository extends JpaRepository<FileConfigDO, Long>, JpaSpecificationExecutor<FileConfigDO> {
 
-    long countByUpdateTimeGreaterThan(LocalDateTime maxUpdateTime);
+    long countByUpdateTimeGreaterThan(ZonedDateTime maxUpdateTime);
 }

@@ -1,21 +1,15 @@
-DROP TABLE IF EXISTS `creed_consumer_authorities`;
-CREATE TABLE IF NOT EXISTS `creed_consumer_authorities` (
-    `consumer_id` varchar(50) NOT NULL,
+DROP TABLE IF EXISTS `creed_user_authorities`;
+CREATE TABLE IF NOT EXISTS `creed_user_authorities` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
+    `user_id` varchar(50) NOT NULL,
     `authority_id` varchar(50) NOT NULL,
-    UNIQUE KEY `un_auth_consumer` (`consumer_id`,`authority_id`),
-    KEY `ix_auth_username` (`consumer_id`,`authority_id`)
+    `create_time` timestamp NOT NULL DEFAULT current_timestamp(),
+    `update_time` timestamp NOT NULL DEFAULT current_timestamp(),
+    `creator` varchar(50) DEFAULT NULL,
+    `updater` varchar(50) DEFAULT NULL,
+    UNIQUE KEY `un_auth_user` (`user_id`,`authority_id`),
+    PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-ALTER TABLE `creed_consumer_authorities`
-    ADD COLUMN `enabled` INT(1) NOT NULL DEFAULT 0;
-ALTER TABLE `creed_consumer_authorities`
-    ADD COLUMN `create_time` timestamp NOT NULL DEFAULT current_timestamp();
-ALTER TABLE `creed_consumer_authorities`
-    ADD COLUMN `update_time` timestamp NOT NULL DEFAULT current_timestamp();
-ALTER TABLE `creed_consumer_authorities`
-    ADD COLUMN `creator` varchar(50) DEFAULT NULL;
-ALTER TABLE `creed_consumer_authorities`
-    ADD COLUMN `updater` varchar(50) DEFAULT NULL;
 
 DROP TABLE IF EXISTS `creed_authorities`;
 CREATE TABLE IF NOT EXISTS `creed_authorities` (
@@ -24,6 +18,10 @@ CREATE TABLE IF NOT EXISTS `creed_authorities` (
     `description` varchar(500) DEFAULT NULL,
     `enabled` tinyint(1) NOT NULL DEFAULT 0,
     `sort` int(5) NOT NULL DEFAULT 0,
+    `remark` varchar(1000) DEFAULT NULL,
+    `type` varchar(1000) NOT NULL DEFAULT 1 COMMENT '角色类型',
+    `data_scope` tinyint(4) NOT NULL DEFAULT 1 COMMENT '数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）'
+    `data_scope_dept_ids` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '数据范围(指定部门数组)'
 
     `create_time` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     `creator` varchar(50) DEFAULT NULL,
@@ -33,17 +31,10 @@ CREATE TABLE IF NOT EXISTS `creed_authorities` (
     PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-ALTER TABLE `creed_authorities`
-    ADD COLUMN `remark` varchar(1000) DEFAULT NULL;
-ALTER TABLE `creed_authorities`
-    ADD COLUMN `type` varchar(1000) NOT NULL DEFAULT 1 COMMENT '角色类型',
-ALTER TABLE `creed_authorities`
-    ADD COLUMN `data_scope` tinyint(4) NOT NULL DEFAULT 1 COMMENT '数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）'
-ALTER TABLE `creed_authorities`
-    ADD COLUMN `data_scope_dept_ids` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '数据范围(指定部门数组)'
 
-DROP TABLE IF EXISTS `creed_consumer`;
-CREATE TABLE IF NOT EXISTS `creed_consumer` (
+
+DROP TABLE IF EXISTS `creed_user`;
+CREATE TABLE IF NOT EXISTS `creed_user` (
     `id` varchar(50) NOT NULL,
     `username` varchar(50) NOT NULL,
     `password` varchar(500) NOT NULL,

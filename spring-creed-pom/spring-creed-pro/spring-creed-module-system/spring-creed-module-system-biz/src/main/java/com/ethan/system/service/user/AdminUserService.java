@@ -3,7 +3,7 @@ package com.ethan.system.service.user;
 import com.ethan.common.constant.CommonStatusEnum;
 import com.ethan.common.pojo.PageResult;
 import com.ethan.common.utils.collection.CollUtils;
-import com.ethan.security.websecurity.entity.CreedConsumer;
+import com.ethan.security.websecurity.entity.CreedUser;
 import com.ethan.system.controller.admin.user.vo.profile.UserProfileUpdatePasswordReqVO;
 import com.ethan.system.controller.admin.user.vo.profile.UserProfileUpdateReqVO;
 import com.ethan.system.controller.admin.user.vo.user.UserCreateReqVO;
@@ -105,7 +105,7 @@ public interface AdminUserService {
      * @param username 用户名
      * @return 用户对象信息
      */
-    CreedConsumer getUserByUsername(String username);
+    CreedUser getUserByUsername(String username);
 
     /**
      * 通过手机号获取用户
@@ -113,7 +113,7 @@ public interface AdminUserService {
      * @param mobile 手机号
      * @return 用户对象信息
      */
-    CreedConsumer getUserByMobile(String mobile);
+    CreedUser getUserByMobile(String mobile);
 
     /**
      * 获得用户分页列表
@@ -121,7 +121,7 @@ public interface AdminUserService {
      * @param reqVO 分页条件
      * @return 分页列表
      */
-    PageResult<CreedConsumer> getUserPage(UserPageReqVO reqVO);
+    PageResult<CreedUser> getUserPage(UserPageReqVO reqVO);
 
     /**
      * 通过用户 ID 查询用户
@@ -129,7 +129,7 @@ public interface AdminUserService {
      * @param id 用户ID
      * @return 用户对象信息
      */
-    CreedConsumer getUser(String id);
+    CreedUser getUser(String id);
 
     /**
      * 获得指定部门的用户数组
@@ -137,7 +137,7 @@ public interface AdminUserService {
      * @param deptIds 部门数组
      * @return 用户数组
      */
-    List<CreedConsumer> getUsersByDeptIds(Collection<Long> deptIds);
+    List<CreedUser> getUsersByDeptIds(Collection<Long> deptIds);
 
     /**
      * 获得指定岗位的用户数组
@@ -145,7 +145,7 @@ public interface AdminUserService {
      * @param postIds 岗位数组
      * @return 用户数组
      */
-    List<CreedConsumer> getUsersByPostIds(Collection<Long> postIds);
+    List<CreedUser> getUsersByPostIds(Collection<Long> postIds);
 
     /**
      * 获得用户列表
@@ -153,7 +153,7 @@ public interface AdminUserService {
      * @param ids 用户编号数组
      * @return 用户列表
      */
-    List<CreedConsumer> getUsers(Collection<String> ids);
+    List<CreedUser> getUsers(Collection<String> ids);
 
     /**
      * 校验用户们是否有效。如下情况，视为无效：
@@ -170,11 +170,11 @@ public interface AdminUserService {
      * @param ids 用户编号数组
      * @return 用户 Map
      */
-    default Map<String, CreedConsumer> getUserMap(Collection<String> ids) {
+    default Map<String, CreedUser> getUserMap(Collection<String> ids) {
         if (CollectionUtils.isEmpty(ids)) {
             return new HashMap<>();
         }
-        return CollUtils.convertMap(getUsers(ids), CreedConsumer::getId);
+        return CollUtils.convertMap(getUsers(ids), CreedUser::getId);
     }
 
     /**
@@ -183,7 +183,7 @@ public interface AdminUserService {
      * @param reqVO 列表请求
      * @return 用户列表
      */
-    List<CreedConsumer> getUsers(UserExportReqVO reqVO);
+    List<CreedUser> getUsers(UserExportReqVO reqVO);
 
     /**
      * 获得用户列表，基于昵称模糊匹配
@@ -191,7 +191,7 @@ public interface AdminUserService {
      * @param nickname 昵称
      * @return 用户列表
      */
-    List<CreedConsumer> getUsersByNickname(String nickname);
+    List<CreedUser> getUsersByNickname(String nickname);
 
     /**
      * 获得用户列表，基于用户账号模糊匹配
@@ -199,7 +199,7 @@ public interface AdminUserService {
      * @param username 用户账号
      * @return 用户列表
      */
-    List<CreedConsumer> getUsersByUsername(String username);
+    List<CreedUser> getUsersByUsername(String username);
 
     /**
      * 批量导入用户
@@ -216,7 +216,7 @@ public interface AdminUserService {
      * @param status 状态
      * @return 用户们
      */
-    List<CreedConsumer> getUsersByStatus(CommonStatusEnum status);
+    List<CreedUser> getUsersByStatus(CommonStatusEnum status);
 
     /**
      * 判断密码是否匹配

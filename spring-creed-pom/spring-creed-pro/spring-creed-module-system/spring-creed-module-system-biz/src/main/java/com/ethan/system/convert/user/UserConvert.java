@@ -1,7 +1,7 @@
 package com.ethan.system.convert.user;
 
 import com.ethan.common.constant.SexEnum;
-import com.ethan.security.websecurity.entity.CreedConsumer;
+import com.ethan.security.websecurity.entity.CreedUser;
 import com.ethan.system.controller.admin.user.dto.AdminUserRespDTO;
 import com.ethan.system.controller.admin.user.vo.profile.UserProfileRespVO;
 import com.ethan.system.controller.admin.user.vo.profile.UserProfileUpdatePasswordReqVO;
@@ -27,7 +27,7 @@ public interface UserConvert {
 
     UserConvert INSTANCE = Mappers.getMapper(UserConvert.class);
 
-    UserPageItemRespVO convert(CreedConsumer bean);
+    UserPageItemRespVO convert(CreedUser bean);
 
     default Integer map(SexEnum value) {
         return value.getSex();
@@ -36,38 +36,38 @@ public interface UserConvert {
 
     UserPageItemRespVO.Dept convert(DeptDO bean);
 
-    CreedConsumer convert(UserCreateReqVO bean);
+    CreedUser convert(UserCreateReqVO bean);
 
     default SexEnum mapSex(Integer value) {
         return SexEnum.findByValue(value);
     }
 
-    CreedConsumer convert(UserUpdateReqVO bean);
+    CreedUser convert(UserUpdateReqVO bean);
 
-    UserExcelVO convert02(CreedConsumer bean);
+    UserExcelVO convert02(CreedUser bean);
 
-    CreedConsumer convert(UserImportExcelVO bean);
+    CreedUser convert(UserImportExcelVO bean);
 
-    void update(UserImportExcelVO bean, @MappingTarget CreedConsumer consumer);
+    void update(UserImportExcelVO bean, @MappingTarget CreedUser consumer);
 
-    UserProfileRespVO convert03(CreedConsumer bean);
+    UserProfileRespVO convert03(CreedUser bean);
 
     List<UserProfileRespVO.Role> convertList(List<RoleDO> list);
 
     UserProfileRespVO.Dept convert02(DeptDO bean);
 
-    CreedConsumer convert(UserProfileUpdateReqVO bean);
+    CreedUser convert(UserProfileUpdateReqVO bean);
 
-    CreedConsumer convert(UserProfileUpdatePasswordReqVO bean);
+    CreedUser convert(UserProfileUpdatePasswordReqVO bean);
 
     List<UserProfileRespVO.Post> convertList02(List<PostDO> list);
 
     List<UserProfileRespVO.SocialUser> convertList03(List<SocialUserDO> list);
 
-    List<UserSimpleRespVO> convertList04(List<CreedConsumer> list);
+    List<UserSimpleRespVO> convertList04(List<CreedUser> list);
 
-    AdminUserRespDTO convert4(CreedConsumer bean);
+    AdminUserRespDTO convert4(CreedUser bean);
 
-    List<AdminUserRespDTO> convertList4(List<CreedConsumer> users);
+    List<AdminUserRespDTO> convertList4(List<CreedUser> users);
 
 }

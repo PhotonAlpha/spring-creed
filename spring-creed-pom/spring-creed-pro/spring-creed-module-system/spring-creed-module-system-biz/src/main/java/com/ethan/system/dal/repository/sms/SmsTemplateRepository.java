@@ -12,11 +12,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
-import java.time.Instant;
+import java.time.ZonedDateTime;
 
 @Repository
 public interface SmsTemplateRepository extends JpaRepository<SmsTemplateDO, Long>, JpaSpecificationExecutor<SmsTemplateDO> {
-    long countByUpdateTimeGreaterThan(Instant maxUpdateTime);
+    long countByUpdateTimeGreaterThan(ZonedDateTime maxUpdateTime);
 
     SmsTemplateDO findByCode(String code);
 

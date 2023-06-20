@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 
 /**
  * basic Object
@@ -22,13 +22,13 @@ public abstract class BaseDO implements Serializable {
      */
     // @CreatedDate TODO 需要使用spring security 框架
     @Column(name = "create_time")
-    protected Instant createTime = Instant.now();
+    protected ZonedDateTime createTime = ZonedDateTime.now();
     /**
      * 最后更新时间
      */
     // @LastModifiedDate
     @Column(name = "update_time")
-    protected Instant updateTime = Instant.now();
+    protected ZonedDateTime updateTime = ZonedDateTime.now();
     /**
      * 创建者，目前使用 SysUser 的 id 编号
      * <p>

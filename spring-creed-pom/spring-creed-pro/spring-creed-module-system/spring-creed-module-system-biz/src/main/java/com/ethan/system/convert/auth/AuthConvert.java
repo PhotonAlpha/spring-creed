@@ -3,7 +3,7 @@ package com.ethan.system.convert.auth;
 import com.ethan.common.utils.collection.CollUtils;
 import com.ethan.security.oauth2.entity.CreedOAuth2AuthorizedClient;
 import com.ethan.security.websecurity.entity.CreedAuthorities;
-import com.ethan.security.websecurity.entity.CreedConsumer;
+import com.ethan.security.websecurity.entity.CreedUser;
 import com.ethan.system.constant.permission.MenuIdEnum;
 import com.ethan.system.controller.admin.auth.vo.AuthLoginRespVO;
 import com.ethan.system.controller.admin.auth.vo.AuthMenuRespVO;
@@ -44,7 +44,7 @@ public interface AuthConvert {
         return instant == null ? null : LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
 
-    default AuthPermissionInfoRespVO convert(CreedConsumer user, List<CreedAuthorities> roleList, List<MenuDO> menuList) {
+    default AuthPermissionInfoRespVO convert(CreedUser user, List<CreedAuthorities> roleList, List<MenuDO> menuList) {
         return AuthPermissionInfoRespVO.builder()
             .user(AuthPermissionInfoRespVO.UserVO.builder().id(user.getId()).nickname(user.getNickname()).avatar(user.getAvatar()).build())
             .roles(CollUtils.convertSet(roleList, CreedAuthorities::getAuthority))

@@ -5,7 +5,7 @@ import com.ethan.common.constant.CommonStatusEnum;
 import com.ethan.common.constant.SexEnum;
 import com.ethan.common.pojo.PageResult;
 import com.ethan.framework.operatelog.annotations.OperateLog;
-import com.ethan.security.websecurity.entity.CreedConsumer;
+import com.ethan.security.websecurity.entity.CreedUser;
 import com.ethan.system.controller.admin.user.vo.user.UserCreateReqVO;
 import com.ethan.system.controller.admin.user.vo.user.UserExcelVO;
 import com.ethan.system.controller.admin.user.vo.user.UserExportReqVO;
@@ -107,7 +107,7 @@ public class UserController {
     @PreAuthorize("@ss.hasPermission('system:user:list')")
     public R<PageResult<UserPageItemRespVO>> getUserPage(@Valid UserPageReqVO reqVO) {
         // 获得用户分页列表
-        PageResult<CreedConsumer> pageResult = userService.getUserPage(reqVO);
+        PageResult<CreedUser> pageResult = userService.getUserPage(reqVO);
         if (CollectionUtils.isEmpty(pageResult.getList())) {
             return success(new PageResult<>(pageResult.getTotal())); // 返回空
         }
@@ -129,7 +129,7 @@ public class UserController {
     @Schema(name =  "获取用户精简信息列表", description = "只包含被开启的用户，主要用于前端的下拉选项")
     public R<List<UserSimpleRespVO>> getSimpleUsers() {
         // 获用户门列表，只要开启状态的
-        List<CreedConsumer> list = userService.getUsersByStatus(CommonStatusEnum.ENABLE);
+        List<CreedUser> list = userService.getUsersByStatus(CommonStatusEnum.ENABLE);
         // 排序后，返回给前端
         return success(UserConvert.INSTANCE.convertList04(list));
     }
@@ -149,7 +149,7 @@ public class UserController {
     public void exportUsers(@Validated UserExportReqVO reqVO,
                             HttpServletResponse response) throws IOException {
         // 获得用户列表
-        List<CreedConsumer> users = userService.getUsers(reqVO);
+        List<CreedUser> users = userService.getUsers(reqVO);
 
         // 获得拼接需要的数据
         // Collection<Long> deptIds = convertList(users, AdminUserDO::getDeptId);

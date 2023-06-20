@@ -7,12 +7,12 @@
 
 package com.ethan.listener;
 
-import com.ethan.entity.CreedConsumer;
+import com.ethan.security.websecurity.entity.CreedUser;
 
 public class CreedConsumerEvent {
-    private CreedConsumer consumer;
+    private CreedUser user;
 
-    public CreedConsumerEvent(CreedConsumer consumer) {
-        this.consumer = consumer;
+    public CreedConsumerEvent(CreedUser user) {
+        this.user = user;
     }
 }

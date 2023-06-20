@@ -12,8 +12,7 @@ import com.ethan.security.provider.UnAuthExceptionHandler;
 import com.ethan.security.websecurity.filter.LoginTokenAuthenticationFilter;
 import com.ethan.security.websecurity.provider.CreedUserDetailsManager;
 import com.ethan.security.websecurity.repository.CreedAuthorityRepository;
-import com.ethan.security.websecurity.repository.CreedConsumerAuthorityRepository;
-import com.ethan.security.websecurity.repository.CreedConsumerRepository;
+import com.ethan.security.websecurity.repository.CreedUserRepository;
 import com.ethan.security.websecurity.repository.CreedGroupsAuthoritiesRepository;
 import com.ethan.security.websecurity.repository.CreedGroupsMembersRepository;
 import com.ethan.security.websecurity.repository.CreedGroupsRepository;
@@ -142,7 +141,7 @@ public class SecurityConfig {
 
 
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/css/**", "/js/**", "/fonts/**", "/*.html").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/fonts/**", "/*.html", "/favicon.ico").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/actuator/**", "/webjars/**", "/resources/**", "/static/**").permitAll()
                         .requestMatchers(HttpMethod.GET, permitAllUrls.get(HttpMethod.GET).toArray(new String[0])).permitAll()
                         .requestMatchers(HttpMethod.POST, permitAllUrls.get(HttpMethod.POST).toArray(new String[0])).permitAll()
@@ -261,11 +260,10 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService(CreedAuthorityRepository authorityRepository,
-                                                 CreedConsumerRepository consumerRepository,
+                                                 CreedUserRepository consumerRepository,
                                                  CreedGroupsAuthoritiesRepository groupsAuthoritiesRepository,
                                                  CreedGroupsMembersRepository groupsMembersRepository,
-                                                 CreedGroupsRepository groupsRepository,
-                                                 CreedConsumerAuthorityRepository consumerAuthorityRepository) {
+                                                 CreedGroupsRepository groupsRepository) {
         // UserDetails userDetails = User.withDefaultPasswordEncoder()
         //         .username("user")
         //         .password("password")
@@ -276,8 +274,7 @@ public class SecurityConfig {
                 consumerRepository,
                 groupsAuthoritiesRepository,
                 groupsMembersRepository,
-                groupsRepository,
-                consumerAuthorityRepository);
+                groupsRepository);
     }
 
 

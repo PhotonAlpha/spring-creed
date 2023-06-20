@@ -36,7 +36,7 @@ import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.util.CollectionUtils;
 
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -84,8 +84,8 @@ public class RoleServiceImpl implements RoleService {
      * 缓存角色的最大更新时间，用于后续的增量轮询，判断是否有更新
      */
     @Getter
-    // private volatile Instant maxUpdateTime;
-    private AtomicReference<Instant> maxUpdateTime = new AtomicReference<>();
+    // private volatile ZonedDateTime maxUpdateTime;
+    private AtomicReference<ZonedDateTime> maxUpdateTime = new AtomicReference<>();
 
     @Resource
     private PermissionService permissionService;
@@ -133,7 +133,7 @@ public class RoleServiceImpl implements RoleService {
      * @param maxUpdateTime 当前角色的最大更新时间
      * @return 角色列表
      */
-    private List<CreedAuthorities> loadRoleIfUpdate(Instant maxUpdateTime) {
+    private List<CreedAuthorities> loadRoleIfUpdate(ZonedDateTime maxUpdateTime) {
         // 第一步，判断是否要更新。
         if (maxUpdateTime == null) { // 如果更新时间为空，说明 DB 一定有新数据
             log.info("[loadRoleIfUpdate][首次加载全量角色]");
@@ -154,8 +154,8 @@ public class RoleServiceImpl implements RoleService {
         checkDuplicateRole(reqVO.getDescription(), reqVO.getAuthority(), null);
         // 插入到数据库
         CreedAuthorities authority = AuthorityConvert.INSTANCE.convert(reqVO);
-        authority.setType(ObjectUtils.defaultIfNull(type, RoleTypeEnum.CUSTOM.getType()));
-        authority.setDataScope(DataScopeEnum.ALL.getScope()); // 默认可查看所有数据。原因是，可能一些项目不需要项目权限
+        authority.setType(ObjectUtils.defaultIfNull(RoleTypeEnum.findByType(type), RoleTypeEnum.CUSTOM));
+        authority.setDataScope(DataScopeEnum.ALL); // 默认可查看所有数据。原因是，可能一些项目不需要项目权限
         authorityRepository.save(authority);
         // 发送刷新消息
         TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
@@ -198,7 +198,7 @@ public class RoleServiceImpl implements RoleService {
         // 校验是否可以更新
         CreedAuthorities authorities = checkUpdateRole(id);
         // 更新数据范围
-        authorities.setDataScope(dataScope);
+        authorities.setDataScope(DataScopeEnum.findByDataScope(dataScope));
         authorities.setDataScopeDeptIds(dataScopeDeptIds);
         authorityRepository.save(authorities);
         // 发送刷新消息

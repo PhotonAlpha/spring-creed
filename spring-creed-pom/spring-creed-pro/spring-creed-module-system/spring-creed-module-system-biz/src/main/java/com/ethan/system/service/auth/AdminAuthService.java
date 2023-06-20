@@ -7,7 +7,7 @@
 
 package com.ethan.system.service.auth;
 
-import com.ethan.security.websecurity.entity.CreedConsumer;
+import com.ethan.security.websecurity.entity.CreedUser;
 import com.ethan.system.controller.admin.auth.vo.AuthLoginReqVO;
 import com.ethan.system.controller.admin.auth.vo.AuthLoginRespVO;
 import com.ethan.system.controller.admin.auth.vo.AuthSmsLoginReqVO;
@@ -25,7 +25,7 @@ public interface AdminAuthService {
      * @param password 密码
      * @return 用户
      */
-    CreedConsumer authenticate(String username, String password);
+    CreedUser authenticate(String username, String password);
 
     /**
      * 账号登录

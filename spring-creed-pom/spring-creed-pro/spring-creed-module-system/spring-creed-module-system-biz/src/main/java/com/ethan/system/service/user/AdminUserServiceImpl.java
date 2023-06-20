@@ -4,8 +4,8 @@ import com.ethan.common.constant.CommonStatusEnum;
 import com.ethan.common.exception.ServiceException;
 import com.ethan.common.pojo.PageResult;
 import com.ethan.common.utils.collection.CollUtils;
-import com.ethan.security.websecurity.entity.CreedConsumer;
-import com.ethan.security.websecurity.repository.CreedConsumerRepository;
+import com.ethan.security.websecurity.entity.CreedUser;
+import com.ethan.security.websecurity.repository.CreedUserRepository;
 import com.ethan.system.controller.admin.user.vo.profile.UserProfileUpdatePasswordReqVO;
 import com.ethan.system.controller.admin.user.vo.profile.UserProfileUpdateReqVO;
 import com.ethan.system.controller.admin.user.vo.user.UserCreateReqVO;
@@ -75,7 +75,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     // private AdminUserRepository adminUserRepository;
 
     @Resource
-    private CreedConsumerRepository consumerRepository;
+    private CreedUserRepository consumerRepository;
     // @Resource
     // private CreedUserDetailsManager userDetailsManager;
 
@@ -111,7 +111,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         checkCreateOrUpdate(null, reqVO.getUsername(), reqVO.getPhone(), reqVO.getEmail(),
                 reqVO.getDeptId(), reqVO.getPostIds());
         // 插入用户
-        CreedConsumer user = UserConvert.INSTANCE.convert(reqVO);
+        CreedUser user = UserConvert.INSTANCE.convert(reqVO);
         user.setPassword(encodePassword(reqVO.getPassword())); // 加密密码
         consumerRepository.save(user);
         // 插入关联岗位 TODO
@@ -129,7 +129,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         checkCreateOrUpdate(reqVO.getId(), reqVO.getUsername(), reqVO.getPhone(), reqVO.getEmail(),
                 reqVO.getDeptId(), reqVO.getPostIds());
         // 更新用户
-        CreedConsumer updateObj = UserConvert.INSTANCE.convert(reqVO);
+        CreedUser updateObj = UserConvert.INSTANCE.convert(reqVO);
         consumerRepository.save(updateObj);
 
         // UserBaseVO baseVO = new UserBaseVO();
@@ -138,9 +138,9 @@ public class AdminUserServiceImpl implements AdminUserService {
         // updateUserPost(reqVO, updateObj);
     }
 
-    private void updateUserPost(UserUpdateReqVO reqVO, CreedConsumer updateObj) {
+    private void updateUserPost(UserUpdateReqVO reqVO, CreedUser updateObj) {
         String userId = reqVO.getId();
-        Set<Long> dbPostIds = convertSet(userPostRepository.findByUserId(userId), UserPostDO::getPostId);
+        // Set<Long> dbPostIds = convertSet(userPostRepository.findByUserId(userId), UserPostDO::getPostId);
         // 计算新增和删除的岗位编号 TODO
         /* Set<Long> postIds = updateObj.getPostIds();
         Collection<Long> createPostIds = CollUtils.subtract(postIds, dbPostIds);
@@ -197,7 +197,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         // sysUserDO.setAvatar(avatar);
         // adminUserRepository.save(sysUserDO);
 
-        Optional<CreedConsumer> updateObj = consumerRepository.findById(id);
+        Optional<CreedUser> updateObj = consumerRepository.findById(id);
         updateObj.ifPresent(c -> {
             c.setAvatar(avatar);
             consumerRepository.save(c);
@@ -214,7 +214,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         // updateObj.setId(id);
         // updateObj.setPassword(encodePassword(password)); // 加密密码
         // adminUserRepository.save(updateObj);
-        Optional<CreedConsumer> updateObj = consumerRepository.findById(id);
+        Optional<CreedUser> updateObj = consumerRepository.findById(id);
         updateObj.ifPresent(c -> {
             c.setPassword(encodePassword(password)); // 加密密码
             consumerRepository.save(c);
@@ -226,7 +226,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         // 校验用户存在
         checkUserExists(id);
         // 更新状态
-        Optional<CreedConsumer> updateObj = consumerRepository.findById(id);
+        Optional<CreedUser> updateObj = consumerRepository.findById(id);
         updateObj.ifPresent(c -> {
             c.setEnabled(CommonStatusEnum.convert(status)); // 加密密码
             consumerRepository.save(c);
@@ -251,23 +251,23 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public CreedConsumer getUserByUsername(String username) {
+    public CreedUser getUserByUsername(String username) {
         return consumerRepository.findByUsername(username).orElse(null);
     }
 
     @Override
-    public CreedConsumer getUserByMobile(String mobile) {
+    public CreedUser getUserByMobile(String mobile) {
         return consumerRepository.findByPhone(mobile).orElse(null);
     }
 
     @Override
-    public PageResult<CreedConsumer> getUserPage(UserPageReqVO reqVO) {
-        Page<CreedConsumer> page = consumerRepository.findAll(getUserPageSpecification(reqVO, getDeptCondition(reqVO.getDeptId())), PageRequest.of(reqVO.getPageNo(), reqVO.getPageSize()));
+    public PageResult<CreedUser> getUserPage(UserPageReqVO reqVO) {
+        Page<CreedUser> page = consumerRepository.findAll(getUserPageSpecification(reqVO, getDeptCondition(reqVO.getDeptId())), PageRequest.of(reqVO.getPageNo(), reqVO.getPageSize()));
         return new PageResult(page.getContent(), page.getTotalElements());
     }
 
-    private static Specification<CreedConsumer> getUserPageSpecification(UserPageReqVO reqVO , Collection<Long> deptIds) {
-        return (Specification<CreedConsumer>) (root, query, cb) -> {
+    private static Specification<CreedUser> getUserPageSpecification(UserPageReqVO reqVO , Collection<Long> deptIds) {
+        return (Specification<CreedUser>) (root, query, cb) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (StringUtils.isNotBlank(reqVO.getUsername())) {
                 predicateList.add(cb.like(cb.lower(root.get("username").as(String.class)),
@@ -283,18 +283,18 @@ public class AdminUserServiceImpl implements AdminUserService {
             if (Objects.nonNull(reqVO.getDeptId())) {
                 predicateList.add(root.get("dept_id").in(deptIds));
             }
-            cb.desc(root.get("id"));
+            query.orderBy(cb.desc(root.get("id")));
             return cb.and(predicateList.toArray(new Predicate[0]));
         };
     }
 
     @Override
-    public CreedConsumer getUser(String id) {
+    public CreedUser getUser(String id) {
         return consumerRepository.findById(id).orElse(null);
     }
 
     @Override
-    public List<CreedConsumer> getUsersByDeptIds(Collection<Long> deptIds) {
+    public List<CreedUser> getUsersByDeptIds(Collection<Long> deptIds) {
         if (CollectionUtils.isEmpty(deptIds)) {
             return Collections.emptyList();
         }
@@ -303,7 +303,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public List<CreedConsumer> getUsersByPostIds(Collection<Long> postIds) {
+    public List<CreedUser> getUsersByPostIds(Collection<Long> postIds) {
         if (CollectionUtils.isEmpty(postIds)) {
             return Collections.emptyList();
         }
@@ -316,7 +316,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public List<CreedConsumer> getUsers(Collection<String> ids) {
+    public List<CreedUser> getUsers(Collection<String> ids) {
         if (CollectionUtils.isEmpty(ids)) {
             return Collections.emptyList();
         }
@@ -329,11 +329,11 @@ public class AdminUserServiceImpl implements AdminUserService {
             return;
         }
         // 获得岗位信息
-        List<CreedConsumer> users = consumerRepository.findAllById(ids);
-        Map<String, CreedConsumer> userMap = CollUtils.convertMap(users, CreedConsumer::getId);
+        List<CreedUser> users = consumerRepository.findAllById(ids);
+        Map<String, CreedUser> userMap = CollUtils.convertMap(users, CreedUser::getId);
         // 校验
         ids.forEach(id -> {
-            CreedConsumer user = userMap.get(id);
+            CreedUser user = userMap.get(id);
             if (user == null) {
                 throw exception(USER_NOT_EXISTS);
             }
@@ -344,11 +344,11 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public List<CreedConsumer> getUsers(UserExportReqVO reqVO) {
+    public List<CreedUser> getUsers(UserExportReqVO reqVO) {
         return consumerRepository.findAll(getUsersSpecification(reqVO, getDeptCondition(reqVO.getDeptId())));
     }
 
-    private static Specification<CreedConsumer> getUsersSpecification(UserExportReqVO reqVO , Collection<Long> deptIds) {
+    private static Specification<CreedUser> getUsersSpecification(UserExportReqVO reqVO , Collection<Long> deptIds) {
         return (root, query, cb) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (StringUtils.isNotBlank(reqVO.getUsername())) {
@@ -365,18 +365,18 @@ public class AdminUserServiceImpl implements AdminUserService {
             if (Objects.nonNull(reqVO.getDeptId())) {
                 predicateList.add(root.get("dept_id").in(deptIds));
             }
-            cb.desc(root.get("id"));
+            query.orderBy(cb.desc(root.get("id")));
             return cb.and(predicateList.toArray(new Predicate[0]));
         };
     }
 
     @Override
-    public List<CreedConsumer> getUsersByNickname(String nickname) {
+    public List<CreedUser> getUsersByNickname(String nickname) {
         return consumerRepository.findByNickname(nickname);
     }
 
     @Override
-    public List<CreedConsumer> getUsersByUsername(String username) {
+    public List<CreedUser> getUsersByUsername(String username) {
         return consumerRepository.findByUsernameContainingIgnoreCase(username);
     }
 
@@ -416,7 +416,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         if (id == null) {
             return;
         }
-        Optional<CreedConsumer> userOptional = consumerRepository.findById(id);
+        Optional<CreedUser> userOptional = consumerRepository.findById(id);
         if (userOptional.isEmpty()) {
             throw exception(USER_NOT_EXISTS);
         }
@@ -427,7 +427,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         if (StringUtils.isBlank(username)) {
             return;
         }
-        Optional<CreedConsumer> userOptional = consumerRepository.findByUsername(username);
+        Optional<CreedUser> userOptional = consumerRepository.findByUsername(username);
         if (userOptional.isEmpty()) {
             return;
         }
@@ -436,7 +436,7 @@ public class AdminUserServiceImpl implements AdminUserService {
             throw exception(USER_USERNAME_EXISTS);
         }
 
-        if (userOptional.map(CreedConsumer::getId).filter(id::equals).isPresent()) {
+        if (userOptional.map(CreedUser::getId).filter(id::equals).isPresent()) {
             throw exception(USER_USERNAME_EXISTS);
         }
     }
@@ -446,7 +446,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         if (StringUtils.isBlank(email)) {
             return;
         }
-        Optional<CreedConsumer> userOptional = consumerRepository.findByEmail(email);
+        Optional<CreedUser> userOptional = consumerRepository.findByEmail(email);
         if (userOptional.isEmpty()) {
             return;
         }
@@ -454,7 +454,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         if (id == null) {
             throw exception(USER_EMAIL_EXISTS);
         }
-        if (userOptional.map(CreedConsumer::getId).filter(id::equals).isPresent()) {
+        if (userOptional.map(CreedUser::getId).filter(id::equals).isPresent()) {
             throw exception(USER_EMAIL_EXISTS);
         }
     }
@@ -464,7 +464,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         if (StringUtils.isBlank(mobile)) {
             return;
         }
-        Optional<CreedConsumer> userOptional = consumerRepository.findByPhone(mobile);
+        Optional<CreedUser> userOptional = consumerRepository.findByPhone(mobile);
         if (userOptional.isEmpty()) {
             return;
         }
@@ -472,7 +472,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         if (id == null) {
             throw exception(USER_MOBILE_EXISTS);
         }
-        if (userOptional.map(CreedConsumer::getId).filter(id::equals).isPresent()) {
+        if (userOptional.map(CreedUser::getId).filter(id::equals).isPresent()) {
             throw exception(USER_MOBILE_EXISTS);
         }
     }
@@ -484,12 +484,12 @@ public class AdminUserServiceImpl implements AdminUserService {
      */
     @VisibleForTesting
     public void checkOldPassword(String id, String oldPassword) {
-        Optional<CreedConsumer> userOptional = consumerRepository.findById(id);
+        Optional<CreedUser> userOptional = consumerRepository.findById(id);
         if (userOptional.isEmpty()) {
             throw exception(USER_NOT_EXISTS);
         }
         // Function<String, Boolean> fun = pwd -> isPasswordMatch(oldPassword, pwd);
-        if (userOptional.map(CreedConsumer::getPassword)
+        if (userOptional.map(CreedUser::getPassword)
                 .filter(pwd -> isPasswordMatch(oldPassword, pwd)).isEmpty()) {
             throw exception(USER_PASSWORD_FAILED);
         }
@@ -513,7 +513,7 @@ public class AdminUserServiceImpl implements AdminUserService {
                 return;
             }
             // 判断如果不存在，在进行插入
-            Optional<CreedConsumer> existUserOptional = consumerRepository.findByUsername(importUser.getUsername());
+            Optional<CreedUser> existUserOptional = consumerRepository.findByUsername(importUser.getUsername());
             if (existUserOptional.isEmpty()) {
                 consumerRepository.save(UserConvert.INSTANCE.convert(importUser)
                         .setPassword(encodePassword(userInitPassword))); // 设置默认密码
@@ -525,16 +525,16 @@ public class AdminUserServiceImpl implements AdminUserService {
                 respVO.getFailureUsernames().put(importUser.getUsername(), USER_USERNAME_EXISTS.getMsg());
                 return;
             }
-            CreedConsumer creedConsumer = existUserOptional.get();
-            UserConvert.INSTANCE.update(importUser, creedConsumer);
-            consumerRepository.save(creedConsumer);
+            CreedUser creedUser = existUserOptional.get();
+            UserConvert.INSTANCE.update(importUser, creedUser);
+            consumerRepository.save(creedUser);
             respVO.getUpdateUsernames().add(importUser.getUsername());
         });
         return respVO;
     }
 
     @Override
-    public List<CreedConsumer> getUsersByStatus(CommonStatusEnum status) {
+    public List<CreedUser> getUsersByStatus(CommonStatusEnum status) {
         return consumerRepository.findByEnabled(status);
     }
 
