@@ -1,0 +1,89 @@
+#code auth
+GET http://localhost:8081/oauth2/authorize?client_id=messaging-client&redirect_uri=http://127.0.0.1:8080/authorized&response_type=code&scope=message.read message.write
+###
+#id_token with code auth
+GET http://localhost:8081/oauth2/authorize?client_id=messaging-client&redirect_uri=http://127.0.0.1:8080/authorized&response_type=code&scope=message.read message.write openid profile
+###
+
+# curl --location 'http://localhost:8081/oauth2/token'
+#--header 'Content-Type: application/x-www-form-urlencoded'
+#--header 'Authorization: Basic bWVzc2FnaW5nLWNsaWVudDpzZWNyZXQ='
+#--data-urlencode 'grant_type=authorization_code'
+#--data-urlencode 'code=ZUacHzsIU3mSfThKPr6jm6kVH7hIp794V08EmjxhxXEBcwfG5gRdW8enXfqjBs4nx_eV-zj-F1lA9uNVwLBekQyj6tIGioWgDi5shJJXhAsl_Z7TRp3CtShSxry6P1m9'
+#--data-urlencode 'redirect_uri=http://127.0.0.1:8080/authorized'
+
+< {%
+    client.global.set("code", "eIDwy5c998huZlr0emkuox_U0ZJUqosiEYFevvsyo07V5UmAY2JPe_ClLctw2ENolKUti0IcC4ukN3SAM9VEnIPwgv0lcpiJka6rW50qTpsDAni3dS3AM_t0AQHu0cV8");
+    client.global.set("redirect_uri", "http://127.0.0.1:8080/authorized");
+%}
+
+POST http://localhost:8081/oauth2/token
+Authorization: Basic messaging-client secret
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code&code={{code}}&redirect_uri={{redirect_uri}}
+
+> {%
+    client.log('access_token:'+ response.body.access_token);
+    client.global.set("access_token", response.body.access_token);
+%}
+###
+
+
+# *********************************************************
+# **PKCE** auth  verifier:xrHOMf08iOlZjo3h4178IsFg48BMXMdTLe5wqFLXD58 -> code_challenge=CpUy3FCt7GGE51mzj9T3XVgrtHi5jj_PQZuvc99BN7Q
+#A random, 43-128 character string used to
+#connect the authorization request to the token
+#request. Uses the following characters: [A-Z] / [a-z] / (0-9] / "-" /"."/"_"/"~".
+< {%
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
+    let randomString = '';
+    const length = Math.floor(Math.random()) + 43
+    for (let i = 0; i < length; i++) {
+        randomString += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    client.log("randomString:"+ randomString)
+    client.global.set("codeVerifier", randomString);
+
+    const codeChallenge = crypto.sha256()
+        .updateWithText(randomString)
+        .digest().toBase64(true)
+    client.log("codeChallenge:"+ codeChallenge)
+    client.global.set("codeChallenge", codeChallenge);
+ %}
+GET http://localhost:8081/oauth2/authorize?response_type=code&client_id=messaging-client&state=abc&scope=message.read message.write&redirect_uri=http://127.0.0.1:8080/authorized&code_challenge={{codeChallenge}}&code_challenge_method=S256
+
+###
+
+
+# curl --location 'http://localhost:8081/oauth2/token'
+#--header 'Content-Type: application/x-www-form-urlencoded'
+#--header 'Authorization: Basic bWVzc2FnaW5nLWNsaWVudDpzZWNyZXQ='
+#--data-urlencode 'grant_type=authorization_code'
+#--data-urlencode 'code=b6NSygC1d63WHGSJeUIW1EBWomfAtNEF-7PFgOgaVUGHyMcikePJPjYVCbTSRsDRhnaFTFVLONlE_fKXKeVor3SB34hoJuAU7hXMDwgqUMWHXNrrAFEwQM9W35KC__kd'
+#--data-urlencode 'redirect_uri=http://127.0.0.1:8080/authorized'
+#--data-urlencode 'code_verifier=.AtWHd5yx6LY8_T5dxfuY8B5SHwCkCZqOh13W9Kwqed'
+
+< {%
+    client.global.set("code", "5Uh-pG0A-uhqt7GaOTirCQgd2VhnFiMC2vwVpLj-Rnl6AaKBO9_NmQWhyQnvSllxRM38Z7XmX-uz-OqlZWNtDqtrVw0F-3u1lgH3_kXtT2F1bSkuk90EcUZ2FQqdp1Ln");
+    client.global.set("redirect_uri", "http://127.0.0.1:8080/authorized");
+%}
+
+POST http://localhost:8081/oauth2/token
+Authorization: Basic messaging-client secret
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code&code={{code}}&redirect_uri=http://127.0.0.1:8080/authorized&code_verifier={{codeVerifier}}
+
+> {%
+    client.log('access_token:'+ response.body.access_token);
+    client.global.set("access_token", response.body.access_token);
+%}
+
+###
+
+
+
+
+
+

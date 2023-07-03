@@ -129,7 +129,9 @@ public class SecurityConfig {
                 .and().addFilterAfter(loginTokenAuthenticationFilter(), AnonymousAuthenticationFilter.class)
                 // .oauth2ResourceServer(OAuth2ResourceServerConfigurer::opaqueToken) // {@see myIntrospector()}
                 .oauth2ResourceServer(oauth2 ->
-                        oauth2.opaqueToken(Customizer.withDefaults())
+                        oauth2
+//                                .opaqueToken(Customizer.withDefaults())
+                                .jwt(Customizer.withDefaults())// for id_token /userinfo endpoint. {@see https://docs.spring.io/spring-authorization-server/docs/current/reference/html/protocol-endpoints.html#oidc-client-registration-endpoint}
                         .authenticationEntryPoint(exceptionHandler())
                 )
 
@@ -141,7 +143,7 @@ public class SecurityConfig {
 
 
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/css/**", "/js/**", "/fonts/**", "/*.html", "/favicon.ico").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/fonts/**", "/*.html", "/favicon.ico", "/*.css", "/*.js").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/actuator/**", "/webjars/**", "/resources/**", "/static/**").permitAll()
                         .requestMatchers(HttpMethod.GET, permitAllUrls.get(HttpMethod.GET).toArray(new String[0])).permitAll()
                         .requestMatchers(HttpMethod.POST, permitAllUrls.get(HttpMethod.POST).toArray(new String[0])).permitAll()
@@ -159,7 +161,26 @@ public class SecurityConfig {
                 .accessDeniedHandler(exceptionHandler())
                 .authenticationEntryPoint(exceptionHandler())
                 .and()
-                // .formLogin(Customizer.withDefaults())
+
+                // .formLogin(Customizer.withDefaults()) 默认配置,此处也是需要的，因为AuthorizationServerConfig重定向之后会来到这里
+                .formLogin(form ->
+                        form.loginPage("/oauth/index")
+                                .loginProcessingUrl("/oauth/login")
+                                .failureUrl("/oauth/index?error")
+                                .defaultSuccessUrl("/user/info")
+                                .permitAll()
+                )
+                .logout(form -> form.permitAll())
+
+/*     旧配置
+            .loginPage("/oauth/index") // 登陆 URL 地址
+                .loginProcessingUrl("/oauth/login")
+                .failureUrl("/oauth/index?error")
+                .defaultSuccessUrl("/user/info")
+                //.failureHandler()
+                .permitAll()
+                .and().logout().permitAll() */
+
                 .httpBasic();
 
         // {@see https://docs.spring.io/spring-security/reference/servlet/oauth2/client/authorization-grants.html#_requesting_an_access_token_2}

@@ -1,5 +1,6 @@
 package com.ethan.security.oauth2.provider;
 
+import com.ethan.common.utils.json.JacksonUtils;
 import com.ethan.security.oauth2.entity.CreedOAuth2Authorization;
 import com.ethan.security.oauth2.repository.CreedOAuth2AuthorizationRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -58,7 +59,7 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
     @Transactional(rollbackFor = Exception.class)
     public void save(OAuth2Authorization authorization) {
         Assert.notNull(authorization, "authorization cannot be null");
-        log.info("going to save with id:{} token:{}", authorization.getId(), authorization.getAccessToken().getToken().getTokenValue());
+        log.info("going to save with id:{} token:{}", authorization.getId(), JacksonUtils.toJsonString(authorization.getAccessToken()));
         this.authorizationRepository.save(toEntity(authorization));
     }
 
@@ -146,6 +147,30 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
         if (oidcIdToken != null) {
             entity.setOidcIdTokenClaims(writeMapStr(oidcIdToken.getClaims()));
         }
+
+        //TODO
+
+        /* OAuth2Authorization.Token<OAuth2UserCode> userCode =
+                authorization.getToken(OAuth2UserCode.class);
+        setTokenValues(
+                userCode,
+                entity::setUserCodeValue,
+                entity::setUserCodeIssuedAt,
+                entity::setUserCodeExpiresAt,
+                entity::setUserCodeMetadata
+        );
+
+        OAuth2Authorization.Token<OAuth2DeviceCode> deviceCode =
+                authorization.getToken(OAuth2DeviceCode.class);
+        setTokenValues(
+                deviceCode,
+                entity::setDeviceCodeValue,
+                entity::setDeviceCodeIssuedAt,
+                entity::setDeviceCodeExpiresAt,
+                entity::setDeviceCodeMetadata
+        ); */
+
+
         return entity;
     }
 

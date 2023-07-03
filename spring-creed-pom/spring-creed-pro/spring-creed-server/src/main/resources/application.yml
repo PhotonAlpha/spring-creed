@@ -31,6 +31,9 @@ spring:
     web:
       pageable:
         one-indexed-parameters: true
+  thymeleaf:
+    enabled: true
+
 #logging:
 #  level:
 #    org:

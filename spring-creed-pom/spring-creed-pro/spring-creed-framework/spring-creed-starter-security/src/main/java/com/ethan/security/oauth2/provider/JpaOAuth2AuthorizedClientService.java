@@ -29,6 +29,7 @@ import java.util.Set;
  * TODO,  need to provide a service and intergrate with OAuth2ClientConfig
  * see {@link OAuth2TokenServiceImpl}
  */
+@Deprecated
 public class JpaOAuth2AuthorizedClientService implements OAuth2AuthorizedClientService {
     private final CreedOAuth2AuthorizedClientRepository authorizedClientRepository;
 

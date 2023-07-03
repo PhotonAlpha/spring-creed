@@ -37,7 +37,7 @@ public class UnAuthExceptionHandler implements AuthenticationEntryPoint, AccessD
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         Throwable cause = authException.getCause();
-        log.error("AuthenticationEntryPoint : {}",authException);
+        log.error("AuthenticationEntryPoint : {}",request.getRequestURI(), authException);
         //AuthenticationException
         if (cause instanceof AccessDeniedException) {
             log.error("AccessDeniedException : {}", cause.getMessage());

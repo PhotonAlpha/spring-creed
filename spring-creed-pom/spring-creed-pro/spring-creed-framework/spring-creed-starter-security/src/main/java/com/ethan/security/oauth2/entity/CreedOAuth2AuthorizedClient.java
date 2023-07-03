@@ -29,6 +29,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode
 @Accessors(chain = true)
+@Deprecated
 public class CreedOAuth2AuthorizedClient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

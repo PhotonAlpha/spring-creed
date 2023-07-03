@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+@Deprecated
 public interface CreedOAuth2AuthorizedClientRepository extends JpaRepository<CreedOAuth2AuthorizedClient, Long>, JpaSpecificationExecutor<CreedOAuth2AuthorizedClient> {
     Optional<CreedOAuth2AuthorizedClient> findByRefreshTokenValue(String refreshToken);
 

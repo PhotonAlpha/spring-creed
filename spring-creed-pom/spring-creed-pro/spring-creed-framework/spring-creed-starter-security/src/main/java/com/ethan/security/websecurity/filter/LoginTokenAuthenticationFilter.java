@@ -9,7 +9,9 @@ package com.ethan.security.websecurity.filter;
 
 import com.ethan.common.exception.ServiceException;
 import com.ethan.common.utils.WebFrameworkUtils;
+import com.ethan.security.oauth2.entity.CreedOAuth2Authorization;
 import com.ethan.security.oauth2.entity.CreedOAuth2AuthorizedClient;
+import com.ethan.security.oauth2.repository.CreedOAuth2AuthorizationRepository;
 import com.ethan.security.oauth2.repository.CreedOAuth2AuthorizedClientRepository;
 import com.ethan.security.utils.SecurityFrameworkUtils;
 import jakarta.annotation.Resource;
@@ -18,6 +20,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -25,24 +29,30 @@ import java.io.IOException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Slf4j
 public class LoginTokenAuthenticationFilter extends OncePerRequestFilter {
 
     @Resource
-    private CreedOAuth2AuthorizedClientRepository clientRepository;
-
+    //    private CreedOAuth2AuthorizedClientRepository clientRepository;
+    private CreedOAuth2AuthorizationRepository clientRepository;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         DefaultBearerTokenResolver defaultBearerTokenResolver = new DefaultBearerTokenResolver();
         String token = defaultBearerTokenResolver.resolve(request);
-        CreedOAuth2AuthorizedClient authorizedClient = buildLoginUserByToken(token, WebFrameworkUtils.getLoginUserType(request));
+        if (StringUtils.isBlank(token)) {
+            log.debug("Did not process request since did not find bearer token");
+            chain.doFilter(request, response);
+            return;
+        }
+        CreedOAuth2Authorization authorizedClient = buildLoginUserByToken(token, WebFrameworkUtils.getLoginUserType(request));
 
         SecurityFrameworkUtils.setLoginUser(authorizedClient, request);
         chain.doFilter(request, response);
     }
 
-    private CreedOAuth2AuthorizedClient buildLoginUserByToken(String token, Integer userType) {
+    private CreedOAuth2Authorization buildLoginUserByToken(String token, Integer userType) {
         try {
-            Optional<CreedOAuth2AuthorizedClient> accessToken = clientRepository.findByAccessTokenValue(token);
+            Optional<CreedOAuth2Authorization> accessToken = clientRepository.findByAccessTokenValue(token);
             if (accessToken.isEmpty()) {
                 return null;
             }

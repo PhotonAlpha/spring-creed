@@ -29,11 +29,6 @@ public class CreedOAuth2AuthorizationConsent {
         private String registeredClientId;
         private String principalName;
 
-        public AuthorizationConsentId(String registeredClientId, String principalName) {
-            this.registeredClientId = registeredClientId;
-            this.principalName = principalName;
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;

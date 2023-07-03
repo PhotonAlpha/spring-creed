@@ -121,4 +121,11 @@ CREATE TABLE IF NOT EXISTS `creed_group_members` (
     CONSTRAINT `fk_group_members_group` FOREIGN KEY (`group_id`) REFERENCES `creed_groups` (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- ENC password
+INSERT INTO `creed_user` (`username`, `password`, `nickname`, `remark`, `email`, `phone`, `phone_code`, `sex`,
+                          `avatar`, `enabled`, `login_ip`, `login_date`, `acc_non_expired`, `acc_non_locked`,
+                          `credentials_non_expired`, `create_time`, `creator`, `update_time`, `updater`, `version`)
+VALUES ('ethan', '{bcrypt}$2a$10$neavo46w/dPODQ30x0AWoePyVR5Y0RNiAG0zD.q7OwzeRB7.n42cq', NULL,
+        'admin', NULL, NULL, NULL, 1, NULL, 0, '0:0:0:0:0:0:0:1', '2023-06-08 11:25:40', 0, 0, 0, '2023-06-08 11:25:40',
+        'default', '2023-06-09 10:12:23', 'default', 3);
 

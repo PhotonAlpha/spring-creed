@@ -1,6 +1,7 @@
 package com.ethan.security.utils;
 
 import com.ethan.common.utils.WebFrameworkUtils;
+import com.ethan.security.oauth2.entity.CreedOAuth2Authorization;
 import com.ethan.security.oauth2.entity.CreedOAuth2AuthorizedClient;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -85,7 +86,7 @@ public class SecurityFrameworkUtils {
      * @param authorizedClient 登录用户
      * @param request 请求
      */
-    public static void setLoginUser(CreedOAuth2AuthorizedClient authorizedClient, HttpServletRequest request) {
+    public static void setLoginUser(CreedOAuth2Authorization authorizedClient, HttpServletRequest request) {
         if (authorizedClient == null) {
             log.warn("setLoginUser failed, because authorizedClient is null");
             return;
@@ -96,7 +97,7 @@ public class SecurityFrameworkUtils {
 
         // 额外设置到 request 中，用于 ApiAccessLogFilter 可以获取到用户编号；
         // 原因是，Spring Security 的 Filter 在 ApiAccessLogFilter 后面，在它记录访问日志时，线上上下文已经没有用户编号等信息
-        WebFrameworkUtils.setLoginUserId(request, authorizedClient.getUserId());
+//        WebFrameworkUtils.setLoginUserId(request, authorizedClient.getUserId());
         // WebFrameworkUtils.setLoginUserType(request, loginUser.getUserType());
     }
 

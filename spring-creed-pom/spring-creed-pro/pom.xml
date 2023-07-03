@@ -13,6 +13,7 @@
         <module>spring-creed-module-system</module>
         <module>spring-creed-server</module>
         <module>spring-creed-testing</module>
+        <module>spring-authorization-server-test</module>
     </modules>
     <packaging>pom</packaging>
 

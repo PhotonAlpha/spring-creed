@@ -1,0 +1,17 @@
+# curl --location 'http://localhost:8081/oauth2/token'
+#--header 'Content-Type: application/x-www-form-urlencoded'
+#--header 'Authorization: Basic bWVzc2FnaW5nLWNsaWVudDpzZWNyZXQ='
+#--header 'Cookie: JSESSIONID=A8FB6636434732DA53C481F5ADFA2EFA'
+#--data-urlencode 'grant_type=refresh_token'
+#--data-urlencode 'refresh_token=VNtF6E3bBvvGCMV6VphqxiqTx3qDhrRYjBAkbg8lc7lUU5GB2Rgk2LFsaEaOpwrpp4B4kZvkIVHZv14UGob8EDWJOhyjB3UiKuOnFkyGwNbO2AHMmqwLLE4Le9XseRxA'
+#--data-urlencode 'scope=message.read message.write'
+
+POST http://localhost:8081/oauth2/token
+Authorization: Basic messaging-client secret
+Cookie: JSESSIONID=A8FB6636434732DA53C481F5ADFA2EFA
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=refresh_token&refresh_token={{refreshToken}}&scope=message.read+message.write
+
+###
+

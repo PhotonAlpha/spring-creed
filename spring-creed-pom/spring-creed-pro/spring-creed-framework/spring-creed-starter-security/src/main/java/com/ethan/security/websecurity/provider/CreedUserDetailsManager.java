@@ -317,6 +317,7 @@ public class CreedUserDetailsManager implements UserDetailsManager, GroupManager
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // List<UserDetails> users = loadUsersByUsername(username);
         Optional<CreedUser> consumerOptional = creedUserRepository.findByUsername(username);
