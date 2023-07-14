@@ -16,7 +16,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <spring.boot.version>3.0.0</spring.boot.version>
+        <spring.boot.version>3.1.1</spring.boot.version>
         <mapstruct.version>1.5.3.Final</mapstruct.version>
         <guava.version>31.1-jre</guava.version>
         <transmittable-thread-local.version>2.14.2</transmittable-thread-local.version>
@@ -32,6 +32,7 @@
         <micrometer.version>1.0.3</micrometer.version>
         <shardingsphere.version>5.2.1</shardingsphere.version>
         <commons-text.version>1.10.0</commons-text.version>
+        <spring-security-oauth2-authorization-server.version>1.1.1</spring-security-oauth2-authorization-server.version>
     </properties>
 
     <dependencyManagement>
@@ -71,7 +72,7 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-oauth2-authorization-server</artifactId>
-                <version>1.0.0</version>
+                <version>${spring-security-oauth2-authorization-server.version}</version>
             </dependency>
 
             <dependency>

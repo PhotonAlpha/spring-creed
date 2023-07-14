@@ -40,8 +40,10 @@ import org.springframework.security.config.annotation.web.HttpSecurityBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -120,13 +122,12 @@ public class SecurityConfig {
         Multimap<HttpMethod, String> permitAllUrls = getPermitAllUrlsFromAnnotations();
 
         http
-                .cors().and() //开启跨域
-                .csrf().disable() // CSRF 禁用，因为不使用 Session
+                .cors(Customizer.withDefaults()) //开启跨域
+                .csrf(AbstractHttpConfigurer::disable) // CSRF 禁用，因为不使用 Session
 
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.NEVER)
+                .sessionManagement(mng -> mng.sessionCreationPolicy(SessionCreationPolicy.NEVER))
                 // 添加自定义filter
-                .and().addFilterAfter(loginTokenAuthenticationFilter(), AnonymousAuthenticationFilter.class)
+                .addFilterAfter(loginTokenAuthenticationFilter(), AnonymousAuthenticationFilter.class)
                 // .oauth2ResourceServer(OAuth2ResourceServerConfigurer::opaqueToken) // {@see myIntrospector()}
                 .oauth2ResourceServer(oauth2 ->
                         oauth2
@@ -157,11 +158,10 @@ public class SecurityConfig {
 
                 // Form login handles the redirect to the login page from the
                 // authorization server filter chain
-                .exceptionHandling()
-                .accessDeniedHandler(exceptionHandler())
-                .authenticationEntryPoint(exceptionHandler())
-                .and()
-
+                .exceptionHandling(eh ->
+                        eh.accessDeniedHandler(exceptionHandler())
+                                .authenticationEntryPoint(exceptionHandler())
+                )
                 // .formLogin(Customizer.withDefaults()) 默认配置,此处也是需要的，因为AuthorizationServerConfig重定向之后会来到这里
                 .formLogin(form ->
                         form.loginPage("/oauth/index")
@@ -170,7 +170,7 @@ public class SecurityConfig {
                                 .defaultSuccessUrl("/user/info")
                                 .permitAll()
                 )
-                .logout(form -> form.permitAll())
+                .logout(LogoutConfigurer::permitAll)
 
 /*     旧配置
             .loginPage("/oauth/index") // 登陆 URL 地址
@@ -181,7 +181,7 @@ public class SecurityConfig {
                 .permitAll()
                 .and().logout().permitAll() */
 
-                .httpBasic();
+                .httpBasic(Customizer.withDefaults());
 
         // {@see https://docs.spring.io/spring-security/reference/servlet/oauth2/client/authorization-grants.html#_requesting_an_access_token_2}
         // http.oauth2Client()

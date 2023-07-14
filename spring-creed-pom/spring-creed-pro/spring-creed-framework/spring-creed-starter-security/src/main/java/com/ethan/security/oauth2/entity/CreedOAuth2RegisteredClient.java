@@ -42,6 +42,10 @@ public class CreedOAuth2RegisteredClient extends BaseXDO {
     private Set<String> redirectUris;
 
     @Convert(converter = SetTypeConverter.class)
+    @Column(name = "post_logout_redirect_uris", length = 1000)
+    private Set<String> postLogoutRedirectUris;
+
+    @Convert(converter = SetTypeConverter.class)
     @Column(length = 1000)
     private Set<String> scopes;
 

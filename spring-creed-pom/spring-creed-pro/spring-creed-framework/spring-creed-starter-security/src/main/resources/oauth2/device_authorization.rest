@@ -1,0 +1,50 @@
+# curl --location 'http://localhost:8081/oauth2/device_authorization'
+#--header 'content-type: application/x-www-form-urlencoded'
+#--header 'Authorization: Basic bWVzc2FnaW5nLWNsaWVudDpzZWNyZXQ='
+#--data-urlencode 'client_id=messaging-client'
+#--data-urlencode 'scope=openid profile message.read message.write'
+#--data-urlencode 'audience=AUDIENCE'
+POST http://localhost:8081/oauth2/device_authorization
+Authorization: Basic messaging-client secret
+Content-Type: application/x-www-form-urlencoded
+
+client_id=messaging-client&scope=openid+profile+message.read+message.write&audience=AUDIENCE
+
+###
+
+#第二步：设备验证步骤
+
+# curl --location 'http://localhost:8081/oauth2/device_verification'
+#--header 'content-type: application/x-www-form-urlencoded'
+#--header 'Authorization: Bearer lCTMWwaivXb1RWhqB-PRvlLrXgpBC7r8xPuN8d017tjcDQ_xAGEZLx2lCLazhjlXYJsnvfka0hj6k5nydruveAqDN8Kn-R0jt3-DiS0OvR_NoEieqKyKFRt79-w5vAnw'
+#--data-urlencode 'user_code=ZHGS-QLPX'
+#--data-urlencode 'scope=message.read message.write'
+POST http://localhost:8081/oauth2/device_verification
+Authorization: Bearer lCTMWwaivXb1RWhqB-PRvlLrXgpBC7r8xPuN8d017tjcDQ_xAGEZLx2lCLazhjlXYJsnvfka0hj6k5nydruveAqDN8Kn-R0jt3-DiS0OvR_NoEieqKyKFRt79-w5vAnw
+Content-Type: application/x-www-form-urlencoded
+
+user_code=ZHGS-QLPX&scope=message.read+message.write
+
+###
+
+#第三步： 设备确认成功之后，就可以获取token了
+# curl --location 'http://localhost:8081/oauth2/token'
+#--header 'Content-Type: application/x-www-form-urlencoded'
+#--header 'Authorization: Basic bWVzc2FnaW5nLWNsaWVudDpzZWNyZXQ='
+#--data-urlencode 'grant_type=urn:ietf:params:oauth:grant-type:device_code'
+#--data-urlencode 'device_code=EEtauom6GnkyxbvQKJDr-3M1297ydzkdwu3v3UdZEs3lNf2D6rg1Nv3UBO0U9bjfhSPw5tr39vCfSOFs_REPtBbFm4QNA5AdDILK7ggT0Q5GBIf7cbSpIz15ao69gCam'
+#--data-urlencode 'client_id=messaging-client'
+POST http://localhost:8081/oauth2/token
+Authorization: Basic messaging-client secret
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=urn:ietf:params:oauth:grant-type:device_code&device_code=EEtauom6GnkyxbvQKJDr-3M1297ydzkdwu3v3UdZEs3lNf2D6rg1Nv3UBO0U9bjfhSPw5tr39vCfSOFs_REPtBbFm4QNA5AdDILK7ggT0Q5GBIf7cbSpIz15ao69gCam&client_id=messaging-client
+
+###
+
+
+
+
+
+
+

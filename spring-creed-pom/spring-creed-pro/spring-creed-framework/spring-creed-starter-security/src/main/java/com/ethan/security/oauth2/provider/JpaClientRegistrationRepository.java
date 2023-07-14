@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Deprecated
 public class JpaClientRegistrationRepository implements ClientRegistrationRepository, Iterable<ClientRegistration> {
     private final Map<String, ClientRegistration> registrations;
 

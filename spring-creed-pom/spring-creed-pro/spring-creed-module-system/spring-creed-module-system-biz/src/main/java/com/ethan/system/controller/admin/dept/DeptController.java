@@ -2,6 +2,8 @@ package com.ethan.system.controller.admin.dept;
 
 import com.ethan.common.common.R;
 import com.ethan.common.constant.CommonStatusEnum;
+import com.ethan.framework.validator.groups.ReferenceNumGroup;
+import com.ethan.system.controller.admin.dept.validator.DeptValidator;
 import com.ethan.system.controller.admin.dept.vo.dept.DeptCreateReqVO;
 import com.ethan.system.controller.admin.dept.vo.dept.DeptListReqVO;
 import com.ethan.system.controller.admin.dept.vo.dept.DeptRespVO;
@@ -15,10 +17,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import jakarta.validation.groups.Default;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 import static com.ethan.common.common.R.success;
 
@@ -35,16 +41,25 @@ import static com.ethan.common.common.R.success;
 @Tag(name = "管理后台 - 部门")
 @RestController
 @RequestMapping("/system/dept")
-@Validated
+@Validated({Default.class, ReferenceNumGroup.class})
 public class DeptController {
 
     @Resource
     private DeptService deptService;
 
+    @Resource
+    private DeptValidator deptValidator;
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        if (Optional.ofNullable(binder.getTarget()).map(Object::getClass).filter(deptValidator::supports).isPresent()) {
+            binder.addValidators(deptValidator);
+        }
+    }
+
     @PostMapping("create")
     @Schema(name = "创建部门")
     @PreAuthorize("@ss.hasPermission('system:dept:create')")
-    public R<Long> createDept(@Valid @RequestBody DeptCreateReqVO reqVO) {
+    public R<Long> createDept(@Validated @RequestBody DeptCreateReqVO reqVO) {
         Long deptId = deptService.createDept(reqVO);
         return success(deptId);
     }

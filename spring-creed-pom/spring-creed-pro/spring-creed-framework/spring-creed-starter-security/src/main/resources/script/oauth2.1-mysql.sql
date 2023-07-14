@@ -17,6 +17,8 @@ CREATE TABLE creed_oauth2_registered_client
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+ALTER TABLE `creed_oauth2_registered_client`
+    ADD COLUMN `post_logout_redirect_uris` varchar(1000) DEFAULT NULL AFTER `redirect_uris`;
 
 ALTER TABLE `creed_oauth2_registered_client`
     ADD COLUMN `enabled` INT(1) NOT NULL DEFAULT 0 AFTER `status`;
@@ -60,10 +62,28 @@ CREATE TABLE creed_oauth2_authorization
     refresh_token_issued_at       timestamp,
     refresh_token_expires_at      timestamp,
     refresh_token_metadata        blob          DEFAULT NULL,
+
+    user_code_value varchar(4000) DEFAULT NULL,
+    user_code_issued_at timestamp DEFAULT NULL,
+    user_code_expires_at timestamp DEFAULT NULL,
+    user_code_metadata varchar(2000) DEFAULT NULL,
+    device_code_value varchar(4000) DEFAULT NULL,
+    device_code_issued_at timestamp DEFAULT NULL,
+    device_code_expires_at timestamp DEFAULT NULL,
+    device_code_metadata varchar(2000) DEFAULT NULL,
+
     `version`                     int(11) NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- ALTER TABLE creed_oauth2_authorization ADD COLUMN  user_code_value VARCHAR(1000) DEFAULT NULL AFTER `refresh_token_metadata`;
+-- ALTER TABLE creed_oauth2_authorization ADD COLUMN      user_code_issued_at timestamp  AFTER `user_code_value`;
+-- ALTER TABLE creed_oauth2_authorization ADD COLUMN      user_code_expires_at timestamp  AFTER `user_code_issued_at`;
+-- ALTER TABLE creed_oauth2_authorization ADD COLUMN      user_code_metadata VARCHAR(1000) DEFAULT NULL AFTER `user_code_expires_at`;
+-- ALTER TABLE creed_oauth2_authorization ADD COLUMN      device_code_value VARCHAR(1000) DEFAULT NULL AFTER `user_code_metadata`;
+-- ALTER TABLE creed_oauth2_authorization ADD COLUMN      device_code_issued_at timestamp  AFTER `device_code_value`;
+-- ALTER TABLE creed_oauth2_authorization ADD COLUMN      device_code_expires_at timestamp AFTER `device_code_issued_at`;
+-- ALTER TABLE creed_oauth2_authorization ADD COLUMN      device_code_metadata VARCHAR(1000) DEFAULT NULL AFTER `device_code_expires_at`;
 
 
 drop table if exists creed_oauth2_authorization_consent;
@@ -89,7 +109,7 @@ VALUES ('9dc45c80-e673-4215-9a19-329c161e08b8', 'messaging-client', '2023-12-02 
         '{"@class":"java.util.Collections$UnmodifiableMap","settings.client.require-proof-key":false,"settings.client.require-authorization-consent":true}',
         '{"@class":"java.util.Collections$UnmodifiableMap","settings.token.reuse-refresh-tokens":true,"settings.token.id-token-signature-algorithm":["org.springframework.security.oauth2.jose.jws.SignatureAlgorithm","RS256"],"settings.token.access-token-time-to-live":["java.time.Duration",300.000000000],"settings.token.access-token-format":{"@class":"org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat","value":"self-contained"},"settings.token.refresh-token-time-to-live":["java.time.Duration",3600.000000000],"settings.token.authorization-code-time-to-live":["java.time.Duration",300.000000000]}');
 
-
+-- {"@class":"java.util.Collections$UnmodifiableMap","settings.token.reuse-refresh-tokens":true,"settings.token.id-token-signature-algorithm":["org.springframework.security.oauth2.jose.jws.SignatureAlgorithm","RS256"],"settings.token.access-token-time-to-live":["java.time.Duration",210000.000000000],"settings.token.device-code-time-to-live":["java.time.Duration",210000.000000000],"settings.token.access-token-format":{"@class":"org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat","value":"reference"},"settings.token.refresh-token-time-to-live":["java.time.Duration",3600000.000000000],"settings.token.authorization-code-time-to-live":["java.time.Duration",9000.000000000]}
 
 
 drop table if exists creed_oauth2_authorized_client;
