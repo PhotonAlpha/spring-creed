@@ -27,7 +27,7 @@ import java.util.Set;
 @Table(name = "creed_authorities")
 @Data
 @EqualsAndHashCode
-@ToString(exclude = "consumerAuthorities")
+@ToString(exclude = "users")
 public class CreedAuthorities extends BaseXDO {
 
     /**

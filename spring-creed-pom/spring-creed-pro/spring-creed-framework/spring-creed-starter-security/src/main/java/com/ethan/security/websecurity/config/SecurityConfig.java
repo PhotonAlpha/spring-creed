@@ -80,7 +80,7 @@ import java.util.stream.Stream;
 @Configuration
 @EnableWebSecurity
 //启用验证权限的注解
-@EnableMethodSecurity(jsr250Enabled = true)
+@EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
     @Resource
     private ApplicationContext applicationContext;
@@ -131,8 +131,10 @@ public class SecurityConfig {
                 // .oauth2ResourceServer(OAuth2ResourceServerConfigurer::opaqueToken) // {@see myIntrospector()}
                 .oauth2ResourceServer(oauth2 ->
                         oauth2
-//                                .opaqueToken(Customizer.withDefaults())
-                                .jwt(Customizer.withDefaults())// for id_token /userinfo endpoint. {@see https://docs.spring.io/spring-authorization-server/docs/current/reference/html/protocol-endpoints.html#oidc-client-registration-endpoint}
+                                //**对于resource app来讲，同一时间只能存在一种token兼容**
+                                .opaqueToken(Customizer.withDefaults())
+//                                .jwt(Customizer.withDefaults())// for id_token /userinfo endpoint. {@see https://docs.spring.io/spring-authorization-server/docs/current/reference/html/protocol-endpoints.html#oidc-client-registration-endpoint}
+
                         .authenticationEntryPoint(exceptionHandler())
                 )
 
@@ -172,15 +174,6 @@ public class SecurityConfig {
                 )
                 .logout(LogoutConfigurer::permitAll)
 
-/*     旧配置
-            .loginPage("/oauth/index") // 登陆 URL 地址
-                .loginProcessingUrl("/oauth/login")
-                .failureUrl("/oauth/index?error")
-                .defaultSuccessUrl("/user/info")
-                //.failureHandler()
-                .permitAll()
-                .and().logout().permitAll() */
-
                 .httpBasic(Customizer.withDefaults());
 
         // {@see https://docs.spring.io/spring-security/reference/servlet/oauth2/client/authorization-grants.html#_requesting_an_access_token_2}
@@ -190,7 +183,7 @@ public class SecurityConfig {
 
     @Bean
     public OpaqueTokenIntrospector defaultIntrospector() {
-        return new NimbusOpaqueTokenIntrospector("http://localhost:8081/oauth2/introspect", "messaging-client", "secret");
+        return new NimbusOpaqueTokenIntrospector("http://localhost:48080/oauth2/introspect", "messaging-client", "secret");
     }
 
     private Multimap<HttpMethod, String> getPermitAllUrlsFromAnnotations() {

@@ -111,6 +111,31 @@ VALUES ('9dc45c80-e673-4215-9a19-329c161e08b8', 'messaging-client', '2023-12-02 
 
 -- {"@class":"java.util.Collections$UnmodifiableMap","settings.token.reuse-refresh-tokens":true,"settings.token.id-token-signature-algorithm":["org.springframework.security.oauth2.jose.jws.SignatureAlgorithm","RS256"],"settings.token.access-token-time-to-live":["java.time.Duration",210000.000000000],"settings.token.device-code-time-to-live":["java.time.Duration",210000.000000000],"settings.token.access-token-format":{"@class":"org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat","value":"reference"},"settings.token.refresh-token-time-to-live":["java.time.Duration",3600000.000000000],"settings.token.authorization-code-time-to-live":["java.time.Duration",9000.000000000]}
 
+INSERT INTO `creed_oauth2_registered_client` (`id`, `client_id`, `client_id_issued_at`, `client_secret`,
+                                        `client_secret_expires_at`, `client_name`, `client_authentication_methods`,
+                                        `authorization_grant_types`, `redirect_uris`, `scopes`, `client_settings`,
+                                        `token_settings`)
+VALUES ('9dc45c80-e673-4215-9a19-329c161e08b9', 'default', '2023-12-02 06:42:51', '{noop}secret',
+        '2023-12-02 06:42:51', 'jwt-token', 'client_secret_basic',
+        'refresh_token,client_credentials,authorization_code',
+        'http://127.0.0.1:8080/authorized,http://127.0.0.1:8080/login/oauth2/code/messaging-client-oidc',
+        'openid,profile,message.read,message.write',
+        '{"@class":"java.util.Collections$UnmodifiableMap","settings.client.require-proof-key":false,"settings.client.require-authorization-consent":true}',
+        '{"@class":"java.util.Collections$UnmodifiableMap","settings.token.reuse-refresh-tokens":true,"settings.token.id-token-signature-algorithm":["org.springframework.security.oauth2.jose.jws.SignatureAlgorithm","RS256"],"settings.token.access-token-time-to-live":["java.time.Duration",36000.0000000],"settings.token.access-token-format":{"@class":"org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat","value":"self-contained"},"settings.token.refresh-token-time-to-live":["java.time.Duration",36000.00000000],"settings.token.authorization-code-time-to-live":["java.time.Duration",300.000000000]}');
+
+-- {"@class":"java.util.Collections$UnmodifiableMap","settings.token.reuse-refresh-tokens":true,"settings.token.id-token-signature-algorithm":["org.springframework.security.oauth2.jose.jws.SignatureAlgorithm","RS256"],"settings.token.access-token-time-to-live":["java.time.Duration",210000.000000000],"settings.token.device-code-time-to-live":["java.time.Duration",210000.000000000],"settings.token.access-token-format":{"@class":"org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat","value":"reference"},"settings.token.refresh-token-time-to-live":["java.time.Duration",3600000.000000000],"settings.token.authorization-code-time-to-live":["java.time.Duration",9000.000000000]}
+INSERT INTO `creed_oauth2_registered_client` (`id`, `client_id`, `client_id_issued_at`, `client_secret`,
+                                              `client_secret_expires_at`, `client_name`, `client_authentication_methods`,
+                                              `authorization_grant_types`, `redirect_uris`, `scopes`, `client_settings`,
+                                              `token_settings`)
+VALUES ('9dc45c80-e673-4215-9a19-329c161e08b0', 'default-client', '2023-12-02 06:42:51', '{noop}secret',
+        '2023-12-02 06:42:51', 'random-token', 'client_secret_basic',
+        'refresh_token,client_credentials,authorization_code',
+        'http://127.0.0.1:8080/authorized,http://127.0.0.1:8080/login/oauth2/code/messaging-client-oidc',
+        'openid,profile,message.read,message.write',
+        '{"@class":"java.util.Collections$UnmodifiableMap","settings.client.require-proof-key":false,"settings.client.require-authorization-consent":true}',
+        '{"@class":"java.util.Collections$UnmodifiableMap","settings.token.reuse-refresh-tokens":true,"settings.token.id-token-signature-algorithm":["org.springframework.security.oauth2.jose.jws.SignatureAlgorithm","RS256"],"settings.token.access-token-time-to-live":["java.time.Duration",36000.0000000],"settings.token.access-token-format":{"@class":"org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat","value":"reference"},"settings.token.refresh-token-time-to-live":["java.time.Duration",36000.00000000],"settings.token.authorization-code-time-to-live":["java.time.Duration",300.000000000]}');
+
 
 drop table if exists creed_oauth2_authorized_client;
 CREATE TABLE creed_oauth2_authorized_client (
@@ -131,3 +156,40 @@ CREATE TABLE creed_oauth2_authorized_client (
     PRIMARY KEY (`id`)
 );
 
+
+-- 客户端Oauth2Client数据加载表，用来获取OAUTH2 Server的token
+drop table if exists creed_oauth2_client_configuration;
+CREATE TABLE creed_oauth2_client_configuration (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
+    `registration_id` varchar(200) NOT NULL COMMENT '注册id',
+    `authorization_uri` varchar(200) DEFAULT NULL,
+    `token_uri` varchar(200) NOT NULL,
+    `user_info_uri` varchar(200) DEFAULT NULL,
+    `user_info_authentication_method` varchar(200) DEFAULT NULL,
+    `user_name_attribute_name` varchar(200) DEFAULT NULL,
+    `jwk_set_uri` varchar(200) DEFAULT NULL,
+    `issuer_uri` varchar(200) DEFAULT NULL,
+    `configuration_metadata` varchar(200) DEFAULT NULL,
+    `client_id` varchar(200) NOT NULL COMMENT '用户类型',
+    `client_secret` varchar(200) NOT NULL,
+    client_authentication_method varchar(500) NOT NULL,
+    authorization_grant_type varchar(100) NOT NULL,
+    redirect_uri varchar(500) DEFAULT NULL,
+    scopes varchar(500) NOT NULL,
+    client_name varchar(500) DEFAULT NULL,
+
+
+
+    `create_time` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    `creator` varchar(50) DEFAULT NULL,
+    `update_time` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    `updater` varchar(50) DEFAULT NULL,
+    `deleted` tinyint(1) NOT NULL DEFAULT 0,
+    PRIMARY KEY (`id`)
+);
+
+insert into `creed_oauth2_client_configuration` (`registration_id`, `token_uri`, `client_id`, `client_secret`,
+                                                 client_authentication_method, authorization_grant_type, `scopes`,
+                                                 `client_name`, `creator`, `updater`)
+values ('okta', 'http://localhost:48080/oauth2/token', 'default', 'secret', 'client_secret_basic', 'client_credentials',
+        'message.read,message.write', 'default client credentials', 'system', 'system');

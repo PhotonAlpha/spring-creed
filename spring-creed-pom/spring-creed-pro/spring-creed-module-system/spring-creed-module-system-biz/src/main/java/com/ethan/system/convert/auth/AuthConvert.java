@@ -1,7 +1,7 @@
 package com.ethan.system.convert.auth;
 
 import com.ethan.common.utils.collection.CollUtils;
-import com.ethan.security.oauth2.entity.CreedOAuth2AuthorizedClient;
+import com.ethan.security.oauth2.entity.client.CreedOAuth2AuthorizedClient;
 import com.ethan.security.websecurity.entity.CreedAuthorities;
 import com.ethan.security.websecurity.entity.CreedUser;
 import com.ethan.system.constant.permission.MenuIdEnum;

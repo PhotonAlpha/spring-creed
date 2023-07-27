@@ -2,7 +2,7 @@ package com.ethan.system.controller.admin.oauth2;
 
 import com.ethan.common.common.R;
 import com.ethan.common.pojo.PageResult;
-import com.ethan.security.oauth2.entity.CreedOAuth2AuthorizedClient;
+import com.ethan.security.oauth2.entity.client.CreedOAuth2AuthorizedClient;
 import com.ethan.system.constant.logger.LoginLogTypeEnum;
 import com.ethan.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenPageReqVO;
 import com.ethan.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenRespVO;

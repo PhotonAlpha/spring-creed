@@ -27,3 +27,8 @@ Java 新特性： https://www.wdbyte.com/2020/02/jdk/jdk12-feature/#%E8%AE%A2%E9
 It's a spring boot and spring cloud project, Used to learn the latest spring related technical framework. 
 I'm going to build a mall management system which will include security/user/role/menu/department/SMS/Email/Payment management module etc. 
 This system still under building.
+
+
+[参考文档](https://wukong-doc.redhtc.com/security/sas/sas-whatyouknow/)
+
+[参考文档](https://docs.authing.cn/v2/concepts/id-token.html)

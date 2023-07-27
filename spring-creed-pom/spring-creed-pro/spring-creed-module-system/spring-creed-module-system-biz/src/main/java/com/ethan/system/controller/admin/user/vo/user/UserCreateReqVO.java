@@ -5,11 +5,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 @Schema(name = "管理后台 - 用户创建 Request VO")
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
 public class UserCreateReqVO extends UserBaseVO {
 
     @Schema(name = "密码", requiredMode = Schema.RequiredMode.REQUIRED, example = "123456")

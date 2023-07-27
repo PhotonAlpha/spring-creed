@@ -1,7 +1,5 @@
-
-
 server:
-  port: 8081
+  port: 48080
 #  servlet:
 #    context-path: /admin-api
 

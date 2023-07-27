@@ -7,7 +7,7 @@ import com.ethan.common.utils.monitor.TracerUtils;
 import com.ethan.common.utils.servlet.ServletUtils;
 import com.ethan.common.utils.validation.ValidationUtils;
 import com.ethan.framework.logger.core.dto.LoginLogCreateReqDTO;
-import com.ethan.security.oauth2.entity.CreedOAuth2AuthorizedClient;
+import com.ethan.security.oauth2.entity.client.CreedOAuth2AuthorizedClient;
 import com.ethan.security.websecurity.entity.CreedUser;
 import com.ethan.system.api.constant.sms.SmsSceneEnum;
 import com.ethan.system.constant.logger.LoginLogTypeEnum;

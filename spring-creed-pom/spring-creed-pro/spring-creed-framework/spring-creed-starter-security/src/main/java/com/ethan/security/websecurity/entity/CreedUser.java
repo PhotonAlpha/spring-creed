@@ -35,7 +35,7 @@ import java.util.Set;
 @DynamicUpdate
 @Data
 @EqualsAndHashCode
-@ToString(exclude = "consumerAuthorities")
+@ToString(exclude = "authorities")
 @Accessors(chain = true)
 public class CreedUser extends BaseXDO {
     @Id

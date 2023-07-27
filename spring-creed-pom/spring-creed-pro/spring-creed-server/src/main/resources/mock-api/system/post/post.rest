@@ -1,0 +1,297 @@
+# curl 'http://localhost:48080/admin-api/system/post/list-all-simple'
+#  -H 'Accept: application/json, text/plain, */*'
+#  -H 'Accept-Language: en-US,en;q=0.9'
+#  -H 'Authorization: Bearer ba332799037d4d518ed99aa48b998fd5'
+#  -H 'Connection: keep-alive'
+#  -H 'Origin: http://localhost:4200'
+#  -H 'Referer: http://localhost:4200/'
+#  -H 'Sec-Fetch-Dest: empty'
+#  -H 'Sec-Fetch-Mode: cors'
+#  -H 'Sec-Fetch-Site: same-site'
+#  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82'
+#  -H 'sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"'
+#  -H 'sec-ch-ua-mobile: ?0'
+#  -H 'sec-ch-ua-platform: "Windows"'
+#  -H 'tenant-id: 1'
+#  --compressed
+GET http://localhost:48080/admin-api/system/post/list-all-simple
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.9
+Authorization: Bearer ba332799037d4d518ed99aa48b998fd5
+Connection: keep-alive
+Origin: http://localhost:4200
+Referer: http://localhost:4200/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+tenant-id: 1
+
+###
+#{"code":0,"data":[{"id":1,"name":"董事长"},{"id":2,"name":"项目经理"},{"id":4,"name":"普通员工"}],"msg":""}
+
+
+# curl 'http://localhost:48080/admin-api/system/user/create'
+#  -H 'Accept: application/json, text/plain, */*'
+#  -H 'Accept-Language: en-US,en;q=0.9'
+#  -H 'Authorization: Bearer ba332799037d4d518ed99aa48b998fd5'
+#  -H 'Connection: keep-alive'
+#  -H 'Content-Type: application/json'
+#  -H 'Origin: http://localhost:4200'
+#  -H 'Referer: http://localhost:4200/'
+#  -H 'Sec-Fetch-Dest: empty'
+#  -H 'Sec-Fetch-Mode: cors'
+#  -H 'Sec-Fetch-Site: same-site'
+#  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82'
+#  -H 'sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"'
+#  -H 'sec-ch-ua-mobile: ?0'
+#  -H 'sec-ch-ua-platform: "Windows"'
+#  -H 'tenant-id: 1'
+#  --data-raw '{"nickname":"华东用户","deptId":100,"mobile":"18912312312","email":"test@liferay.com","username":"ethan","password":"admin123","sex":1,"postIds":[1,2,4],"remark":"mark","status":0,"roleIds":[]}'
+#  --compressed
+POST http://localhost:48080/admin-api/system/user/create
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.9
+Authorization: Bearer ba332799037d4d518ed99aa48b998fd5
+Connection: keep-alive
+Origin: http://localhost:4200
+Referer: http://localhost:4200/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+tenant-id: 1
+Content-Type: application/json
+
+{
+  "nickname": "华东用户",
+  "deptId": 100,
+  "mobile": "18912312312",
+  "email": "test@liferay.com",
+  "username": "ethan",
+  "password": "admin123",
+  "sex": 1,
+  "postIds": [
+    1,
+    2,
+    4
+  ],
+  "remark": "mark",
+  "status": 0,
+  "roleIds": []
+}
+
+###
+#{"code":0,"data":127,"msg":""}
+
+
+# curl 'http://localhost:48080/admin-api/system/post/page?pageNo=1&pageSize=10&code=&name='
+#  -H 'Accept: application/json, text/plain, */*'
+#  -H 'Accept-Language: en-US,en;q=0.9'
+#  -H 'Authorization: Bearer e5e8c44f7c8d4dc3bab84a33221fdb0a'
+#  -H 'Connection: keep-alive'
+#  -H 'Origin: http://localhost:4200'
+#  -H 'Referer: http://localhost:4200/'
+#  -H 'Sec-Fetch-Dest: empty'
+#  -H 'Sec-Fetch-Mode: cors'
+#  -H 'Sec-Fetch-Site: same-site'
+#  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82'
+#  -H 'sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"'
+#  -H 'sec-ch-ua-mobile: ?0'
+#  -H 'sec-ch-ua-platform: "Windows"'
+#  -H 'tenant-id: 1'
+#  --compressed
+GET http://localhost:48080/admin-api/system/post/page?pageNo=1&pageSize=10&code=&name=
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.9
+Authorization: Bearer e5e8c44f7c8d4dc3bab84a33221fdb0a
+Connection: keep-alive
+Origin: http://localhost:4200
+Referer: http://localhost:4200/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+tenant-id: 1
+
+###
+#{"code":0,"data":{"list":[{"name":"普通员工","code":"user","sort":4,"status":0,"remark":"111","id":4,"createTime":1609837428000},{"name":"项目经理","code":"se","sort":2,"status":0,"remark":"","id":2,"createTime":1609837428000},{"name":"董事长","code":"ceo","sort":1,"status":0,"remark":"","id":1,"createTime":1609923828000}],"total":3},"msg":""}
+
+
+# curl 'http://localhost:48080/admin-api/system/post/create'
+#  -H 'Accept: application/json, text/plain, */*'
+#  -H 'Accept-Language: en-US,en;q=0.9'
+#  -H 'Authorization: Bearer e5e8c44f7c8d4dc3bab84a33221fdb0a'
+#  -H 'Connection: keep-alive'
+#  -H 'Content-Type: application/json'
+#  -H 'Origin: http://localhost:4200'
+#  -H 'Referer: http://localhost:4200/'
+#  -H 'Sec-Fetch-Dest: empty'
+#  -H 'Sec-Fetch-Mode: cors'
+#  -H 'Sec-Fetch-Site: same-site'
+#  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82'
+#  -H 'sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"'
+#  -H 'sec-ch-ua-mobile: ?0'
+#  -H 'sec-ch-ua-platform: "Windows"'
+#  -H 'tenant-id: 1'
+#  --data-raw '{"name":"董事会","code":"group","sort":"0","status":0,"remark":"remark"}'
+#  --compressed
+POST http://localhost:48080/admin-api/system/post/create
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.9
+Authorization: Bearer e5e8c44f7c8d4dc3bab84a33221fdb0a
+Connection: keep-alive
+Origin: http://localhost:4200
+Referer: http://localhost:4200/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+tenant-id: 1
+Content-Type: application/json
+
+{
+  "name": "董事会",
+  "code": "group",
+  "sort": "0",
+  "status": 0,
+  "remark": "remark"
+}
+
+###
+#{"code":0,"data":5,"msg":""}
+
+
+# curl 'http://localhost:48080/admin-api/system/post/get?id=5'
+#  -H 'Accept: application/json, text/plain, */*'
+#  -H 'Accept-Language: en-US,en;q=0.9'
+#  -H 'Authorization: Bearer e5e8c44f7c8d4dc3bab84a33221fdb0a'
+#  -H 'Connection: keep-alive'
+#  -H 'Origin: http://localhost:4200'
+#  -H 'Referer: http://localhost:4200/'
+#  -H 'Sec-Fetch-Dest: empty'
+#  -H 'Sec-Fetch-Mode: cors'
+#  -H 'Sec-Fetch-Site: same-site'
+#  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82'
+#  -H 'sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"'
+#  -H 'sec-ch-ua-mobile: ?0'
+#  -H 'sec-ch-ua-platform: "Windows"'
+#  -H 'tenant-id: 1'
+#  --compressed
+GET http://localhost:48080/admin-api/system/post/get?id=5
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.9
+Authorization: Bearer e5e8c44f7c8d4dc3bab84a33221fdb0a
+Connection: keep-alive
+Origin: http://localhost:4200
+Referer: http://localhost:4200/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+tenant-id: 1
+
+###
+
+#{"code":0,"data":{"name":"董事会","code":"group","sort":0,"status":0,"remark":"remark","id":5,"createTime":1689925291000},"msg":""}
+
+# curl 'http://localhost:48080/admin-api/system/post/update'
+#  -X 'PUT'
+#  -H 'Accept: application/json, text/plain, */*'
+#  -H 'Accept-Language: en-US,en;q=0.9'
+#  -H 'Authorization: Bearer e5e8c44f7c8d4dc3bab84a33221fdb0a'
+#  -H 'Connection: keep-alive'
+#  -H 'Content-Type: application/json'
+#  -H 'Origin: http://localhost:4200'
+#  -H 'Referer: http://localhost:4200/'
+#  -H 'Sec-Fetch-Dest: empty'
+#  -H 'Sec-Fetch-Mode: cors'
+#  -H 'Sec-Fetch-Site: same-site'
+#  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82'
+#  -H 'sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"'
+#  -H 'sec-ch-ua-mobile: ?0'
+#  -H 'sec-ch-ua-platform: "Windows"'
+#  -H 'tenant-id: 1'
+#  --data-raw '{"name":"董事会","code":"group","sort":0,"status":0,"remark":"remark1","id":5,"createTime":1689925291000}'
+#  --compressed
+PUT http://localhost:48080/admin-api/system/post/update
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.9
+Authorization: Bearer e5e8c44f7c8d4dc3bab84a33221fdb0a
+Connection: keep-alive
+Origin: http://localhost:4200
+Referer: http://localhost:4200/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+tenant-id: 1
+Content-Type: application/json
+
+{
+  "name": "董事会",
+  "code": "group",
+  "sort": 0,
+  "status": 0,
+  "remark": "remark1",
+  "id": 5,
+  "createTime": 1689925291000
+}
+
+###
+#{"code":0,"data":true,"msg":""}
+
+
+# curl 'http://localhost:48080/admin-api/system/post/delete?id=6'
+#  -X 'DELETE'
+#  -H 'Accept: application/json, text/plain, */*'
+#  -H 'Accept-Language: en-US,en;q=0.9'
+#  -H 'Authorization: Bearer e5e8c44f7c8d4dc3bab84a33221fdb0a'
+#  -H 'Connection: keep-alive'
+#  -H 'Origin: http://localhost:4200'
+#  -H 'Referer: http://localhost:4200/'
+#  -H 'Sec-Fetch-Dest: empty'
+#  -H 'Sec-Fetch-Mode: cors'
+#  -H 'Sec-Fetch-Site: same-site'
+#  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82'
+#  -H 'sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"'
+#  -H 'sec-ch-ua-mobile: ?0'
+#  -H 'sec-ch-ua-platform: "Windows"'
+#  -H 'tenant-id: 1'
+#  --compressed
+DELETE http://localhost:48080/admin-api/system/post/delete?id=6
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.9
+Authorization: Bearer e5e8c44f7c8d4dc3bab84a33221fdb0a
+Connection: keep-alive
+Origin: http://localhost:4200
+Referer: http://localhost:4200/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+tenant-id: 1
+
+###
+#{"code":0,"data":true,"msg":""}

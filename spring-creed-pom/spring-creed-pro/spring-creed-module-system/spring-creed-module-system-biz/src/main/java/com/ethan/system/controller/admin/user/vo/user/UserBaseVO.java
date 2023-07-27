@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.Set;
 
@@ -15,6 +16,7 @@ import java.util.Set;
  * 如果子 VO 存在差异的字段，请不要添加到这里，影响 Swagger 文档生成
  */
 @Data
+@Accessors(chain = true)
 public class UserBaseVO {
 
     @Schema(name = "用户账号", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")

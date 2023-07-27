@@ -33,4 +33,5 @@ public interface CreedOAuth2AuthorizationRepository extends JpaRepository<CreedO
     )
     Optional<CreedOAuth2Authorization> findByTokenValueOrCodeValue(@Param("token") String token);
 
+    Optional<CreedOAuth2Authorization> findByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName);
 }

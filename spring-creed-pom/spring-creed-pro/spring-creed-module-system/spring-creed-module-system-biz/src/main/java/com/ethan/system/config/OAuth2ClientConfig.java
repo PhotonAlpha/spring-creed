@@ -7,6 +7,10 @@
 
 package com.ethan.system.config;
 
+import com.ethan.security.oauth2.provider.client.JpaClientRegistrationRepository;
+import com.ethan.security.oauth2.provider.client.JpaOAuth2AuthorizedClientService;
+import com.ethan.security.oauth2.repository.client.CreedOAuth2AuthorizedClientRepository;
+import com.ethan.security.oauth2.repository.client.CreedOAuth2ClientConfigurationRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +28,7 @@ import org.springframework.security.oauth2.client.web.AuthenticatedPrincipalOAut
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
@@ -58,21 +63,23 @@ public class OAuth2ClientConfig {
     }
 
     @Bean
-    public ClientRegistrationRepository clientRegistrationRepository() {
-        ClientRegistration clientRegistration = ClientRegistration.withRegistrationId("okta")
+    public ClientRegistrationRepository clientRegistrationRepository(CreedOAuth2ClientConfigurationRepository repo) {
+        /*ClientRegistration clientRegistration = ClientRegistration.withRegistrationId("okta")
                 .tokenUri("http://localhost:8081/oauth2/token")
                 .clientId("default")
                 .clientSecret("secret")
                 .scope(StringUtils.split("openid,profile,message.read,message.write", ","))
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .build();
-        return new InMemoryClientRegistrationRepository(clientRegistration);
+        return new InMemoryClientRegistrationRepository(clientRegistration);*/
+        return new JpaClientRegistrationRepository(repo);
     }
 
     @Bean
-    public OAuth2AuthorizedClientService auth2AuthorizedClientService(ClientRegistrationRepository clientRegistrationRepository) {
-        return new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository);
-         // new JdbcOAuth2AuthorizedClientService(clientRegistrationRepository);
+    public OAuth2AuthorizedClientService auth2AuthorizedClientService(ClientRegistrationRepository clientRegistrationRepository, CreedOAuth2AuthorizedClientRepository authorizedClientRepository) {
+//        return new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository);
+        return new JpaOAuth2AuthorizedClientService(clientRegistrationRepository, authorizedClientRepository);
     }
 
     @Bean

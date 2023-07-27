@@ -2,7 +2,7 @@ package com.ethan.system.convert.oauth2;
 
 import com.ethan.common.constant.UserTypeEnum;
 import com.ethan.common.utils.collection.CollUtils;
-import com.ethan.security.oauth2.entity.CreedOAuth2AuthorizedClient;
+import com.ethan.security.oauth2.entity.client.CreedOAuth2AuthorizedClient;
 import com.ethan.security.utils.SecurityFrameworkUtils;
 import com.ethan.system.api.utils.oauth2.OAuth2Utils;
 import com.ethan.system.controller.admin.oauth2.vo.open.OAuth2OpenAccessTokenRespVO;
