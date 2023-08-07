@@ -4,8 +4,8 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ethan.common.constant.UserTypeEnum;
-import com.ethan.security.oauth2.entity.CreedOAuth2AuthorizedClient;
-import com.ethan.security.websecurity.entity.CreedConsumer;
+import com.ethan.security.oauth2.entity.client.CreedOAuth2AuthorizedClient;
+import com.ethan.security.websecurity.entity.CreedUser;
 import com.ethan.system.constant.ErrorCodeConstants;
 import com.ethan.system.dal.entity.oauth2.OAuth2CodeDO;
 import com.ethan.system.service.auth.AdminAuthService;
@@ -47,7 +47,7 @@ public class OAuth2GrantServiceImpl implements OAuth2GrantService {
 
     @Override
     public CreedOAuth2AuthorizedClient grantAuthorizationCodeForAccessToken(String clientId, String code,
-                                                                    String redirectUri, String state) {
+                                                                            String redirectUri, String state) {
         OAuth2CodeDO codeDO = oauth2CodeService.consumeAuthorizationCode(code);
         Assert.notNull(codeDO, "授权码不能为空"); // 防御性编程
         // 校验 clientId 是否匹配
@@ -72,7 +72,7 @@ public class OAuth2GrantServiceImpl implements OAuth2GrantService {
     @Override
     public CreedOAuth2AuthorizedClient grantPassword(String username, String password, String clientId, List<String> scopes) {
         // 使用账号 + 密码进行登录
-        CreedConsumer user = adminAuthService.authenticate(username, password);
+        CreedUser user = adminAuthService.authenticate(username, password);
         Assert.notNull(user, "用户不能为空！"); // 防御性编程
 
         // 创建访问令牌

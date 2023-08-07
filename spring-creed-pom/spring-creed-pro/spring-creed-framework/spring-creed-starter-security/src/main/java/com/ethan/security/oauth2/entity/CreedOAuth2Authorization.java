@@ -81,6 +81,23 @@ public class CreedOAuth2Authorization {
     @Column(length = 2000)
     private String oidcIdTokenClaims;
 
+    @Column(length = 4000)
+    private String userCodeValue;
+
+    private Instant userCodeIssuedAt;
+    private Instant userCodeExpiresAt;
+    @Column(length = 2000)
+    private String userCodeMetadata;
+
+    @Column(length = 4000)
+    private String deviceCodeValue;
+
+    private Instant deviceCodeIssuedAt;
+    private Instant deviceCodeExpiresAt;
+    @Column(length = 2000)
+    private String deviceCodeMetadata;
+
+
     @Version
     private int version;
 }

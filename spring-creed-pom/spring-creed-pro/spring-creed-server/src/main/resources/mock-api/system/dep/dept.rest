@@ -1,0 +1,206 @@
+# curl 'http://localhost:48080/admin-api/system/dept/list-all-simple'
+#  -H 'Accept: application/json, text/plain, */*'
+#  -H 'Accept-Language: en-US,en;q=0.9'
+#  -H 'Authorization: Bearer ba332799037d4d518ed99aa48b998fd5'
+#  -H 'Connection: keep-alive'
+#  -H 'Origin: http://localhost:4200'
+#  -H 'Referer: http://localhost:4200/'
+#  -H 'Sec-Fetch-Dest: empty'
+#  -H 'Sec-Fetch-Mode: cors'
+#  -H 'Sec-Fetch-Site: same-site'
+#  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82'
+#  -H 'sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"'
+#  -H 'sec-ch-ua-mobile: ?0'
+#  -H 'sec-ch-ua-platform: "Windows"'
+#  -H 'tenant-id: 1'
+#  --compressed
+GET http://localhost:48080/admin-api/system/dept/list-all-simple
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.9
+Authorization: Bearer ba332799037d4d518ed99aa48b998fd5
+Connection: keep-alive
+Origin: http://localhost:4200
+Referer: http://localhost:4200/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+tenant-id: 1
+
+###
+#{"code":0,"data":[{"id":100,"name":"芋道源码","parentId":0},{"id":101,"name":"深圳总公司","parentId":100},{"id":103,"name":"研发部门","parentId":101},{"id":108,"name":"市场部门","parentId":102},{"id":102,"name":"长沙分公司","parentId":100},{"id":104,"name":"市场部门","parentId":101},{"id":109,"name":"财务部门","parentId":102},{"id":105,"name":"测试部门","parentId":101},{"id":106,"name":"财务部门","parentId":101},{"id":107,"name":"运维部门","parentId":101}],"msg":""}
+
+
+# curl 'http://localhost:48080/admin-api/system/dept/list?title=&pageNo=1&pageSize=100'
+#  -H 'Accept: application/json, text/plain, */*'
+#  -H 'Accept-Language: en-US,en;q=0.9'
+#  -H 'Authorization: Bearer 4f51eb2b3e514512bcbbcc502a320888'
+#  -H 'Connection: keep-alive'
+#  -H 'Origin: http://localhost:4200'
+#  -H 'Referer: http://localhost:4200/'
+#  -H 'Sec-Fetch-Dest: empty'
+#  -H 'Sec-Fetch-Mode: cors'
+#  -H 'Sec-Fetch-Site: same-site'
+#  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82'
+#  -H 'sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"'
+#  -H 'sec-ch-ua-mobile: ?0'
+#  -H 'sec-ch-ua-platform: "Windows"'
+#  -H 'tenant-id: 1'
+#  --compressed
+GET http://localhost:48080/admin-api/system/dept/list?title=&pageNo=1&pageSize=100
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.9
+Authorization: Bearer 4f51eb2b3e514512bcbbcc502a320888
+Connection: keep-alive
+Origin: http://localhost:4200
+Referer: http://localhost:4200/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+tenant-id: 1
+
+###
+#{"code":0,"data":[{"name":"芋道源码","parentId":0,"sort":0,"leaderUserId":1,"phone":"15888888888","email":"ry@qq.com","status":0,"id":100,"createTime":1609837427000},{"name":"深圳总公司","parentId":100,"sort":1,"leaderUserId":104,"phone":"15888888888","email":"ry@qq.com","status":0,"id":101,"createTime":1609837427000},{"name":"研发部门","parentId":101,"sort":1,"leaderUserId":104,"phone":"15888888888","email":"ry@qq.com","status":0,"id":103,"createTime":1609837427000},{"name":"市场部门","parentId":102,"sort":1,"leaderUserId":null,"phone":"15888888888","email":"ry@qq.com","status":0,"id":108,"createTime":1609837427000},{"name":"长沙分公司","parentId":100,"sort":2,"leaderUserId":null,"phone":"15888888888","email":"ry@qq.com","status":0,"id":102,"createTime":1609837427000},{"name":"市场部门","parentId":101,"sort":2,"leaderUserId":null,"phone":"15888888888","email":"ry@qq.com","status":0,"id":104,"createTime":1609837427000},{"name":"财务部门","parentId":102,"sort":2,"leaderUserId":null,"phone":"15888888888","email":"ry@qq.com","status":0,"id":109,"createTime":1609837427000},{"name":"测试部门","parentId":101,"sort":3,"leaderUserId":null,"phone":"15888888888","email":"ry@qq.com","status":0,"id":105,"createTime":1609837427000},{"name":"财务部门","parentId":101,"sort":4,"leaderUserId":103,"phone":"15888888888","email":"ry@qq.com","status":0,"id":106,"createTime":1609837427000},{"name":"运维部门","parentId":101,"sort":5,"leaderUserId":null,"phone":"15888888888","email":"ry@qq.com","status":0,"id":107,"createTime":1609837427000}],"msg":""}
+
+
+# curl 'http://localhost:48080/admin-api/system/dept/create'
+#  -H 'Accept: application/json, text/plain, */*'
+#  -H 'Accept-Language: en-US,en;q=0.9'
+#  -H 'Authorization: Bearer e5e8c44f7c8d4dc3bab84a33221fdb0a'
+#  -H 'Connection: keep-alive'
+#  -H 'Content-Type: application/json'
+#  -H 'Origin: http://localhost:4200'
+#  -H 'Referer: http://localhost:4200/'
+#  -H 'Sec-Fetch-Dest: empty'
+#  -H 'Sec-Fetch-Mode: cors'
+#  -H 'Sec-Fetch-Site: same-site'
+#  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82'
+#  -H 'sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"'
+#  -H 'sec-ch-ua-mobile: ?0'
+#  -H 'sec-ch-ua-platform: "Windows"'
+#  -H 'tenant-id: 1'
+#  --data-raw '{"title":"","parentId":0,"name":"MD","sort":1,"leaderUserId":127,"status":0}'
+#  --compressed
+POST http://localhost:48080/admin-api/system/dept/create
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.9
+Authorization: Bearer e5e8c44f7c8d4dc3bab84a33221fdb0a
+Connection: keep-alive
+Origin: http://localhost:4200
+Referer: http://localhost:4200/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+tenant-id: 1
+Content-Type: application/json
+
+{
+  "title": "",
+  "parentId": 0,
+  "name": "MD",
+  "sort": 1,
+  "leaderUserId": 127,
+  "status": 0
+}
+
+###
+#{"code":0,"data":112,"msg":""}
+
+# curl 'http://localhost:48080/admin-api/system/dept/update'
+#  -X 'PUT'
+#  -H 'Accept: application/json, text/plain, */*'
+#  -H 'Accept-Language: en-US,en;q=0.9'
+#  -H 'Authorization: Bearer e5e8c44f7c8d4dc3bab84a33221fdb0a'
+#  -H 'Connection: keep-alive'
+#  -H 'Content-Type: application/json'
+#  -H 'Origin: http://localhost:4200'
+#  -H 'Referer: http://localhost:4200/'
+#  -H 'Sec-Fetch-Dest: empty'
+#  -H 'Sec-Fetch-Mode: cors'
+#  -H 'Sec-Fetch-Site: same-site'
+#  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82'
+#  -H 'sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"'
+#  -H 'sec-ch-ua-mobile: ?0'
+#  -H 'sec-ch-ua-platform: "Windows"'
+#  -H 'tenant-id: 1'
+#  --data-raw '{"name":"MD","parentId":100,"sort":1,"leaderUserId":127,"phone":null,"email":null,"status":0,"id":112,"createTime":1689925078000}'
+#  --compressed
+PUT http://localhost:48080/admin-api/system/dept/update
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.9
+Authorization: Bearer e5e8c44f7c8d4dc3bab84a33221fdb0a
+Connection: keep-alive
+Origin: http://localhost:4200
+Referer: http://localhost:4200/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+tenant-id: 1
+Content-Type: application/json
+
+{
+  "name": "MD",
+  "parentId": 100,
+  "sort": 1,
+  "leaderUserId": 127,
+  "phone": null,
+  "email": null,
+  "status": 0,
+  "id": 112,
+  "createTime": 1689925078000
+}
+
+###
+#{"code":0,"data":true,"msg":""}
+
+
+# curl 'http://localhost:48080/admin-api/system/dept/delete?id=113'
+#  -X 'DELETE'
+#  -H 'Accept: application/json, text/plain, */*'
+#  -H 'Accept-Language: en-US,en;q=0.9'
+#  -H 'Authorization: Bearer e5e8c44f7c8d4dc3bab84a33221fdb0a'
+#  -H 'Connection: keep-alive'
+#  -H 'Origin: http://localhost:4200'
+#  -H 'Referer: http://localhost:4200/'
+#  -H 'Sec-Fetch-Dest: empty'
+#  -H 'Sec-Fetch-Mode: cors'
+#  -H 'Sec-Fetch-Site: same-site'
+#  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82'
+#  -H 'sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"'
+#  -H 'sec-ch-ua-mobile: ?0'
+#  -H 'sec-ch-ua-platform: "Windows"'
+#  -H 'tenant-id: 1'
+#  --compressed
+DELETE http://localhost:48080/admin-api/system/dept/delete?id=113
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.9
+Authorization: Bearer e5e8c44f7c8d4dc3bab84a33221fdb0a
+Connection: keep-alive
+Origin: http://localhost:4200
+Referer: http://localhost:4200/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+tenant-id: 1
+
+###
+#{"code":0,"data":true,"msg":""}

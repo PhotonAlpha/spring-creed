@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -73,6 +74,7 @@ public class DictDataController {
     @GetMapping("/list-all-simple")
     @Schema(name = "获得全部字典数据列表", description = "一般用于管理后台缓存字典数据在本地")
     // 无需添加权限认证，因为前端全局都需要
+    @PermitAll
     public R<List<DictDataSimpleRespVO>> getSimpleDictDatas() {
         List<DictDataDO> list = dictDataService.getDictDatas();
         return success(DictDataConvert.INSTANCE.convertList(list));

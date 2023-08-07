@@ -79,6 +79,11 @@
             <version>3.5.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.ethan</groupId>
+            <artifactId>spring-creed-starter-security</artifactId>
+        </dependency>
+
 
     </dependencies>
 

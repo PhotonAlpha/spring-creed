@@ -22,7 +22,12 @@ public interface AuthorityConvert {
     @Mapping(target = "authority", expression = "java(org.apache.commons.lang3.StringUtils.upperCase(bean.getAuthority()))")
     void update(RoleUpdateReqVO bean, @MappingTarget CreedAuthorities authorities);
 
+    @Mapping(source = "dataScope.scope", target = "dataScope")
+    @Mapping(source = "type.type", target = "type")
     RoleRespVO convert(CreedAuthorities bean);
+
+    @Mapping(source = "dataScope.scope", target = "dataScope")
+    RoleExcelVO convertExcel(CreedAuthorities bean);
 
     @Mapping(target = "authority", expression = "java(org.apache.commons.lang3.StringUtils.upperCase(bean.getAuthority()))")
     CreedAuthorities convert(RoleCreateReqVO bean);
@@ -31,6 +36,7 @@ public interface AuthorityConvert {
 
     List<RoleExcelVO> convertList03(List<CreedAuthorities> list);
 
+    @Mapping(expression = "java(com.ethan.security.websecurity.constant.RoleTypeEnum.findByType(bean.getType()))", target = "type")
     CreedAuthorities convert(RoleCreateReqBO bean);
 
 }

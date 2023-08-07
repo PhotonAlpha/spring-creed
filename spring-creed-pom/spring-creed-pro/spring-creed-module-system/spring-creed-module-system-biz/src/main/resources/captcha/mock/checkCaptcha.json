@@ -1,0 +1,26 @@
+{
+  "repCode": "0000",
+  "repMsg": null,
+  "repData": {
+    "captchaId": null,
+    "projectCode": null,
+    "captchaType": "blockPuzzle",
+    "captchaOriginalPath": null,
+    "captchaFontType": null,
+    "captchaFontSize": null,
+    "secretKey": null,
+    "originalImageBase64": null,
+    "point": null,
+    "jigsawImageBase64": null,
+    "wordList": null,
+    "pointList": null,
+    "pointJson": "6/L6RJFvkpGJJA6QCeBqpJEOlHpmUQpvf9YjviU4Jyg=",
+    "token": "0107111c27f14177a7ad30770d6c4203",
+    "result": true,
+    "captchaVerification": null,
+    "clientUid": null,
+    "ts": null,
+    "browserInfo": null
+  },
+  "success": true
+}

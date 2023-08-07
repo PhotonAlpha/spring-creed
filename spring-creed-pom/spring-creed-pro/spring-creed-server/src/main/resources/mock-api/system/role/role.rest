@@ -1,0 +1,207 @@
+# curl 'http://localhost:48080/admin-api/system/role/page?pageNo=1&pageSize=10&code=&name='
+#  -H 'Accept: application/json, text/plain, */*'
+#  -H 'Accept-Language: en-US,en;q=0.9'
+#  -H 'Authorization: Bearer ecbb96cdedc7427e923786da0c5d8fc3'
+#  -H 'Connection: keep-alive'
+#  -H 'Origin: http://localhost:4200'
+#  -H 'Referer: http://localhost:4200/'
+#  -H 'Sec-Fetch-Dest: empty'
+#  -H 'Sec-Fetch-Mode: cors'
+#  -H 'Sec-Fetch-Site: same-site'
+#  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82'
+#  -H 'sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"'
+#  -H 'sec-ch-ua-mobile: ?0'
+#  -H 'sec-ch-ua-platform: "Windows"'
+#  -H 'tenant-id: 1'
+#  --compressed
+GET http://localhost:48080/admin-api/system/role/page?pageNo=1&pageSize=10&code=&name=
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.9
+Authorization: Bearer ecbb96cdedc7427e923786da0c5d8fc3
+Connection: keep-alive
+Origin: http://localhost:4200
+Referer: http://localhost:4200/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+tenant-id: 1
+
+###
+#{"code":0,"data":{"list":[{"createTime":1609912175000,"updateTime":1664078978000,"creator":"","updater":"1","deleted":false,"tenantId":1,"id":101,"name":"测试账号","code":"test","sort":0,"status":0,"type":2,"remark":"132","dataScope":1,"dataScopeDeptIds":[]},{"createTime":1609837428000,"updateTime":1645477700000,"creator":"admin","updater":"","deleted":false,"tenantId":1,"id":2,"name":"普通角色","code":"common","sort":2,"status":0,"type":1,"remark":"普通角色","dataScope":2,"dataScopeDeptIds":null},{"createTime":1609837428000,"updateTime":1645477701000,"creator":"admin","updater":"","deleted":false,"tenantId":1,"id":1,"name":"超级管理员","code":"super_admin","sort":1,"status":0,"type":1,"remark":"超级管理员","dataScope":1,"dataScopeDeptIds":null}],"total":3},"msg":""}
+
+
+# curl 'http://localhost:48080/admin-api/system/role/create'
+#  -H 'Accept: application/json, text/plain, */*'
+#  -H 'Accept-Language: en-US,en;q=0.9'
+#  -H 'Authorization: Bearer ecbb96cdedc7427e923786da0c5d8fc3'
+#  -H 'Connection: keep-alive'
+#  -H 'Content-Type: application/json'
+#  -H 'Origin: http://localhost:4200'
+#  -H 'Referer: http://localhost:4200/'
+#  -H 'Sec-Fetch-Dest: empty'
+#  -H 'Sec-Fetch-Mode: cors'
+#  -H 'Sec-Fetch-Site: same-site'
+#  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82'
+#  -H 'sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"'
+#  -H 'sec-ch-ua-mobile: ?0'
+#  -H 'sec-ch-ua-platform: "Windows"'
+#  -H 'tenant-id: 1'
+#  --data-raw '{"name":"AuthAdmin","code":"Auth","sort":"1","status":0,"remark":"auth remark"}'
+#  --compressed
+POST http://localhost:48080/admin-api/system/role/create
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.9
+Authorization: Bearer ecbb96cdedc7427e923786da0c5d8fc3
+Connection: keep-alive
+Origin: http://localhost:4200
+Referer: http://localhost:4200/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+tenant-id: 1
+Content-Type: application/json
+
+{
+  "name": "AuthAdmin",
+  "code": "Auth",
+  "sort": "1",
+  "status": 0,
+  "remark": "auth remark"
+}
+
+###
+#{"code":0,"data":140,"msg":""}
+
+# curl 'http://localhost:48080/admin-api/system/role/get?id=140'
+#  -H 'Accept: application/json, text/plain, */*'
+#  -H 'Accept-Language: en-US,en;q=0.9'
+#  -H 'Authorization: Bearer ecbb96cdedc7427e923786da0c5d8fc3'
+#  -H 'Connection: keep-alive'
+#  -H 'Origin: http://localhost:4200'
+#  -H 'Referer: http://localhost:4200/'
+#  -H 'Sec-Fetch-Dest: empty'
+#  -H 'Sec-Fetch-Mode: cors'
+#  -H 'Sec-Fetch-Site: same-site'
+#  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82'
+#  -H 'sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"'
+#  -H 'sec-ch-ua-mobile: ?0'
+#  -H 'sec-ch-ua-platform: "Windows"'
+#  -H 'tenant-id: 1'
+#  --compressed
+GET http://localhost:48080/admin-api/system/role/get?id=140
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.9
+Authorization: Bearer ecbb96cdedc7427e923786da0c5d8fc3
+Connection: keep-alive
+Origin: http://localhost:4200
+Referer: http://localhost:4200/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+tenant-id: 1
+
+###
+#{"code":0,"data":{"name":"AuthAdmin","code":"Auth","sort":1,"remark":"auth remark","id":140,"dataScope":1,"dataScopeDeptIds":null,"status":0,"type":2,"createTime":1689922177000},"msg":""}
+
+
+# curl 'http://localhost:48080/admin-api/system/role/update'
+#  -X 'PUT'
+#  -H 'Accept: application/json, text/plain, */*'
+#  -H 'Accept-Language: en-US,en;q=0.9'
+#  -H 'Authorization: Bearer ecbb96cdedc7427e923786da0c5d8fc3'
+#  -H 'Connection: keep-alive'
+#  -H 'Content-Type: application/json'
+#  -H 'Origin: http://localhost:4200'
+#  -H 'Referer: http://localhost:4200/'
+#  -H 'Sec-Fetch-Dest: empty'
+#  -H 'Sec-Fetch-Mode: cors'
+#  -H 'Sec-Fetch-Site: same-site'
+#  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82'
+#  -H 'sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"'
+#  -H 'sec-ch-ua-mobile: ?0'
+#  -H 'sec-ch-ua-platform: "Windows"'
+#  -H 'tenant-id: 1'
+#  --data-raw '{"name":"AuthAdmin","code":"Auth","sort":1,"remark":"auth remark 2","id":140,"dataScope":1,"dataScopeDeptIds":null,"status":0,"type":2,"createTime":1689922177000}'
+#  --compressed
+PUT http://localhost:48080/admin-api/system/role/update
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.9
+Authorization: Bearer ecbb96cdedc7427e923786da0c5d8fc3
+Connection: keep-alive
+Origin: http://localhost:4200
+Referer: http://localhost:4200/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+tenant-id: 1
+Content-Type: application/json
+
+{
+  "name": "AuthAdmin",
+  "code": "Auth",
+  "sort": 1,
+  "remark": "auth remark 2",
+  "id": 140,
+  "dataScope": 1,
+  "dataScopeDeptIds": null,
+  "status": 0,
+  "type": 2,
+  "createTime": 1689922177000
+}
+
+###
+#{"code":0,"data":true,"msg":""}
+
+
+# curl 'http://localhost:48080/admin-api/system/role/delete?id=141'
+#  -X 'DELETE'
+#  -H 'Accept: application/json, text/plain, */*'
+#  -H 'Accept-Language: en-US,en;q=0.9'
+#  -H 'Authorization: Bearer ecbb96cdedc7427e923786da0c5d8fc3'
+#  -H 'Connection: keep-alive'
+#  -H 'Origin: http://localhost:4200'
+#  -H 'Referer: http://localhost:4200/'
+#  -H 'Sec-Fetch-Dest: empty'
+#  -H 'Sec-Fetch-Mode: cors'
+#  -H 'Sec-Fetch-Site: same-site'
+#  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82'
+#  -H 'sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"'
+#  -H 'sec-ch-ua-mobile: ?0'
+#  -H 'sec-ch-ua-platform: "Windows"'
+#  -H 'tenant-id: 1'
+#  --compressed
+DELETE http://localhost:48080/admin-api/system/role/delete?id=141
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.9
+Authorization: Bearer ecbb96cdedc7427e923786da0c5d8fc3
+Connection: keep-alive
+Origin: http://localhost:4200
+Referer: http://localhost:4200/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+tenant-id: 1
+
+###
+#{"code":0,"data":true,"msg":""}
+

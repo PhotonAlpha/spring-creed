@@ -5,7 +5,7 @@ import com.ethan.common.constant.CommonStatusEnum;
 import com.ethan.common.utils.collection.SetUtils;
 import com.ethan.framework.operatelog.annotations.OperateLog;
 import com.ethan.security.websecurity.entity.CreedAuthorities;
-import com.ethan.security.websecurity.entity.CreedConsumer;
+import com.ethan.security.websecurity.entity.CreedUser;
 import com.ethan.system.constant.logger.LoginLogTypeEnum;
 import com.ethan.system.constant.permission.MenuTypeEnum;
 import com.ethan.system.controller.admin.auth.vo.AuthLoginReqVO;
@@ -105,7 +105,7 @@ public class AuthController {
     @Schema(name = "获取登录用户的权限信息")
     public R<AuthPermissionInfoRespVO> getPermissionInfo() {
         // 获得用户信息
-        CreedConsumer user = userService.getUser(getLoginUserId());
+        CreedUser user = userService.getUser(getLoginUserId());
         if (user == null) {
             return null;
         }

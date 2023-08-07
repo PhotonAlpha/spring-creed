@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -76,7 +76,7 @@ public class DeptServiceImpl implements DeptService {
     /**
      * 缓存部门的最大更新时间，用于后续的增量轮询，判断是否有更新
      */
-    private volatile Instant maxUpdateTime;
+    private volatile ZonedDateTime maxUpdateTime;
 
     @Resource
     private DeptRepository deptRepository;
@@ -124,7 +124,7 @@ public class DeptServiceImpl implements DeptService {
      * @param maxUpdateTime 当前部门的最大更新时间
      * @return 部门列表
      */
-    protected List<DeptDO> loadDeptIfUpdate(Instant maxUpdateTime) {
+    protected List<DeptDO> loadDeptIfUpdate(ZonedDateTime maxUpdateTime) {
         // 第一步，判断是否要更新。
         if (maxUpdateTime == null) { // 如果更新时间为空，说明 DB 一定有新数据
             log.info("[loadMenuIfUpdate][首次加载全量部门]");
@@ -197,7 +197,7 @@ public class DeptServiceImpl implements DeptService {
             if (Objects.nonNull(reqVO.getStatus())) {
                 predicateList.add(cb.equal(root.get("status"), reqVO.getStatus()));
             }
-            cb.desc(root.get("id"));
+            query.orderBy(cb.desc(root.get("id")));
             return cb.and(predicateList.toArray(new Predicate[0]));
         };
     }

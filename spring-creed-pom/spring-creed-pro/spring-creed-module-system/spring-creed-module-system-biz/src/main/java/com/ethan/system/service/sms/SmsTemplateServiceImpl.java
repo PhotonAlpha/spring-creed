@@ -25,7 +25,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -82,7 +82,7 @@ public class SmsTemplateServiceImpl implements SmsTemplateService {
     /**
      * 缓存短信模板的最大更新时间，用于后续的增量轮询，判断是否有更新
      */
-    private volatile Instant maxUpdateTime;
+    private volatile ZonedDateTime maxUpdateTime;
 
     @Override
     @PostConstruct
@@ -106,7 +106,7 @@ public class SmsTemplateServiceImpl implements SmsTemplateService {
      * @param maxUpdateTime 当前短信模板的最大更新时间
      * @return 短信模板列表
      */
-    private List<SmsTemplateDO> loadSmsTemplateIfUpdate(Instant maxUpdateTime) {
+    private List<SmsTemplateDO> loadSmsTemplateIfUpdate(ZonedDateTime maxUpdateTime) {
         // 第一步，判断是否要更新。
         if (maxUpdateTime == null) { // 如果更新时间为空，说明 DB 一定有新数据
             log.info("[loadSmsTemplateIfUpdate][首次加载全量短信模板]");
@@ -243,7 +243,7 @@ public class SmsTemplateServiceImpl implements SmsTemplateService {
             if (Objects.nonNull(reqVO.getApiTemplateId())) {
                 predicateList.add(cb.like(root.get("api_template_id"), "%" + reqVO.getApiTemplateId() + "%"));
             }
-            cb.desc(root.get("id"));
+            query.orderBy(cb.desc(root.get("id")));
             return cb.and(predicateList.toArray(new Predicate[0]));
         };
     }

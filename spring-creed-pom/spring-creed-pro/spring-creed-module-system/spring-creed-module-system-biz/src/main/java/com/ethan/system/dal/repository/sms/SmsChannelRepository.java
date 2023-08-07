@@ -12,10 +12,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
-import java.time.Instant;
+import java.time.ZonedDateTime;
 
 @Repository
 public interface SmsChannelRepository extends JpaRepository<SmsChannelDO, Long>, JpaSpecificationExecutor<SmsChannelDO> {
 
-    int countByUpdateTimeGreaterThan(Instant maxUpdateTime);
+    int countByUpdateTimeGreaterThan(ZonedDateTime maxUpdateTime);
 }

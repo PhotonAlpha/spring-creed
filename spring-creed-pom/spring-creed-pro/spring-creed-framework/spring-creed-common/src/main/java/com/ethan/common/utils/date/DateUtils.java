@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -41,6 +42,9 @@ public class DateUtils {
 
     public static boolean isExpired(Date time) {
         return System.currentTimeMillis() > time.getTime();
+    }
+    public static boolean isExpired(ZonedDateTime time) {
+        return System.currentTimeMillis() > time.toInstant().toEpochMilli();
     }
     public static boolean isExpired(Instant time) {
         return System.currentTimeMillis() > time.toEpochMilli();
@@ -148,11 +152,11 @@ public class DateUtils {
         LocalDate localDate = LocalDate.ofInstant(date.toInstant(), ZoneId.systemDefault());
         return LocalDate.now().equals(localDate);
     }
-    public static boolean isToday(Instant date) {
+    public static boolean isToday(ZonedDateTime date) {
         if (date == null) {
             return false;
         }
-        LocalDate localDate = LocalDate.ofInstant(date, ZoneId.systemDefault());
+        LocalDate localDate = date.toLocalDate();
         return LocalDate.now().equals(localDate);
     }
 

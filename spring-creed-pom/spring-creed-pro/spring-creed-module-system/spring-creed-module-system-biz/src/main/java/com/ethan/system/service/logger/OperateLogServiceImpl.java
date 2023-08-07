@@ -3,7 +3,7 @@ package com.ethan.system.service.logger;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ethan.common.pojo.PageResult;
-import com.ethan.security.websecurity.entity.CreedConsumer;
+import com.ethan.security.websecurity.entity.CreedUser;
 import com.ethan.system.service.user.AdminUserService;
 import com.ethan.framework.logger.core.dto.OperateLogCreateReqDTO;
 import com.ethan.framework.logger.core.vo.operatelog.OperateLogExportReqVO;
@@ -55,7 +55,7 @@ public class OperateLogServiceImpl implements OperateLogService {
         // 处理基于用户昵称的查询
         Collection<String> userIds = null;
         if (StrUtil.isNotEmpty(reqVO.getUserNickname())) {
-            userIds = convertSet(userService.getUsersByNickname(reqVO.getUserNickname()), CreedConsumer::getId);
+            userIds = convertSet(userService.getUsersByNickname(reqVO.getUserNickname()), CreedUser::getId);
             if (CollUtil.isEmpty(userIds)) {
                 return PageResult.empty();
             }
@@ -83,7 +83,7 @@ public class OperateLogServiceImpl implements OperateLogService {
             if (Objects.nonNull(reqVO.getStartTime())) {
                 predicateList.add(cb.greaterThan(root.get("start_time"), reqVO.getStartTime()));
             }
-            cb.desc(root.get("id"));
+            query.orderBy(cb.desc(root.get("id")));
             return cb.and(predicateList.toArray(new Predicate[0]));
         };
     }
@@ -93,7 +93,7 @@ public class OperateLogServiceImpl implements OperateLogService {
         // 处理基于用户昵称的查询
         Collection<String> userIds = null;
         if (StrUtil.isNotEmpty(reqVO.getUserNickname())) {
-            userIds = convertSet(userService.getUsersByNickname(reqVO.getUserNickname()), CreedConsumer::getId);
+            userIds = convertSet(userService.getUsersByNickname(reqVO.getUserNickname()), CreedUser::getId);
             if (CollUtil.isEmpty(userIds)) {
                 return Collections.emptyList();
             }
@@ -121,7 +121,7 @@ public class OperateLogServiceImpl implements OperateLogService {
             if (Objects.nonNull(reqVO.getStartTime())) {
                 predicateList.add(cb.greaterThan(root.get("start_time"), reqVO.getStartTime()));
             }
-            cb.desc(root.get("id"));
+            query.orderBy(cb.desc(root.get("id")));
             return cb.and(predicateList.toArray(new Predicate[0]));
         };
     }

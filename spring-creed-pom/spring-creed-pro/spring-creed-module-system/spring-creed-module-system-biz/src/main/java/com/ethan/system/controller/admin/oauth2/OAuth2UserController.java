@@ -1,7 +1,7 @@
 package com.ethan.system.controller.admin.oauth2;
 
 import com.ethan.common.common.R;
-import com.ethan.security.websecurity.entity.CreedConsumer;
+import com.ethan.security.websecurity.entity.CreedUser;
 import com.ethan.system.controller.admin.oauth2.vo.user.OAuth2UserInfoRespVO;
 import com.ethan.system.controller.admin.oauth2.vo.user.OAuth2UserUpdateReqVO;
 import com.ethan.system.convert.oauth2.OAuth2UserConvert;
@@ -51,7 +51,7 @@ public class OAuth2UserController {
     @PreAuthorize("@ss.hasScope('user.read')") //
     public R<OAuth2UserInfoRespVO> getUserInfo() {
         // 获得用户基本信息
-        CreedConsumer user = userService.getUser(getLoginUserId());
+        CreedUser user = userService.getUser(getLoginUserId());
         OAuth2UserInfoRespVO resp = OAuth2UserConvert.INSTANCE.convert(user);
         // 获得部门信息
         // if (user.getDeptId() != null) {

@@ -12,8 +12,7 @@ import com.ethan.security.provider.UnAuthExceptionHandler;
 import com.ethan.security.websecurity.filter.LoginTokenAuthenticationFilter;
 import com.ethan.security.websecurity.provider.CreedUserDetailsManager;
 import com.ethan.security.websecurity.repository.CreedAuthorityRepository;
-import com.ethan.security.websecurity.repository.CreedConsumerAuthorityRepository;
-import com.ethan.security.websecurity.repository.CreedConsumerRepository;
+import com.ethan.security.websecurity.repository.CreedUserRepository;
 import com.ethan.security.websecurity.repository.CreedGroupsAuthoritiesRepository;
 import com.ethan.security.websecurity.repository.CreedGroupsMembersRepository;
 import com.ethan.security.websecurity.repository.CreedGroupsRepository;
@@ -41,8 +40,10 @@ import org.springframework.security.config.annotation.web.HttpSecurityBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -79,7 +80,7 @@ import java.util.stream.Stream;
 @Configuration
 @EnableWebSecurity
 //启用验证权限的注解
-@EnableMethodSecurity(jsr250Enabled = true)
+@EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
     @Resource
     private ApplicationContext applicationContext;
@@ -121,16 +122,19 @@ public class SecurityConfig {
         Multimap<HttpMethod, String> permitAllUrls = getPermitAllUrlsFromAnnotations();
 
         http
-                .cors().and() //开启跨域
-                .csrf().disable() // CSRF 禁用，因为不使用 Session
+                .cors(Customizer.withDefaults()) //开启跨域
+                .csrf(AbstractHttpConfigurer::disable) // CSRF 禁用，因为不使用 Session
 
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.NEVER)
+                .sessionManagement(mng -> mng.sessionCreationPolicy(SessionCreationPolicy.NEVER))
                 // 添加自定义filter
-                .and().addFilterAfter(loginTokenAuthenticationFilter(), AnonymousAuthenticationFilter.class)
+                .addFilterAfter(loginTokenAuthenticationFilter(), AnonymousAuthenticationFilter.class)
                 // .oauth2ResourceServer(OAuth2ResourceServerConfigurer::opaqueToken) // {@see myIntrospector()}
                 .oauth2ResourceServer(oauth2 ->
-                        oauth2.opaqueToken(Customizer.withDefaults())
+                        oauth2
+                                //**对于resource app来讲，同一时间只能存在一种token兼容**
+                                .opaqueToken(Customizer.withDefaults())
+//                                .jwt(Customizer.withDefaults())// for id_token /userinfo endpoint. {@see https://docs.spring.io/spring-authorization-server/docs/current/reference/html/protocol-endpoints.html#oidc-client-registration-endpoint}
+
                         .authenticationEntryPoint(exceptionHandler())
                 )
 
@@ -142,7 +146,7 @@ public class SecurityConfig {
 
 
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/css/**", "/js/**", "/fonts/**", "/*.html").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/fonts/**", "/*.html", "/favicon.ico", "/*.css", "/*.js").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/actuator/**", "/webjars/**", "/resources/**", "/static/**").permitAll()
                         .requestMatchers(HttpMethod.GET, permitAllUrls.get(HttpMethod.GET).toArray(new String[0])).permitAll()
                         .requestMatchers(HttpMethod.POST, permitAllUrls.get(HttpMethod.POST).toArray(new String[0])).permitAll()
@@ -156,12 +160,21 @@ public class SecurityConfig {
 
                 // Form login handles the redirect to the login page from the
                 // authorization server filter chain
-                .exceptionHandling()
-                .accessDeniedHandler(exceptionHandler())
-                .authenticationEntryPoint(exceptionHandler())
-                .and()
-                // .formLogin(Customizer.withDefaults())
-                .httpBasic();
+                .exceptionHandling(eh ->
+                        eh.accessDeniedHandler(exceptionHandler())
+                                .authenticationEntryPoint(exceptionHandler())
+                )
+                // .formLogin(Customizer.withDefaults()) 默认配置,此处也是需要的，因为AuthorizationServerConfig重定向之后会来到这里
+                .formLogin(form ->
+                        form.loginPage("/oauth/index")
+                                .loginProcessingUrl("/oauth/login")
+                                .failureUrl("/oauth/index?error")
+                                .defaultSuccessUrl("/user/info")
+                                .permitAll()
+                )
+                .logout(LogoutConfigurer::permitAll)
+
+                .httpBasic(Customizer.withDefaults());
 
         // {@see https://docs.spring.io/spring-security/reference/servlet/oauth2/client/authorization-grants.html#_requesting_an_access_token_2}
         // http.oauth2Client()
@@ -170,7 +183,7 @@ public class SecurityConfig {
 
     @Bean
     public OpaqueTokenIntrospector defaultIntrospector() {
-        return new NimbusOpaqueTokenIntrospector("http://localhost:8081/oauth2/introspect", "messaging-client", "secret");
+        return new NimbusOpaqueTokenIntrospector("http://localhost:48080/oauth2/introspect", "messaging-client", "secret");
     }
 
     private Multimap<HttpMethod, String> getPermitAllUrlsFromAnnotations() {
@@ -261,11 +274,10 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService(CreedAuthorityRepository authorityRepository,
-                                                 CreedConsumerRepository consumerRepository,
+                                                 CreedUserRepository consumerRepository,
                                                  CreedGroupsAuthoritiesRepository groupsAuthoritiesRepository,
                                                  CreedGroupsMembersRepository groupsMembersRepository,
-                                                 CreedGroupsRepository groupsRepository,
-                                                 CreedConsumerAuthorityRepository consumerAuthorityRepository) {
+                                                 CreedGroupsRepository groupsRepository) {
         // UserDetails userDetails = User.withDefaultPasswordEncoder()
         //         .username("user")
         //         .password("password")
@@ -276,8 +288,7 @@ public class SecurityConfig {
                 consumerRepository,
                 groupsAuthoritiesRepository,
                 groupsMembersRepository,
-                groupsRepository,
-                consumerAuthorityRepository);
+                groupsRepository);
     }
 
 

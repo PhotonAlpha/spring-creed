@@ -86,6 +86,7 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
         entity.setClientAuthenticationMethods(StringUtils.collectionToCommaDelimitedString(clientAuthenticationMethods));
         entity.setAuthorizationGrantTypes(authorizationGrantTypes);
         entity.setRedirectUris(registeredClient.getRedirectUris());
+        entity.setPostLogoutRedirectUris(registeredClient.getPostLogoutRedirectUris());
         entity.setScopes(registeredClient.getScopes());
         entity.setClientSettings(registeredClient.getClientSettings().getSettings());
         entity.setTokenSettings(registeredClient.getTokenSettings().getSettings());
@@ -102,6 +103,7 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
                 client.getClientAuthenticationMethods());
         List<String> authorizationGrantTypes = client.getAuthorizationGrantTypes();
         Set<String> redirectUris = client.getRedirectUris();
+        Set<String> postLogoutRedirectUris = client.getPostLogoutRedirectUris();
         Set<String> clientScopes = client.getScopes();
 
         RegisteredClient.Builder builder = RegisteredClient.withId(client.getId())
@@ -117,6 +119,7 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
                         authorizationGrantTypes.forEach(grantType ->
                                 grantTypes.add(resolveAuthorizationGrantType(grantType))))
                 .redirectUris(uris -> uris.addAll(redirectUris))
+                .postLogoutRedirectUris(uris -> uris.addAll(postLogoutRedirectUris))
                 .scopes(scopes -> scopes.addAll(clientScopes));
         // Map<String, Object> clientSettingsMap = parseMap(client.getClientSettings());
         builder.clientSettings(ClientSettings.withSettings(client.getClientSettings()).build());

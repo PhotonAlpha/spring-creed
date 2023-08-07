@@ -1,28 +1,29 @@
 package com.ethan.common.converter;
 
 import jakarta.persistence.AttributeConverter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 
-public abstract class AbstractEnumConverter<ATTR extends Enum<ATTR> & PersistEnum2DB<DB>, DB> implements AttributeConverter<ATTR, DB> {
-    private final Class<ATTR> clazz;
+public abstract class AbstractEnumConverter<A extends Enum<A> & PersistEnum2DB<D>, D> implements AttributeConverter<A, D> {
+    private final Class<A> clazz;
 
-    public AbstractEnumConverter(Class<ATTR> clazz) {
+    protected AbstractEnumConverter(Class<A> clazz) {
         this.clazz = clazz;
     }
 
     @Override
-    public DB convertToDatabaseColumn(ATTR attribute) {
+    public D convertToDatabaseColumn(A attribute) {
         return Objects.nonNull(attribute) ? attribute.getData() : null;
     }
 
     @Override
-    public ATTR convertToEntityAttribute(DB dbData) {
-        if (Objects.isNull(dbData)) {
+    public A convertToEntityAttribute(D dbData) {
+        if (Objects.isNull(dbData) || (dbData instanceof String str && StringUtils.isBlank(str))) {
             return null;
         }
-        ATTR[] enums = clazz.getEnumConstants();
-        for (ATTR e : enums) {
+        A[] enums = clazz.getEnumConstants();
+        for (A e : enums) {
             if (e.getData().equals(dbData)) {
                 return e;
             }

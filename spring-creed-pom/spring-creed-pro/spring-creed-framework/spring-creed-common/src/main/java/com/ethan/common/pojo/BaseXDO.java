@@ -7,9 +7,11 @@ import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Version;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 
 /**
  * basic Object
@@ -17,19 +19,22 @@ import java.time.Instant;
 @Data
 @MappedSuperclass
 @Accessors(chain = true)
+// @EntityListeners(BaseXAuditingEntityListener.class)
 public abstract class BaseXDO implements Serializable {
     /**
      * 创建时间
      */
     // @CreatedDate TODO 需要使用spring security 框架
+    @CreationTimestamp
     @Column(name = "create_time")
-    protected Instant createTime = Instant.now();
+    protected ZonedDateTime createTime;
     /**
      * 最后更新时间
      */
     // @LastModifiedDate
+    @UpdateTimestamp
     @Column(name = "update_time")
-    protected Instant updateTime = Instant.now();
+    protected ZonedDateTime updateTime;
     /**
      * 创建者，目前使用 SysUser 的 id 编号
      * <p>

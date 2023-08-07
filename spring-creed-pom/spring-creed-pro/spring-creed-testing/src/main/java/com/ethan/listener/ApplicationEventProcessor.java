@@ -49,19 +49,4 @@ public class ApplicationEventProcessor {
     public void saleOrderCreatedFailed(CreedAuthoritiesEvent saleOrderEvent) {
         log.info("CreedAuthoritiesEvent:" + saleOrderEvent);
     }
-
-    // @Async
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    public void saleOrderCreated(CreedConsumerAuthoritiesEvent saleOrderEvent) {
-        log.info("CreedConsumerAuthoritiesEvent succeed1:" + saleOrderEvent);
-    }
-    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
-    public void saleOrderCreatedBefore(CreedConsumerAuthoritiesEvent saleOrderEvent) {
-        log.info("CreedConsumerAuthoritiesEvent succeed2:" + saleOrderEvent);
-    }
-    // @Async
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_ROLLBACK)
-    public void saleOrderCreatedFailed(CreedConsumerAuthoritiesEvent saleOrderEvent) {
-        log.info("CreedConsumerAuthoritiesEvent:" + saleOrderEvent);
-    }
 }

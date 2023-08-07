@@ -44,7 +44,7 @@ public interface SocialUserService {
      * @param userType 用户类型
      * @return 社交用户列表
      */
-    List<SocialUserDO> getSocialUserList(Long userId, Integer userType);
+    List<SocialUserDO> getSocialUserList(String userId, Integer userType);
 
     /**
      * 绑定社交用户

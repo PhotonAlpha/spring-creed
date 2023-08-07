@@ -56,8 +56,11 @@ public class BeanConfig {
     private Integer connectTimeout = 5_000;
     /**
      * fetching data time limit milliseconds
+     *
+     * 当连上目标服务器， 请求处于长时间等待的时候，会用到此参数，如果超过2.5mins = 150000, 还未返回，将会得到以下的异常
+     * [java.net.SocketTimeoutException: Read timed out]
      */
-    @Value("${sfw.socket.timeout:180000}")
+    @Value("${sfw.socket.timeout:600000}")
     private Integer socketTimeout;
     /**
      * connect thread pool time limit milliseconds

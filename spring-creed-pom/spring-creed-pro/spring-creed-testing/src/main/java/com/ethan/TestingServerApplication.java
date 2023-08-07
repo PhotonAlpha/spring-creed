@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication(scanBasePackages = "com.ethan")
-@EnableTransactionManagement
 public class TestingServerApplication {
     public static void main(String[] args) {
         SpringApplication.run(TestingServerApplication.class, args);

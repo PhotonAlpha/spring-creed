@@ -55,7 +55,7 @@ public class FileServiceImpl implements FileService {
             if (Objects.nonNull(reqVO.getCreateTime())) {
                 predicateList.add(cb.greaterThan(root.get("createTime"), reqVO.getCreateTime()));
             }
-            cb.desc(root.get("id"));
+            query.orderBy(cb.desc(root.get("id")));
             return cb.and(predicateList.toArray(new Predicate[0]));
         };
     }

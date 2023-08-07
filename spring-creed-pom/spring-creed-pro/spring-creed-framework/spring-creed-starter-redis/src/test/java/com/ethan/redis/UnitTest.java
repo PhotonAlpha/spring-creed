@@ -11,7 +11,9 @@ import com.ethan.redis.service.User;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Test;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.http.MediaType;
 
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
@@ -47,5 +49,12 @@ public class UnitTest {
         System.out.println(s1);
         Object deserialize = serializer.deserialize(s1.getBytes(StandardCharsets.UTF_8));
         System.out.println(deserialize);
+    }
+
+    @Test
+    void name() {
+
+        System.out.println(MediaType.APPLICATION_OCTET_STREAM.getType());
+        System.out.println(MediaType.APPLICATION_OCTET_STREAM.toString());
     }
 }

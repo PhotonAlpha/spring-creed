@@ -1,155 +1,129 @@
 package com.ethan;
 
 import com.ethan.common.constant.SexEnum;
-import com.ethan.entity.CreedAuthorities;
-import com.ethan.entity.CreedConsumer;
-import com.ethan.entity.CreedConsumerAuthorities;
-import com.ethan.entity.CreedGroupAuthorities;
-import com.ethan.entity.CreedGroupMembers;
-import com.ethan.entity.CreedGroups;
-import com.ethan.repository.CreedAuthorityRepository;
-import com.ethan.repository.CreedConsumerAuthorityRepository;
-import com.ethan.repository.CreedConsumerRepository;
-import com.ethan.repository.CreedGroupAuthoritiesRepository;
-import com.ethan.repository.CreedGroupsMembersRepository;
-import com.ethan.repository.CreedGroupsRepository;
+import com.ethan.security.websecurity.entity.CreedAuthorities;
+import com.ethan.security.websecurity.entity.CreedUser;
+import com.ethan.security.websecurity.repository.CreedAuthorityRepository;
+import com.ethan.security.websecurity.repository.CreedGroupsMembersRepository;
+import com.ethan.security.websecurity.repository.CreedGroupsRepository;
+import com.ethan.security.websecurity.repository.CreedUserRepository;
+import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Set;
 
 @Slf4j
 @SpringBootTest(classes = TestingServerApplication.class)
 public class TestingServerApplicationTest {
+
+
     @Autowired
-    CreedConsumerRepository consumerRepository;
+    CreedUserRepository consumerRepository;
     @Autowired
     CreedAuthorityRepository authorityRepository;
     @Autowired
     CreedGroupsMembersRepository membersRepository;
     @Autowired
     CreedGroupsRepository groupsRepository;
-    @Autowired
-    CreedGroupAuthoritiesRepository groupAuthoritiesRepository;
-    @Autowired
-    CreedConsumerAuthorityRepository consumerAuthorityRepository;
 
     @Test
-    void testWithoutGroup() throws InterruptedException {
-        // saveData();
-        // log.info("===end===");
-        // TimeUnit.SECONDS.sleep(10);
-        List<CreedConsumerAuthorities> authoritiesList = consumerAuthorityRepository.findByConsumerUsername("ethan");
-        for (CreedConsumerAuthorities creedConsumerAuthorities : authoritiesList) {
-            CreedConsumer consumer = creedConsumerAuthorities.getConsumer();
-        }
+    void testQueryUser() {
+        CreedUser ethan2 = consumerRepository.findByUsername("ethan2").get();
     }
+
+    @Test
+    @Rollback(false)
     @Transactional
-    public void saveData() {
-        CreedAuthorities authorities = new CreedAuthorities();
-        authorities.setAuthority("COMMON2");
-        authorities.setDescription("普通用户");
-        authorityRepository.save(authorities);
+    void testCreateUser() {
+        CreedAuthorities creedAuthorities = new CreedAuthorities();
+        CreedAuthorities creedAuthorities2 = new CreedAuthorities();
+        CreedAuthorities creedAuthorities3 = new CreedAuthorities();
+        creedAuthorities.setAuthority("SUPER_ADMIN");
+        creedAuthorities2.setAuthority("TEST");
+        creedAuthorities3.setAuthority("ADMIN");
 
-        CreedConsumer consumer = consumerRepository.findByUsername("test2").orElse(null);
-        if (consumer == null) {
-            consumer = new CreedConsumer();
-            consumer.setUsername("test2");
-            consumer.setPassword("{noop}test2");
-            consumer.setSex(SexEnum.MALE);
-            consumer.setRemark("common");
-            consumerRepository.save(consumer);
-        }
-        // int i = 1 / 0;
-        CreedConsumerAuthorities consumerAuthorities = new CreedConsumerAuthorities(consumer, authorities);
-        consumerAuthorityRepository.save(consumerAuthorities);
+        Set<CreedAuthorities> authorities =
+                Sets.newHashSet(
+                        authorityRepository.findByAuthority(creedAuthorities.getAuthority()).orElse(creedAuthorities),
+                        authorityRepository.findByAuthority(creedAuthorities2.getAuthority()).orElse(creedAuthorities2),
+                        authorityRepository.findByAuthority(creedAuthorities3.getAuthority()).orElse(creedAuthorities3)
+                );
+        authorityRepository.saveAll(authorities);
+
+        CreedUser user = new CreedUser();
+        user.setUsername("ethan");
+        user.setPassword("{bcrypt}$2a$10$vvGtEfcMR.QXhGr5pSzGFezYALQrDVO8Xrm8meTlH1gsQ3fqjNLSm");//pwd
+        user.setSex(SexEnum.MALE);
+        user.setRemark("admin");
+        user.setAuthorities(authorities);
+
+        consumerRepository.save(user);
 
     }
-
     @Test
-    // @Transactional
-    void testJpa() {
+    @Rollback(false)
+    @Transactional
+    void testUpdateUser() {
+        CreedAuthorities creedAuthorities = new CreedAuthorities();
+        CreedAuthorities creedAuthorities2 = new CreedAuthorities();
+        creedAuthorities.setAuthority("SUPER_ADMIN");
+        creedAuthorities2.setAuthority("TEST");
 
+        CreedAuthorities creedAuthorities3 = new CreedAuthorities();
+        creedAuthorities3.setAuthority("ADMIN");
+        // authorityRepository.save(creedAuthorities3);
 
-        CreedGroupAuthorities groupAuthorities = new CreedGroupAuthorities();
-        groupAuthorities.setAuthority("SuperADMIN");
-        // groupAuthorities.setGroupId("2121");
-        // groupAuthoritiesRepository.save(groupAuthorities);
+        Set<CreedAuthorities> authorities =
+                Sets.newHashSet(
+                        authorityRepository.findByAuthority(creedAuthorities.getAuthority()).get(),
+                        authorityRepository.findByAuthority(creedAuthorities3.getAuthority()).get()
+                );
+        CreedUser ethan2 = consumerRepository.findByUsername("ethan2").get();
+        ethan2.setAuthorities(authorities);
 
-        CreedConsumer consumer = consumerRepository.findByUsername("ethan").orElse(null);
-        if (consumer == null) {
-            consumer = new CreedConsumer();
-            consumer.setUsername("ethan");
-            consumer.setPassword("{noop}test");
-            consumer.setSex(SexEnum.MALE);
-            consumer.setRemark("admin");
-
-            consumerRepository.save(consumer);
-        }
-
-        CreedGroupMembers members = new CreedGroupMembers();
-        members.setUsername(consumer.getUsername());
-
-        // creedGroupMembers.setConsumer(consumer);
-
-        CreedGroups creedGroups = new CreedGroups();
-        creedGroups.setGroupname("CEO");
-        creedGroups.setAuthorities(List.of(groupAuthorities));
-        creedGroups.setMembers(List.of(members));
-
-        groupAuthorities.setGroups(creedGroups);
-        members.setGroups(creedGroups);
-
-        groupsRepository.save(creedGroups);
+        consumerRepository.save(ethan2);
 
     }
-
     @Test
-    void testConsumer() {
-        // CreedAuthorities creedAuthorities = new CreedAuthorities();
-        // CreedAuthorities creedAuthorities2 = new CreedAuthorities();
-        // creedAuthorities.setAuthority("SUPER_ADMIN");
-        // creedAuthorities2.setAuthority("TEST");
+    @Rollback(false)
+    @Transactional
+    void testDeleteUser() {
+        CreedUser ethan2 = consumerRepository.findByUsername("ethan2").get();
+        consumerRepository.delete(ethan2);
 
-        CreedAuthorities creedAuthorities = authorityRepository.findByAuthority("SUPER_ADMIN").orElse(null);
-        CreedAuthorities creedAuthorities2 = authorityRepository.findByAuthority("TEST").orElse(null);
-        if (creedAuthorities == null) {
-            creedAuthorities = new CreedAuthorities();
-            creedAuthorities.setAuthority("SUPER_ADMIN");
-            authorityRepository.save(creedAuthorities);
-        }
-        if (creedAuthorities2 == null) {
-            creedAuthorities2 = new CreedAuthorities();
-            creedAuthorities2.setAuthority("TEST");
-            authorityRepository.save(creedAuthorities2);
-        }
+    }
+    @Test
+    @Rollback(false)
+    @Transactional
+    void testDeleteAuthorities() {
+        CreedAuthorities authorities = authorityRepository.findByAuthority("ADMIN").get();
+        authorityRepository.delete(authorities);
 
-
-        CreedConsumer consumer = consumerRepository.findByUsername("ethan").orElse(null);
-        if (consumer == null) {
-            consumer = new CreedConsumer();
-            consumer.setUsername("ethan");
-            consumer.setPassword("{noop}test");
-            consumer.setSex(SexEnum.MALE);
-            consumer.setRemark("admin");
-
-            consumerRepository.save(consumer);
-        }
-
-        CreedConsumerAuthorities authority1 = new CreedConsumerAuthorities(consumer, creedAuthorities);
-        CreedConsumerAuthorities authority2 = new CreedConsumerAuthorities(consumer, creedAuthorities2);
-        // consumerAuthorityRepository.save(authority1);
-        // consumerAuthorityRepository.save(authority2);
-
-        List<CreedConsumerAuthorities> consumers = consumerAuthorityRepository.findByConsumerId(consumer.getId()).orElse(Collections.emptyList());
-        System.out.println("==");
-        consumerAuthorityRepository.delete(consumers.get(1));
     }
 
-
-
+    /**
+     * DELETE FROM `creed_oauth2_registered_client`;
+     * INSERT INTO `creed_oauth2_registered_client` (`id`, `client_id`, `client_id_issued_at`, `client_secret`,
+     *                                         `client_secret_expires_at`, `client_name`, `client_authentication_methods`,
+     *                                         `authorization_grant_types`, `redirect_uris`, `scopes`, `client_settings`,
+     *                                         `token_settings`)
+     * VALUES ('9dc45c80-e673-4215-9a19-329c161e08b8', 'messaging-client', '2023-12-02 06:42:51', '{noop}secret',
+     *         '2023-12-02 06:42:51', '9dc45c80-e673-4215-9a19-329c161e08b8', 'client_secret_basic',
+     *         'refresh_token,client_credentials,authorization_code',
+     *         'http://127.0.0.1:8080/authorized,http://127.0.0.1:8080/login/oauth2/code/messaging-client-oidc',
+     *         'openid,profile,message.read,message.write',
+     *         '{"@class":"java.util.Collections$UnmodifiableMap","settings.client.require-proof-key":false,"settings.client.require-authorization-consent":true}',
+     *         '{"@class":"java.util.Collections$UnmodifiableMap","settings.token.reuse-refresh-tokens":true,"settings.token.id-token-signature-algorithm":["org.springframework.security.oauth2.jose.jws.SignatureAlgorithm","RS256"],"settings.token.access-token-time-to-live":["java.time.Duration",300.000000000],"settings.token.access-token-format":{"@class":"org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat","value":"self-contained"},"settings.token.refresh-token-time-to-live":["java.time.Duration",3600.000000000],"settings.token.authorization-code-time-to-live":["java.time.Duration",300.000000000]}');
+     */
+    @Test
+    void createOauth2Client() {
+//        this.settings = Collections.unmodifiableMap(new HashMap<>(settings));
+    }
 }

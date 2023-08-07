@@ -50,7 +50,7 @@ public class LoginLogServiceImpl implements LoginLogService {
             if (Objects.nonNull(reqVO.getStatus())) {
                 predicateList.add(cb.equal(root.get("status"), reqVO.getStatus()));
             }
-            cb.desc(root.get("id"));
+            query.orderBy(cb.desc(root.get("id")));
             return cb.and(predicateList.toArray(new Predicate[0]));
         };
     }
@@ -74,7 +74,7 @@ public class LoginLogServiceImpl implements LoginLogService {
             if (Objects.nonNull(reqVO.getStatus())) {
                 predicateList.add(cb.equal(root.get("status"), reqVO.getStatus()));
             }
-            cb.desc(root.get("id"));
+            query.orderBy(cb.desc(root.get("id")));
             return cb.and(predicateList.toArray(new Predicate[0]));
         };
     }

@@ -25,6 +25,7 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -68,6 +69,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -203,19 +205,34 @@ public class AuthorizationServerConfig {
             throws Exception {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
+//                .oidc(oidc -> oidc.clientRegistrationEndpoint());// Enable OpenID Connect 1.0
                 .oidc(Customizer.withDefaults());// Enable OpenID Connect 1.0
+        // BearerTokenAuthenticationFilter 此配置会添加这个Filter
+        http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::opaqueToken);
+
         http
                 // Redirect to the login page when not authenticated from the
                 // authorization endpoint
                 .exceptionHandling((exceptions) -> exceptions
                         .authenticationEntryPoint(
-                                new LoginUrlAuthenticationEntryPoint("/login"))
+                                new LoginUrlAuthenticationEntryPoint("/oauth/index"))
                         // .authenticationEntryPoint(exceptionHandler)
                         // .accessDeniedHandler(exceptionHandler)
                         // .exceptionHandling()
                         // .accessDeniedHandler(exceptionHandler())
                         // .authenticationEntryPoint(exceptionHandler())
                 )
+                //oauth2Login 用于三方登陆
+//                .oauth2Login(oauth2login -> oauth2login.)
+
+                /*.formLogin(form ->
+                        form.loginPage("/oauth/index")
+                                .loginProcessingUrl("/oauth/login")
+                                .failureUrl("/oauth/index?error")
+                                .defaultSuccessUrl("/user/info")
+                                .permitAll()
+                )
+                .logout(form -> form.permitAll())*/
 
                 // Accept access tokens for User Info and/or Client Registration
                 .addFilterAfter(loginTokenAuthenticationFilter, AnonymousAuthenticationFilter.class)

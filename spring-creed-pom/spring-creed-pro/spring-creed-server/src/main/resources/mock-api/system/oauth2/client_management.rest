@@ -1,0 +1,72 @@
+# curl 'http://localhost:48080/admin-api/system/oauth2-client/page?pageNo=1&pageSize=10'
+#  -H 'Accept: application/json, text/plain, */*'
+#  -H 'Accept-Language: en-US,en;q=0.9'
+#  -H 'Authorization: Bearer 33436a81f7b24e36a582c3a7f2c86fd2'
+#  -H 'Connection: keep-alive'
+#  -H 'Origin: http://localhost:4200'
+#  -H 'Referer: http://localhost:4200/'
+#  -H 'Sec-Fetch-Dest: empty'
+#  -H 'Sec-Fetch-Mode: cors'
+#  -H 'Sec-Fetch-Site: same-site'
+#  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82'
+#  -H 'sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"'
+#  -H 'sec-ch-ua-mobile: ?0'
+#  -H 'sec-ch-ua-platform: "Windows"'
+#  -H 'tenant-id: 1'
+#  --compressed
+GET http://localhost:48080/admin-api/system/oauth2-client/page?pageNo=1&pageSize=10
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.9
+Authorization: Bearer 33436a81f7b24e36a582c3a7f2c86fd2
+Connection: keep-alive
+Origin: http://localhost:4200
+Referer: http://localhost:4200/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+tenant-id: 1
+
+###
+
+#{"code":0,"data":{"list":[{"clientId":"yudao-sso-demo-by-password","secret":"test","name":"基于密码模式，如何实现 SSO 单点登录？","logo":"http://test.yudao.iocoder.cn/604bdc695e13b3b22745be704d1f2aa8ee05c5f26f9fead6d1ca49005afbc857.jpeg","description":null,"status":0,"accessTokenValiditySeconds":1800,"refreshTokenValiditySeconds":43200,"redirectUris":["http://127.0.0.1:18080"],"authorizedGrantTypes":["password","refresh_token"],"scopes":["user.read","user.write"],"autoApproveScopes":[],"authorities":[],"resourceIds":[],"additionalInformation":null,"id":42,"createTime":1664876416000,"additionalInformationJson":true},{"clientId":"yudao-sso-demo-by-code","secret":"test","name":"基于授权码模式，如何实现 SSO 单点登录？","logo":"http://test.yudao.iocoder.cn/fe4ed36596adad5120036ef61a6d0153654544d44af8dd4ad3ffe8f759933d6f.png","description":null,"status":0,"accessTokenValiditySeconds":1800,"refreshTokenValiditySeconds":43200,"redirectUris":["http://127.0.0.1:18080"],"authorizedGrantTypes":["authorization_code","refresh_token"],"scopes":["user.read","user.write"],"autoApproveScopes":[],"authorities":[],"resourceIds":[],"additionalInformation":null,"id":41,"createTime":1664429311000,"additionalInformationJson":true},{"clientId":"test","secret":"test2","name":"biubiu","logo":"http://test.yudao.iocoder.cn/277a899d573723f1fcdfb57340f00379.png","description":null,"status":0,"accessTokenValiditySeconds":1800,"refreshTokenValiditySeconds":43200,"redirectUris":["https://www.iocoder.cn"],"authorizedGrantTypes":["password","authorization_code","implicit"],"scopes":["user_info","projects"],"autoApproveScopes":["user_info"],"authorities":[],"resourceIds":[],"additionalInformation":"{}","id":40,"createTime":1652286500000,"additionalInformationJson":true},{"clientId":"default","secret":"admin123","name":"芋道源码","logo":"http://test.yudao.iocoder.cn/a5e2e244368878a366b516805a4aabf1.png","description":"我是描述","status":0,"accessTokenValiditySeconds":1800,"refreshTokenValiditySeconds":43200,"redirectUris":["https://www.iocoder.cn","https://doc.iocoder.cn"],"authorizedGrantTypes":["password","authorization_code","implicit","refresh_token"],"scopes":["user.read","user.write"],"autoApproveScopes":[],"authorities":["user.read","user.write"],"resourceIds":[],"additionalInformation":"{}","id":1,"createTime":1652276832000,"additionalInformationJson":true}],"total":4},"msg":""}
+
+
+# curl 'http://localhost:48080/admin-api/system/oauth2-token/page?pageNo=1&pageSize=10'
+#  -H 'Accept: application/json, text/plain, */*'
+#  -H 'Accept-Language: en-US,en;q=0.9'
+#  -H 'Authorization: Bearer 33436a81f7b24e36a582c3a7f2c86fd2'
+#  -H 'Connection: keep-alive'
+#  -H 'Origin: http://localhost:4200'
+#  -H 'Referer: http://localhost:4200/'
+#  -H 'Sec-Fetch-Dest: empty'
+#  -H 'Sec-Fetch-Mode: cors'
+#  -H 'Sec-Fetch-Site: same-site'
+#  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82'
+#  -H 'sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"'
+#  -H 'sec-ch-ua-mobile: ?0'
+#  -H 'sec-ch-ua-platform: "Windows"'
+#  -H 'tenant-id: 1'
+#  --compressed
+GET http://localhost:48080/admin-api/system/oauth2-token/page?pageNo=1&pageSize=10
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.9
+Authorization: Bearer 33436a81f7b24e36a582c3a7f2c86fd2
+Connection: keep-alive
+Origin: http://localhost:4200
+Referer: http://localhost:4200/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+tenant-id: 1
+
+###
+#{"code":0,"data":{"list":[{"id":1803,"accessToken":"33436a81f7b24e36a582c3a7f2c86fd2","refreshToken":"6700dd0c06a24347af9e630947ae71ab","userId":1,"userType":2,"clientId":"default","createTime":1689926845000,"expiresTime":1689928645000}],"total":1},"msg":""}
+

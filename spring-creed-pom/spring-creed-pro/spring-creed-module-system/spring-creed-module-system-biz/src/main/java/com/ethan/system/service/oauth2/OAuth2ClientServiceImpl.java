@@ -24,7 +24,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -70,7 +70,7 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
      * 缓存角色的最大更新时间，用于后续的增量轮询，判断是否有更新
      */
     @Getter
-    private volatile Instant maxUpdateTime;
+    private volatile ZonedDateTime maxUpdateTime;
 
     @Resource
     private CreedOAuth2RegisteredClientRepository oauth2ClientRepository;
@@ -108,7 +108,7 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
      * @param maxUpdateTime 当前客户端的最大更新时间
      * @return 客户端列表
      */
-    private List<CreedOAuth2RegisteredClient> loadOAuth2ClientIfUpdate(Instant maxUpdateTime) {
+    private List<CreedOAuth2RegisteredClient> loadOAuth2ClientIfUpdate(ZonedDateTime maxUpdateTime) {
         // 第一步，判断是否要更新。
         if (maxUpdateTime == null) { // 如果更新时间为空，说明 DB 一定有新数据
             log.info("[loadOAuth2ClientIfUpdate][首次加载全量客户端]");

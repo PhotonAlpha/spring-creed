@@ -11,13 +11,13 @@ import com.ethan.system.dal.entity.oauth2.OAuth2ClientDO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.Instant;
+import java.time.ZonedDateTime;
 
 @Repository
 @Deprecated
 public interface OAuth2ClientRepository extends JpaRepository<OAuth2ClientDO, Long> {
 
-    long countByUpdateTimeGreaterThan(Instant maxUpdateTime);
+    long countByUpdateTimeGreaterThan(ZonedDateTime maxUpdateTime);
 
     OAuth2ClientDO findByClientId(String clientId);
 }

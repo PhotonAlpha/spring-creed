@@ -1,7 +1,7 @@
 package com.ethan.system.convert.oauth2;
 
 import com.ethan.common.constant.SexEnum;
-import com.ethan.security.websecurity.entity.CreedConsumer;
+import com.ethan.security.websecurity.entity.CreedUser;
 import com.ethan.system.controller.admin.oauth2.vo.user.OAuth2UserInfoRespVO;
 import com.ethan.system.controller.admin.oauth2.vo.user.OAuth2UserUpdateReqVO;
 import com.ethan.system.controller.admin.user.vo.profile.UserProfileUpdateReqVO;
@@ -17,7 +17,7 @@ public interface OAuth2UserConvert {
 
     OAuth2UserConvert INSTANCE = Mappers.getMapper(OAuth2UserConvert.class);
 
-    OAuth2UserInfoRespVO convert(CreedConsumer bean);
+    OAuth2UserInfoRespVO convert(CreedUser bean);
 
     default Integer map(SexEnum value) {
         return value.getSex();

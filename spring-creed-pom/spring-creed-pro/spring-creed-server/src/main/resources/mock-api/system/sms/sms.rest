@@ -1,0 +1,35 @@
+# curl 'http://localhost:48080/admin-api/system/sms-channel/page?pageNo=1&pageSize=10'
+#  -H 'Accept: application/json, text/plain, */*'
+#  -H 'Accept-Language: en-US,en;q=0.9'
+#  -H 'Authorization: Bearer 33436a81f7b24e36a582c3a7f2c86fd2'
+#  -H 'Connection: keep-alive'
+#  -H 'Origin: http://localhost:4200'
+#  -H 'Referer: http://localhost:4200/'
+#  -H 'Sec-Fetch-Dest: empty'
+#  -H 'Sec-Fetch-Mode: cors'
+#  -H 'Sec-Fetch-Site: same-site'
+#  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82'
+#  -H 'sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"'
+#  -H 'sec-ch-ua-mobile: ?0'
+#  -H 'sec-ch-ua-platform: "Windows"'
+#  -H 'tenant-id: 1'
+#  --compressed
+GET http://localhost:48080/admin-api/system/sms-channel/page?pageNo=1&pageSize=10
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.9
+Authorization: Bearer 33436a81f7b24e36a582c3a7f2c86fd2
+Connection: keep-alive
+Origin: http://localhost:4200
+Referer: http://localhost:4200/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-site
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+tenant-id: 1
+
+###
+
+#{"code":0,"data":{"list":[{"signature":"测试演示","status":0,"remark":null,"apiKey":"696b5d8ead48071237e4aa5861ff08dbadb2b4ded1c688a7b7c9afc615579859","apiSecret":"SEC5c4e5ff888bc8a9923ae47f59e7ccd30af1f14d93c55b4e2c9cb094e35aeed67","callbackUrl":null,"id":6,"code":"DEBUG_DING_TALK","createTime":1649603279000},{"signature":"测试渠道","status":0,"remark":"123","apiKey":"696b5d8ead48071237e4aa5861ff08dbadb2b4ded1c688a7b7c9afc615579859","apiSecret":"SEC5c4e5ff888bc8a9923ae47f59e7ccd30af1f14d93c55b4e2c9cb094e35aeed67","callbackUrl":null,"id":4,"code":"DEBUG_DING_TALK","createTime":1618244594000},{"signature":"Ballcat","status":0,"remark":"啦啦啦","apiKey":"LTAI5tCnKso2uG3kJ5gRav88","apiSecret":"fGJ5SNXL7P1NHNRmJ7DJaMJGPyE55C","callbackUrl":null,"id":2,"code":"ALIYUN","createTime":1617162790000}],"total":3},"msg":""}

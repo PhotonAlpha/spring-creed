@@ -1,7 +1,8 @@
 package com.ethan.security.utils;
 
 import com.ethan.common.utils.WebFrameworkUtils;
-import com.ethan.security.oauth2.entity.CreedOAuth2AuthorizedClient;
+import com.ethan.security.oauth2.entity.CreedOAuth2Authorization;
+import com.ethan.security.oauth2.entity.client.CreedOAuth2AuthorizedClient;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,7 +98,7 @@ public class SecurityFrameworkUtils {
         // 额外设置到 request 中，用于 ApiAccessLogFilter 可以获取到用户编号；
         // 原因是，Spring Security 的 Filter 在 ApiAccessLogFilter 后面，在它记录访问日志时，线上上下文已经没有用户编号等信息
         WebFrameworkUtils.setLoginUserId(request, authorizedClient.getUserId());
-        // WebFrameworkUtils.setLoginUserType(request, loginUser.getUserType());
+        WebFrameworkUtils.setLoginUserType(request, authorizedClient.getUserType());
     }
 
     private static Authentication buildAuthentication(CreedOAuth2AuthorizedClient authorizedClient, HttpServletRequest request) {

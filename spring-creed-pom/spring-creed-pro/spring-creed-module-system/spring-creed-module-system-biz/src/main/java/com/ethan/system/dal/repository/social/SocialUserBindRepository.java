@@ -17,7 +17,7 @@ import java.util.List;
 @Repository
 public interface SocialUserBindRepository extends JpaRepository<SocialUserBindDO, Long>, JpaSpecificationExecutor<SocialUserBindDO> {
 
-    List<SocialUserBindDO> findByUserIdAndUserType(Long userId, Integer userType);
+    List<SocialUserBindDO> findByUserIdAndUserType(String userId, Integer userType);
 
     void deleteByUserTypeAndSocialUserId(Integer userType, Long id);
 

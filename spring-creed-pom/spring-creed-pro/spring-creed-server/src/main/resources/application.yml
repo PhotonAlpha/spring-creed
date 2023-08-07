@@ -1,7 +1,5 @@
-
-
 server:
-  port: 8081
+  port: 48080
 #  servlet:
 #    context-path: /admin-api
 
@@ -31,6 +29,9 @@ spring:
     web:
       pageable:
         one-indexed-parameters: true
+  thymeleaf:
+    enabled: true
+
 #logging:
 #  level:
 #    org:

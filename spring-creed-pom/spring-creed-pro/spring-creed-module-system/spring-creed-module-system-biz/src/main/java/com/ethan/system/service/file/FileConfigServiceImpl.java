@@ -31,9 +31,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -66,7 +64,7 @@ public class FileConfigServiceImpl implements FileConfigService {
      * 缓存菜单的最大更新时间，用于后续的增量轮询，判断是否有更新
      */
     @Getter
-    private volatile Instant maxUpdateTime;
+    private volatile ZonedDateTime maxUpdateTime;
 
     // @Resource
     // private FileClientFactory fileClientFactory;
@@ -124,12 +122,12 @@ public class FileConfigServiceImpl implements FileConfigService {
      * @param maxUpdateTime 当前文件配置的最大更新时间
      * @return 文件配置列表
      */
-    private List<FileConfigDO> loadFileConfigIfUpdate(Instant maxUpdateTime) {
+    private List<FileConfigDO> loadFileConfigIfUpdate(ZonedDateTime maxUpdateTime) {
         // 第一步，判断是否要更新。
         if (maxUpdateTime == null) { // 如果更新时间为空，说明 DB 一定有新数据
             log.info("[loadFileConfigIfUpdate][首次加载全量文件配置]");
         } else { // 判断数据库中是否有更新的文件配置
-            if (fileConfigRepository.countByUpdateTimeGreaterThan(LocalDateTime.ofInstant(maxUpdateTime, ZoneId.systemDefault())) == 0) {
+            if (fileConfigRepository.countByUpdateTimeGreaterThan(maxUpdateTime) == 0) {
                 return null;
             }
             log.info("[loadFileConfigIfUpdate][增量加载全量文件配置]");
@@ -243,7 +241,7 @@ public class FileConfigServiceImpl implements FileConfigService {
             if (Objects.nonNull(reqVO.getCreateTime())) {
                 predicateList.add(cb.greaterThan(root.get("createTime"), reqVO.getCreateTime()));
             }
-            cb.desc(root.get("id"));
+            query.orderBy(cb.desc(root.get("id")));
             return cb.and(predicateList.toArray(new Predicate[0]));
         };
     }

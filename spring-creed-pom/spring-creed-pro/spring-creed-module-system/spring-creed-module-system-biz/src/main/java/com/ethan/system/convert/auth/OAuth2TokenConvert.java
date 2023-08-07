@@ -3,7 +3,7 @@ package com.ethan.system.convert.auth;
 import com.ethan.common.pojo.PageResult;
 import com.ethan.security.oauth2.dto.OAuth2AccessTokenCheckRespDTO;
 import com.ethan.security.oauth2.dto.OAuth2AccessTokenRespDTO;
-import com.ethan.security.oauth2.entity.CreedOAuth2AuthorizedClient;
+import com.ethan.security.oauth2.entity.client.CreedOAuth2AuthorizedClient;
 import com.ethan.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenRespVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

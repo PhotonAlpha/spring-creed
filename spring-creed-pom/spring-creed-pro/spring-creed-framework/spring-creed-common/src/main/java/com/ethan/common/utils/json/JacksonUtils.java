@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @UtilityClass
 @Slf4j
@@ -40,6 +41,9 @@ public class JacksonUtils {
 
     @SneakyThrows
     public static String toJsonString(Object object) {
+        if (Objects.isNull(object)) {
+            return objectMapper.createObjectNode().toString();
+        }
         return objectMapper.writeValueAsString(object);
     }
 

@@ -75,7 +75,7 @@ public class ApiAccessLogServiceImpl implements ApiAccessLogService {
                 predicateList.add(cb.ge(root.get("resultCode"), pageReqVO.getResultCode()));
             }
 
-            cb.desc(root.get("id"));
+            query.orderBy(cb.desc(root.get("id")));
             return cb.and(predicateList.toArray(new Predicate[0]));
         };
     }

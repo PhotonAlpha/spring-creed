@@ -10,7 +10,7 @@ import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -27,7 +27,7 @@ import java.util.Set;
 @Table(name = "creed_authorities")
 @Data
 @EqualsAndHashCode
-@ToString(exclude = "consumerAuthorities")
+@ToString(exclude = "users")
 public class CreedAuthorities extends BaseXDO {
 
     /**
@@ -48,13 +48,15 @@ public class CreedAuthorities extends BaseXDO {
      * <p>
      * 枚举 {@link RoleTypeEnum}
      */
-    private Integer type;
+    @Convert(converter = RoleTypeEnum.Converter.class)
+    private RoleTypeEnum type = RoleTypeEnum.SYSTEM;
     /**
      * 数据范围
      * <p>
      * 枚举 {@link DataScopeEnum}
      */
-    private Integer dataScope;
+    @Convert(converter = DataScopeEnum.Converter.class)
+    private DataScopeEnum dataScope = DataScopeEnum.ALL;
     /**
      * 数据范围(指定部门数组)
      * <p>
@@ -67,17 +69,15 @@ public class CreedAuthorities extends BaseXDO {
      */
     private Integer sort = 0;
 
-/*     @ManyToMany(mappedBy = "authorities", fetch = FetchType.LAZY) //配置多表关系
-    // @JoinTable(name = "creed_consumer_authorities",
-    //         joinColumns = @JoinColumn(name = "authority", referencedColumnName = "id"),
-    //         inverseJoinColumns = @JoinColumn(name = "username", referencedColumnName = "username"))
-    private List<CreedConsumer> consumers = new ArrayList<>(); */
+    @ManyToMany(mappedBy = "authorities") //配置多表关系
+    @JsonIgnore
+    private List<CreedUser> users = new ArrayList<>();
 
 
-    @OneToMany(targetEntity = CreedConsumerAuthorities.class, mappedBy = "authorities",
+/*     @OneToMany(targetEntity = CreedConsumerAuthorities.class, mappedBy = "authorities",
             orphanRemoval = true)
     @JsonIgnore
-    private List<CreedConsumerAuthorities> consumerAuthorities = new ArrayList<>();
+    private List<CreedConsumerAuthorities> consumerAuthorities = new ArrayList<>(); */
 
     @Override
     public boolean equals(Object o) {

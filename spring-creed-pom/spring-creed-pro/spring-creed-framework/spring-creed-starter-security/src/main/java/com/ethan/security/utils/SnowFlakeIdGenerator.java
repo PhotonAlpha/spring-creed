@@ -2,7 +2,6 @@ package com.ethan.security.utils;
 
 import com.ethan.common.common.SnowflakeIdWorker;
 import com.ethan.common.utils.ApplicationContextHolder;
-import jakarta.persistence.AttributeConverter;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;

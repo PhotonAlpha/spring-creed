@@ -18,7 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -45,7 +45,7 @@ public class SmsChannelServiceImpl implements SmsChannelService {
     /**
      * 缓存菜单的最大更新时间，用于后续的增量轮询，判断是否有更新
      */
-    private volatile Instant maxUpdateTime;
+    private volatile ZonedDateTime maxUpdateTime;
 
     // @Resource
     // private SmsClientFactory smsClientFactory;
@@ -89,7 +89,7 @@ public class SmsChannelServiceImpl implements SmsChannelService {
      * @param maxUpdateTime 当前短信渠道的最大更新时间
      * @return 短信渠道列表
      */
-    private List<SmsChannelDO> loadSmsChannelIfUpdate(Instant maxUpdateTime) {
+    private List<SmsChannelDO> loadSmsChannelIfUpdate(ZonedDateTime maxUpdateTime) {
         // 第一步，判断是否要更新。
         if (maxUpdateTime == null) { // 如果更新时间为空，说明 DB 一定有新数据
             log.info("[loadSmsChannelIfUpdate][首次加载全量短信渠道]");

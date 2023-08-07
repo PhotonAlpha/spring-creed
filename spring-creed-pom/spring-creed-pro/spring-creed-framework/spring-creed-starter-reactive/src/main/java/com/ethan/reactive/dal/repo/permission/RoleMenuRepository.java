@@ -12,14 +12,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
 
 @Repository
 public interface RoleMenuRepository extends JpaRepository<RoleMenuDO, Long>, JpaSpecificationExecutor<RoleMenuDO> {
 
-    long countByUpdateTimeGreaterThan(Instant maxUpdateTime);
+    long countByUpdateTimeGreaterThan(ZonedDateTime maxUpdateTime);
 
     List<RoleMenuDO> findByRoleId(String roleId);
 

@@ -1,6 +1,6 @@
 package com.ethan.system.service.oauth2;
 
-import com.ethan.security.oauth2.entity.CreedOAuth2AuthorizedClient;
+import com.ethan.security.oauth2.entity.client.CreedOAuth2AuthorizedClient;
 
 import java.util.List;
 

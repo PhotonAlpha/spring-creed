@@ -7,7 +7,7 @@
 
 package com.ethan.listener;
 
-import com.ethan.entity.CreedAuthorities;
+import com.ethan.security.websecurity.entity.CreedAuthorities;
 
 public class CreedAuthoritiesEvent {
     private CreedAuthorities authorities;
