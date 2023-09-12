@@ -15,6 +15,7 @@
     <modules>
         <module>spring-creed-module-system-biz</module>
         <module>spring-creed-module-system-api</module>
+        <module>spring-creed-module-system-pdf</module>
     </modules>
 
     <properties>

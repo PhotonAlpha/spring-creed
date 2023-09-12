@@ -4,10 +4,15 @@ package com.ethan.security.websecurity.filter;
 import com.ethan.common.constant.CommonConstants;
 import com.ethan.common.exception.util.SignUtils;
 import com.ethan.common.utils.date.DateUtils;
+import com.ethan.common.utils.servlet.ServletUtils;
+import com.ethan.security.api.ReplayLogApi;
+import com.ethan.security.api.dto.ReplayLogDto;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -25,6 +30,7 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
 
 /**
@@ -56,6 +62,7 @@ import java.nio.charset.StandardCharsets;
  * 8.如果请求合法，服务器将保存nonce，并执行请求。
  *
  */
+@Slf4j
 public class SignAuthFilter extends OncePerRequestFilter {
     private static final String SHOULD_NOT_FILTER = "SHOULD_NOT_FILTER" + CsrfFilter.class.getName();
     public static final CreedBearerTokenResolver RESOLVER = new CreedBearerTokenResolver();
@@ -63,8 +70,7 @@ public class SignAuthFilter extends OncePerRequestFilter {
     // private static final Long TIMEOUT_SECONDS = 3600L;
 
     private AccessDeniedHandler accessDeniedHandler;
-
-    // private final CaseReplayLogDao caseReplayLogDao;
+    private final ReplayLogApi replayLogApi;
     private final WebProperties webProperties;
 
 /*     public SignAuthFilter(AccessDeniedHandler accessDeniedHandler, CaseReplayLogDao caseReplayLogDao, WebProperties webProperties) {
@@ -73,8 +79,9 @@ public class SignAuthFilter extends OncePerRequestFilter {
         this.webProperties = webProperties;
     } */
 
-    public SignAuthFilter(AccessDeniedHandler accessDeniedHandler, WebProperties webProperties) {
+    public SignAuthFilter(AccessDeniedHandler accessDeniedHandler, ReplayLogApi replayLogApi, WebProperties webProperties) {
         this.accessDeniedHandler = accessDeniedHandler;
+        this.replayLogApi = replayLogApi;
         this.webProperties = webProperties;
     }
 
@@ -90,7 +97,8 @@ public class SignAuthFilter extends OncePerRequestFilter {
             String timestamp = RESOLVER.resolve(request, CommonConstants.SIGN_TIME);
             String nonce = RESOLVER.resolve(request, CommonConstants.SIGN_NONCE);
             String sign = RESOLVER.resolve(request, CommonConstants.SIGN);
-            synchronized (this) {
+            CachedBodyHttpServletRequest cachedRequest = new CachedBodyHttpServletRequest(request);
+//            synchronized (this) {
                 try {
                     if (StringUtils.isEmpty(timestamp) || StringUtils.isEmpty(nonce) || StringUtils.isEmpty(sign)) {
                         this.logger.debug("both timestamp & nonce & sign can not be empty" + UrlUtils.buildFullRequestUrl(request));
@@ -107,15 +115,15 @@ public class SignAuthFilter extends OncePerRequestFilter {
                     }
 
                     //check nonce existing
-                    // Optional<CaseReplayLog> replayLogOptional = caseReplayLogDao.findByNonce(token, nonce, timestamp);
-                    // if (replayLogOptional.isPresent()) {
-                    //     this.logger.debug("invalid nonce " + UrlUtils.buildFullRequestUrl(request));
-                    //     AccessDeniedException exception = new AuthorizationServiceException("invalid nonce " + UrlUtils.buildFullRequestUrl(request));
-                    //     this.accessDeniedHandler.handle(request, response, exception);
-                    //     return;
-                    // }
+                    Optional<ReplayLogDto> replayLogOptional = replayLogApi.findByNonce(token, nonce, timestamp);
+                     if (replayLogOptional.isPresent()) {
+                         this.logger.debug("invalid nonce " + UrlUtils.buildFullRequestUrl(request));
+                         AccessDeniedException exception = new AuthorizationServiceException("invalid nonce " + UrlUtils.buildFullRequestUrl(request));
+                         this.accessDeniedHandler.handle(request, response, exception);
+                         return;
+                     }
 
-                    String generatedSignature = SignUtils.generateSignature(token, nonce, timestamp, getRequestBody(request));
+                    String generatedSignature = SignUtils.generateSignature(token, nonce, timestamp, UrlUtils.buildRequestUrl(cachedRequest), getRequestBody(cachedRequest));
                     if (StringUtils.isBlank(sign) || !StringUtils.equals(sign, generatedSignature)) {
                         this.logger.debug("invalid signature " + UrlUtils.buildFullRequestUrl(request));
                         AccessDeniedException exception1 = new AuthorizationServiceException("invalid signature " + UrlUtils.buildFullRequestUrl(request));
@@ -132,14 +140,17 @@ public class SignAuthFilter extends OncePerRequestFilter {
                     this.accessDeniedHandler.handle(request, response, exception);
                     return;
                 }
-            }
+//            }
         }
         filterChain.doFilter(request, response);
     }
 
     private void storeNonce(String traceId, String nonce, String timestamp, HttpServletRequest request) {
-        //store in redis
-
+        //store in redis or DB
+        ReplayLogDto depCaseReplayLog = new ReplayLogDto().setTraceId(traceId)
+                .setNonce(nonce).setTimestamp(timestamp)
+                .setIp(ServletUtils.getClientIP(request));
+        replayLogApi.save(depCaseReplayLog);
     }
 
     public static void skipRequest(HttpServletRequest request) {
@@ -151,6 +162,7 @@ public class SignAuthFilter extends OncePerRequestFilter {
             return IOUtils.toString(((CachedBodyHttpServletRequest) cachedRequest).getBody(), StandardCharsets.UTF_8.displayName());
         } else if (StringUtils.startsWith(cachedRequest.getContentType(), MediaType.MULTIPART_FORM_DATA_VALUE)){
             // https://github.com/spring-projects/spring-framework/issues/29562
+            // CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
             StandardServletMultipartResolver commonsMultipartResolver = new StandardServletMultipartResolver();
             MultipartHttpServletRequest resolveMultipart = commonsMultipartResolver.resolveMultipart(cachedRequest);
             if (resolveMultipart.getParameterMap().containsKey("xxx")) {

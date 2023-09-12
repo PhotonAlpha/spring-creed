@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <property scope="context" name="max-file-size" value="300MB" />
+    <property scope="context" name="max-history" value="20" />
+    <property scope="context" name="total-size-cap" value="10GB" />
+    <property scope="context" name="log-directory" value="/logs/creed" />
+    <property scope="context" name="instance" value="spring-creed-console" />
+
+    <property scope="context" name="log-pattern" value="%d{dd-MM-yyyy HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} [%thread][%X{traceId:-},%X{spanId:-}] %-40.40logger{39}[%line] : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />
+    <property scope="context" name="console-pattern" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}) %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr([%thread][%X{traceId:-},%X{spanId:-}]) %clr(%-40.40logger{39}){cyan}[%line] %clr(:) %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />
+    <property scope="context" name="grpc-pattern" value="%m%n" />
+
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${console-pattern}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="rolling" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log-directory}/${instance}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log-directory}/${instance}.log-%d{yyyy-MM-dd}.%i</fileNamePattern>
+            <!-- each file should be at most 250MB, keep 60 days worth of history,
+                but at most 20GB -->
+            <maxFileSize>${max-file-size}</maxFileSize>
+            <maxHistory>${max-history}</maxHistory>
+            <totalSizeCap>${total-size-cap}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log-pattern} </pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <!-- SkyWalking GRPC 日志收集，实现日志中心。注意：SkyWalking 8.4.0 版本开始支持 -->
+    <!--<appender name="GRPC" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log-directory}/GRPC.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log-directory}/IBGM.log-%d{yyyy-MM-dd}.%i</fileNamePattern>
+            &lt;!&ndash; each file should be at most 250MB, keep 60 days worth of history,
+                but at most 20GB &ndash;&gt;
+            <maxFileSize>${max-file-size}</maxFileSize>
+            <maxHistory>${max-history}</maxHistory>
+            <totalSizeCap>${total-size-cap}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log-pattern} </pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>-->
+
+    <appender name ="async" class= "ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>500</queueSize>
+        <appender-ref ref ="rolling"/>
+    </appender>
+
+
+    <!-- SkyWalking GRPC 日志收集，实现日志中心。注意：SkyWalking 8.4.0 版本开始支持 -->
+<!--    <appender name="GRPC" class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.log.GRPCLogClientAppender">
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">
+                <pattern>${PATTERN_DEFAULT}</pattern>
+            </layout>
+        </encoder>
+    </appender>-->
+
+    <!-- <springProfile name="dev">
+         <root>
+             <level value="INFO" />
+             <appender-ref ref="consoleAppender" />
+             <appender-ref ref="rolling" />
+         </root>
+     </springProfile>
+     <springProfile name="!dev">
+         <root>
+             <level value="INFO" />
+             <appender-ref ref="async" />
+         </root>
+     </springProfile>
+     </springProfile>-->
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" additivity="false">
+        <appender-ref ref="rolling" />
+        <appender-ref ref="consoleAppender" />
+    </logger>
+    <logger name="org.springframework.jdbc.core" level="TRACE" additivity="false">
+        <appender-ref ref="rolling" />
+        <appender-ref ref="consoleAppender" />
+    </logger>
+    <!--    <logger name="org.hibernate.type" level="TRACE" additivity="false">-->
+    <!--        <appender-ref ref="rolling" />-->
+    <!--        <appender-ref ref="consoleAppender" />-->
+    <!--    </logger>-->
+
+<!--    itext7 异常日志 关闭-->
+    <logger name="com.itextpdf.styledxmlparser.css.parse.CssRuleSetParser" level="OFF"/>
+    <logger name="com.itextpdf.styledxmlparser.css.parse.syntax.CssParserStateController" level="OFF"/>
+
+
+    <root>
+        <level value="INFO" />
+        <appender-ref ref="consoleAppender" />
+        <appender-ref ref="rolling" />
+<!--        <appender-ref ref="GRPC" />-->
+    </root>
+
+</configuration>

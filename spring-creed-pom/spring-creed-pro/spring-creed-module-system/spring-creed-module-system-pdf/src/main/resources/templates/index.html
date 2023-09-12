@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link th:if="${bootstrapPath?.cssContent}" th:href="${bootstrapPath?.cssContent}" rel="stylesheet" type="text/css">
+    <link th:unless="${bootstrapPath?.cssContent}" th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <link th:if="${bootstrapPath?.customCssContent}" th:href="${bootstrapPath?.customCssContent}" rel="stylesheet" type="text/css">
+    <link th:unless="${bootstrapPath?.customCssContent}" th:href="@{/css/custom.css}" rel="stylesheet" type="text/css">
+    <link th:unless="${bootstrapPath?.customCssContent}" th:href="@{/css/font.css}" rel="stylesheet" type="text/css">
+    <meta charset="UTF-8">
+    <title>Main Page</title>
+    <style>
+        body {
+            font-family: 'OpenSans-Regular', sans-serif;
+        }
+
+        @page {
+            size: A4;
+            margin: 90px 16px 25px 16px;
+            @top-left {
+                content: element(subject);
+            }
+            @bottom-right {
+                content: "Page " counter(page) " of " counter(pages);
+                font-size: 8px;
+                font-family: 'OpenSans-Regular', sans-serif;
+                font-weight: 400;
+                color: #9BA4AB;
+                padding-bottom: 10px;
+            }
+            @bottom-left {
+                content: element(subjectBottom);
+            }
+        }
+
+        #main-content {
+            /*see  https://www.w3.org/Style/2013/paged-media-tasks*/
+            position: running(subject);
+        }
+        #main-content .font-16-bold {
+            font-family: 'OpenSans-Bold', sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        #main-content .font-10-bold {
+            font-family: 'OpenSans-Bold', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+        }
+        #main-bottom {
+            /*see  https://www.w3.org/Style/2013/paged-media-tasks*/
+            position: running(subjectBottom);
+        }
+        #main-bottom .font-8-text {
+            font-family: 'OpenSans-Regular', sans-serif;
+            font-size: 8px;
+            color: #59656D;
+        }
+
+        page[size="A4"] {
+            background: white;
+            width: 26cm;
+            /*height: 100rem;*/
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 0.5cm;
+            box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5);
+        }
+
+        @media print {
+            body, page[size="A4"] {
+                margin: 0;
+                /*box-shadow: 0;*/
+            }
+        }
+        .main-form td p {
+            margin-bottom: 0;
+        }
+        .main-form table tr:not(:last-child) td {
+            padding-bottom: 0;
+        }
+
+        .line-height-24 {
+            line-height: 24px;
+        }
+
+        .border-1 {
+            border: 1px solid #C7CFD5 !important;
+        }
+        .font-white {
+            color: white;
+        }
+        .height-100 {
+            height: 100px;
+        }
+        .img-limit {
+            width: 10px;
+            height: 10px;
+        }
+    </style>
+</head>
+<body>
+    <page size="A4">
+        <div id="main-content">
+            <table class="table table-borderless mb-0" style="table-layout: fixed">
+                <tbody>
+                <tr>
+                    <td class="align-bottom pb-0">
+                        <p class="font-10-bold" th:text="|Reference No: ${company?.referenceNo}|"></p>
+                    </td>
+                    <td class="text-end">
+                        <div th:replace="~{fragments/cover_img_fragment :: icon('avatar.gif')}"></div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="main-bottom">
+            <div class="font-8-text" th:text="|${#strings.randomAlphanumeric(10)}|"></div>
+        </div>
+        <div class="container main-form">
+            <div th:replace="~{${fragmentTemplate} :: ${fragmentName}}"></div>
+        </div>
+    </page>
+</body>
+</html>

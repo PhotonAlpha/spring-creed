@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <th:block th:fragment="icon(path)">
+        <th:block th:if="${bootstrapPath} != null">
+            <th:block th:switch="${path}">
+                <img th:case="avatar.gif" class="align-baseline" th:src="${bootstrapPath?.profileImg}">
+                <img th:case="message.svg" class="img-limit align-baseline" th:src="${bootstrapPath?.messageImg}">
+                <img th:case="money.svg" class="img-limit align-baseline" th:src="${bootstrapPath?.moneyImg}">
+                <img th:case="peoples.svg" class="img-limit align-baseline" th:src="${bootstrapPath?.peoplesImg}">
+                <img th:case="shopping.svg" class="img-limit align-baseline" th:src="${bootstrapPath?.shoppingImg}">
+                <img th:case="*" class="img-limit align-baseline">
+            </th:block>
+        </th:block>
+        <th:block th:unless="${bootstrapPath} != null">
+            <img class="align-baseline" th:class="${path == 'profile.jpg' ? 'align-baseline' : 'img-limit align-baseline'}" th:src="@{${'/img/'+path}}">
+        </th:block>
+    </th:block>
+</html>
