@@ -146,7 +146,8 @@ public class SecurityConfig {
 
 
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/css/**", "/js/**", "/fonts/**", "/*.html", "/favicon.ico", "/*.css", "/*.js").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/*.html", "/*/*.html", "/*/*.css", "/*/*.js", "/favicon.ico", "/css/**","/img/**","/fonts/**").permitAll()
+                        // .requestMatchers("/css/**", "/js/**", "/fonts/**", "/*.html", "/favicon.ico", "/*.css", "/*.js").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/actuator/**", "/webjars/**", "/resources/**", "/static/**").permitAll()
                         .requestMatchers(HttpMethod.GET, permitAllUrls.get(HttpMethod.GET).toArray(new String[0])).permitAll()
                         .requestMatchers(HttpMethod.POST, permitAllUrls.get(HttpMethod.POST).toArray(new String[0])).permitAll()

@@ -1,11 +1,15 @@
+<!--/*@thymesVar id="company" type="com.ethan.system.pdf.controller.dto.Company"*/-->
+<!--👆👆上述用法解决解析Intellij提示问题：https://youtrack.jetbrains.com/issue/IDEA-290739/Thymeleaf-the-thymesVar-comment-for-fields-of-a-fragment-Object-param-intermittent-uncertainty-does-not-work👆👆-->
+<!--👇👇当此fragment继续嵌套子fragment的时候，子fragment需要使用以下注释 👇👇-->
+<!--@thymesVar id="data" type="com.ethan.system.pdf.controller.dto.Company"-->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <div th:fragment="main">
         <div>
             <table class="table table-borderless border-1" style="table-layout: fixed" th:object="${company}">
                 <tr>
-                    <td class="font-14-bold" colspan="2">
-                        Company Details
+                    <td class="font-14-bold" colspan="2" th:text="#{companyDetails}">
+
                     </td>
                 </tr>
                 <tr>

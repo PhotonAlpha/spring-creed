@@ -31,7 +31,11 @@ spring:
         one-indexed-parameters: true
   thymeleaf:
     enabled: true
-
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
+    fallback-to-system-locale: true
+    cache-duration: 1s
 #logging:
 #  level:
 #    org:

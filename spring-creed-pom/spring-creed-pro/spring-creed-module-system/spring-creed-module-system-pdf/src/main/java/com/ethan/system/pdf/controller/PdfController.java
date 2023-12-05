@@ -10,7 +10,6 @@ package com.ethan.system.pdf.controller;
 import com.ethan.system.pdf.controller.dto.BootstrapPath;
 import com.ethan.system.pdf.controller.dto.Company;
 import com.ethan.system.pdf.controller.dto.Employee;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.html2pdf.resolver.font.DefaultFontProvider;
@@ -24,6 +23,7 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.WriterProperties;
 import com.itextpdf.layout.Document;
 import jakarta.annotation.Resource;
+import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.util.StringUtils;
@@ -47,7 +48,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
+import java.util.Locale;
 
 @Controller
 @Slf4j
@@ -55,11 +56,17 @@ public class PdfController {
     @Resource
     private TemplateEngine templateEngine;
 
-    @GetMapping("/{tmpName}")
-    public String showHtml(@PathVariable("tmpName") String tmpName, Model mode) throws IOException {
+    @GetMapping("/show/{tmpName}")
+    @PermitAll
+    public String showHtml(@PathVariable("tmpName") String tmpName, Model mode, HttpServletRequest request) throws IOException {
         String baseUrl = getCurrentBaseUrl();
         log.info("baseUrl:{}", baseUrl);
         mode.addAttribute("baseUrl", baseUrl);
+
+        // Locale locale = new Locale("zh", "TC");
+        Locale locale = new Locale("zh", "CN");
+        new SessionLocaleResolver().setLocale(request, null, locale);
+
         if (StringUtils.equalsIgnoreCase("cover_index", tmpName)) {
             mode.addAttribute("fragmentTemplate", "fragments/cover_fragment");
             mode.addAttribute("fragmentName", "cover");
@@ -75,7 +82,7 @@ public class PdfController {
         mode.addAttribute("company", company);
 
 
-        generatePdf();
+        generatePdf(locale);
         return tmpName;
     }
 
@@ -86,8 +93,10 @@ public class PdfController {
     }
 
     @SneakyThrows
-    private void generatePdf() {
+    private void generatePdf(Locale locale) {
         Context context = new Context();
+        context.setLocale(locale);
+
         Company company = new Company();
         company.setEmployees(Arrays.asList(
                 new Employee("ethan", "neco", "ethan@xxx.com", "86", "1314520xxxx"),
@@ -97,8 +106,8 @@ public class PdfController {
         context.setVariable("company", company);
 
 
-        try (ByteArrayOutputStream os1 = generatePdf(context, "index", "fragments/main_fragment", "main");
-             ByteArrayOutputStream os2 = generateCoverPage("Cover Header", "cover_index", "fragments/cover_fragment", "cover")) {
+        try (ByteArrayOutputStream os1 = generatePdf(context, "index", "fragments/main_fragment", "main", locale);
+             ByteArrayOutputStream os2 = generateCoverPage("Cover Header", "cover_index", "fragments/cover_fragment", "cover", locale)) {
             ByteArrayOutputStream os = merge(Arrays.asList(
                     new PdfDocument(
                             new PdfReader(new ByteArrayInputStream(os2.toByteArray()))),
@@ -109,7 +118,14 @@ public class PdfController {
         }
 
     }
-    protected List<String> fontList() {
+    protected List<String> fontList(Locale locale) {
+        if (StringUtils.equals(locale.getLanguage(), "zh")) {
+            return Arrays.asList(
+                    "static/fonts/NotoSans/NotoSansSC-Regular.ttf",
+                    "static/fonts/NotoSans/NotoSansSC-Bold.ttf",
+                    "static/fonts/NotoSans/NotoSansSC-Light.ttf"
+            );
+        }
         return Arrays.asList(
                 "static/fonts/OpenSans/OpenSans-Regular.ttf",
                 "static/fonts/OpenSans/OpenSans-Bold.ttf",
@@ -118,8 +134,13 @@ public class PdfController {
     }
 
 
-    public ByteArrayOutputStream generatePdf(Context context, String template, String fragmentTemplate, String fragmentName) throws IOException {
-        String customCssContentPath = new ClassPathResource("static/css/custom.css").getFile().getAbsolutePath();
+    public ByteArrayOutputStream generatePdf(Context context, String template, String fragmentTemplate, String fragmentName, Locale locale) throws IOException {
+        String customCssContentPath;
+        if (StringUtils.equals(locale.getLanguage(), "zh")) {
+            customCssContentPath = new ClassPathResource("static/css/custom.SC.css").getFile().getAbsolutePath();
+        } else {
+            customCssContentPath = new ClassPathResource("static/css/custom.css").getFile().getAbsolutePath();
+        }
         String cssContentPath = new ClassPathResource("static/css/bootstrap.min.css").getFile().getAbsolutePath();
         String messagePath = new ClassPathResource("static/img/message.svg").getFile().getAbsolutePath();
         String moneyPath = new ClassPathResource("static/img/money.svg").getFile().getAbsolutePath();
@@ -158,7 +179,7 @@ public class PdfController {
             ConverterProperties converterProperties = new ConverterProperties();
             DefaultFontProvider fontProvider = new DefaultFontProvider(false, false, false);
 
-            for (String fontPath : fontList()) {
+            for (String fontPath : fontList(locale)) {
                 FontProgram fontProgram = FontProgramFactory.createFont(new ClassPathResource(fontPath).getFile().getAbsolutePath());
                 log.info("fontPath:{}", fontPath);
                 fontProvider.addFont(fontProgram);
@@ -174,7 +195,7 @@ public class PdfController {
         // Files.write(Paths.get("/logs/dep", "thymeleaf_test.pdf"), outputStream.toByteArray(), StandardOpenOption.CREATE);
     }
 
-    protected ByteArrayOutputStream generateCoverPage(String title, String template, String fragmentTemplate, String fragmentName) throws IOException {
+    protected ByteArrayOutputStream generateCoverPage(String title, String template, String fragmentTemplate, String fragmentName, Locale locale) throws IOException {
         Context context = new Context();
         String customCssContentPath = new ClassPathResource("static/css/custom.css").getFile().getAbsolutePath();
         String cssContentPath = new ClassPathResource("static/css/bootstrap.min.css").getFile().getAbsolutePath();
@@ -215,7 +236,7 @@ public class PdfController {
 
             /* String fontFolder = new ClassPathResource("static/fonts/" + fontName).getFile().getAbsolutePath();
             fontProvider.addDirectory(fontFolder); */
-            for (String fontPath : fontList()) {
+            for (String fontPath : fontList(locale)) {
                 FontProgram fontProgram = FontProgramFactory.createFont(new ClassPathResource(fontPath).getFile().getAbsolutePath());
                 log.info("fontPath:{}", fontPath);
                 fontProvider.addFont(fontProgram);

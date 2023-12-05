@@ -9,7 +9,7 @@
         <version>${revision}</version>
     </parent>
 
-    <groupId>com.dbs.dep</groupId>
+    <groupId>com.ethan</groupId>
     <artifactId>spring-creed-module-system-pdf</artifactId>
 
     <properties>

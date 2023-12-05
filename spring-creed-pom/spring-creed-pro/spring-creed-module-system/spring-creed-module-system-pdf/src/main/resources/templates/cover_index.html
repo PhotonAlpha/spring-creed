@@ -36,18 +36,23 @@
                     padding-bottom: 20px;
                 }
                 @bottom-left {
-                    content: "fotter";
+                    /*content: "fotter";
                     font-size: 8px;
                     font-family: 'OpenSans-Regular', sans-serif;
                     font-weight: 400;
                     color: #9BA4AB;
-                    padding-bottom: 20px;
+                    padding-bottom: 20px;*/
+                    content: element(footerSubject);
                 }
             }
 
             #header-content {
                 /*see  https://www.w3.org/Style/2013/paged-media-tasks*/
                 position: running(subject);
+            }
+            #footer-content {
+                /*see  https://www.w3.org/Style/2013/paged-media-tasks*/
+                position: running(footerSubject);
             }
             #header-content .font-32-bold{
                 font-family: 'OpenSans-Bold', sans-serif;
@@ -125,7 +130,7 @@
                     </tr>
                     <tr>
                         <td colspan="3" class="pt-0 pb-0">
-                            <span class="font-32-bold" th:text="${#strings.randomAlphanumeric(5).toUpperCase()}"></span>
+                            <span class="font-32-bold" th:text="#{header.title}"></span>
                         </td>
                     </tr>
                     <tr class="relative-position-6">
@@ -136,6 +141,9 @@
                     </tr>
                     </tbody>
                 </table>
+            </div>
+            <div id="footer-bottom">
+                <div class="font-8-text" th:text="|#{footer.title}|"></div>
             </div>
             <div th:replace="~{${fragmentTemplate} :: ${fragmentName}}"></div>
         </page>

@@ -1,88 +1,88 @@
 .font-8-text {
-    font-family: 'OpenSans-Regular', sans-serif;
+    font-family: 'NotoSansSC-Regular', sans-serif;
     font-size: 8px;
     color: #59656D;
 }
 
 .font-8 {
-    font-family: 'OpenSans-Regular', sans-serif;
+    font-family: 'NotoSansSC-Regular', sans-serif;
     font-size: 8px;
 }
 
 .font-8-bold {
-    font-family: 'OpenSans-Bold', sans-serif;
+    font-family: 'NotoSansSC-Bold', sans-serif;
     font-size: 8px;
     font-weight: bold;
 }
 
 .font-11 {
-    font-family: 'OpenSans-Regular', sans-serif;
+    font-family: 'NotoSansSC-Regular', sans-serif;
     font-size: 12px;
 }
 
 .font-11-bold {
-    font-family: 'OpenSans-Bold', sans-serif;
+    font-family: 'NotoSansSC-Bold', sans-serif;
     font-size: 12px;
     font-weight: bold;
 }
 
 .font-11-text {
-    font-family: 'OpenSans-Regular', sans-serif;
+    font-family: 'NotoSansSC-Regular', sans-serif;
     font-size: 12px;
     color: #59656D;
 }
 
 .font-12 {
-    font-family: 'OpenSans-Regular', sans-serif;
+    font-family: 'NotoSansSC-Regular', sans-serif;
     font-size: 12px;
 }
 
 .font-12-bold {
-    font-family: 'OpenSans-Bold', sans-serif;
+    font-family: 'NotoSansSC-Bold', sans-serif;
     font-size: 12px;
     font-weight: bold;
 }
 
 .font-12-text {
-    font-family: 'OpenSans-Regular', sans-serif;
+    font-family: 'NotoSansSC-Regular', sans-serif;
     font-size: 12px;
     color: #59656D;
 }
 
 .font-14 {
-    font-family: 'OpenSans-Regular', sans-serif;
+    font-family: 'NotoSansSC-Regular', sans-serif;
     font-size: 14px;
 }
 
 .font-14-bold {
-    font-family: 'OpenSans-Bold', sans-serif;
+    font-family: 'NotoSansSC-Bold', sans-serif;
     font-size: 14px;
     font-weight: bold;
 }
 /*if font-weight more than 300, Light will not get embedded*/
 .font-14-light {
-    font-family: 'OpenSans-Light', sans-serif;
+    font-family: 'NotoSansSC-Light', sans-serif;
     font-size: 14px;
     font-weight: 300;
 }
 
 .font-16 {
-    font-family: 'OpenSans-Regular', sans-serif;
+    font-family: 'NotoSansSC-Regular', sans-serif;
     font-size: 16px;
 }
 
 .font-16-bold {
-    font-family: 'OpenSans-Bold', sans-serif;
+    font-family: 'NotoSansSC-Bold', sans-serif;
     font-size: 16px;
 }
 
 .font-32 {
-    font-family: 'OpenSans-Regular', sans-serif;
+    font-family: 'NotoSansSC-Regular', sans-serif;
     font-size: 32px;
 }
 
 .font-32-bold {
-    font-family: 'OpenSans-Bold', sans-serif;
+    font-family: 'NotoSansSC-Bold', sans-serif;
     font-size: 32px;
 }
 /*ul style*/

@@ -26,6 +26,11 @@
             <artifactId>spring-creed-module-system-biz</artifactId>
             <version>${revision}</version>
         </dependency>
+        <dependency>
+            <groupId>com.ethan</groupId>
+            <artifactId>spring-creed-module-system-pdf</artifactId>
+            <version>${revision}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -75,6 +80,23 @@
                 </executions>
             </plugin>
         </plugins>
+<!--        解决字体打包遇到的格式不正确问题-->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <excludes>
+                    <exclude>static/fonts/**</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>static/fonts/**</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 
 </project>

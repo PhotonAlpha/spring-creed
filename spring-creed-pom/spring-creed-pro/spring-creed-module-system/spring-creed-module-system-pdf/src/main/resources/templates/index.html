@@ -4,7 +4,7 @@
     <link th:if="${bootstrapPath?.cssContent}" th:href="${bootstrapPath?.cssContent}" rel="stylesheet" type="text/css">
     <link th:unless="${bootstrapPath?.cssContent}" th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
     <link th:if="${bootstrapPath?.customCssContent}" th:href="${bootstrapPath?.customCssContent}" rel="stylesheet" type="text/css">
-    <link th:unless="${bootstrapPath?.customCssContent}" th:href="@{/css/custom.css}" rel="stylesheet" type="text/css">
+    <link th:unless="${bootstrapPath?.customCssContent}" th:href="@{/css/custom.SC.css}" rel="stylesheet" type="text/css">
     <link th:unless="${bootstrapPath?.customCssContent}" th:href="@{/css/font.css}" rel="stylesheet" type="text/css">
     <meta charset="UTF-8">
     <title>Main Page</title>
@@ -105,7 +105,7 @@
                 <tbody>
                 <tr>
                     <td class="align-bottom pb-0">
-                        <p class="font-10-bold" th:text="|Reference No: ${company?.referenceNo}|"></p>
+                        <p class="font-10-bold" th:text="|#{header.refNo}: ${company?.referenceNo}|"></p>
                     </td>
                     <td class="text-end">
                         <div th:replace="~{fragments/cover_img_fragment :: icon('avatar.gif')}"></div>
