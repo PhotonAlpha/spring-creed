@@ -64,6 +64,7 @@ public class PdfController {
         mode.addAttribute("baseUrl", baseUrl);
 
         // Locale locale = new Locale("zh", "TC");
+        // 注意区别大小写， 在linux中 messages_zh_CN.properties country 不能是小写，否则无法识别。
         Locale locale = new Locale("zh", "CN");
         new SessionLocaleResolver().setLocale(request, null, locale);
 
