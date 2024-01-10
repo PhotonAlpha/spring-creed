@@ -2,6 +2,7 @@ package com.ethan.system.dal.entity.permission;
 
 import com.ethan.common.constant.CommonStatusEnum;
 import com.ethan.common.pojo.BaseDO;
+import com.ethan.system.constant.permission.MenuTypeEnum;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,7 +21,10 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class MenuDO extends BaseDO {
-
+    /**
+     * 菜单编号 - 根节点
+     */
+    public static final Long ID_ROOT = 0L;
     /**
      * 菜单ID
      */

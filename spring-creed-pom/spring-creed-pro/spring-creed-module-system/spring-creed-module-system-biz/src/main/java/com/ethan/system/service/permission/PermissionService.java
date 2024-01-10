@@ -139,4 +139,6 @@ public interface PermissionService {
      */
     DeptDataPermissionRespDTO getDeptDataPermission(String userId);
 
+    Set<Long> getRoleMenuListByRoleId(Set<String> strings);
+
 }

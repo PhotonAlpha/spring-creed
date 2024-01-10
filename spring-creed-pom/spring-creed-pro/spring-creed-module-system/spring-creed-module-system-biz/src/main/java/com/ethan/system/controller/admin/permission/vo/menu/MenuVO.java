@@ -8,13 +8,14 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Tag(name="管理后台 - 菜单信息 Response VO")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class MenuRespVO extends MenuBaseVO {
+public class MenuVO extends MenuBaseVO {
 
     @Schema(name = "菜单编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     private Long id;
@@ -24,5 +25,8 @@ public class MenuRespVO extends MenuBaseVO {
 
     @Schema(name = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED, example = "时间戳格式")
     private Date createTime;
-
+    /**
+     * 子路由
+     */
+    private List<MenuVO> children;
 }

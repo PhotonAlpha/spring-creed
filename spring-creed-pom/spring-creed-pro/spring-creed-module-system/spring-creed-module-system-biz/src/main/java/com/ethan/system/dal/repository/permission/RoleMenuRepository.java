@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface RoleMenuRepository extends JpaRepository<RoleMenuDO, Long>, JpaSpecificationExecutor<RoleMenuDO> {
@@ -22,6 +23,8 @@ public interface RoleMenuRepository extends JpaRepository<RoleMenuDO, Long>, Jpa
     long countByUpdateTimeGreaterThan(ZonedDateTime maxUpdateTime);
 
     List<RoleMenuDO> findByRoleId(String roleId);
+
+    List<RoleMenuDO> findByRoleIdIn(Set<String> roleIds);
 
     void deleteByRoleIdAndMenuIdIn(String roleId, Collection<Long> deleteMenuIds);
 

@@ -8,6 +8,7 @@ import com.ethan.system.controller.admin.permission.vo.role.RoleExportReqVO;
 import com.ethan.system.controller.admin.permission.vo.role.RolePageReqVO;
 import com.ethan.system.controller.admin.permission.vo.role.RoleSimpleRespVO;
 import com.ethan.system.controller.admin.permission.vo.role.RoleUpdateReqVO;
+import com.ethan.system.dal.entity.permission.RoleDO;
 import jakarta.validation.Valid;
 import org.springframework.lang.Nullable;
 
@@ -90,6 +91,14 @@ public interface RoleService {
      * @return 角色数组
      */
     List<CreedAuthorities> getRolesFromCache(Collection<String> ids);
+
+    /**
+     * 获得角色列表
+     *
+     * @param ids 角色编号数组
+     * @return 角色列表
+     */
+    List<CreedAuthorities> getRoleList(Collection<String> ids);
 
     /**
      * 判断角色数组中，是否有超级管理员

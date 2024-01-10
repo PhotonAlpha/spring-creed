@@ -1,5 +1,6 @@
 package com.ethan.system.service.permission;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.ethan.common.constant.CommonStatusEnum;
 import com.ethan.common.pojo.BaseXDO;
 import com.ethan.common.pojo.PageResult;
@@ -245,6 +246,14 @@ public class RoleServiceImpl implements RoleService {
         }
         return roleCache.get().values().stream().filter(roleDO -> ids.contains(roleDO.getId()))
                 .toList();
+    }
+
+    @Override
+    public List<CreedAuthorities> getRoleList(Collection<String> ids) {
+        if (CollectionUtil.isEmpty(ids)) {
+            return Collections.emptyList();
+        }
+        return authorityRepository.findAllById(ids);
     }
 
     @Override

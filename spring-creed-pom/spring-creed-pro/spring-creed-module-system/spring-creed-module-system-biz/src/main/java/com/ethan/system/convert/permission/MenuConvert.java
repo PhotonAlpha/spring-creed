@@ -1,7 +1,7 @@
 package com.ethan.system.convert.permission;
 
 import com.ethan.system.controller.admin.permission.vo.menu.MenuCreateReqVO;
-import com.ethan.system.controller.admin.permission.vo.menu.MenuRespVO;
+import com.ethan.system.controller.admin.permission.vo.menu.MenuVO;
 import com.ethan.system.controller.admin.permission.vo.menu.MenuSimpleRespVO;
 import com.ethan.system.controller.admin.permission.vo.menu.MenuUpdateReqVO;
 import com.ethan.system.dal.entity.permission.MenuDO;
@@ -15,13 +15,13 @@ public interface MenuConvert {
 
     MenuConvert INSTANCE = Mappers.getMapper(MenuConvert.class);
 
-    List<MenuRespVO> convertList(List<MenuDO> list);
+    List<MenuVO> convertList(List<MenuDO> list);
 
     MenuDO convert(MenuCreateReqVO bean);
 
     MenuDO convert(MenuUpdateReqVO bean);
 
-    MenuRespVO convert(MenuDO bean);
+    MenuVO convert(MenuDO bean);
 
     List<MenuSimpleRespVO> convertList02(List<MenuDO> list);
 
