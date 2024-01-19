@@ -1,0 +1,180 @@
+.font-8-text {
+    font-family: 'NotoSansSC-Regular', sans-serif;
+    font-size: 8px;
+    color: #59656D;
+}
+
+.font-8 {
+    font-family: 'NotoSansSC-Regular', sans-serif;
+    font-size: 8px;
+}
+
+.font-8-bold {
+    font-family: 'NotoSansSC-Bold', sans-serif;
+    font-size: 8px;
+    font-weight: bold;
+}
+
+.font-11 {
+    font-family: 'NotoSansSC-Regular', sans-serif;
+    font-size: 12px;
+}
+
+.font-11-bold {
+    font-family: 'NotoSansSC-Bold', sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.font-11-text {
+    font-family: 'NotoSansSC-Regular', sans-serif;
+    font-size: 12px;
+    color: #59656D;
+}
+
+.font-12 {
+    font-family: 'NotoSansSC-Regular', sans-serif;
+    font-size: 12px;
+}
+
+.font-12-bold {
+    font-family: 'NotoSansSC-Bold', sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.font-12-text {
+    font-family: 'NotoSansSC-Regular', sans-serif;
+    font-size: 12px;
+    color: #59656D;
+}
+
+.font-14 {
+    font-family: 'NotoSansSC-Regular', sans-serif;
+    font-size: 14px;
+}
+
+.font-14-bold {
+    font-family: 'NotoSansSC-Bold', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+}
+/*if font-weight more than 300, Light will not get embedded*/
+.font-14-light {
+    font-family: 'NotoSansSC-Light', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.font-16 {
+    font-family: 'NotoSansSC-Regular', sans-serif;
+    font-size: 16px;
+}
+
+.font-16-bold {
+    font-family: 'NotoSansSC-Bold', sans-serif;
+    font-size: 16px;
+}
+
+.font-32 {
+    font-family: 'NotoSansSC-Regular', sans-serif;
+    font-size: 32px;
+}
+
+.font-32-bold {
+    font-family: 'NotoSansSC-Bold', sans-serif;
+    font-size: 32px;
+}
+/*ul style*/
+.my-roman1>ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+.my-roman1>ul li{
+    counter-increment: section;
+}
+.my-roman1>ul li::before{
+    content: counter(section, disc) " ";
+}
+
+.my-roman2>ol {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+.my-roman2>ol li{
+    counter-increment: section;
+}
+.my-roman2>ol li::before{
+    content: counter(section, lower-alpha) ") ";
+}
+
+.my-roman3>ol {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+.my-roman3>ol li {
+    /*此处 如果用padding or margin PDF分页会出现问题， 需要使用line-height解决*/
+    /*padding-bottom: 6px;*/
+    line-height: 25px;
+}
+
+.my-alpha-1>ol {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+.my-alpha-1>ol li{
+    counter-increment: section;
+}
+.my-alpha-1>ol li::before{
+    content: "(" counter(section, lower-alpha) ") ";
+}
+
+.my-decimal-1>ol {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+.my-decimal-1>ol li{
+    counter-increment: section;
+}
+.my-decimal-1>ol li::before{
+    content: counter(section, decimal) ". ";
+}
+
+.my-decimal-2>ol {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+.my-decimal-2>ol li{
+    counter-increment: section2;
+}
+.my-decimal-2>ol li::before{
+    content: "("counter(section2, decimal) ") ";
+}
+
+.my-roman-4>ol {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+.my-roman-4>ol li{
+    counter-increment: section;
+}
+.my-roman-4>ol li::before{
+    content: "("counter(section, lower-roman) ") ";
+}
+
+/*border style*/
+.border-bottom-1 {
+    padding-bottom: 8px;
+    border-bottom: 1px solid #dee2e6 !important;
+}
+
+pl--75 {
+    padding-left: .75rem;
+}

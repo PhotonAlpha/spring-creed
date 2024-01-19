@@ -1,5 +1,6 @@
 package com.ethan.system.controller.admin.auth.vo;
 
+import com.ethan.system.controller.admin.permission.vo.menu.MenuVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 @Tag(name = "管理后台 - 登录用户的权限信息 Response VO", description = "额外包括用户信息和角色列表")
@@ -24,6 +26,9 @@ public class AuthPermissionInfoRespVO {
 
     @Schema(name = "操作权限数组", requiredMode = Schema.RequiredMode.REQUIRED)
     private Set<String> permissions;
+
+    @Schema(description = "菜单树", requiredMode = Schema.RequiredMode.REQUIRED)
+    private List<MenuVO> menus;
 
     @Tag(name = "用户信息 VO")
     @Data

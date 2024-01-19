@@ -45,7 +45,52 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
     @Override
     public void save(RegisteredClient registeredClient) {
         Assert.notNull(registeredClient, "registeredClient cannot be null");
-        clientRepository.save(toEntity(registeredClient));
+        RegisteredClient existingRegisteredClient = findById(registeredClient.getId());
+        if (existingRegisteredClient != null) {
+            clientRepository.save(updateRegisteredClient(registeredClient));
+        } else {
+            clientRepository.save(toEntity(registeredClient));
+        }
+    }
+
+    /**
+     * since upgrade authorization server to 2.0.x, updateRegisteredClient add
+     * {@see ClientSecretAuthenticationProvider#authenticate(Authentication authentication)}
+     * this.passwordEncoder.upgradeEncoding(registeredClient.getClientSecret())
+     *
+     * @param registeredClient
+     * @return
+     */
+
+    private CreedOAuth2RegisteredClient updateRegisteredClient(RegisteredClient registeredClient) {
+        CreedOAuth2RegisteredClient entity = this.clientRepository.findById(registeredClient.getId()).orElse(null);
+        Assert.notNull(entity, "registeredClient not exist, can not update.");
+
+        List<String> clientAuthenticationMethods = Optional.of(registeredClient)
+                .map(RegisteredClient::getClientAuthenticationMethods)
+                .orElse(Collections.emptySet())
+                .stream()
+                .map(ClientAuthenticationMethod::getValue)
+                .toList();
+
+        List<String> authorizationGrantTypes   = Optional.of(registeredClient)
+                .map(RegisteredClient::getAuthorizationGrantTypes)
+                .orElse(Collections.emptySet())
+                .stream()
+                .map(AuthorizationGrantType::getValue)
+                .toList();
+
+        entity.setClientSecret(registeredClient.getClientSecret());
+        entity.setClientSecretExpiresAt(registeredClient.getClientSecretExpiresAt());
+        entity.setClientName(registeredClient.getClientName());
+        entity.setClientAuthenticationMethods(StringUtils.collectionToCommaDelimitedString(clientAuthenticationMethods));
+        entity.setAuthorizationGrantTypes(authorizationGrantTypes);
+        entity.setRedirectUris(registeredClient.getRedirectUris());
+        entity.setPostLogoutRedirectUris(registeredClient.getPostLogoutRedirectUris());
+        entity.setScopes(registeredClient.getScopes());
+        entity.setClientSettings(registeredClient.getClientSettings().getSettings());
+        entity.setTokenSettings(registeredClient.getTokenSettings().getSettings());
+        return entity;
     }
 
     @Override

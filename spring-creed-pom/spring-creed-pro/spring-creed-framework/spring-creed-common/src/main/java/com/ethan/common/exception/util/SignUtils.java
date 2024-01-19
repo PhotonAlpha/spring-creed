@@ -27,7 +27,7 @@ import java.util.Map;
  */
 @UtilityClass
 public class SignUtils {
-    private static final String SIGN_TEMPLATE = "token=${token}&nonce=${nonce}&timestamp=${timestamp}&body=${body}";
+    private static final String SIGN_TEMPLATE = "token=${token}&nonce=${nonce}&timestamp=${timestamp}&url=${url}&body=${body}";
 
     private static final String ALLOWED_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
     private static final int MIN_LENGTH = 43;
@@ -47,12 +47,14 @@ public class SignUtils {
         return sb.toString();
     }
 
-    public static String generateSignature(String token, String nonce, String timestamp, String body) {
+    public static String generateSignature(String token, String nonce, String timestamp, String url, String body) {
         Map<String, Object> valueMap = new HashMap<>();
         valueMap.put(CommonConstants.SIGN_TOKEN, token);
         valueMap.put(CommonConstants.SIGN_NONCE, nonce);
         valueMap.put(CommonConstants.SIGN_TIME, timestamp);
-        valueMap.put("body", body);
+        valueMap.put(CommonConstants.SIGN_URL, url);
+        valueMap.put(CommonConstants.SIGN_BODY, body);
+//        valueMap.put("body", body);
         String plainText = StringSubstitutor.replace(SIGN_TEMPLATE, valueMap);
         return sha256Encode(plainText);
     }

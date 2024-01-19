@@ -55,4 +55,7 @@ public class MenuBaseVO {
     @Schema(name = "是否缓存", example = "false")
     private Boolean keepAlive;
 
+    @Schema(description = "是否总是显示", example = "false")
+    private Boolean alwaysShow;
+
 }

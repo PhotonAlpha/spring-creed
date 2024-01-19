@@ -21,6 +21,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Collection 工具类
@@ -41,7 +42,7 @@ public class CollUtils {
         if (CollectionUtils.isEmpty(from)) {
             return new ArrayList<>();
         }
-        return from.stream().filter(predicate).collect(Collectors.toList());
+        return from.stream().filter(predicate).toList();
     }
 
     public static <T, R> List<T> distinct(Collection<T> from, Function<T, R> keyMapper) {

@@ -14,6 +14,9 @@ public class CommonConstants {
     public static final String TRACE_ID = "traceId";
     public static final String SIGN_TIME = "timestamp";
     public static final String SIGN_NONCE = "nonce";
+
+    public static final String SIGN_URL = "url";
+    public static final String SIGN_BODY = "body";
     public static final String SIGN = "sign";
     public static final String SIGN_TOKEN = "token";
 }

@@ -1,0 +1,56 @@
+// 命名空间
+$namespace: v;
+// el命名空间
+$elNamespace: el;
+
+//BEM架构
+$block-sel: '-' !default;
+$elem-sel: '__' !default;
+$mod-sel: '--' !default;
+
+// .v-block{}
+@mixin b($block) {
+  $B: #{$namespace + $block-sel + $block};
+  .#{$B} {
+    @content;
+  }
+}
+// .v-block__inner{}
+@mixin e($el) {
+  $selector: &;
+  //如果想要跳过父类 
+  @at-root {
+    #{$selector + $elem-sel + $el} {
+      @content;
+    }
+  }
+}
+
+@mixin m($m) {
+  $selector: &;
+  @at-root {
+    #{$selector + $mod-sel + $m} {
+      @content;
+    }
+  }
+}
+
+
+// 用法
+// 1. 在 vite.config.ts中给配置
+//2.
+// <div class="v-test">
+      // <div class="v-test__inner v-test--primary">
+      // </div>
+// </div>
+// <style lang="scss">
+// @include b(test) {
+//   color: red;
+//   @include e(inner) {
+//     color: green
+//   }
+//   @include m(success) {
+//     color: pink
+//   }
+// }
+// </style>

@@ -14,6 +14,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.cors.CorsConfiguration;
@@ -21,6 +22,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableConfigurationProperties({WebProperties.class})
@@ -73,6 +76,8 @@ public class CreedWebAutoConfiguration implements WebMvcConfigurer {
         config.addAllowedOriginPattern(CorsConfiguration.ALL); // 设置访问源地址
         config.addAllowedHeader(CorsConfiguration.ALL); // 设置访问源请求头
         config.addAllowedMethod(CorsConfiguration.ALL); // 设置访问源请求方法
+        /*https://stackoverflow.com/questions/35091524/spring-cors-no-access-control-allow-origin-header-is-present*/
+        config.setExposedHeaders(Arrays.asList(HttpHeaders.CONTENT_DISPOSITION, HttpHeaders.CONTENT_TYPE)); // 设置前端请求头访问
         // 创建 UrlBasedCorsConfigurationSource 对象
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config); // 对接口配置跨域设置

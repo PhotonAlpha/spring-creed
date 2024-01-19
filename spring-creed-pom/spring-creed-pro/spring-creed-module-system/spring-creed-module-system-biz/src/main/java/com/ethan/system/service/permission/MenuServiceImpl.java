@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.ethan.system.constant.ErrorCodeConstants.MENU_EXISTS_CHILDREN;
@@ -276,6 +277,11 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public MenuDO getMenu(Long id) {
         return menuRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<MenuDO> getMenuList(Set<Long> menuIds) {
+        return menuRepository.findAllById(menuIds);
     }
 
     /**

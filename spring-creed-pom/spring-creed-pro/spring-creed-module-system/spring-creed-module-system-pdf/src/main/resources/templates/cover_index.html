@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <link th:if="${bootstrapPath?.cssContent}" th:href="${bootstrapPath?.cssContent}" rel="stylesheet" type="text/css">
+        <link th:unless="${bootstrapPath?.cssContent}" th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+        <link th:if="${bootstrapPath?.customCssContent}" th:href="${bootstrapPath?.customCssContent}" rel="stylesheet" type="text/css">
+        <link th:unless="${bootstrapPath?.customCssContent}" th:href="@{/css/custom.css}" rel="stylesheet" type="text/css">
+        <link th:unless="${bootstrapPath?.customCssContent}" th:href="@{/css/font.css}" rel="stylesheet" type="text/css">
+        <meta charset="UTF-8">
+        <title>Cover Page</title>
+        <style>
+            body {
+                font-family: 'OpenSans-Regular', sans-serif;
+            }
+            @page {
+                size: A4;
+                /*margin: 16px;*/
+                margin: 180px 16px 36px 16px;
+                @top-left {
+                    /*padding-top: 16px;*/
+                    content: element(subject);
+                }
+                /*@top-right {
+                    height: 64px;
+                    width: 192px;
+                    content: url(data:image/png;base64, [[${logo}]]);
+                    padding-left: 16px;
+                    padding-top: 16px;
+                }*/
+                @bottom-right {
+                    content: "Page " counter(page) " of " counter(pages);
+                    font-size: 8px;
+                    font-family: 'OpenSans-Regular', sans-serif;
+                    font-weight: 400;
+                    color: #9BA4AB;
+                    padding-bottom: 20px;
+                }
+                @bottom-left {
+                    /*content: "fotter";
+                    font-size: 8px;
+                    font-family: 'OpenSans-Regular', sans-serif;
+                    font-weight: 400;
+                    color: #9BA4AB;
+                    padding-bottom: 20px;*/
+                    content: element(footerSubject);
+                }
+            }
+
+            #header-content {
+                /*see  https://www.w3.org/Style/2013/paged-media-tasks*/
+                position: running(subject);
+            }
+            #footer-content {
+                /*see  https://www.w3.org/Style/2013/paged-media-tasks*/
+                position: running(footerSubject);
+            }
+            #header-content .font-32-bold{
+                font-family: 'OpenSans-Bold', sans-serif;
+                font-size: 32px;
+                font-weight: bold;
+            }
+            #header-content .font-16-bold{
+                font-family: 'OpenSans-Bold', sans-serif;
+                font-size: 16px;
+                font-weight: bold;
+            }
+            #header-content .font-14{
+                font-family: 'OpenSans-Regular', sans-serif;
+                font-size: 14px;
+            }
+            page[size="A4"] {
+                background: white;
+                width: 26cm;
+                /*height: 100rem;*/
+                display: block;
+                margin: 0 auto;
+                margin-bottom: 0.5cm;
+                box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+            }
+            @media print {
+                body, page[size="A4"] {
+                    margin: 0;
+                    /*box-shadow: 0;*/
+                }
+            }
+
+            .border-bottom-2 {
+                display: block;
+                padding-bottom: 16px;
+                border-bottom: 2px solid #dee2e6 !important;
+            }
+            .relative-position-6 {
+                position: relative;
+                top: -6px;
+            }
+
+
+            .container td {
+                padding-left: 0 !important;
+            }
+            .request-process {
+                page-break-before: always;
+            }
+            .request-process td {
+                padding-bottom: 0;
+            }
+            .request-process td p {
+                margin-bottom: 1px;
+            }
+            .img-limit {
+                width: 10px;
+                height: 10px;
+            }
+
+        </style>
+    </head>
+    <body>
+
+        <page size="A4">
+            <div id="header-content">
+                <table class = "table table-borderless mb-0" style="table-layout: fixed">
+                    <tbody>
+                    <tr>
+                        <td colspan="2" class="align-bottom pb-0">
+                            <span class="font-16-bold" th:text="${title}"></span>
+                        </td>
+                        <td class="text-end">
+                            <div th:replace="~{fragments/cover_img_fragment :: icon('avatar.gif')}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="pt-0 pb-0">
+                            <span class="font-32-bold" th:text="#{header.title}"></span>
+                        </td>
+                    </tr>
+                    <tr class="relative-position-6">
+                        <td colspan="2" class="pt-0 pb-1">
+                            <span class="font-14 border-bottom-2" th:text="${#strings.randomAlphanumeric(10).toUpperCase()}"></span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="footer-bottom">
+                <div class="font-8-text" th:text="|#{footer.title}|"></div>
+            </div>
+            <div th:replace="~{${fragmentTemplate} :: ${fragmentName}}"></div>
+        </page>
+    </body>
+</html>

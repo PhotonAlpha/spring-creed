@@ -10,6 +10,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -68,4 +69,9 @@ public class UnitTest {
         // CpUy3FCt7GGE51mzj9T3XVgrtHi5jj_PQZuvc99BN7Q
     }
 
+    @Test
+    void testZoneIds() {
+        ArrayList<Integer> list = new ArrayList<>();
+        ZoneId.getAvailableZoneIds().forEach(System.out::println);
+    }
 }

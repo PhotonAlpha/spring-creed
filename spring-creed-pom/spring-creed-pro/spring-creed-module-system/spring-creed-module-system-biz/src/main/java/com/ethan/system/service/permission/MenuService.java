@@ -7,6 +7,7 @@ import com.ethan.system.dal.entity.permission.MenuDO;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 菜单 Service 接口
@@ -106,4 +107,5 @@ public interface MenuService {
      */
     MenuDO getMenu(Long id);
 
+    List<MenuDO> getMenuList(Set<Long> menuIds);
 }

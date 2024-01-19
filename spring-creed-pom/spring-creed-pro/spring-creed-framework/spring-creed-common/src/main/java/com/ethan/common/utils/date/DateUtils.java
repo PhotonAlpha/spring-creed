@@ -164,7 +164,9 @@ public class DateUtils {
         if (StringUtils.isBlank(timestamp)) {
             return true;
         }
-        LocalDateTime expiringTime = LocalDateTime.parse(timestamp, DEFAULT_FORMATTER).plusSeconds(timeoutSeconds);
-        return LocalDateTime.now().isAfter(expiringTime);
+//        ZoneId.getAvailableZoneIds(), check all available zone ids
+        LocalDateTime nowTime = ZonedDateTime.now(ZoneId.of("Asia/Shanghai")).toLocalDateTime();
+        LocalDateTime expiringTime = LocalDateTime.parse(timestamp, DEFAULT_FORMATTER).plusSeconds(timeoutSeconds).atZone(ZoneId.of("Asia/Shanghai")).toLocalDateTime();
+        return nowTime.isAfter(expiringTime);
     }
 }

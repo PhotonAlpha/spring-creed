@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <th:block th:fragment="icon(checked)">
+        <th:block th:if="${bootstrapPath} != null">
+            <img class="img-limit align-baseline" th:src="${checked} ? ${bootstrapPath?.iconCheckedImg} : ${bootstrapPath?.iconUncheckedImg}">
+        </th:block>
+        <th:block th:unless="${bootstrapPath} != null">
+            <img class="img-limit align-baseline" th:src="${checked} ? @{/img/IconChecked.png} : @{/img/IconUnchecked.png}">
+        </th:block>
+    </th:block>
+</html>

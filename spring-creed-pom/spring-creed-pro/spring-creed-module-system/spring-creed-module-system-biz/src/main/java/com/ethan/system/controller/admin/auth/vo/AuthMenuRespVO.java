@@ -40,6 +40,9 @@ public class AuthMenuRespVO {
     @Schema(name = "是否缓存", requiredMode = Schema.RequiredMode.REQUIRED, example = "false")
     private Boolean keepAlive;
 
+    @Schema(description = "是否总是显示", example = "false")
+    private Boolean alwaysShow;
+
     /**
      * 子路由
      */

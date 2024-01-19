@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <div th:fragment="cover">
+        <div class = "container">
+            <div >
+                <table class = "table table-borderless mb-0" style="table-layout: fixed">
+                    <tr>
+                        <td class="font-14-light" colspan="3" th:text="${#strings.randomAlphanumeric(10)}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="pt-0">
+                            <div class="pb-2 font-8-bold" th:text="${#strings.randomAlphanumeric(10)}"></div>
+                            <div class="pb-2 font-8-text" th:text="${#strings.randomAlphanumeric(20)}"></div>
+                        </td>
+                        <td>
+                            <div class="pb-2 font-8-bold" th:text="${#strings.randomAlphanumeric(10)}"></div>
+                            <div class="pb-2 font-8-text" th:text="${#strings.randomAlphanumeric(20)}"></div>
+                        </td>
+                        <td>
+                            <div class="pb-2 font-8-bold" th:text="${#strings.randomAlphanumeric(10)}"></div>
+                            <div class="pb-2 font-8-text" th:text="${#strings.randomAlphanumeric(20)}"></div>
+                            <div class="pb-2 font-8-text my-roman1">
+                                <ul class="pl-0">
+                                    <li th:text="${#strings.randomAlphanumeric(30)}">
+                                    </li>
+                                    <li th:text="${#strings.randomAlphanumeric(30)}">
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div >
+                <table class = "table table-borderless mb-0" style="table-layout: fixed">
+                    <tr>
+                        <td class="font-14-light pb-3" colspan="2" th:text="${#strings.randomAlphanumeric(5).toUpperCase()}">
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="pt-0">
+                            <div class="pb-2 font-8-bold" th:text="${#strings.randomAlphanumeric(10)}"></div>
+                            <div class="pb-2 font-8-text" th:text="${#strings.randomAlphanumeric(20)}"></div>
+                        </td>
+                        <td class="pt-0" colspan="2">
+                            <div class="pb-2 font-8-bold"  th:text="${#strings.randomAlphanumeric(5).toUpperCase()}">
+                            </div>
+                            <div class="font-8-text my-roman1 my-roman2">
+                                <ul class="pl-0 mt-2 mb-2">
+                                    <li th:text="${#strings.randomAlphanumeric(10)}">
+                                    </li>
+                                    <li th:text="${#strings.randomAlphanumeric(10)}">
+                                    </li>
+                                    <li th:text="${#strings.randomAlphanumeric(10)}">
+                                    </li>
+
+                                </ul>
+                                <p class="mb-2" th:text="${#strings.randomAlphanumeric(20)}">
+                                </p>
+                                <ol class="pl-0">
+                                    <li th:text="${#strings.randomAlphanumeric(10)}">
+                                    </li>
+                                    <li th:text="${#strings.randomAlphanumeric(10)}">
+                                    </li>
+                                </ol>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="request-process">
+                <table class = "table table-borderless">
+                    <tr>
+                        <td colspan="2" class="font-12-bold" th:text="${#strings.randomAlphanumeric(10).toUpperCase()}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div th:replace="~{fragments/cover_img_fragment :: icon('shopping.svg')}"></div>
+                        </td>
+                        <td class="font-12-bold"  th:text="|1. ${#strings.randomAlphanumeric(5).toUpperCase()}|">
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <p class="font-11"  th:text="${#strings.randomAlphanumeric(20)}">
+                            </p>
+                            <p class="font-11-text" th:text="${#strings.randomAlphanumeric(20)}">
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div th:replace="~{fragments/cover_img_fragment :: icon('peoples.svg')}"></div>
+                        </td>
+                        <td class="font-12-bold"  th:text="|2. ${#strings.randomAlphanumeric(5).toUpperCase()}|">
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <p class="font-11"  th:text="${#strings.randomAlphanumeric(20)}">
+                            </p>
+                            <p class="font-11-text" th:text="${#strings.randomAlphanumeric(20)}">
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div th:replace="~{fragments/cover_img_fragment :: icon('money.svg')}"></div>
+                        </td>
+                        <td class="font-12-bold"  th:text="|3. ${#strings.randomAlphanumeric(5).toUpperCase()}|">
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <p class="font-11"  th:text="${#strings.randomAlphanumeric(20)}">
+                            </p>
+                            <p class="font-11-text" th:text="${#strings.randomAlphanumeric(20)}">
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div th:replace="~{fragments/cover_img_fragment :: icon('message.svg')}"></div>
+                        </td>
+                        <td class="font-12-bold"  th:text="|4. ${#strings.randomAlphanumeric(5).toUpperCase()}|">
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <p class="font-11"  th:text="${#strings.randomAlphanumeric(20)}">
+                            </p>
+                            <p class="font-11-text" th:text="${#strings.randomAlphanumeric(20)}">
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</html>

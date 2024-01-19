@@ -1,5 +1,6 @@
 package com.ethan.system.service.permission;
 
+import cn.hutool.core.collection.CollUtil;
 import com.ethan.common.constant.CommonStatusEnum;
 import com.ethan.common.utils.collection.CollUtils;
 import com.ethan.common.utils.collection.MapUtils;
@@ -439,6 +440,20 @@ public class PermissionServiceImpl implements PermissionService {
             log.error("[getDeptDataPermission][LoginUser({}) role({}) 无法处理]", userId, JacksonUtils.toJsonString(result));
         }
         return result;
+    }
+
+    @Override
+    public Set<Long> getRoleMenuListByRoleId(Set<String> roleIds) {
+        if (CollUtil.isEmpty(roleIds)) {
+            return Collections.emptySet();
+        }
+
+        // 如果是管理员的情况下，获取全部菜单编号
+        if (roleService.hasAnySuperAdmin(roleIds)) {
+            return convertSet(menuService.getMenus(), MenuDO::getId);
+        }
+        // 如果是非管理员的情况下，获得拥有的菜单编号
+        return convertSet(roleMenuRepository.findByRoleIdIn(roleIds), RoleMenuDO::getMenuId);
     }
 
 }
