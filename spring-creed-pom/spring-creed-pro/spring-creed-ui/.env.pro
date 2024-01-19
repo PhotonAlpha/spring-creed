@@ -1,0 +1,39 @@
+# 生产环境
+NODE_ENV=production
+
+VITE_DEV=false
+
+# 请求路径
+VITE_BASE_URL='http://localhost:48080'
+
+# 上传路径
+VITE_UPLOAD_URL='http://localhost:48080/admin-api/infra/file/upload'
+
+# 接口前缀
+VITE_API_BASEPATH=
+
+# 接口地址
+VITE_API_URL=/admin-api
+
+# 是否删除debugger
+VITE_DROP_DEBUGGER=true
+
+# 是否删除console.log
+VITE_DROP_CONSOLE=true
+
+# 是否sourcemap
+VITE_SOURCEMAP=false
+
+# 打包路径
+VITE_BASE_PATH=/
+
+# 输出路径
+VITE_OUT_DIR=dist-pro
+
+
+# base api
+# VUE_APP_BASE_API = '/prod-api'
+VUE_APP_BASE_API = 'https://api.github.com'
+
+VUE_APP_CLIENT_ID = '944ABADE79E4D1A17A2CE816A59B5AD3AB2CF4F99900362815641974DF9CE6ED'
+VUE_APP_CLIENT_SECRET = '69A48B404965DD67D14CCC13D5CCF853B781F6E9550C6841C1FD5E1EE2B7FE204EDF6CF76307E7C90BF43BC62C78359A'
