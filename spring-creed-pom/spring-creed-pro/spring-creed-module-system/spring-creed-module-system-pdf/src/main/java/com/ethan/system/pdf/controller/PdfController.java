@@ -10,6 +10,7 @@ package com.ethan.system.pdf.controller;
 import com.ethan.system.pdf.controller.dto.BootstrapPath;
 import com.ethan.system.pdf.controller.dto.Company;
 import com.ethan.system.pdf.controller.dto.Employee;
+import com.ethan.system.pdf.utils.PdfUtils;
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.html2pdf.resolver.font.DefaultFontProvider;
@@ -258,37 +259,7 @@ public class PdfController {
      * @param needPwd
      */
     protected ByteArrayOutputStream merge(List<PdfDocument> pdfDocuments, String password, boolean needPwd){
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PdfWriter writer;
-        if (needPwd) {
-            writer = new PdfWriter(outputStream,
-                    new WriterProperties()
-                            .setStandardEncryption(
-                                    password.getBytes(StandardCharsets.UTF_8),
-                                    password.getBytes(StandardCharsets.UTF_8),
-                                    EncryptionConstants.ALLOW_PRINTING,
-                                    EncryptionConstants.ENCRYPTION_AES_256
-                            )
-            );
-        } else {
-            writer = new PdfWriter(outputStream);
-        }
-        /* https://kb.itextpdf.com/home/it7kb/ebooks/itext-7-converting-html-to-pdf-with-pdfhtml/chapter-6-using-fonts-in-pdfhtml#Chapter6:UsingfontsinpdfHTML-Addingselectedfontstothefontprovider */
-        writer.setSmartMode(true);
-        try (PdfDocument pdfDocument = new PdfDocument(writer)) {
-            for (PdfDocument document : pdfDocuments) {
-                document.copyPagesTo(1, document.getNumberOfPages(), pdfDocument);
-                document.close();
-            }
-        }
-        /* try (PdfDocument pdfDocument = new PdfDocument(writer)) {
-            PdfMerger merger = new PdfMerger(pdfDocument);
-            for (PdfDocument document : pdfDocuments) {
-                merger.merge(document, 1, document.getNumberOfPages());
-                document.close();
-            }
-        } */
-        return outputStream;
+        return PdfUtils.merge(pdfDocuments, password, needPwd);
     }
 
 }
