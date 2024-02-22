@@ -35,6 +35,7 @@ export const loginOut = () => {
 // 获取用户权限信息
 export const getInfo = () => {
   // return request.get({ url: '/system/auth/get-permission-info' })
+  console.log(`getInfo->`)
   return request.get({ url: '/mock/auth/get-permission-info.json' })
 }
 
@@ -57,7 +58,7 @@ export const socialAuthRedirect = (type: number, redirectUri: string) => {
 // 获取验证图片以及 token
 export const getCode = (data) => {
   // return request.postOriginal({ url: 'system/captcha/get', data })
-  return request.get({ url: '/mock/auth/get-permission-info.json' })
+  return request.get({ url: '/mock/auth/captcha-get.json' })
 }
 
 // 滑动或者点选验证

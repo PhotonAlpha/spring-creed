@@ -25,6 +25,8 @@ import '@/styles/index.scss'
 // 引入动画
 import '@/plugins/animate.css'
 
+import 'github-markdown-css/github-markdown.css'
+
 // 路由
 import router, { setupRouter } from '@/router'
 

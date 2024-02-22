@@ -59,7 +59,8 @@ withDefaults(
 }
 
 .image {
-  height: 300px;
+  height: 500px;
+  width: auto;
   display: block;
   margin-left: auto;
   margin-right: auto;

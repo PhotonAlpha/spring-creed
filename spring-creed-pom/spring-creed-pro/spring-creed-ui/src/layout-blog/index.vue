@@ -12,29 +12,23 @@
           <el-row type="flex" :class="{'fixed-header':fixedHeader}">
             <navbar style="width: 100%;" />
           </el-row> -->
-        <el-row type="flex">
+        <el-row>
           <el-col
             id="side-cnt"
             class="hidden-sm-only side-cnt"
             :class="{ 'side-cnt-scrolled': isLeftSideScrolled }"
-            :md="5"
+            :md="6"
             :xs="0"
-            :push="1"
           >
             <el-scrollbar class="page-component__scrollbar">
               <profile />
             </el-scrollbar>
           </el-col>
-          <el-col
-            :md="{ span: 12, offset: 6 }"
-            :sm="{ span: 24, offset: 0 }"
-            :xs="{ span: 24, offset: 0 }"
-          >
-            <app-main />
-            app-main
+          <el-col :md="12" :sm="24" :xs="24">
+            <app-main :layer="layer" />
           </el-col>
           <el-col
-            :md="{ span: 5, offset: 18 }"
+            :md="4"
             :xs="0"
             class="hidden-sm-only right-side-cnt"
             :class="{ 'side-cnt-scrolled': isLeftSideScrolled }"
@@ -62,9 +56,12 @@ withDefaults(
   defineProps<{
     title: string
     arr: number[]
+    layer: string
   }>(),
   {
-    arr: () => [123]
+    arr: () => [123],
+    title: () => '',
+    layer: () => 'java'
   }
 )
 const device = ref('web')

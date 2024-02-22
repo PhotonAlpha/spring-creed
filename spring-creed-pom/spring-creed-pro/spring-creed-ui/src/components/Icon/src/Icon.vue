@@ -23,9 +23,12 @@ const props = defineProps({
 const elRef = ref<ElRef>(null)
 
 const isLocal = computed(() => props.icon.startsWith('svg-icon:'))
+// const isLocal = computed(() => false)
 
 const symbolId = computed(() => {
-  return unref(isLocal) ? `#icon-${props.icon.split('svg-icon:')[1]}` : props.icon
+  const res = unref(isLocal) ? `#icon-${props.icon.split('svg-icon:')[1]}` : props.icon
+  console.log(`symbolId:`, res)
+  return res
 })
 
 const getIconifyStyle = computed(() => {
@@ -38,10 +41,12 @@ const getIconifyStyle = computed(() => {
 
 const getSvgClass = computed(() => {
   const { svgClass } = props
+  // console.log(`svg props`, props)
   return `iconify ${svgClass}`
 })
 
 const updateIcon = async (icon: string) => {
+  console.log(`updateIcon`, icon)
   if (unref(isLocal)) return
 
   const el = unref(elRef)
@@ -50,7 +55,11 @@ const updateIcon = async (icon: string) => {
   await nextTick()
 
   if (!icon) return
-
+  //这是使用API的方式，如果使用本地icon，需要整合插件
+  // 参考文档：https://iconify.design/docs/icon-components/vue/
+  // https://juejin.cn/post/7087827571861585956
+  // npm install --save-dev @iconify/vue
+  console.log(`output->icon`, icon)
   const svg = Iconify.renderSVG(icon, {})
   if (svg) {
     el.textContent = ''

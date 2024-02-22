@@ -67,6 +67,7 @@ router.beforeEach(async (to, from, next) => {
 })
 
 router.afterEach((to) => {
+  console.log(`finally router`, router)
   useTitle(to?.meta?.title as string)
   done() // 结束Progress
   loadDone()

@@ -63,7 +63,8 @@ export const getRawRoute = (route: RouteLocationNormalized): RouteLocationNormal
 export const generateRoute = (routes: AppCustomRouteRecordRaw[]): AppRouteRecordRaw[] => {
   const res: AppRouteRecordRaw[] = []
   const modulesRoutesKeys = Object.keys(modules)
-  console.debug('generateRoute', routes)
+  // console.debug('generateRoute', routes)
+  console.info('generateRoute', routes)
   for (const route of routes) {
     const meta = {
       title: route.name,
@@ -127,6 +128,7 @@ export const generateRoute = (routes: AppCustomRouteRecordRaw[]): AppRouteRecord
           ? modulesRoutesKeys.findIndex((ev) => ev.includes(route.component))
           : modulesRoutesKeys.findIndex((ev) => ev.includes(route.path))
         data.component = modules[modulesRoutesKeys[index]]
+        data.name = toCamelCase(route.name, true)
       }
       if (route.children) {
         data.children = generateRoute(route.children)
@@ -134,6 +136,7 @@ export const generateRoute = (routes: AppCustomRouteRecordRaw[]): AppRouteRecord
     }
     res.push(data as AppRouteRecordRaw)
   }
+  console.info('res', res)
   return res
 }
 export const getRedirect = (parentPath: string, children: AppCustomRouteRecordRaw[]) => {
