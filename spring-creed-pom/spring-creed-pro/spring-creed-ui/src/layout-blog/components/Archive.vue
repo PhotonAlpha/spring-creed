@@ -7,9 +7,10 @@
       <el-tree :data="anchor" :props="defaultTree" @node-click="handlePostClick" />
     </div>
   </el-card>
-  <!-- <el-card v-if="recommend && recommend.length > 0" class="box-article">
+  <el-card v-if="recommend && recommend.length > 0" class="box-article">
     <template #header>
-      <span class="item-title">{{ $t('navbar.lArticle') }}</span>
+      <!-- <span class="item-title">{{ $t('navbar.lArticle') }}</span> -->
+      <span class="item-title">{{ t('navbar.lArticle') }}</span>
     </template>
     <el-collapse v-model="activeName" accordion>
       <template v-for="(item, index) in recommend" :key="index">
@@ -24,25 +25,31 @@
   </el-card>
   <el-card v-if="category && category.length > 0" class="box-card">
     <template #header>
-      <span>{{ $t('navbar.category') }}</span>
+      <span>{{ t('navbar.category') }}</span>
     </template>
     <div>
       <el-tree
         :data="category"
         :props="defaultTree"
         :load="loadNode"
+        @node-click="handleNodeClick"
+      />
+      <!-- <el-tree
+        :data="category"
+        :props="defaultTree"
+        :load="loadNode"
         lazy
         accordion
         @node-click="handleNodeClick"
-      />
+      /> -->
     </div>
-  </el-card> -->
+  </el-card>
 </template>
 
 <script setup lang="ts">
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import moment from 'moment'
-
+const { t } = useI18n()
 const activeName = ref('name0')
 
 interface Tree {
@@ -88,7 +95,7 @@ withDefaults(
               ]
             },
             {
-              label: 'Level two 2-2',
+              label: 'Level two 2-2 test',
               children: [
                 {
                   label: 'Level three 2-2-1'
@@ -103,7 +110,11 @@ withDefaults(
       return [
         {
           label: 'category',
-          children: []
+          children: [
+            {
+              label: 'Level three 2-2-1'
+            }
+          ]
         }
       ]
     },
@@ -111,7 +122,8 @@ withDefaults(
       return [
         {
           label: 'recommend',
-          children: []
+          name: 'name 1',
+          title: 'tile 1'
         }
       ]
     },

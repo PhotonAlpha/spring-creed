@@ -70,6 +70,112 @@ const remainingRouter: AppRouteRecordRaw[] = [
       }
     ]
   },
+
+  {
+    path: '/blog',
+    component: Layout,
+    name: 'BlogH',
+    meta: {},
+    children: [
+      {
+        path: 'blogdetails/:shaCode',
+        component: () => import('@/views/blogdetails/index.vue'),
+        name: 'Blog',
+        meta: {
+          title: 'Blog',
+          hidden: true
+        }
+      },
+      {
+        path: 'java',
+        component: () => import('@/views/blog/springboot/index.vue'),
+        name: 'Java',
+        meta: {
+          title: 'Java',
+          icon: 'ep:home-filled',
+          noCache: false,
+          affix: true
+        }
+      }
+    ]
+  },
+  // {
+  //   path: '/blog',
+  //   component: Layout,
+  //   name: 'JavaH',
+  //   meta: {},
+  //   children: [
+  //     {
+  //       path: 'java',
+  //       component: () => import('@/views/blog/springboot/index.vue'),
+  //       name: 'Java',
+  //       meta: {
+  //         title: 'Java',
+  //         icon: 'ep:home-filled',
+  //         noCache: false,
+  //         affix: true
+  //       }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/blog',
+  //   component: Layout,
+  //   name: 'SpringBootH',
+  //   meta: {},
+  //   children: [
+  //     {
+  //       path: 'spring-boot',
+  //       component: () => import('@/views/blog/springboot/index.vue'),
+  //       name: 'SpringBoot',
+  //       meta: {
+  //         title: 'SpringBoot',
+  //         icon: 'ep:home-filled',
+  //         noCache: false,
+  //         affix: true
+  //       }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/blog',
+  //   component: Layout,
+  //   name: 'BigDataH',
+  //   meta: {},
+  //   children: [
+  //     {
+  //       path: 'bit-data',
+  //       component: () => import('@/views/blog/springboot/index.vue'),
+  //       name: 'BigData',
+  //       meta: {
+  //         title: 'BigData',
+  //         icon: 'ep:home-filled',
+  //         noCache: false,
+  //         affix: true
+  //       }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/blog',
+  //   component: Layout,
+  //   name: 'AIH',
+  //   meta: {},
+  //   children: [
+  //     {
+  //       path: 'ai',
+  //       component: () => import('@/views/blog/springboot/index.vue'),
+  //       name: 'AI',
+  //       meta: {
+  //         title: 'AI',
+  //         icon: 'ep:home-filled',
+  //         noCache: false,
+  //         affix: true
+  //       }
+  //     }
+  //   ]
+  // },
+
   {
     path: '/user',
     component: Layout,

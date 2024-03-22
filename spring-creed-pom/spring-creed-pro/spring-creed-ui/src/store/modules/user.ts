@@ -49,7 +49,8 @@ export const useUserStore = defineStore('admin-user', {
         this.resetState()
         return null
       }
-      let userInfo = wsCache.get(CACHE_KEY.USER)
+      // fetch data always for local testing purpose.
+      let userInfo = null //wsCache.get(CACHE_KEY.USER)
       if (!userInfo) {
         userInfo = await getInfo()
       }

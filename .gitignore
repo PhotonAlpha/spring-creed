@@ -2,6 +2,7 @@
 .idea
 *.hprof
 **/build
+!spring-creed-pom/spring-creed-pro/spring-creed-ui/build
 **/out
 java_pid*/**
 **/target

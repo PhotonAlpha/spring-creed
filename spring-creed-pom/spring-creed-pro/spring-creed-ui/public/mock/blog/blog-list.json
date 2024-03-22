@@ -1,0 +1,155 @@
+{
+  "client_caps": {
+      "dlp_retry_codes_input": [],
+      "insecure_form_warning": false,
+      "office_image_paste": {
+          "enabled": false
+      },
+      "dlp_disable_cof": false,
+      "dlp_block_codes": [],
+      "dlp_soft_error_codes_input": [],
+      "perf": {
+          "webaudio_quality": 6,
+          "pull_inactivity_timeout_ms": 20000,
+          "attach_timeout": 15,
+          "pong_timeout_ms": 15000,
+          "pre_pair_xhr_ms": 10000,
+          "webp_quality": 0.795,
+          "allow_xhr_polling": true,
+          "ws_assume_working": true,
+          "high_rtt_threshold_ms": 400,
+          "ws_reconnect_timeout_ms": 300000,
+          "content_encoding": "br,gzip",
+          "pull_timeout_ms": 20000,
+          "ws_session_found_timeout_ms": 10000,
+          "push_timeout_ms": 10000,
+          "ws_test_timeout_ms": 8000,
+          "use_websockets_on_ie11": true,
+          "latency_notif_threshold_ms": 0,
+          "always_use_webp": true,
+          "enable_ws_compression": true,
+          "sping_timeout_ms": 60000,
+          "use_websockets": true,
+          "max_nr_load_checks": 100,
+          "max_update_age_ms": 15000,
+          "ws_backoff_period_ms": 300000,
+          "xhr_timeout_ms": 10000,
+          "max_payload_size": 0
+      },
+      "dlp_ignore_error_input": false,
+      "no_feedback_bar_springback": false,
+      "preopen_tab": true,
+      "dlp_show_block_payload_codes": [],
+      "custom_file_block_page": true,
+      "dlp_retry_input": 0,
+      "mpfd_cof_uploads": true,
+      "dlp_soft_error_input": false,
+      "preload_indicator": false,
+      "dlp_do_not_show_block_payload_uploads": false,
+      "docview_modal": false,
+      "restore_tab": {
+          "enabled": true
+      },
+      "applicationLinks": [
+          "com.uipath.robot.oidc://",
+          "ntsmagiclinenp://",
+          "grammarly.officeaddin://",
+          "grammarly.windows-extension://",
+          "notion:",
+          "vscode://",
+          "mailto:"
+      ],
+      "safedocs_block_print": false,
+      "dlp_do_not_show_block_payload": false,
+      "bandwidth_limits": {
+          "enabled": true
+      },
+      "local_echo": {
+          "extended": false,
+          "max_typeahead": 40,
+          "enabled": false,
+          "need_confirmation": false,
+          "show_alert": true,
+          "tolerance": 5,
+          "tolerance_time": 2000
+      },
+      "dlp_ignore_error_codes_input": [],
+      "enable_reconnect_banner": false
+  },
+  "safe_rid": "kKFINLsm",
+  "customization": {
+      "bandwidth": {
+          "bandwidth_usage_alert": {
+              "text": "You are approaching your daily bandwidth limit. Please moderate internet usage and close high bandwidth applications like video streaming. Once the limit is reached, your internet access will be disabled for the rest of the day.",
+              "label_acknowledgement_text": "OK"
+          },
+          "bandwidth_limit_alert": {
+              "text": "You have exceeded your daily bandwidth limit. This event has been logged. Repeated violations will result in access restrictions.",
+              "block_heading_text": "Request Blocked",
+              "label_acknowledgement_text": "OK",
+              "block_page_text": "You have exceeded your daily bandwidth limit. Your internet access will be disabled for the remainder of the day."
+          },
+          "content": {
+              "use_custom_styling": false
+          },
+          "theme": "yellow",
+          "logo_icon": {
+              "link": false,
+              "base64_img": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMTg5IDgwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxODkgODA7IiB4bWw6c3BhY2U9InByZXNlcnZlIj48c3R5bGUgdHlwZT0idGV4dC9jc3MiPi5zdDB7ZmlsbDojMTcyOTM0O30uc3Qxe2ZpbGwtcnVsZTpldmVub2RkO2NsaXAtcnVsZTpldmVub2RkO2ZpbGw6IzE3MjkzNDt9LnN0MntmaWxsOiNGNzhFMUU7fTwvc3R5bGU+PGc+PGc+PHBhdGggY2xhc3M9InN0MCIgZD0iTTI5LjMsNTUuOWMtMC44LDAtMS41LTAuNy0xLjUtMS41bDAsMGMwLTAuOCwwLjctMS41LDEuNS0xLjVsMCwwaDIuNGMwLjcsMCwxLjMtMC42LDEuMy0xLjNsMCwwbDAtMi42YzAtMiwwLjgtMy44LDEuOC01LjZsMCwwYzEtMS44LDIuNC0zLjcsMy43LTUuN2wwLDBjMi42LTQsNS04LjUsNS0xNC4zbDAsMGMwLTUuNS0yLjItMTAuNS01LjktMTQuMmwwLDBjLTMuNi0zLjYtOC42LTUuOS0xNC4yLTUuOWwwLDBjLTUuNSwwLTEwLjUsMi4yLTE0LjIsNS45bDAsMGMtMy42LDMuNi01LjksOC42LTUuOSwxNC4ybDAsMGMwLDQuMywxLjQsNy44LDMuMSwxMS4xbDAsMGMxLjgsMy4yLDQsNi4xLDUuNSw4LjhsMCwwYzEsMS44LDEuOCwzLjcsMS44LDUuN2wwLDB2Mi42YzAsMC43LDAuNiwxLjMsMS4zLDEuM2wwLDBoMi40YzAuOCwwLDEuNSwwLjcsMS41LDEuNWwwLDBjMCwwLjgtMC43LDEuNS0xLjUsMS41bDAsMGgtMi40Yy0yLjMsMC00LjItMS45LTQuMi00LjNsMCwwVjQ5YzAtMS4xLTAuNS0yLjUtMS40LTQuMmwwLDBjLTAuOS0xLjYtMi4yLTMuNS0zLjYtNS42bDAsMEMzLjIsMzUuMSwwLjMsMzAsMC4zLDIzLjRsMCwwYzAtMTIuNywxMC4zLTIzLDIzLTIzbDAsMGMxMi43LDAsMjMsMTAuMywyMywyM2wwLDBjMCw1LTEuNiw5LjEtMy41LDEyLjZsMCwwYy0xLjksMy41LTQuMiw2LjQtNS42LDguOGwwLDBjLTAuOSwxLjYtMS41LDMtMS40LDQuMmwwLDBsMCwyLjZjMCwyLjQtMS45LDQuMy00LjMsNC4zbDAsMEgyOS4zTDI5LjMsNTUuOXoiLz48Zz48Zz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNMzQuMSw1OS41YzAsMC44LTAuNywxLjUtMS41LDEuNUgxNC4yYy0wLjgsMC0xLjUtMC43LTEuNS0xLjVsMCwwYzAtMC44LDAuNy0xLjUsMS41LTEuNWgxOC40QzMzLjQsNTgsMzQuMSw1OC43LDM0LjEsNTkuNUwzNC4xLDU5LjV6Ii8+PC9nPjwvZz48Zz48Zz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNMzQuMSw2NS43YzAsMC44LTAuNywxLjUtMS41LDEuNUgxNC4yYy0wLjgsMC0xLjUtMC43LTEuNS0xLjVsMCwwYzAtMC44LDAuNy0xLjUsMS41LTEuNWgxOC40QzMzLjQsNjQuMiwzNC4xLDY0LjgsMzQuMSw2NS43TDM0LjEsNjUuN3oiLz48L2c+PC9nPjxnPjxnPjxwYXRoIGNsYXNzPSJzdDEiIGQ9Ik0xNS4zLDcwLjNjMCwwLDEuMywzLDcuOSwzYzYuNywwLDcuOS0zLDcuOS0zSDE1LjN6Ii8+PC9nPjwvZz48Zz48cGF0aCBjbGFzcz0ic3QyIiBkPSJNMjMuNCw0NWMtMC40LDAtMC44LTAuMS0xLjEtMC40Yy0wLjMtMC4yLTAuNS0wLjUtMC43LTAuOGwtMi45LTYuMXYxMWMwLDAuMy0wLjEsMC42LTAuNCwwLjljLTAuMywwLjMtMC42LDAuNC0xLjEsMC40Yy0wLjUsMC0wLjktMC4xLTEuMS0wLjRjLTAuMy0wLjMtMC40LTAuNS0wLjQtMC45VjMzLjljMC0wLjMsMC4xLTAuNiwwLjQtMC45YzAuMy0wLjMsMC43LTAuNCwxLjEtMC40aDAuNGMwLjUsMCwwLjgsMC4xLDEuMSwwLjJjMC4zLDAuMiwwLjUsMC40LDAuNywwLjdsMy45LDcuOGwzLjktNy44YzAuMi0wLjMsMC40LTAuNSwwLjctMC43YzAuMy0wLjIsMC43LTAuMywxLjEtMC4zbDAuNCwwYzAuNSwwLDAuOSwwLjEsMS4yLDAuNGMwLjMsMC4zLDAuNCwwLjUsMC40LDAuOXYxNC45YzAsMC4zLTAuMSwwLjYtMC40LDAuOUMzMC40LDQ5LjksMzAsNTAsMjkuNSw1MGMtMC40LDAtMC44LTAuMS0xLjEtMC40Yy0wLjMtMC4zLTAuNC0wLjUtMC40LTAuOXYtMTFsLTIuOSw2LjFjLTAuMSwwLjMtMC40LDAuNS0wLjYsMC44QzI0LjIsNDQuOSwyMy44LDQ1LDIzLjQsNDV6Ii8+PC9nPjwvZz48Zz48Zz48Zz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNODcuMSw4LjF2MzIuNGgtNS44di0yNGwtMTAsMTQuM2wtMTAtMTQuM3YyNGgtNS44VjguMWg2LjVsOS40LDEzLjZsOS40LTEzLjZIODcuMXoiLz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTE0LjMsMzR2NC43Yy0yLjIsMS4yLTUuMiwyLjItOS4xLDIuMmMtNC44LDAtMTEuMy0xLjktMTEuMy0xMi4yYzAtNy4yLDIuOS0xMi44LDEwLjgtMTIuOGM3LjYsMCwxMC44LDUuNywxMC44LDExLjhjMCwxLjEsMCwyLTAuMSwzSDk5LjljMC4zLDQuNywzLjQsNS4zLDYuMiw1LjNDMTA5LjUsMzUuOSwxMTIuMywzNSwxMTQuMywzNHogTTk5LjksMjYuNmg5LjhjLTAuMy0zLjEtMS44LTYtNC45LTZDMTAxLjksMjAuNiwxMDAuMiwyMi4yLDk5LjksMjYuNnoiLz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTQzLjMsMjUuOXYxNC42aC01LjhWMjUuNGMwLTIuMS0wLjQtNC40LTUuNy00LjRjLTEuNywwLTMuMiwwLjItNC41LDAuNHYxOS4xaC01Ljh2LTIyYzAuMi0wLjEsNS0yLjcsMTEuMS0yLjdDMTM5LjMsMTUuOSwxNDMuMywxOS42LDE0My4zLDI1Ljl6Ii8+PHBhdGggY2xhc3M9InN0MCIgZD0iTTE1MS4yLDQwLjVWN2g1Ljh2MzMuNUgxNTEuMnoiLz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTg2LjUsMjguNGMwLDguMS00LjEsMTIuNS0xMS41LDEyLjVjLTcuNCwwLTExLjUtNC40LTExLjUtMTIuNXM0LjEtMTIuNSwxMS41LTEyLjVDMTgyLjQsMTUuOSwxODYuNSwyMC4zLDE4Ni41LDI4LjR6IE0xODAuNiwyOC40YzAtNi40LTIuMi03LjctNS42LTcuN2MtMy41LDAtNS42LDEuMy01LjYsNy43czIuMiw3LjcsNS42LDcuN0MxNzguNCwzNi4xLDE4MC42LDM0LjgsMTgwLjYsMjguNHoiLz48L2c+PC9nPjxnPjxnPjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik03Mi4xLDY1LjdjMCw0LjItMy4zLDYuNy04LjksNi43Yy0zLjIsMC01LjYtMC44LTcuNC0xLjh2LTIuOWMxLjUsMSwzLjgsMiw3LjIsMmMyLjksMCw2LjQtMC43LDYuNC00YzAtNy4zLTEzLjktMy43LTEzLjktMTIuMWMwLTMuNCwyLjMtNyw4LjctN2MyLjYsMCw0LjcsMC43LDYuMywxLjV2Mi44Yy0xLjQtMC44LTMuNS0xLjYtNi0xLjZjLTQsMC02LjIsMS41LTYuMiw0LjNDNTguMyw1OS4xLDcyLjEsNTYuMSw3Mi4xLDY1Ljd6Ii8+PHBhdGggY2xhc3M9InN0MCIgZD0iTTkyLjYsNjNjMCwwLjctMC4xLDEuMy0wLjEsMS4zSDc4LjljMC4zLDMuOCwyLjIsNS40LDYuMSw1LjRjMi43LDAsNC45LTAuNSw2LjQtMS40djIuOGMtMS44LDAuOS00LDEuMy02LjcsMS4zYy0zLjksMC04LjYtMS42LTguNi05LjVjMC0yLTAuMy0xMCw4LjItMTBDOTIuOSw1Myw5Mi42LDYyLjMsOTIuNiw2M3ogTTg5LjksNjEuOWMwLTAuOS0wLjMtNi40LTUuNS02LjRjLTMuNywwLTUuMiwxLjctNS41LDYuNEg4OS45eiIvPjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xMDUuNCw2OS44YzEuOCwwLDMuNi0wLjMsNS4zLTEuMXYyLjZjLTEuOCwwLjctMy43LDEtNS42LDFjLTQsMC04LjgtMS43LTguOC05LjdjMC04LDQuOC05LjcsOC44LTkuN2MxLjksMCwzLjgsMC40LDUuNiwxLjF2Mi42Yy0xLjctMC43LTMuNC0xLjEtNS4zLTEuMWMtNC41LDAtNi40LDIuMS02LjQsNy4xQzk5LDY3LjcsMTAwLjksNjkuOCwxMDUuNCw2OS44eiIvPjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xMzAuMyw1My4zdjEwLjljMCw1LjItMi45LDguMi03LjksOC4yYy01LDAtNy45LTMtNy45LTguMlY1My4zaDIuN3YxMWMwLDMuOCwxLjYsNS41LDUuMiw1LjVjMy41LDAsNS4yLTEuNyw1LjItNS41di0xMUgxMzAuM3oiLz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTM4LjEsNTYuNnYxNS41aC0yLjdWNTQuOGMxLTAuNCw0LjYtMS44LDkuMS0xLjh2Mi42QzE0MS45LDU1LjcsMTM5LjcsNTYuMiwxMzguMSw1Ni42eiIvPjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xNTEuMiw0OS45aC0zdi0zaDNWNDkuOXogTTE1MSw1My4zaC0yLjd2MTguOGgyLjdWNTMuM3oiLz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTYwLjksNjcuMmMwLDEuOSwwLjcsMi42LDIuNywyLjZjMC45LDAsMS42LTAuMiwyLjEtMC41djIuNmMtMC43LDAuMy0xLjUsMC41LTIuNSwwLjVjLTEuNSwwLTUuMS0wLjUtNS4xLTUuM1Y1NS44aC0zLjN2LTIuNWgzLjNWNDhoMi43djUuM2g0Ljl2Mi41aC00LjlWNjcuMnoiLz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTg1LDUzLjNsLTcuNywyMC42Yy0xLjcsNC41LTQuMSw1LjQtNS45LDUuNGMtMC44LDAtMS40LTAuMi0xLjgtMC4zdi0yLjVjMC4zLDAuMiwwLjksMC4zLDEuNiwwLjNjMi42LDAsNC4xLTUuMSw0LjEtNS4xbC02LjktMTguNWgyLjlsNS4zLDE0LjlsNS40LTE0LjlIMTg1eiIvPjwvZz48L2c+PC9nPjwvZz48L3N2Zz4="
+          },
+          "css": {
+              "block_page_type": "box",
+              "button_border_color": "#d47a10",
+              "button_text_color": "#ffffff",
+              "button_background_color": "#f78e13",
+              "border_color": "#f5f5f5",
+              "text_color": "#444444",
+              "banner_type": "wide",
+              "button_type": "regular",
+              "background_color": "#fed168",
+              "font_family": "gotham"
+          }
+      },
+      "read_write_banner": {
+          "exit_action": {
+              "not_allowed": {
+                  "banner_text": "This website has been securely Isolated. Proceed with caution."
+              },
+              "direct": {
+                  "button_label": "Connect Direct",
+                  "banner_text": "This website has been securely Isolated. You can disable security by clicking the button to the right. Proceed with extreme caution."
+              }
+          }
+      },
+      "read_only_banner": {
+          "exit_action": {
+              "not_allowed": {
+                  "banner_text": "This website has been identified as suspicious and data submission is blocked."
+              },
+              "read_write": {
+                  "button_label": "Disable Input Protection",
+                  "banner_text": "This website has been identified as suspicious. You can enable data submission by clicking the button to the right. Proceed with caution."
+              },
+              "direct": {
+                  "button_label": "Connect Direct",
+                  "banner_text": "This website has been securely Isolated. You can disable security by clicking the button to the right. Proceed with extreme caution."
+              }
+          }
+      }
+  },
+  "cid": "N3305C1D39340_0",
+  "banner_hidden": false,
+  "ui_frame_hash": "65b86ff18704cf12834a1ae2ddfb25d0fcd6bdae93192d3ab94a66eb7ae80c98",
+  "doctype_corrected": false,
+  "secure_backend": true,
+  "rc_url": "https://safe2.dbswiso.prd/account/login?form",
+  "rc_rlist": "xhr-safe2.dbswiso.prd",
+  "xff": "10.4.135.251",
+  "mpa_id": "",
+  "cluster_id": null,
+  "s_nid": "N3305C1D39340",
+  "sb": "d69JqNFMs3EanoCh9Ni19vI3OQ3WpczGG3GTJRz4PnBct8jw0NsIGKMjSiOjzceMJWn8MVKhCGFbsQQPKUNd3tSdwjXzwSpzqRyJGz0-xV7HbhbYu8PheQfTcGHc77n6Ory74FiNzQO678RpNzoGkw==",
+  "tab_id": 1,
+  "rid": "0b234871b5b850e83a79aad05bbf8810",
+  "prepend_client_navs": false
+}
