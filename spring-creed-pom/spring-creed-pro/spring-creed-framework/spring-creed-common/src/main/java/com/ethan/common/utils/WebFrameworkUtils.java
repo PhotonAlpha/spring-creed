@@ -64,7 +64,7 @@ public class WebFrameworkUtils {
         if (request == null) {
             return null;
         }
-        return (String) request.getAttribute(REQUEST_ATTRIBUTE_LOGIN_USER_ID);
+        return request.getAttribute(REQUEST_ATTRIBUTE_LOGIN_USER_ID) == null ? "-1": (String) request.getAttribute(REQUEST_ATTRIBUTE_LOGIN_USER_ID);
     }
 
     /**
