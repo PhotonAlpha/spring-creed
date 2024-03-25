@@ -7,3 +7,4 @@
 java_pid*/**
 **/target
 *.iml
+*.DS_Store
