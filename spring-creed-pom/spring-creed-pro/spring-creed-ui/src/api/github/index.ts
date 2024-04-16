@@ -1,60 +1,67 @@
-import request from '@/config/axios'
+import request from '@/config/github-axios'
 import axios from 'axios'
 import requestcommenter from './request-commenter'
 // 查询readme
 export function getReadme() {
-  return request.get({
-    url: '/repos/PhotonAlpha/blogs/readme'
-  })
+  return request.get({ url: '/mock/blog/readme.json' })
+  // return request.get({
+  //   url: '/repos/PhotonAlpha/blogs/readme'
+  // })
 }
 
 // 查询父master的结构
-export function getMasterTrees(params) {
-  return request.get({
-    url: '/repos/PhotonAlpha/blogs/git/trees/master',
-    params
-  })
+export const getMasterTrees = (params) => {
+  return request.get({ url: '/mock/blog/trees-master.json' })
+  // return request.get({
+  //   url: '/repos/PhotonAlpha/blogs/git/trees/master',
+  //   params
+  // })
 }
 
 // 查询子node的结构
-export function getDestinationTrees(tree_sha) {
-  return request.get({
-    url: `/repos/PhotonAlpha/blogs/git/trees/${tree_sha}`
-  })
+export const getDestinationTrees = (tree_sha) => {
+  return request.get({ url: '/mock/blog/trees-springboot.json' })
+  // return request.get({
+  //   url: `/repos/PhotonAlpha/blogs/git/trees/${tree_sha}`
+  // })
 }
 // 获取issue列表
-export function getIssues() {
-  return request.get({
-    url: `/repos/PhotonAlpha/blogs/issues`
-  })
+export const getIssues = () => {
+  return request.get({ url: '/mock/blog/issues.json' })
+  // return request.get({
+  //   url: `/repos/PhotonAlpha/blogs/issues`
+  // })
 }
 // 获取评论列表
-export function getComments(issue_id) {
-  return request.get({
-    url: `/repos/PhotonAlpha/blogs/issues/${issue_id}/comments`
-  })
+export const getComments = (issue_id) => {
+  return request.get({ url: '/mock/blog/issue-comments.json' })
+  // return request.get({
+  //   url: `/repos/PhotonAlpha/blogs/issues/${issue_id}/comments`
+  // })
 }
 
 // 查询日志内容
-export function getBlog(sha) {
-  return request.get({
-    url: `/repos/PhotonAlpha/blogs/git/blobs/${sha}`
-  })
+export const getBlog = (sha) => {
+  return request.get({ url: '/mock/blog/blog-multidatasource.json' })
+  // return request.get({
+  //   url: `/repos/PhotonAlpha/blogs/git/blobs/${sha}`
+  // })
 }
 
 // 查询日志内容
-export function getCommentReactions(commentId) {
-  return request.get({
-    url: `/repos/PhotonAlpha/blogs/issues/comments/${commentId}/reactions`,
-    headers: { Accept: 'application/vnd.github.squirrel-girl-preview' }
-  })
+export const getCommentReactions = (commentId) => {
+  return request.get({ url: '/mock/blog/comment-reaction.json' })
+  // return request.get({
+  //   url: `/repos/PhotonAlpha/blogs/issues/comments/${commentId}/reactions`,
+  //   headers: { Accept: 'application/vnd.github.squirrel-girl-preview' }
+  // })
 }
 
 // 查询日志内容
 export function authGithub(params) {
   // create an axios instance
   const service = axios.create({
-    baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+    baseURL: process.env.VITE_APP_BASE_API, // url = base url + request url
     // withCredentials: true, // send cookies when cross-domain requests
     timeout: 5000 // request timeout
   })

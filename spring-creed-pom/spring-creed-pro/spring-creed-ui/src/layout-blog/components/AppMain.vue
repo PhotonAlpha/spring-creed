@@ -17,6 +17,8 @@
 <script setup lang="ts">
 import { Timeline } from '@/components/Timeline'
 import { CURRENT_TITLE } from '@/utils/constant'
+import * as GithubApi from '@/api/github'
+// import * as DictTypeApi from '@/api/system/dict/dict.type'
 
 const router = useRouter()
 
@@ -31,6 +33,30 @@ withDefaults(
 const blogItemsPagination = ref([])
 const blogItems = ref([])
 
+const loadMasterTrees = async () => {
+  const data = await GithubApi.getMasterTrees('about')
+  // console.log('data', data)
+  if (data.tree && Array.isArray(data.tree)) {
+    const array = ['navigation']
+    const targetItems = data.tree.filter((item: any) => array.includes(item.path))
+    // console.log('targetItems', targetItems)
+    targetItems.forEach((element) => {
+      console.log(`element`, element)
+      loadDestinationTrees(element.sha)
+    })
+  }
+}
+const loadDestinationTrees = async (sha: string) => {
+  const data = await GithubApi.getDestinationTrees(sha)
+  console.log('tree', data.tree)
+  // const result = data.tree
+  // console.log('result', result)
+  if (data.tree) {
+    blogItems.value = data.tree
+    console.log('blogItems', blogItems.value)
+  }
+}
+
 const handleSizeChange = (pageNo: number) => {
   console.log(`page no`, pageNo)
 }
@@ -44,9 +70,14 @@ const handleShowDetails = (sha: string, title: string) => {
     }
   })
 }
+
+/** 初始化 **/
+onMounted(() => {
+  loadMasterTrees()
+})
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .app-main {
   /*50 = navbar  */
   min-height: calc(100vh - 50px);
@@ -60,7 +91,7 @@ const handleShowDetails = (sha: string, title: string) => {
   padding-top: 50px;
 }
 </style>
-<style>
+<style lang="scss">
 /* fix css style bug in open el-dialog */
 .el-popup-parent--hidden {
   .fixed-header {

@@ -233,3 +233,31 @@ ps：核心功能已经实现，正在对接微信小程序中...
 |-------|--------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
 | 报表设计器 | ![数据报表](https://static.iocoder.cn/images/ruoyi-vue-pro/报表设计器-数据报表.jpg?imageView2/2/format/webp/w/1280) | ![图形报表](https://static.iocoder.cn/images/ruoyi-vue-pro/报表设计器-图形报表.jpg?imageView2/2/format/webp/w/1280) | ![报表设计器-打印设计](https://static.iocoder.cn/images/ruoyi-vue-pro/报表设计器-打印设计.jpg?imageView2/2/format/webp/w/1280) |
 | 大屏设计器 | ![大屏列表](https://static.iocoder.cn/images/ruoyi-vue-pro/大屏设计器-列表.jpg?imageView2/2/format/webp/w/1280)   | ![大屏预览](https://static.iocoder.cn/images/ruoyi-vue-pro/大屏设计器-预览.jpg?imageView2/2/format/webp/w/1280)   | ![大屏编辑](https://static.iocoder.cn/images/ruoyi-vue-pro/大屏设计器-编辑.jpg?imageView2/2/format/webp/w/1280)         |
+
+
+
+client id: 7afad5bfa8aec8e13683
+client sec: f4a1e15745812f0e67c3ad20926a35e55e49202f
+callback: https://photonalpha.github.io/callback
+
+
+PK: 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
+
+curl --proxy-ntlm --proxy corproxy.sg.uobnet.com:8081 --proxy-user venojk:Mar@1qazxsw2 -k \
+--location --request GET 'https://api.github.com/repos/PhotonAlpha/blogs/git/trees/master' \
+--header 'Accept: application/vnd.github+json' \
+--header 'Proxy-Authorization: dmVub2prOk1hckAxcWF6eHN3Mg==' \
+--header 'X-GitHub-Api-Version: 2022-11-28' \
+--header 'Authorization: Bearer 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'
+
+
+VSCODE 自动格式化： https://stackoverflow.com/questions/60187885/how-to-configure-vue-cli-4-with-eslint-airbnb-rules-typescript-stylelint-f
+```json
+{
+    "editor.codeActionsOnSave": {
+    // https://github.com/microsoft/vscode-eslint/blob/master/README.md#release-notes
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  }
+}
+```

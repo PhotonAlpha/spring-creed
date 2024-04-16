@@ -1,0 +1,99 @@
+{
+    "sha": "5ebed5737dc0ee4f89727e900606da11d97b195c",
+    "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/trees/5ebed5737dc0ee4f89727e900606da11d97b195c",
+    "tree": [
+        {
+            "path": "CurriculumVitae",
+            "mode": "040000",
+            "type": "tree",
+            "sha": "8c18ef142688d5219773ffae77f105365c8631e6",
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/trees/8c18ef142688d5219773ffae77f105365c8631e6"
+        },
+        {
+            "path": "JMeter",
+            "mode": "040000",
+            "type": "tree",
+            "sha": "401aff746c7a45d191499b3b6aa7dc978fee040f",
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/trees/401aff746c7a45d191499b3b6aa7dc978fee040f"
+        },
+        {
+            "path": "JasperReport",
+            "mode": "040000",
+            "type": "tree",
+            "sha": "523eea69c5b33f06d663103b7612c1917800d44c",
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/trees/523eea69c5b33f06d663103b7612c1917800d44c"
+        },
+        {
+            "path": "README.md",
+            "mode": "100644",
+            "type": "blob",
+            "sha": "85e01713672598cc720261a7047199b6bee36d1c",
+            "size": 1659,
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/blobs/85e01713672598cc720261a7047199b6bee36d1c"
+        },
+        {
+            "path": "backend",
+            "mode": "040000",
+            "type": "tree",
+            "sha": "98a73c96cf3f67369feb23457c1a792cd55310bb",
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/trees/98a73c96cf3f67369feb23457c1a792cd55310bb"
+        },
+        {
+            "path": "blog-design",
+            "mode": "040000",
+            "type": "tree",
+            "sha": "a50e5c4f7374033985ed297ae35ab6fdd68ac075",
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/trees/a50e5c4f7374033985ed297ae35ab6fdd68ac075"
+        },
+        {
+            "path": "docker-config",
+            "mode": "040000",
+            "type": "tree",
+            "sha": "fa1dff1a3fb653d60eeed132c50dbbe02e3b0541",
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/trees/fa1dff1a3fb653d60eeed132c50dbbe02e3b0541"
+        },
+        {
+            "path": "images",
+            "mode": "040000",
+            "type": "tree",
+            "sha": "c72cf7908f7b1152a343fcfdb665d0a76c4dd674",
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/trees/c72cf7908f7b1152a343fcfdb665d0a76c4dd674"
+        },
+        {
+            "path": "linux",
+            "mode": "040000",
+            "type": "tree",
+            "sha": "58ce4fce9d90b6b6a859efadf2a8751e01cf6f08",
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/trees/58ce4fce9d90b6b6a859efadf2a8751e01cf6f08"
+        },
+        {
+            "path": "navigation",
+            "mode": "040000",
+            "type": "tree",
+            "sha": "b719c0ec0ea316b2d00face5f2e4b638ecfb9485",
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/trees/b719c0ec0ea316b2d00face5f2e4b638ecfb9485"
+        },
+        {
+            "path": "nginx",
+            "mode": "040000",
+            "type": "tree",
+            "sha": "a30d6aca954e451575b33de9642e08ea4a54b9b3",
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/trees/a30d6aca954e451575b33de9642e08ea4a54b9b3"
+        },
+        {
+            "path": "note",
+            "mode": "040000",
+            "type": "tree",
+            "sha": "15471cd88f1df6f33c9f7774484c63fbad1a01de",
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/trees/15471cd88f1df6f33c9f7774484c63fbad1a01de"
+        },
+        {
+            "path": "rsa",
+            "mode": "040000",
+            "type": "tree",
+            "sha": "1471f9c00c3eb6f12b0c7219b9313f6b17b23b0b",
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/trees/1471f9c00c3eb6f12b0c7219b9313f6b17b23b0b"
+        }
+    ],
+    "truncated": false
+}

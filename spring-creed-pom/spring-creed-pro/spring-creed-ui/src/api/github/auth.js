@@ -14,7 +14,7 @@ export const AUTHURL = ` https://github.com/login/oauth/authorize?client_id=${de
   clientId
 )}&scope=public_repo&redirect_uri=${redirect_uri}`
 
-export function getToken() {
+export function getAdminToken() {
   let token = Cookies.get(tokenKey)
   if (!token) {
     const decryptedStr = decrypt(accessToken)
@@ -24,15 +24,15 @@ export function getToken() {
   return token
 }
 
-export function getCommenterToken() {
+export function getGuestCommenterToken() {
   return sessionStorage.getItem(commenterTokenKey)
 }
 
-export function setToken(token) {
+export function setGuestToken(token) {
   return sessionStorage.setItem(commenterTokenKey, token)
 }
 
-export function removeToken() {
+export function removeGuestToken() {
   sessionStorage.removeItem(commenterTokenKey)
 }
 export const COMMENTER_TOKEN_KEY = commenterTokenKey

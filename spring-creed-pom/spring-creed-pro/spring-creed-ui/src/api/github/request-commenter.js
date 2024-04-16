@@ -1,10 +1,11 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
-import { getCommenterToken } from '@/utils/auth'
+import { getGuestCommenterToken } from '@/utils/auth'
 
 // create an axios instance
+console.log(`VUE_APP_CLIENT_ID->`, import.meta.env.VITE_APP_BASE_API)
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+  baseURL: import.meta.env.VITE_APP_BASE_API, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000 // request timeout
 })
@@ -13,7 +14,7 @@ const service = axios.create({
 service.interceptors.request.use(
   (config) => {
     // do something before request is sent
-    const commenterToken = getCommenterToken()
+    const commenterToken = getGuestCommenterToken()
     console.log('store.getters.commenterToken', commenterToken)
     if (commenterToken) {
       // let each request carry token
