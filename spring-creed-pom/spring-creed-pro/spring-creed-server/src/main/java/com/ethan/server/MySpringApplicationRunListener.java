@@ -1,18 +1,3 @@
-/*
- * System Name         : GEBNexGen
- * Program Id          : idbms
- * Author              : venojk
- * Date                : 23/4/24
- * Copyright (c) United Overseas Bank Limited Co.
- * All rights reserved.
- *
- * This software is the confidential and proprietary information of
- * United Overseas Bank Limited Co. ("Confidential Information").  You shall not
- * disclose such Confidential Information and shall use it only in accordance
- * with the terms of the license agreement you entered into with
- * United Overseas Bank Limited Co.
- */
-
 package com.ethan.server;
 
 import lombok.extern.slf4j.Slf4j;
