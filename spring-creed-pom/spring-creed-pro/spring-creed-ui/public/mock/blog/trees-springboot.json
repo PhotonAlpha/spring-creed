@@ -1,0 +1,151 @@
+{
+    "sha": "7ec86795201559457df03b6aee4f7540bf7d5671",
+    "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/trees/7ec86795201559457df03b6aee4f7540bf7d5671",
+    "tree": [
+        {
+            "path": "2018-08-05-spring2.xJPA多数据源配置.md",
+            "mode": "100644",
+            "type": "blob",
+            "sha": "348f439d9ed283201b9cc190124edb9318f8f068",
+            "size": 11955,
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/blobs/348f439d9ed283201b9cc190124edb9318f8f068"
+        },
+        {
+            "path": "2018-6-26-2018学习书籍收集.md",
+            "mode": "100644",
+            "type": "blob",
+            "sha": "2983e5b8cc21ecbfbbf542b1d322f728863d948f",
+            "size": 3661,
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/blobs/2983e5b8cc21ecbfbbf542b1d322f728863d948f"
+        },
+        {
+            "path": "2018-6-27-Java泛型讲解.md",
+            "mode": "100644",
+            "type": "blob",
+            "sha": "66a2cabee38911039db4db214a5d72e45b07ea66",
+            "size": 21986,
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/blobs/66a2cabee38911039db4db214a5d72e45b07ea66"
+        },
+        {
+            "path": "2018-6-28-Netty学习笔记之概念.md",
+            "mode": "100644",
+            "type": "blob",
+            "sha": "209cfb947db80e3e412cb3c4124a2845847111c9",
+            "size": 8277,
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/blobs/209cfb947db80e3e412cb3c4124a2845847111c9"
+        },
+        {
+            "path": "2018-7-11-扫盲 HTTPS 和 SSL.md",
+            "mode": "100644",
+            "type": "blob",
+            "sha": "a6d93908a43a87b7a040e6ccd5a0093c3333a32c",
+            "size": 10619,
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/blobs/a6d93908a43a87b7a040e6ccd5a0093c3333a32c"
+        },
+        {
+            "path": "2019-06-28-一次Collectors.toMap的问题.md",
+            "mode": "100644",
+            "type": "blob",
+            "sha": "f54420d79b7b3a65b29b16e3b457eaa609dd72fd",
+            "size": 7697,
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/blobs/f54420d79b7b3a65b29b16e3b457eaa609dd72fd"
+        },
+        {
+            "path": "2019-1-3-Netty学习记录.md",
+            "mode": "100644",
+            "type": "blob",
+            "sha": "130f90e63fed76ecb847b4b5bef112a5447051f0",
+            "size": 7061,
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/blobs/130f90e63fed76ecb847b4b5bef112a5447051f0"
+        },
+        {
+            "path": "2019-11-6-spring-boot-logback配置详解.md",
+            "mode": "100644",
+            "type": "blob",
+            "sha": "a6de3dd04b788cd6764dc3fc8812c73a0fee6eb8",
+            "size": 6382,
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/blobs/a6de3dd04b788cd6764dc3fc8812c73a0fee6eb8"
+        },
+        {
+            "path": "2019-11-6-spring-security配置详解（一）.md",
+            "mode": "100644",
+            "type": "blob",
+            "sha": "afa3181868c4f8ee8080c4e4bf5474ee870da1ff",
+            "size": 7242,
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/blobs/afa3181868c4f8ee8080c4e4bf5474ee870da1ff"
+        },
+        {
+            "path": "2019-11-7-Java8-interface新特性.md",
+            "mode": "100644",
+            "type": "blob",
+            "sha": "953f299c8dd76d1deb64f5109bce868282923111",
+            "size": 3157,
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/blobs/953f299c8dd76d1deb64f5109bce868282923111"
+        },
+        {
+            "path": "2019-4-9-CaffeineCache配置.md",
+            "mode": "100644",
+            "type": "blob",
+            "sha": "430ff834150cde11ddeeb513e15c23b267178e6c",
+            "size": 6466,
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/blobs/430ff834150cde11ddeeb513e15c23b267178e6c"
+        },
+        {
+            "path": "2019-4-9-SpringbootAsync异步调用.md",
+            "mode": "100644",
+            "type": "blob",
+            "sha": "48c502fc90d23c613afd6ec2dfa1935492ad7b16",
+            "size": 8394,
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/blobs/48c502fc90d23c613afd6ec2dfa1935492ad7b16"
+        },
+        {
+            "path": "2019-4-9-SpringbootWebsocket之NettySocketIO.md",
+            "mode": "100644",
+            "type": "blob",
+            "sha": "dfb41059b631d94d53fe0c73c640611312887f50",
+            "size": 10777,
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/blobs/dfb41059b631d94d53fe0c73c640611312887f50"
+        },
+        {
+            "path": "2019-4-9-Springboot之RestTemplate.md",
+            "mode": "100644",
+            "type": "blob",
+            "sha": "b1b956370c37d312ff1470034e69a9074fd55097",
+            "size": 530,
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/blobs/b1b956370c37d312ff1470034e69a9074fd55097"
+        },
+        {
+            "path": "2020-7-6-OAuth2学习总结(一)-理解OAuth 2.0.md",
+            "mode": "100644",
+            "type": "blob",
+            "sha": "76518259454eb0c278605360b42ac34dc90b8583",
+            "size": 5271,
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/blobs/76518259454eb0c278605360b42ac34dc90b8583"
+        },
+        {
+            "path": "2020-7-6-OAuth2学习总结(二)-@EnableOAuth2Sso.md",
+            "mode": "100644",
+            "type": "blob",
+            "sha": "d181355341b4611f6f95ef6034ae8d9ba383efb4",
+            "size": 1137,
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/blobs/d181355341b4611f6f95ef6034ae8d9ba383efb4"
+        },
+        {
+            "path": "2020-8-9-Gradle-SpringBoot作用于多模块build配置.md",
+            "mode": "100644",
+            "type": "blob",
+            "sha": "233369c9ff0305979b06aac3b00e769a52d71236",
+            "size": 3176,
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/blobs/233369c9ff0305979b06aac3b00e769a52d71236"
+        },
+        {
+            "path": "2021-6-1-OAuth2学习(三)-使用OAuth 2.0 State.md",
+            "mode": "100644",
+            "type": "blob",
+            "sha": "b7bba8345d7e20cf6576533ba36816205b8c5f9e",
+            "size": 2300,
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/blobs/b7bba8345d7e20cf6576533ba36816205b8c5f9e"
+        }
+    ],
+    "truncated": false
+}

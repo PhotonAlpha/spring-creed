@@ -30,7 +30,7 @@ public class PdfUtils {
     public static List<byte[]> getFontBinary(List<String> fontList) throws IOException {
         Set<String> sets = fontBinaryMap.keySet();
         if (sets.containsAll(fontList)) {
-            return fontList.stream().map(fontBinaryMap::get).collect(Collectors.toList());
+            return fontList.stream().map(fontBinaryMap::get).toList();
         } else {
             synchronized (PdfUtils.class) {
                 log.info("FontBinary initializing...");
@@ -43,7 +43,7 @@ public class PdfUtils {
                         }
                     }
                 }
-                return fontList.stream().map(fontBinaryMap::get).collect(Collectors.toList());
+                return fontList.stream().map(fontBinaryMap::get).toList();
             }
         }
     }
