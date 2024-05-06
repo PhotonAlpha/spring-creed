@@ -14,6 +14,7 @@
         <module>spring-creed-server</module>
         <module>spring-creed-testing</module>
         <module>spring-authorization-server-test</module>
+        <module>spring-creed-gateway</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -29,7 +30,7 @@
         <lombok.version>1.18.30</lombok.version>
         <mapstruct.version>1.4.1.Final</mapstruct.version>
         <spring-creed-dependencies.version>1.0.0</spring-creed-dependencies.version>
-        <spring.boot.version>3.0.0</spring.boot.version>
+        <spring.boot.version>3.2.0</spring.boot.version>
     </properties>
 
     <dependencyManagement>
