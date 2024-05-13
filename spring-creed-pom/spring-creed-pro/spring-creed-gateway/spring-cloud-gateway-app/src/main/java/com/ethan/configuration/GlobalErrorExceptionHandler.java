@@ -13,12 +13,12 @@ import reactor.core.publisher.Mono;
  * @date 23/4/24
  */
 @Slf4j
-@Component
-@RequiredArgsConstructor
+// @Component
+// @RequiredArgsConstructor
 public class GlobalErrorExceptionHandler implements ErrorWebExceptionHandler {
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
         log.info("GlobalErrorExceptionHandler:{}", ex);
-        return null;
+        return Mono.error(ex);
     }
 }

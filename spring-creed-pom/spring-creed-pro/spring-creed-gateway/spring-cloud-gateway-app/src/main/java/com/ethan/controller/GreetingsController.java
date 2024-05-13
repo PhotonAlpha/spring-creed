@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.gateway.webflux.ProxyExchange;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,7 @@ import java.util.List;
  * @date 27/3/24
  */
 @RestController
+@Slf4j
 public class GreetingsController {
     @GetMapping("/proxy/showAll")
     public Mono<ResponseEntity<?>> showAll(ProxyExchange<byte[]> proxy, ServerWebExchange exchange) {
@@ -79,6 +81,7 @@ public class GreetingsController {
 
     @GetMapping("/person/student/{id}")
     private Mono<StudentDTO> getInfo(@PathVariable("id") String id) {
+        log.info("student:{}", id);
         List<StudentDTO> list = Arrays.asList(
                 new StudentDTO("1", "xiaomi", "male", 18),
                 new StudentDTO("2", "xiaowang", "male", 20),
@@ -87,8 +90,9 @@ public class GreetingsController {
         return Mono.justOrEmpty(list.stream().filter(s -> StringUtils.equals(id, s.getId())).findFirst());
     }
 
-    @PostMapping("/person/product/{name}")
+    @GetMapping("/person/product/{name}")
     private Flux<ShoppingCatDTO> getInfo2(@PathVariable("name") String name) {
+        log.info("product:{}", name);
         Flux<ShoppingCatDTO> shoppingCatFlux = Flux.fromIterable(Arrays.asList(
                 new ShoppingCatDTO("1", "xiaomi", "iPhone", 2),
                 new ShoppingCatDTO("1", "xiaomi", "Xiaomi14 Pro", 3),
@@ -98,5 +102,16 @@ public class GreetingsController {
                 new ShoppingCatDTO("1", "xiaohao", "OPPO Find 90", 10)
         ));
         return shoppingCatFlux.filter(p -> StringUtils.equals(p.getUsername(), name));
+    }
+
+    @GetMapping("/fallback/person/student/{id}")
+    private Mono<StudentDTO> getFallbackInfo(@PathVariable("id") String id) {
+        log.info("fallback for student:{}", id);
+        return Mono.justOrEmpty(new StudentDTO("-1", "unknow", "unknow", -1));
+    }
+    @GetMapping("/fallback/person/product/{name}")
+    private Flux<ShoppingCatDTO> getInfoFallback2(@PathVariable("name") String name) {
+        log.info("fallback for product:{}", name);
+        return Flux.just(new ShoppingCatDTO("-1", "unknow", "NA", -1));
     }
 }

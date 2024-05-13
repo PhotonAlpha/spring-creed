@@ -1,16 +1,22 @@
 package com.ethan.utils;
 
+import com.nimbusds.jose.jwk.RSAKey;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.InputStream;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 @Slf4j
 public class JwtTokenUtil {
@@ -18,20 +24,26 @@ public class JwtTokenUtil {
     /**
      * 寻找证书文件
      */
-    private static final InputStream INPUT_STREAM = Thread.currentThread().getContextClassLoader().getResourceAsStream("mirror-privateKey.jks");
     private static PrivateKey privateKey = null;
     private static PublicKey publicKey = null;
 
     static { // 将证书文件里边的私钥公钥拿出来
+        KeyPair keyPair;
         try {
-            // java key store 固定常量
-            KeyStore keyStore = KeyStore.getInstance("JKS");
-            keyStore.load(INPUT_STREAM, "3d-mirror".toCharArray());
-            // jwt 为 命令生成整数文件时的别名
-            privateKey = (PrivateKey) keyStore.getKey("mirror-privateKey", "3d-mirror".toCharArray());
-            publicKey = keyStore.getCertificate("mirror-privateKey").getPublicKey();
-        } catch (Exception e) {
-            e.printStackTrace();
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+            keyPairGenerator.initialize(2048);
+            keyPair = keyPairGenerator.generateKeyPair();
+
+            publicKey = keyPair.getPublic();
+            privateKey = keyPair.getPrivate();
+            RSAKey rsaKey = new RSAKey.Builder((RSAPublicKey) publicKey)
+                    .privateKey(privateKey)
+                    .keyID(UUID.randomUUID().toString())
+                    .build();
+
+        }
+        catch (Exception ex) {
+            throw new IllegalStateException(ex);
         }
     }
 

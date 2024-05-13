@@ -1,17 +1,18 @@
 
 - [x] 创建webflux API
-- [ ] 整合Spring security，实现API认证
+- [x] 整合Spring security，实现API认证
 - [ ] 请求数据缓存
 - [ ] 思考在gateway中数据聚合如何实现
 - [ ] 思考路由根据不同条件调用不同的路由，实现数据聚合
 - 思考 Global Filters（全局过滤器） 与  Filters（过滤器）不同与应用场景
-- [ ] 实现 负载均衡
+- [ ] 实现 负载均衡 [ref](https://spring.io/guides/gs/spring-cloud-loadbalancer)
 - [ ] 实现 retry
-- [ ] 实现 circuit breaker服务熔断
+- [x] 实现 circuit breaker服务熔断
 - [ ] 实现 Rate limit 限流
-- [ ] 实现**全链路跟踪**
+- [ ] 实现**全链路跟踪**, [解决多线程traceID为空的问题](https://stackoverflow.com/questions/78020101/spring-boot-3-upgrade-executor-context-propagation-sleuth-to-micrometer-tracing)
 - [ ] 实现 Observability，集成 grafana prometheus
 
+> https://www.cnblogs.com/myitnews/p/14095560.html
 > - 性能：API高可用，负载均衡，容错机制。
 > - 安全：权限身份认证、脱敏，流量清洗，后端签名（保证全链路可信调用）,黑名单（非法调用的限制）。
 > - 日志：日志记录（spainid,traceid）一旦涉及分布式，全链路跟踪必不可少。

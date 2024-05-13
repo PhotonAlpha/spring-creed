@@ -23,15 +23,62 @@ spring:
             - StripPrefix=1
             - PrefixPath=/spring-cloud-gateway-actuator
         - id: student
+          uri: http://localhost:8080 # 路由的目标地址
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/v2/**
+          filters: # 过滤器，对请求进行拦截，实现自定义的功能，对应 FilterDefinition 数组，注意此处的顺序！！！最终结果为http://localhost:8080//spring-cloud-gateway-actuator/showAll
+            - StripPrefix=1
+            - name: Retry
+              args:
+                retries: 3
+                backoff:
+                  firstBackoff: 10ms
+                  maxBackoff: 50ms
+                  factor: 2
+                  basedOnPreviousValue: false
+        - id: requestratelimiter_route
           uri: http://localhost:8088 # 路由的目标地址
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
             - Path=/v2/**
           filters: # 过滤器，对请求进行拦截，实现自定义的功能，对应 FilterDefinition 数组，注意此处的顺序！！！最终结果为http://localhost:8080//spring-cloud-gateway-actuator/showAll
             - StripPrefix=1
-    loadbalancer:
-      retry:
-        backoff:
-          enabled: true
+#            - name: RequestRateLimiter
+#              args:
+        - id: circuit_breaker_route
+          uri: http://localhost:8080 # 路由的目标地址
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/circuit/{*segments}
+          filters: # 过滤器，对请求进行拦截，实现自定义的功能，对应 FilterDefinition 数组，注意此处的顺序！！！最终结果为http://localhost:8080//spring-cloud-gateway-actuator/showAll
+            - StripPrefix=1
+            - name: CircuitBreaker
+              args:
+                name: myCircuitBreaker
+                fallbackUri: forward:/fallback/{segments}
+        - id: circuit_breaker_route_fallback
+          uri: http://localhost:8088 # 路由的目标地址
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/fallback/**
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      myCircuitBreaker:
+        sliding-window-size: 10
+        permitted-number-of-calls-in-half-open-state: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10000
+        register-health-indicator: true
+  timelimiter:
+    instances:
+      myCircuitBreaker:
+        timeout-duration: 3s
+
+
+
+  #    loadbalancer:
+#      retry:
+#        backoff:
+#          enabled: true
 
 
   task:
@@ -67,6 +114,6 @@ management:
 #  level:
 #    root: debug
 
-logging:
-  config:
+#logging:
+#  config:
 
