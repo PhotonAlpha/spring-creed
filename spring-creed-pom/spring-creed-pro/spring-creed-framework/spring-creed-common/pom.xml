@@ -62,10 +62,10 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
-<!--        <dependency>
+        <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
-        </dependency>-->
+        </dependency>
 
         <dependency>
             <groupId>org.springdoc</groupId>

@@ -1,0 +1,20 @@
+###
+
+# curl --location --request POST 'localhost:8088/v2/person/student'
+#--header 'Content-Type: application/json'
+#--data-raw '{
+#    "username":"xiaoming",
+#    "gender":"male",
+#    "age":18
+#}'
+POST localhost:8088/v2/person/student
+Content-Type: application/json
+
+{
+  "username": "xiaoming",
+  "gender": "male",
+  "age": 18
+}
+
+###
+

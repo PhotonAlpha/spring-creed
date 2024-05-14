@@ -1,3 +1,5 @@
+The practical project is called creed-mall. The front-end uses vue3, and the back-end is Spring boot3 and Spring cloud. Currently building the front-end UI
+
 Java 新特性： https://www.wdbyte.com/2020/02/jdk/jdk12-feature/#%E8%AE%A2%E9%98%85
 
 分布式文章: https://pdai.tech/md/arch/arch-z-job.html
