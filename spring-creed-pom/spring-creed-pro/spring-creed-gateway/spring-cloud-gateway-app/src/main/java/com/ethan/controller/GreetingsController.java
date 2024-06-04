@@ -50,6 +50,10 @@ public class GreetingsController {
         ObjectMapper mapper = new ObjectMapper();
 
         // Flux<ResponseEntity<String>> flux = Flux.merge(firstApi, secondApi);
+        Mono.zip(firstApi, secondApi)
+                .map(a -> a.getT1());
+
+        // Flux.merge(firstApi, secondApi).
 
         return firstApi.zipWith(secondApi)
                 .map(tuple -> {

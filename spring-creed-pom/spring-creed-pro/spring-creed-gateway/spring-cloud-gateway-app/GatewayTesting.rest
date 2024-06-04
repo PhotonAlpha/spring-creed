@@ -18,3 +18,29 @@ Content-Type: application/json
 
 ###
 
+POST localhost:8088/price/info
+Content-Type: application/json
+
+{
+  "userInfo": {
+    "name": "xiaomi",
+    "locked": false,
+    "active": true
+  },
+  "coupon": {
+    "userName": "xiaomi",
+    "discount": "2.00"
+  },
+  "activityInfo": {
+    "productName": "mobile",
+    "discountPercentage": "10"
+  },
+  "productInfo": {
+    "productName": "mobile",
+    "brand": "xiaomi",
+    "description": "this is a mobile phone",
+    "stock": 2,
+    "price": "1000.00"
+  }
+}
+
