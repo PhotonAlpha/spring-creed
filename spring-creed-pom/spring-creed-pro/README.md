@@ -34,3 +34,5 @@ This system still under building.
 [参考文档](https://wukong-doc.redhtc.com/security/sas/sas-whatyouknow/)
 
 [参考文档](https://docs.authing.cn/v2/concepts/id-token.html)
+
+[云设计模式](https://iambowen.gitbooks.io/cloud-design-pattern/content/cloud-design-patterns.html)

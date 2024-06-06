@@ -7,6 +7,8 @@ import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFac
 import org.springframework.cloud.gateway.filter.factory.rewrite.ModifyResponseBodyGatewayFilterFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,9 +37,9 @@ public class ComposeFieldApiGatewayFilterFactory extends AbstractGatewayFilterFa
 
             // WebClient.create(currentHost)
             //         .get()
-            //         // .post()
-            //         // .body(BodyInserters.fromValue())
-            //         .uri("/spring-cloud-gateway-actuator/showAll");
+                    // .post()
+                    // .body(BodyInserters.fromValue())
+                    // .uri("/spring-cloud-gateway-actuator/showAll");
 
             return null;
         };
