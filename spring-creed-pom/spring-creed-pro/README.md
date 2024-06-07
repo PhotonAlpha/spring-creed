@@ -36,3 +36,24 @@ This system still under building.
 [参考文档](https://docs.authing.cn/v2/concepts/id-token.html)
 
 [云设计模式](https://iambowen.gitbooks.io/cloud-design-pattern/content/cloud-design-patterns.html)
+
+
+### MacBook 生产工具列表
+- **draw.io**
+- **Fork**
+- **Keka** 解压缩工具
+- **Maccy** 复制粘贴历史记录，类似于windows的 win+v
+- **Typora** Markdown视图工具
+- **Visual** Studio Code
+
+### Intellij 生产工具列表
+- **CamelCase**
+- **GsonFormatPlus**
+- **Json Helper**
+- **Mapstruct Support**
+- **Maven Helper**
+- **POJO to Json**
+- **RestfulTool**
+- **Sonarlint**
+- **VisualVM Launcher**
+- Json Parser(optional)

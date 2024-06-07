@@ -16,8 +16,8 @@ import java.math.BigDecimal;
 @RequestMapping("coupon")
 public class CouponController {
     @GetMapping("/info/{name}")
-    public Mono<CouponVo> getProductDetails(@PathVariable("name") String name) {
-        log.info("getProductDetails");
+    public Mono<CouponVo> getCoupon(@PathVariable("name") String name) {
+        log.info("getCoupon");
         return Mono.just(new CouponVo(name, new BigDecimal("5.00")));
     }
 }

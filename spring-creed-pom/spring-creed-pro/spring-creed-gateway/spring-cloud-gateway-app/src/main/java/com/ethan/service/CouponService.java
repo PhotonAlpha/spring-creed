@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 public class CouponService {
     public Mono<CouponVo> getCoupon(ProxyExchange<byte[]> proxy, ServerWebExchange exchange, String name) {
         log.info("getCoupon:{}", name);
-        ProxyExchangeResolver<String, Mono<CouponVo>> resolver = ProxyExchangeResolver.get();
+        ProxyExchangeResolver<String, Mono<CouponVo>> resolver = ProxyExchangeResolver.get(CouponVo.class);
         return resolver.apply(proxy, exchange, "/coupon/info/" + name);
     }
 }

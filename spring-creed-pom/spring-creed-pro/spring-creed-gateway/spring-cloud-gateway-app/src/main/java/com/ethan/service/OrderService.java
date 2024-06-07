@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 public class OrderService {
     public Mono<OrderVo> payment(ProxyExchange<byte[]> proxy, ServerWebExchange exchange, OrderReqDto req) {
         log.info("submitOrder:{}", req);
-        ProxyExchangeResolver<String, Mono<OrderVo>> resolver = ProxyExchangeResolver.post(req);
+        ProxyExchangeResolver<String, Mono<OrderVo>> resolver = ProxyExchangeResolver.post(req, OrderVo.class);
         return resolver.apply(proxy, exchange, "/order/submit");
     }
 }

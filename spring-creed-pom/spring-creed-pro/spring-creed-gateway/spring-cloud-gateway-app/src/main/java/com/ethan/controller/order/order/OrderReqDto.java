@@ -3,6 +3,7 @@ package com.ethan.controller.order.order;
 import com.ethan.controller.activity.activity.ActivityInfoVo;
 import com.ethan.controller.coupon.coupon.CouponVo;
 import com.ethan.controller.invoice.invoice.InvoiceInfoVo;
+import com.ethan.controller.price.price.PriceInfoVo;
 import com.ethan.controller.product.vo.ProductInfoVo;
 import com.ethan.controller.recipient.vo.RecipientInfoVo;
 import com.ethan.controller.userlogin.vo.UserInfoVo;
@@ -20,5 +21,6 @@ public class OrderReqDto {
     private InvoiceInfoVo invoiceInfo;
     private ActivityInfoVo activityInfo;
     private CouponVo coupon;
+    private PriceInfoVo priceInfoVo;
 
 }

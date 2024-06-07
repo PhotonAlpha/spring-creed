@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 public class RecipientService {
     public Mono<RecipientInfoVo> getRecipientInfo(ProxyExchange<byte[]> proxy, ServerWebExchange exchange, String name) {
         log.info("getRecipientInfo:{}", name);
-        ProxyExchangeResolver<String, Mono<RecipientInfoVo>> resolver = ProxyExchangeResolver.get();
+        ProxyExchangeResolver<String, Mono<RecipientInfoVo>> resolver = ProxyExchangeResolver.get(RecipientInfoVo.class);
         return resolver.apply(proxy, exchange, "/recipient/recipient/" + name);
     }
 }

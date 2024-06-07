@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 public class InvoiceService {
     public Mono<InvoiceInfoVo> getInvoiceInfo(ProxyExchange<byte[]> proxy, ServerWebExchange exchange, String name) {
         log.info("getInvoiceInfo:{}", name);
-        ProxyExchangeResolver<String, Mono<InvoiceInfoVo>> resolver = ProxyExchangeResolver.get();
+        ProxyExchangeResolver<String, Mono<InvoiceInfoVo>> resolver = ProxyExchangeResolver.get(InvoiceInfoVo.class);
         return resolver.apply(proxy, exchange, "/invoice/info/" + name);
     }
 }

@@ -16,8 +16,9 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <spring.boot.version>3.2.5</spring.boot.version>
-        <spring-cloud-dependencies.version>2023.0.1</spring-cloud-dependencies.version>
+        <spring.boot.version>3.3.0</spring.boot.version>
+        <spring-cloud-dependencies.version>2023.0.2</spring-cloud-dependencies.version>
+        <spring-cloud-gateway-webflux.version>4.1.4</spring-cloud-gateway-webflux.version>
 
         <mapstruct.version>1.5.3.Final</mapstruct.version>
         <guava.version>31.1-jre</guava.version>
@@ -54,6 +55,12 @@
                 <version>${spring-cloud-dependencies.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-gateway-webflux</artifactId>
+                <version>${spring-cloud-gateway-webflux.version}</version>
             </dependency>
 
             <dependency>
