@@ -152,13 +152,13 @@ macOS 上有几个常用的修饰键： **Command（或 Cmd）⌘**、**Option�
 
 2. download dependencies: `mvn install  *-Dmaven.wagon.http.ssl.insecure=true* -Dmaven.test.skip=true`
 
-   `mvn -Dmaven.wagon.http.ssl.insecure=true -DskipTests -Dmaven.test.skip=true -s /Users/venojk/.m2/settings-ufw\ 2.xml  clean package`
+   `mvn -Dmaven.wagon.http.ssl.insecure=true -DskipTests -Dmaven.test.skip=true -s /xxx/xxx/settings.xml  clean package`
 
    
 
 3. download sourcecode : `mvn dependency:sources -DdownloadSources=true -Dmaven.wagon.http.ssl.insecure=true`
 
-   `mvn -Dmaven.wagon.http.ssl.insecure=true -s /Users/venojk/.m2/settings-ufw\ 2.xml  dependency:sources -DdownloadSources=true -Dmaven.wagon.http.ssl.insecure=true`
+   `mvn -Dmaven.wagon.http.ssl.insecure=true -s /xxx/xxx/settings.xml  dependency:sources -DdownloadSources=true -Dmaven.wagon.http.ssl.insecure=true`
 
 4. check port in use: `netstat -tln | grep 8080`
 
