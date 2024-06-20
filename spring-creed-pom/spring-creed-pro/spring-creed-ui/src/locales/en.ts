@@ -454,6 +454,18 @@ export default {
     size: 'Global Size',
     lArticle: 'Latest Articles',
     category: 'Categories',
-    anchor: 'Anchor'
+    anchor: 'Anchor',
+    systemManagement: 'System Management',
+    tenantManagement: 'Tenant Management',
+    tenantList: 'Tenant List',
+    tenantPackages: 'Tenant Packages',
+    infrastructure: 'Infrastructure',
+    paymentManagement: 'Payment Management',
+    reportManagement: 'Report Management',
+    workflow: 'Workflow',
+    productCenter: 'Product Center',
+    orderCenter: 'Order Center',
+    marketingCenter: 'Marketing Center',
+    publicAccountManagement: 'WeChat PAM'
   }
 }

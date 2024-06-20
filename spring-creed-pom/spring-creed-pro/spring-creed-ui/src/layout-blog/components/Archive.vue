@@ -1,5 +1,5 @@
 <template>
-  <el-card v-if="anchor && anchor.length > 0" class="box-directory">
+  <el-card v-if="isLeaf && anchor && anchor.length > 0" class="box-directory">
     <template #header>
       <span>Anchor</span>
     </template>
@@ -7,7 +7,7 @@
       <el-tree :data="anchor" :props="defaultTree" @node-click="handlePostClick" />
     </div>
   </el-card>
-  <el-card v-if="recommend && recommend.length > 0" class="box-article">
+  <el-card v-if="!isLeaf && recommend && recommend.length > 0" class="box-article">
     <template #header>
       <!-- <span class="item-title">{{ $t('navbar.lArticle') }}</span> -->
       <span class="item-title">{{ t('navbar.lArticle') }}</span>
@@ -23,7 +23,7 @@
       </template>
     </el-collapse>
   </el-card>
-  <el-card v-if="category && category.length > 0" class="box-card">
+  <el-card v-if="!isLeaf && category && category.length > 0" class="box-card">
     <template #header>
       <span>{{ t('navbar.category') }}</span>
     </template>
@@ -32,16 +32,9 @@
         :data="category"
         :props="defaultTree"
         :load="loadNode"
+        lazy
         @node-click="handleNodeClick"
       />
-      <!-- <el-tree
-        :data="category"
-        :props="defaultTree"
-        :load="loadNode"
-        lazy
-        accordion
-        @node-click="handleNodeClick"
-      /> -->
     </div>
   </el-card>
 </template>
@@ -51,23 +44,26 @@ import type Node from 'element-plus/es/components/tree/src/model/node'
 import moment from 'moment'
 const { t } = useI18n()
 const activeName = ref('name0')
+const scrollEl = ref()
 
 interface Tree {
   label: string
   name?: string
   title?: string
   date?: number
-  subItem?: boolean
+  leaf?: boolean
   children?: Tree[]
 }
 withDefaults(
   defineProps<{
-    anchor: Tree[]
-    category: Tree[]
-    recommend: Tree[]
-    defaultTree: {}
+    isLeaf?: boolean
+    anchor?: Tree[]
+    category?: Tree[]
+    recommend?: Tree[]
+    defaultTree?: {}
   }>(),
   {
+    isLeaf: () => false,
     anchor: () => {
       return [
         {
@@ -145,18 +141,27 @@ const emit = defineEmits<{
 const loadNode = (node: Node, resolve: Function) => {
   emit('getCategoryList', node, resolve)
 }
-const handlePostClick = (data: Tree) => {
-  console.log(`output->data`, data)
+const handlePostClick = (data) => {
+  data.element.scrollIntoView({ behavior: 'smooth' })
 }
 const handleNodeClick = (data: Tree) => {
   emit('handlerCategory', data)
 }
 const handleRecommendedClick = (data: Tree) => {
-  emit('handlerCategory', { ...data, subItem: true, label: data?.name ?? '' })
+  emit('handlerCategory', { ...data, leaf: true, label: data?.name ?? '' })
 }
 const handlerDateFormatSlash = (timestamp) => {
   return moment(timestamp).format('YYYY/MM/DD')
 }
+const loadCategoryTrees = () => {}
+
+const loadRecommendTrees = () => {}
+
+/** 初始化 **/
+onMounted(() => {
+  loadCategoryTrees()
+  loadRecommendTrees()
+})
 </script>
 
 <style scoped lang="scss">

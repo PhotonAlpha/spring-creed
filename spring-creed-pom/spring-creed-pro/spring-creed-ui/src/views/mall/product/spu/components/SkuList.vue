@@ -2,7 +2,7 @@
   <!-- 情况一：添加/修改 -->
   <el-table
     v-if="!isDetail && !isActivityComponent"
-    :data="isBatch ? skuList : formData!.skus!"
+    :data="isBatch ? skuList : formData?.skus"
     border
     class="tabNumWidth"
     max-height="500"
@@ -13,7 +13,7 @@
         <UploadImg v-model="row.picUrl" height="80px" width="100%" />
       </template>
     </el-table-column>
-    <template v-if="formData!.specType && !isBatch">
+    <template v-if="formData?.specType && !isBatch">
       <!--  根据商品属性动态添加 -->
       <el-table-column
         v-for="(item, index) in tableHeaders"
@@ -76,7 +76,7 @@
         <el-input-number v-model="row.volume" :min="0" :precision="2" :step="0.1" class="w-100%" />
       </template>
     </el-table-column>
-    <template v-if="formData!.subCommissionType">
+    <template v-if="formData?.subCommissionType">
       <el-table-column align="center" label="一级返佣(元)" min-width="168">
         <template #default="{ row }">
           <el-input-number
@@ -114,7 +114,7 @@
   <el-table
     v-if="isDetail"
     ref="activitySkuListRef"
-    :data="formData!.skus!"
+    :data="formData?.skus"
     border
     max-height="500"
     size="small"
@@ -127,7 +127,7 @@
         <el-image :src="row.picUrl" class="h-60px w-60px" @click="imagePreview(row.picUrl)" />
       </template>
     </el-table-column>
-    <template v-if="formData!.specType && !isBatch">
+    <template v-if="formData?.specType && !isBatch">
       <!--  根据商品属性动态添加 -->
       <el-table-column
         v-for="(item, index) in tableHeaders"
@@ -178,7 +178,7 @@
         {{ row.volume }}
       </template>
     </el-table-column>
-    <template v-if="formData!.subCommissionType">
+    <template v-if="formData?.subCommissionType">
       <el-table-column align="center" label="一级返佣(元)" min-width="80">
         <template #default="{ row }">
           {{ row.firstBrokerageRecord }}
@@ -195,7 +195,7 @@
   <!-- 情况三：作为活动组件 -->
   <el-table
     v-if="isActivityComponent"
-    :data="formData!.skus!"
+    :data="formData?.skus"
     border
     max-height="500"
     size="small"
@@ -207,7 +207,7 @@
         <el-image :src="row.picUrl" class="h-60px w-60px" @click="imagePreview(row.picUrl)" />
       </template>
     </el-table-column>
-    <template v-if="formData!.specType">
+    <template v-if="formData?.specType">
       <!--  根据商品属性动态添加 -->
       <el-table-column
         v-for="(item, index) in tableHeaders"
@@ -434,15 +434,14 @@ const generateTableData = (propertyList: any[]) => {
  */
 const validateData = (propertyList: any[]) => {
   const skuPropertyIds: number[] = []
-  formData.value!.skus!.forEach(
-    (sku) =>
-      sku.properties
-        ?.map((property) => property.propertyId)
-        ?.forEach((propertyId) => {
-          if (skuPropertyIds.indexOf(propertyId!) === -1) {
-            skuPropertyIds.push(propertyId!)
-          }
-        })
+  formData.value!.skus!.forEach((sku) =>
+    sku.properties
+      ?.map((property) => property.propertyId)
+      ?.forEach((propertyId) => {
+        if (skuPropertyIds.indexOf(propertyId!) === -1) {
+          skuPropertyIds.push(propertyId!)
+        }
+      })
   )
   const propertyIds = propertyList.map((item) => item.id)
   return skuPropertyIds.length === propertyIds.length

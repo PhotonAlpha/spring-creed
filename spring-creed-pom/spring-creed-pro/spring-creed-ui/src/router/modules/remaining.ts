@@ -63,7 +63,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
         name: 'Index',
         meta: {
           title: t('router.home'),
-          icon: 'ep:home-filled',
+          icon: 'home',
           noCache: false,
           affix: true
         }
@@ -75,7 +75,10 @@ const remainingRouter: AppRouteRecordRaw[] = [
     path: '/blog',
     component: Layout,
     name: 'BlogH',
-    meta: {},
+    meta: {
+      title: 'Blog',
+      icon: 'notebook'
+    },
     children: [
       {
         path: 'blogdetails/:shaCode',
@@ -87,94 +90,62 @@ const remainingRouter: AppRouteRecordRaw[] = [
         }
       },
       {
+        path: 'angular',
+        component: () => import('@/views/blog/angular/index.vue'),
+        name: 'Angular',
+        meta: {
+          title: 'Angular',
+          icon: 'angular',
+          noCache: false,
+          affix: false
+        }
+      },
+      {
         path: 'java',
-        component: () => import('@/views/blog/springboot/index.vue'),
+        component: () => import('@/views/blog/java/index.vue'),
         name: 'Java',
         meta: {
           title: 'Java',
-          icon: 'ep:home-filled',
+          icon: 'java',
           noCache: false,
-          affix: true
+          affix: false
+        }
+      },
+      {
+        path: 'springboot',
+        component: () => import('@/views/blog/springboot/index.vue'),
+        name: 'SpringBoot',
+        meta: {
+          title: 'SpringBoot',
+          icon: 'spring',
+          noCache: false,
+          affix: false
+        }
+      },
+      {
+        path: 'springcloud',
+        component: () => import('@/views/blog/springcloud/index.vue'),
+        name: 'SpringCloud',
+        meta: {
+          title: 'SpringCloud',
+          icon: 'cloud',
+          noCache: false,
+          affix: false
+        }
+      },
+      {
+        path: 'vue',
+        component: () => import('@/views/blog/vue/index.vue'),
+        name: 'Vue',
+        meta: {
+          title: 'Vue',
+          icon: 'vuejs',
+          noCache: false,
+          affix: false
         }
       }
     ]
   },
-  // {
-  //   path: '/blog',
-  //   component: Layout,
-  //   name: 'JavaH',
-  //   meta: {},
-  //   children: [
-  //     {
-  //       path: 'java',
-  //       component: () => import('@/views/blog/springboot/index.vue'),
-  //       name: 'Java',
-  //       meta: {
-  //         title: 'Java',
-  //         icon: 'ep:home-filled',
-  //         noCache: false,
-  //         affix: true
-  //       }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/blog',
-  //   component: Layout,
-  //   name: 'SpringBootH',
-  //   meta: {},
-  //   children: [
-  //     {
-  //       path: 'spring-boot',
-  //       component: () => import('@/views/blog/springboot/index.vue'),
-  //       name: 'SpringBoot',
-  //       meta: {
-  //         title: 'SpringBoot',
-  //         icon: 'ep:home-filled',
-  //         noCache: false,
-  //         affix: true
-  //       }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/blog',
-  //   component: Layout,
-  //   name: 'BigDataH',
-  //   meta: {},
-  //   children: [
-  //     {
-  //       path: 'bit-data',
-  //       component: () => import('@/views/blog/springboot/index.vue'),
-  //       name: 'BigData',
-  //       meta: {
-  //         title: 'BigData',
-  //         icon: 'ep:home-filled',
-  //         noCache: false,
-  //         affix: true
-  //       }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/blog',
-  //   component: Layout,
-  //   name: 'AIH',
-  //   meta: {},
-  //   children: [
-  //     {
-  //       path: 'ai',
-  //       component: () => import('@/views/blog/springboot/index.vue'),
-  //       name: 'AI',
-  //       meta: {
-  //         title: 'AI',
-  //         icon: 'ep:home-filled',
-  //         noCache: false,
-  //         affix: true
-  //       }
-  //     }
-  //   ]
-  // },
 
   {
     path: '/user',

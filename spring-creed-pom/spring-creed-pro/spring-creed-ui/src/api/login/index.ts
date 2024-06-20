@@ -15,7 +15,7 @@ export interface SmsLoginVO {
 // 登录
 export const login = (data: UserLoginVO) => {
   // return request.post({ url: '/system/auth/login', data })
-  return request.post({ url: '/mock/auth/login.json', data })
+  return request.get({ url: '/mock/auth/login.json', data })
 }
 
 // 刷新访问令牌
@@ -60,11 +60,11 @@ export const socialAuthRedirect = (type: number, redirectUri: string) => {
 // 获取验证图片以及 token
 export const getCode = (data) => {
   // return request.postOriginal({ url: 'system/captcha/get', data })
-  return request.postOriginal({ url: '/mock/auth/captcha-get.json', data })
+  return request.get({ url: '/mock/auth/captcha-get.json', data })
 }
 
 // 滑动或者点选验证
 export const reqCheck = (data) => {
   // return request.postOriginal({ url: 'system/captcha/check', data })
-  return request.postOriginal({ url: '/mock/auth/captcha-check.json', data })
+  return request.get({ url: '/mock/auth/captcha-check.json', data })
 }

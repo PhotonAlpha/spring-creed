@@ -329,8 +329,8 @@ const changeStatus = async (row, status?: number) => {
       deepCopyValue.status === -1
         ? `确认要将[${row.name}]${text}吗？`
         : row.status === -1 // 再判断一次原对象是否等于-1，例: 把回收站中的商品恢复到仓库中，事件触发时原对象status为-1 深拷贝对象status被赋值为0
-        ? `确认要将[${row.name}]恢复到仓库吗？`
-        : `确认要${text}[${row.name}]吗？`
+          ? `确认要将[${row.name}]恢复到仓库吗？`
+          : `确认要${text}[${row.name}]吗？`
     )
     await ProductSpuApi.updateStatus({ id: deepCopyValue.id, status: deepCopyValue.status })
     message.success('更新状态成功')

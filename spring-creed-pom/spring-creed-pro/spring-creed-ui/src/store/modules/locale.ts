@@ -20,8 +20,8 @@ export const useLocaleStore = defineStore('locales', {
   state: (): LocaleState => {
     return {
       currentLocale: {
-        lang: wsCache.get(CACHE_KEY.LANG) || 'zh-CN',
-        elLocale: elLocaleMap[wsCache.get(CACHE_KEY.LANG) || 'zh-CN']
+        lang: wsCache.get(CACHE_KEY.LANG) || 'en',
+        elLocale: elLocaleMap[wsCache.get(CACHE_KEY.LANG) || 'en']
       },
       // 多语言
       localeMap: [

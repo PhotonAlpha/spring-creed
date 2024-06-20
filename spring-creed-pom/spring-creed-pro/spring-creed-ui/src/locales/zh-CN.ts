@@ -447,6 +447,18 @@ export default {
     size: '布局大小',
     lArticle: '最新文章',
     category: '分类',
-    anchor: '锚点'
+    anchor: '锚点',
+    systemManagement: '系统管理',
+    tenantManagement: '租户管理',
+    tenantList: '租户列表',
+    tenantPackages: '租户套餐',
+    infrastructure: '基础设施',
+    paymentManagement: '支付管理',
+    reportManagement: '报表管理',
+    workflow: '工作流程',
+    productCenter: '商品中心',
+    orderCenter: '订单中心',
+    marketingCenter: '营销中心',
+    publicAccountManagement: '公众号管理'
   }
 }

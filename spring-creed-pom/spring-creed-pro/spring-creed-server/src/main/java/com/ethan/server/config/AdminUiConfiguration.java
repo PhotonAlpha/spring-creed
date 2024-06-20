@@ -21,6 +21,7 @@ public class AdminUiConfiguration implements WebMvcConfigurer {
                 // 自定义 ClassPathResource 实现类，在前端请求的地址匹配不到对应的路径时，强制使用 /admin-ui/index.html 资源
                 // 本质上，等价于 nginx 在处理不到 Vue 的请求地址时，try_files 到 index.html 地址
                 // 想要彻底理解，可以调试 ResourceHttpRequestHandler 的 resolveResourceLocations 方法，前端请求 /admin-ui/system/tenant 地址
+                // 解决前端页面刷新404问题
                 .addResourceLocations(new ClassPathResource("/admin-ui/index.html") {
 
                     @Override

@@ -295,13 +295,13 @@
       ],
       "menus": [
           {
-              "name": "系统管理",
+              "name": "navbar.systemManagement",
               "permission": "",
               "type": 1,
               "sort": 10,
               "parentId": 0,
               "path": "/system",
-              "icon": "ep:home-filled",
+              "icon": "home",
               "component": null,
               "status": 0,
               "visible": true,
@@ -311,7 +311,7 @@
               "createTime": "2021-01-05T17:03:48.000+00:00",
               "children": [
                   {
-                      "name": "租户管理",
+                      "name": "navbar.tenantManagement",
                       "permission": "",
                       "type": 2,
                       "sort": 0,
@@ -327,7 +327,7 @@
                       "createTime": "2022-02-20T01:41:13.000+00:00",
                       "children": [
                           {
-                              "name": "租户列表",
+                              "name": "navbar.tenantList",
                               "permission": "",
                               "type": 2,
                               "sort": 0,
@@ -344,7 +344,7 @@
                               "children": null
                           },
                           {
-                              "name": "租户套餐",
+                              "name": "navbar.tenantPackages",
                               "permission": "",
                               "type": 2,
                               "sort": 0,
@@ -403,7 +403,7 @@
                       "sort": 3,
                       "parentId": 1,
                       "path": "menu",
-                      "icon": "tree-table",
+                      "icon": "table",
                       "component": "system/menu/index",
                       "status": 0,
                       "visible": true,
@@ -829,7 +829,7 @@
               ]
           },
           {
-              "name": "基础设施",
+              "name": "navbar.infrastructure",
               "permission": "",
               "type": 1,
               "sort": 20,
@@ -1155,7 +1155,7 @@
               ]
           },
           {
-              "name": "支付管理",
+              "name": "navbar.paymentManagement",
               "permission": "",
               "type": 1,
               "sort": 30,
@@ -1258,7 +1258,7 @@
               ]
           },
           {
-              "name": "报表管理",
+              "name": "navbar.reportManagement",
               "permission": "",
               "type": 1,
               "sort": 40,
@@ -1310,7 +1310,7 @@
               ]
           },
           {
-              "name": "工作流程",
+              "name": "navbar.workflow",
               "permission": "",
               "type": 1,
               "sort": 50,
@@ -1501,7 +1501,7 @@
               ]
           },
           {
-              "name": "商品中心",
+              "name": "navbar.productCenter",
               "permission": "",
               "type": 1,
               "sort": 60,
@@ -1604,7 +1604,7 @@
               ]
           },
           {
-              "name": "订单中心",
+              "name": "navbar.orderCenter",
               "permission": "",
               "type": 1,
               "sort": 65,
@@ -1643,7 +1643,7 @@
                       "sort": 0,
                       "parentId": 2072,
                       "path": "express-company",
-                      "icon": "",
+                      "icon": "receiptSend",
                       "component": "mall/trade/expressCompany/index",
                       "status": 0,
                       "visible": true,
@@ -1673,7 +1673,7 @@
               ]
           },
           {
-              "name": "营销中心",
+              "name": "navbar.marketingCenter",
               "permission": "",
               "type": 1,
               "sort": 70,
@@ -1793,7 +1793,7 @@
               ]
           },
           {
-              "name": "公众号管理",
+              "name": "navbar.publicAccountManagement",
               "permission": "",
               "type": 1,
               "sort": 100,

@@ -8,10 +8,6 @@
     <!-- <el-scrollbar ref="mainScrollbar" class="page-component__scrollbar"> -->
     <el-container ref="mainScrollbar">
       <el-main id="mainContent">
-        <!-- 面包屑
-          <el-row type="flex" :class="{'fixed-header':fixedHeader}">
-            <navbar style="width: 100%;" />
-          </el-row> -->
         <el-row>
           <el-col
             id="side-cnt"
@@ -35,8 +31,9 @@
           >
             <el-scrollbar class="page-component__scrollbar">
               <archive
-                @getCategoryList="handleLazyLoadCategory"
-                @handlerCategory="handlerCategory"
+                :recommend="latestRecommend"
+                @get-category-list="handleLazyLoadCategory"
+                @handler-category="handlerCategory"
               />
             </el-scrollbar>
           </el-col>
@@ -49,8 +46,15 @@
 
 <script setup lang="ts">
 import { Profile, Archive, AppMain } from './components'
-import { getDestinationTrees } from '@/api/github/githubApi'
-import { reconstructorTitle, Title } from '@/utils/github.helper'
+import { useBolgTreeStore } from '@/store/modules/blogmatrix'
+import { reconstructorTitle } from '@/utils/pathTransferUtil'
+import * as GithubApi from '@/api/github'
+import { BolgTreeItem } from '@/api/github'
+import { storeToRefs } from 'pinia'
+const router = useRouter()
+const bolgTreeStore = useBolgTreeStore()
+
+const { latestRecommend } = storeToRefs(bolgTreeStore)
 
 withDefaults(
   defineProps<{
@@ -66,28 +70,11 @@ withDefaults(
 )
 const device = ref('web')
 const isLeftSideScrolled = ref(false)
-
-const category = computed(() => {
-  // return this.$store.getters.category
-  return false
-})
 const sidebar = computed(() => {
   return {
     opened: true
   }
 })
-// const device = computed(() => {
-//   return 'web'
-// })
-const fixedHeader = computed(() => {
-  return '10px'
-})
-const styleTrianglify = computed(() => {
-  // backgroundImage: 'url()'
-  backgroundColor: 'red'
-  height: 'auto'
-})
-
 const classObj = ref({
   hideSidebar: false,
   openSidebar: true,
@@ -101,39 +88,55 @@ const handleClickOutside = () => {
 }
 
 const handleLazyLoadCategory = (node, resolve) => {
-  console.log('loadNode', node)
+  console.log('loadNode', node, node.level, node.data)
   if (node.level === 0) {
-    return resolve('this.category')
+    return resolve(bolgTreeStore.getCategory)
   }
-  if (node.level > 1) return resolve([])
-
+  if (node.level > 1) {
+    return resolve([])
+  }
   const { sha } = node.data
-
-  // getDestinationTrees(sha)
-  //   .then((response) => {
-  //     const result = response
-  //     const blogItems: Title[] = reconstructorTitle(result.tree)
-  //     console.log('blogItems', blogItems)
-  //     if (blogItems && blogItems.length > 0) {
-  //       const data = blogItems.map((item) => {
-  //         return { label: item.name, subItem: true, sha: item.sha }
-  //       })
-  //       resolve(data)
-  //     }
-  //   })
-  //   .catch((error) => {
-  //     console.log('error occur', error)
-  //   })
+  GithubApi.getDestinationTrees(sha)
+    .then((response) => {
+      const result = response
+      const blogItems: BolgTreeItem[] = reconstructorTitle(result.tree)
+      console.log('blogItems', blogItems)
+      if (blogItems && blogItems.length > 0) {
+        const data = blogItems.map((item) => {
+          return { label: item.name, leaf: true, sha: item.sha }
+        })
+        return resolve(data)
+      } else {
+        return resolve([])
+      }
+    })
+    .catch((error) => {
+      console.log('error occur', error)
+    })
 }
 
 const handlerCategory = (data) => {
   console.log(`output->data`, data)
-  if (data && data.subItem) {
+  if (data && data.leaf) {
+    router.push({
+      name: 'Blog',
+      params: {
+        shaCode: data.sha
+      }
+    })
     // console.log('handlerCategory', data, CURRENT_TITLE)
     // localStorage.setItem(CURRENT_TITLE, data.label)
     // this.$router.push({ name: 'spring-details', params: { sha: data.sha }})
   }
 }
+
+watch(
+  () => bolgTreeStore.getLatestRecommend,
+  (newVal) => {
+    console.log('appStore.title.watch>>>', newVal)
+  },
+  { deep: true }
+)
 </script>
 
 <style lang="scss" scoped></style>
