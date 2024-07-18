@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Deprecated(forRemoval = true)
 @Repository
 public interface CreedOAuth2AuthorizationRepository extends JpaRepository<CreedOAuth2Authorization, String> {
 

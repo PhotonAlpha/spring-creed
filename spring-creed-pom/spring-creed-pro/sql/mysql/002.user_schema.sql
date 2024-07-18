@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `creed_authorities` (
     `id` varchar(50) NOT NULL,
     `authority` varchar(50) NOT NULL,
     `description` varchar(500) DEFAULT NULL,
-    `enabled` tinyint(1) NOT NULL DEFAULT 0,
+    `deleted` tinyint(1) NOT NULL DEFAULT 0,
     `sort` int(5) NOT NULL DEFAULT 0,
     `remark` varchar(1000) DEFAULT NULL,
     `type` varchar(1000) NOT NULL DEFAULT 1 COMMENT '角色类型',
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `creed_user` (
     `phone_code` varchar(10) DEFAULT NULL,
     `sex` tinyint(1) DEFAULT NULL,
     `avatar` varchar(2000) DEFAULT NULL,
-    `enabled` tinyint(1) NOT NULL DEFAULT 0,
+    `deleted` tinyint(1) NOT NULL DEFAULT 0,
     `login_ip` varchar(2000) DEFAULT NULL,
     `login_date` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     `acc_non_expired` tinyint(1) NOT NULL DEFAULT 0,
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `creed_groups` (
     `email` varchar(500) DEFAULT NULL,
     `phone` varchar(50) DEFAULT NULL,
     `phone_code` varchar(10) DEFAULT NULL,
-    `enabled` tinyint(1) NOT NULL DEFAULT 0,
+    `deleted` tinyint(1) NOT NULL DEFAULT 0,
 
     `create_time` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     `creator` varchar(50) DEFAULT NULL,
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `creed_group_authorities` (
     `authority` varchar(50) NOT NULL,
     `description` varchar(50) DEFAULT NULL,
     `sort` int(5) NOT NULL DEFAULT 0,
-    `enabled` tinyint(1) NOT NULL DEFAULT 0,
+    `deleted` tinyint(1) NOT NULL DEFAULT 0,
 
     `create_time` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     `creator` varchar(50) DEFAULT NULL,
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `creed_group_members` (
     `id` varchar(50) NOT NULL,
     `username` varchar(50) NOT NULL,
     `group_id` varchar(50) NOT NULL,
-    `enabled` tinyint(1) NOT NULL DEFAULT 0,
+    `deleted` tinyint(1) NOT NULL DEFAULT 0,
 
     `create_time` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     `creator` varchar(50) DEFAULT NULL,
@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `creed_group_members` (
 
 -- ENC password
 INSERT INTO `creed_user` (`username`, `password`, `nickname`, `remark`, `email`, `phone`, `phone_code`, `sex`,
-                          `avatar`, `enabled`, `login_ip`, `login_date`, `acc_non_expired`, `acc_non_locked`,
+                          `avatar`, `deleted`, `login_ip`, `login_date`, `acc_non_expired`, `acc_non_locked`,
                           `credentials_non_expired`, `create_time`, `creator`, `update_time`, `updater`, `version`)
 VALUES ('ethan', '{bcrypt}$2a$10$neavo46w/dPODQ30x0AWoePyVR5Y0RNiAG0zD.q7OwzeRB7.n42cq', NULL,
         'admin', NULL, NULL, NULL, 1, NULL, 0, '0:0:0:0:0:0:0:1', '2023-06-08 11:25:40', 0, 0, 0, '2023-06-08 11:25:40',

@@ -16,6 +16,7 @@ import java.util.Objects;
 @IdClass(CreedOAuth2AuthorizationConsent.AuthorizationConsentId.class)
 @Data
 @EqualsAndHashCode
+@Deprecated(forRemoval = true)
 public class CreedOAuth2AuthorizationConsent {
     @Id
     private String registeredClientId;

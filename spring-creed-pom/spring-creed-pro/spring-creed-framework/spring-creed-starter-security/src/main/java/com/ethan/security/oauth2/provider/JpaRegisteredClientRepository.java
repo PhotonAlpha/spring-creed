@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+@Deprecated(forRemoval = true)
 @Slf4j
 public class JpaRegisteredClientRepository implements RegisteredClientRepository {
     private final CreedOAuth2RegisteredClientRepository clientRepository;

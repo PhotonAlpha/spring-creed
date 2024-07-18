@@ -12,6 +12,7 @@ import jakarta.persistence.PreUpdate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.time.ZonedDateTime;
 
 @Component
@@ -26,7 +27,7 @@ public class BaseXAuditingEntityListener {
             BaseXDO baseDO = (BaseXDO) entity;
             // 设置最后修改者的值
             baseDO.setUpdater(lastModifiedBy);
-            baseDO.setUpdateTime(ZonedDateTime.now());
+            baseDO.setUpdateTime(Instant.now());
         }
     }
 }

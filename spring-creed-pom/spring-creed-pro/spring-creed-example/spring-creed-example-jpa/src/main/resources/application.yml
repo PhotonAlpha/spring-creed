@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    #    driver-class-name: org.mariadb.jdbc.Driver
+    #    url: jdbc:mariadb://localhost:3306/ruoyi-vue-pro
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/creed-mall-pro
+    username: root
+    password: root
+  main:
+    allow-circular-references: true
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+
+logging:
+  level:
+    org.hibernate.orm.jdbc.bind: trace
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+

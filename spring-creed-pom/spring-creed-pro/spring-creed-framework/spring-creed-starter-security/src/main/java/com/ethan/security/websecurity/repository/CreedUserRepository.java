@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+@Deprecated(forRemoval = true)
 public interface CreedUserRepository extends JpaRepository<CreedUser, String>, JpaSpecificationExecutor<CreedUser> {
     // @Query("select s from CreedConsumer s where s.enabled = com.ethan.common.constant.CommonStatusEnum.ENABLE and s.username = ?1")
     Optional<CreedUser> findByUsername(String s);
@@ -21,7 +22,7 @@ public interface CreedUserRepository extends JpaRepository<CreedUser, String>, J
     List<CreedUser> findByAuthoritiesIdIn(Collection<String> s);
 
     @Modifying
-    @Query("update CreedUser s set s.enabled = com.ethan.common.constant.CommonStatusEnum.DISABLE where s.username = ?1")
+    @Query("update CreedUser s set s.deleted = com.ethan.common.constant.CommonStatusEnum.DISABLE where s.username = ?1")
     void deleteByUsername(String s);
 
     Optional<CreedUser> findByEmail(String email);

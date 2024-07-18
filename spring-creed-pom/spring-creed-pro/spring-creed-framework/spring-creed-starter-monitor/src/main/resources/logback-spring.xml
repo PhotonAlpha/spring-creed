@@ -5,7 +5,7 @@
     <property scope="context" name="max-file-size" value="300MB" />
     <property scope="context" name="max-history" value="20" />
     <property scope="context" name="total-size-cap" value="10GB" />
-    <property scope="context" name="log-directory" value="/logs/creed" />
+    <property scope="context" name="log-directory" value="./logs" />
     <property scope="context" name="instance" value="spring-creed-console" />
 
     <property scope="context" name="log-pattern" value="%d{dd-MM-yyyy HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} [%thread][%X{traceId:-},%X{spanId:-}] %-40.40logger{39}[%line] : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />

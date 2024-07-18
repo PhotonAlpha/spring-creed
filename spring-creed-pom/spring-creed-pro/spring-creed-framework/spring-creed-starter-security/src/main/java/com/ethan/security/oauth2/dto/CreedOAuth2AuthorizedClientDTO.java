@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2RefreshToken;
 
+@Deprecated(forRemoval = true)
 public class CreedOAuth2AuthorizedClientDTO extends OAuth2AuthorizedClient {
 
 

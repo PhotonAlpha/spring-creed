@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Deprecated(forRemoval = true)
 @Repository
 public interface CreedOAuth2AuthorizationConsentRepository extends JpaRepository<CreedOAuth2AuthorizationConsent, CreedOAuth2AuthorizationConsent.AuthorizationConsentId> {
 

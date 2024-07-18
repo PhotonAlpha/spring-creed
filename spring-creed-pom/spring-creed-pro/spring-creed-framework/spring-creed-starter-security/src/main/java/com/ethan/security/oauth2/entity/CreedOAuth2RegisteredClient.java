@@ -21,6 +21,7 @@ import java.util.Set;
 @Table(name = "creed_oauth2_registered_client")
 @Data
 @EqualsAndHashCode
+@Deprecated(forRemoval = true)
 public class CreedOAuth2RegisteredClient extends BaseXDO {
 
     @Id

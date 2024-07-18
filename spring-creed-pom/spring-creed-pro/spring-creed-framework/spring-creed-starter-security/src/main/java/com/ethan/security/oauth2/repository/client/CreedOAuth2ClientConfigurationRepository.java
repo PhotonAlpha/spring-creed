@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Deprecated(forRemoval = true)
 @Repository
 public interface CreedOAuth2ClientConfigurationRepository extends JpaRepository<CreedOAuth2ClientConfiguration, Long>, JpaSpecificationExecutor<CreedOAuth2ClientConfiguration> {
     Optional<CreedOAuth2ClientConfiguration> findByRegistrationIdAndClientId(String registrationId, String clientId);

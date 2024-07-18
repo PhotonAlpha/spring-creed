@@ -39,6 +39,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+@Deprecated(forRemoval = true)
 public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService {
     private static final Logger log = LoggerFactory.getLogger(JpaOAuth2AuthorizationService.class);
     private static final String VERSION = "version";

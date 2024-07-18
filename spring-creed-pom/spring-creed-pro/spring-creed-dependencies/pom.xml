@@ -201,11 +201,11 @@
                 <version>${spring-creed-boot.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.mariadb.jdbc</groupId>
-                <artifactId>mariadb-java-client</artifactId>
-                <version>3.1.0</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.mariadb.jdbc</groupId>-->
+<!--                <artifactId>mariadb-java-client</artifactId>-->
+<!--                <version>3.1.0</version>-->
+<!--            </dependency>-->
 
             <dependency>
                 <groupId>org.springdoc</groupId>

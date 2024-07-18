@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 import java.util.HashSet;
 import java.util.Set;
 
+@Deprecated(forRemoval = true)
 public class JpaOAuth2AuthorizationConsentService implements OAuth2AuthorizationConsentService {
     private final CreedOAuth2AuthorizationConsentRepository authorizationConsentRepository;
     private final RegisteredClientRepository registeredClientRepository;

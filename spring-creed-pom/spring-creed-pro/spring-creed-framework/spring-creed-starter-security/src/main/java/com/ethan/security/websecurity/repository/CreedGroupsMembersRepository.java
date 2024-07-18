@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+@Deprecated(forRemoval = true)
 public interface CreedGroupsMembersRepository extends JpaRepository<CreedGroupMembers, String> {
 
     @Query(value = """

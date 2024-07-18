@@ -18,6 +18,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Table(name = "creed_oauth2_authorization")
 @Data
 @EqualsAndHashCode
+@Deprecated(forRemoval = true)
 public class CreedOAuth2Authorization {
     @Id
     @Column

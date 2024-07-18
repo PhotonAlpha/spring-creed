@@ -37,6 +37,7 @@ import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.util.CollectionUtils;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -118,7 +119,7 @@ public class RoleServiceImpl implements RoleService {
 
         // 写入缓存
         roleCache.getAndSet(CollUtils.convertMap(roleList, CreedAuthorities::getId));
-        maxUpdateTime.getAndSet(CollUtils.getMaxValue(roleList, BaseXDO::getUpdateTime));
+        maxUpdateTime.getAndSet(ZonedDateTime.ofInstant(CollUtils.getMaxValue(roleList, BaseXDO::getUpdateTime), ZoneId.systemDefault()));
         log.info("[initLocalCache][初始化 Role 数量为 {}]", roleList.size());
     }
 
