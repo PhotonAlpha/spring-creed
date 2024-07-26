@@ -21,7 +21,6 @@ import java.util.Set;
 /**
  * 租户套餐 DO
  *
- * @author 芋道源码
  */
 @Table(name = "system_tenant_package")
 @Entity

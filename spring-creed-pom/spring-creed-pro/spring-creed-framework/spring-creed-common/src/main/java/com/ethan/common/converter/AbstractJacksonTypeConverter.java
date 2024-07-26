@@ -22,17 +22,18 @@ public abstract class AbstractJacksonTypeConverter<T> implements AttributeConver
     @Override
     public String convertToDatabaseColumn(T attribute) {
         if (Objects.isNull(attribute)) {
-            log.warn("trying to convertToDatabaseColumn attribute:{} is NULL", attribute);
+            log.warn("trying to convertToDatabaseColumn attribute is NULL");
             return null;
         }
-        log.info("trying to convertToDatabaseColumn clazz:{} attribute:{}", attribute.getClass(), attribute);
+        log.debug("trying to convertToDatabaseColumn clazz:{} attribute:{}", attribute.getClass(), attribute);
         return JacksonUtils.toJsonString(attribute);
     }
 
     @Override
     public T convertToEntityAttribute(String dbData) {
-        log.info("trying to convertToEntityAttribute clazz:{} dbData:{}", typeReference.getType().getTypeName(), dbData);
+        log.debug("trying to convertToEntityAttribute clazz:{} dbData:{}", typeReference.getType().getTypeName(), dbData);
         if (StringUtils.isBlank(dbData)) {
+            log.warn("trying to convertToEntityAttribute dbData is NULL");
             return null;
         }
         return JacksonUtils.parseObject(dbData, typeReference);

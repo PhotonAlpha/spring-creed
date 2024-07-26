@@ -12,13 +12,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface SystemAuthoritiesRepository extends JpaRepository<SystemAuthorities, Long>, JpaSpecificationExecutor<SystemAuthorities> {
-
-
-/*     long countByUpdateTimeGreaterThan(ZonedDateTime maxUpdateTime);
-
-    long countByParentId(Long menuId);
-
-    Optional<MenuDO> findByParentIdAndName(Long parentId, String name); */
+    Optional<SystemAuthorities> findByAuthority(String name);
 }

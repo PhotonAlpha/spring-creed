@@ -1,5 +1,6 @@
 package com.ethan.system.service.permission.bo;
 
+import com.ethan.security.websecurity.constant.RoleTypeEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -41,6 +42,6 @@ public class RoleCreateReqBO {
      * 角色类型
      */
     @NotNull(message = "角色类型不能为空")
-    private Integer type;
+    private RoleTypeEnum type;
 
 }

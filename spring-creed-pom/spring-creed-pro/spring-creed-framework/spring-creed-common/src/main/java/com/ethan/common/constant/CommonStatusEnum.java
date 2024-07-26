@@ -2,6 +2,8 @@ package com.ethan.common.constant;
 
 import com.ethan.common.converter.AbstractEnumConverter;
 import com.ethan.common.converter.PersistEnum2DB;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.Arrays;
 
@@ -33,6 +35,7 @@ public enum CommonStatusEnum implements IntArrayValuable, PersistEnum2DB<Integer
         return name;
     }
 
+    @JsonCreator //序列化的时候，标记此转换方式
     public static CommonStatusEnum convert(int status) {
         return Arrays.stream(values())
                 .filter(e -> e.status == status)
@@ -50,6 +53,7 @@ public enum CommonStatusEnum implements IntArrayValuable, PersistEnum2DB<Integer
 
 
     @Override
+    @JsonValue //反序列化的时候，标记此转换方式
     public Integer getData() {
         return status;
     }

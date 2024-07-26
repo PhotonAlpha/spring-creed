@@ -38,4 +38,7 @@ public final class PageResult<T> implements Serializable {
         return new PageResult<>(total);
     }
 
+    public static <T>PageResult of(List<T> list, Long total) {
+        return new PageResult(list, total);
+    }
 }

@@ -3,9 +3,7 @@ package com.ethan.system.service.oauth2;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import com.ethan.common.utils.date.DateUtils;
-import com.ethan.security.oauth2.entity.CreedOAuth2RegisteredClient;
-import com.ethan.system.dal.entity.oauth2.OAuth2ApproveDO;
-import com.ethan.system.dal.repository.oauth2.OAuth2ApproveRepository;
+import com.ethan.system.dal.entity.oauth2.CreedOAuth2RegisteredClient;
 import com.google.common.annotations.VisibleForTesting;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -17,9 +15,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import static com.ethan.common.utils.collection.CollUtils.convertSet;
 
 /**
  * OAuth2 批准 Service 实现类
@@ -38,8 +33,8 @@ public class OAuth2ApproveServiceImpl implements OAuth2ApproveService {
     @Resource
     private OAuth2ClientService oauth2ClientService;
 
-    @Resource
-    private OAuth2ApproveRepository oauth2ApproveRepository;
+    // @Resource
+    // private OAuth2ApproveRepository oauth2ApproveRepository;
 
     @Override
     @Transactional
@@ -58,10 +53,11 @@ public class OAuth2ApproveServiceImpl implements OAuth2ApproveService {
         }
 
         // 第二步，算上用户已经批准的授权。如果 scopes 都包含，则返回 true
-        List<OAuth2ApproveDO> approveDOs = getApproveList(userId, userType, clientId);
-        Set<String> scopes = convertSet(approveDOs, OAuth2ApproveDO::getScope,
-                OAuth2ApproveDO::getApproved); // 只保留未过期的 + 同意的
-        return CollUtil.containsAll(scopes, requestedScopes);
+        // List<OAuth2ApproveDO> approveDOs = getApproveList(userId, userType, clientId);
+        // Set<String> scopes = convertSet(approveDOs, OAuth2ApproveDO::getScope,
+        //         OAuth2ApproveDO::getApproved); // 只保留未过期的 + 同意的
+        // return CollUtil.containsAll(scopes, requestedScopes);
+        return true;
     }
 
     @Override
@@ -85,24 +81,25 @@ public class OAuth2ApproveServiceImpl implements OAuth2ApproveService {
     }
 
     @Override
-    public List<OAuth2ApproveDO> getApproveList(Long userId, Integer userType, String clientId) {
-        List<OAuth2ApproveDO> approveDOs = oauth2ApproveRepository.findByUserIdAndUserTypeAndClientId(
-                userId, userType, clientId);
-        approveDOs.removeIf(o -> DateUtils.isExpired(o.getExpiresTime()));
-        return approveDOs;
+    public List<CreedOAuth2RegisteredClient> getApproveList(Long userId, Integer userType, String clientId) {
+        // List<OAuth2ApproveDO> approveDOs = oauth2ApproveRepository.findByUserIdAndUserTypeAndClientId(
+        //         userId, userType, clientId);
+        // approveDOs.removeIf(o -> DateUtils.isExpired(o.getExpiresTime()));
+        // return approveDOs;
+        return null;
     }
 
     @VisibleForTesting
     void saveApprove(Long userId, Integer userType, String clientId,
                      String scope, Boolean approved, Date expireTime) {
         // 先更新
-        OAuth2ApproveDO approveDO = new OAuth2ApproveDO().setUserId(userId).setUserType(userType)
-                .setClientId(clientId).setScope(scope).setApproved(approved).setExpiresTime(expireTime);
-        // if (oauth2ApproveRepository.save(approveDO) == 1) {
-        //     return;
-        // }
-        // 失败，则说明不存在，进行更新
-        oauth2ApproveRepository.save(approveDO);
+        // OAuth2ApproveDO approveDO = new OAuth2ApproveDO().setUserId(userId).setUserType(userType)
+        //         .setClientId(clientId).setScope(scope).setApproved(approved).setExpiresTime(expireTime);
+        // // if (oauth2ApproveRepository.save(approveDO) == 1) {
+        // //     return;
+        // // }
+        // // 失败，则说明不存在，进行更新
+        // oauth2ApproveRepository.save(approveDO);
     }
 
 }

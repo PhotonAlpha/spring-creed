@@ -22,7 +22,7 @@ public interface CreedUserRepository extends JpaRepository<CreedUser, String>, J
     List<CreedUser> findByAuthoritiesIdIn(Collection<String> s);
 
     @Modifying
-    @Query("update CreedUser s set s.deleted = com.ethan.common.constant.CommonStatusEnum.DISABLE where s.username = ?1")
+    @Query("update CreedUser s set s.enabled = com.ethan.common.constant.CommonStatusEnum.DISABLE where s.username = ?1")
     void deleteByUsername(String s);
 
     Optional<CreedUser> findByEmail(String email);

@@ -18,7 +18,6 @@ import static com.ethan.system.constant.ErrorCodeConstants.NOTICE_NOT_FOUND;
 /**
  * 通知公告 Service 实现类
  *
- * @author 芋道源码
  */
 @Service
 public class NoticeServiceImpl implements NoticeService {

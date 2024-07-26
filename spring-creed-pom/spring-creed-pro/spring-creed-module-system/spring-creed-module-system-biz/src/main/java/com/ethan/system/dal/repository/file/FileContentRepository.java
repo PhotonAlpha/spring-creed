@@ -7,7 +7,6 @@
 
 package com.ethan.system.dal.repository.file;
 
-import com.ethan.system.dal.entity.dept.PostDO;
 import com.ethan.system.dal.entity.file.FileContentDO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

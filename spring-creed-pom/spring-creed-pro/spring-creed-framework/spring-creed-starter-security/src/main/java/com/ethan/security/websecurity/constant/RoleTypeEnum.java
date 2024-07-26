@@ -2,6 +2,8 @@ package com.ethan.security.websecurity.constant;
 
 import com.ethan.common.converter.AbstractEnumConverter;
 import com.ethan.common.converter.PersistEnum2DB;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -24,12 +26,14 @@ public enum RoleTypeEnum implements PersistEnum2DB<Integer> {
 
 
     @Override
+    @JsonValue
     public Integer getData() {
         return type;
     }
 
+    @JsonCreator
     public static RoleTypeEnum findByType(Integer type) {
-        return Stream.of(values()).filter(e -> e.getType().equals(type)).findFirst().orElse(null);
+        return Stream.of(values()).filter(e -> e.getType().equals(type)).findFirst().orElse(CUSTOM);
     }
 
     public static class Converter extends AbstractEnumConverter<RoleTypeEnum, Integer> {

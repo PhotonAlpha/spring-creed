@@ -42,6 +42,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.ethan</groupId>
+            <artifactId>spring-creed-module-infra-api</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
         </dependency>

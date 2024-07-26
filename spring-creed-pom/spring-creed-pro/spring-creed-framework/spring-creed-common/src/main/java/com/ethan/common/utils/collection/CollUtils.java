@@ -21,7 +21,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Collection 工具类
@@ -106,6 +105,12 @@ public class CollUtils {
             return new HashMap<>();
         }
         return convertMap(from, keyFunc, valueFunc, (v1, v2) -> v1);
+    }
+    public static <T, V, R> Function<T, R> combine(Function<T, V> func1, Function<V, R> func2) {
+        return func1.andThen(func2);
+    }
+    public static <A, B, C, D> Function<A, D> combine(Function<A, B> func1, Function<B, C> func2, Function<C, D> func3) {
+        return combine(func1, func2).andThen(func3);
     }
 
     public static <T, K, V> Map<K, V> convertMap(Collection<T> from, Function<T, K> keyFunc, Function<T, V> valueFunc, BinaryOperator<V> mergeFunction) {

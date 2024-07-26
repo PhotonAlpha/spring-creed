@@ -1,13 +1,13 @@
 package com.ethan.example.jpa.dal.permission;
 
 import com.ethan.common.pojo.BaseVersioningXDO;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -50,6 +50,7 @@ public class SystemMenus extends BaseVersioningXDO {
      * - 对于后端，配合 @PreAuthorize 注解，配置 API 接口需要该权限，从而对 API 接口进行权限控制。
      * - 对于前端，配合前端标签，配置按钮是否展示，避免用户没有该权限时，结果可以看到该操作。
      */
+    @Transient
     private String permission;
     /**
      * 菜单类型
@@ -77,6 +78,10 @@ public class SystemMenus extends BaseVersioningXDO {
      * 组件路径
      */
     private String component;
+    /**
+     * 组件路径
+     */
+    private String componentName;
 
     /**
      * 是否可见
@@ -92,6 +97,10 @@ public class SystemMenus extends BaseVersioningXDO {
      * 是否使用 Vue 路由的 keep-alive 特性
      */
     private Boolean keepAlive;
+    /**
+     * 是否总是显示页签
+     */
+    private Boolean alwaysShow;
 
     @OneToMany(mappedBy = "menus")
     private List<SystemMenuRoles> menuRoles;

@@ -1,6 +1,6 @@
 package com.ethan.system.service.oauth2;
 
-import com.ethan.system.dal.entity.oauth2.OAuth2ApproveDO;
+import com.ethan.system.dal.entity.oauth2.CreedOAuth2RegisteredClient;
 
 import java.util.Collection;
 import java.util.List;
@@ -47,6 +47,6 @@ public interface OAuth2ApproveService {
      * @param clientId 客户端编号
      * @return 是否授权通过
      */
-    List<OAuth2ApproveDO> getApproveList(Long userId, Integer userType, String clientId);
+    List<CreedOAuth2RegisteredClient> getApproveList(Long userId, Integer userType, String clientId);
 
 }

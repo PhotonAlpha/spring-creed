@@ -31,7 +31,7 @@ public class CreedGroupMembers extends BaseXDO {
     // private String groupId;
     private String username;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "group_id", referencedColumnName = "id")
     private CreedGroups groups;
 }

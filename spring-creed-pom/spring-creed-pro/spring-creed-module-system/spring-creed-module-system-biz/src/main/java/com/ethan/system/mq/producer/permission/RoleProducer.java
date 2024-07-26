@@ -23,8 +23,8 @@ public class RoleProducer {
      */
     public void sendRoleRefreshMessage() {
         log.info("sendRoleRefreshMessage");
-        RoleRefreshMessage message = new RoleRefreshMessage();
-        redisMQTemplate.send(message);
+        // RoleRefreshMessage message = new RoleRefreshMessage();
+        // redisMQTemplate.send(message);
     }
 
 }

@@ -2,10 +2,15 @@ package com.ethan.security.websecurity.constant;
 
 import com.ethan.common.converter.AbstractEnumConverter;
 import com.ethan.common.converter.PersistEnum2DB;
+import com.ethan.common.exception.ErrorCode;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.stream.Stream;
+
+import static com.ethan.common.exception.util.ServiceExceptionUtil.exception;
 
 /**
  * 数据范围枚举类
@@ -31,12 +36,14 @@ public enum DataScopeEnum implements PersistEnum2DB<Integer> {
      */
     private final Integer scope;
 
+    @JsonCreator //序列化的时候，标记此转换方式
     public static DataScopeEnum findByDataScope(Integer dataScope) {
-        return Stream.of(values()).filter(e -> e.getScope().equals(dataScope)).findFirst().orElse(null);
+        return Stream.of(values()).filter(e -> e.getScope().equals(dataScope)).findFirst().orElseThrow(() -> exception(1000000000, "Invalid DataScope"));
     }
 
 
     @Override
+    @JsonValue //反序列化的时候，标记此转换方式
     public Integer getData() {
         return scope;
     }

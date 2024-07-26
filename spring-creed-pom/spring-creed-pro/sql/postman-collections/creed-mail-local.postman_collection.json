@@ -1,0 +1,115 @@
+{
+	"info": {
+		"_postman_id": "b4a15415-a90f-4aee-9194-0640c3e1f8cf",
+		"name": "creed-mail-local",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "fetch_token_by_code_oauth2/token",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "text"
+						},
+						{
+							"key": "code",
+							"value": "NlSpAgRAH8qU2NTpqYhF8xbVIB6hg4CCNojDM2XS3Y2jSCm3q0r6DqbfsQpuzcVzlyIXOb8H0D48Lx7cMagvvKNTFipyr_u-wZHDi2TmA_r0r3528Hf7DyRCbEh_FJE-",
+							"type": "text"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "http://127.0.0.1:8080/authorized",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "password1",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "messaging-client",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:48080/oauth2/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "48080",
+					"path": [
+						"oauth2",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetch_token_by_client_credentials_oauth2/token",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "password1",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "messaging-client",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:48080/oauth2/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "48080",
+					"path": [
+						"oauth2",
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

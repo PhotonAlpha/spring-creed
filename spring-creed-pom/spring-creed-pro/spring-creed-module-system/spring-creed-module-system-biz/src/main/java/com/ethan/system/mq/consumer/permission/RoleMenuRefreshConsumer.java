@@ -21,7 +21,7 @@ public class RoleMenuRefreshConsumer extends AbstractChannelMessageListener<Role
     @Override
     public void onMessage(RoleMenuRefreshMessage message) {
         log.info("[onMessage][收到 Role 与 Menu 的关联刷新消息]");
-        permissionService.initLocalCache();
+        // permissionService.initLocalCache();
     }
 
 }

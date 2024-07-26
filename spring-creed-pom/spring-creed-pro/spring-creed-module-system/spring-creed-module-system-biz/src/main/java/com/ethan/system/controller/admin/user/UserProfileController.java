@@ -8,6 +8,7 @@ import com.ethan.system.controller.admin.user.vo.profile.UserProfileRespVO;
 import com.ethan.system.controller.admin.user.vo.profile.UserProfileUpdatePasswordReqVO;
 import com.ethan.system.controller.admin.user.vo.profile.UserProfileUpdateReqVO;
 import com.ethan.system.convert.user.UserConvert;
+import com.ethan.system.dal.entity.permission.SystemUsers;
 import com.ethan.system.service.dept.DeptService;
 import com.ethan.system.service.dept.PostService;
 import com.ethan.system.service.permission.PermissionService;
@@ -31,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import static com.ethan.common.common.R.success;
 import static com.ethan.common.utils.WebFrameworkUtils.getLoginUserId;
+import static com.ethan.common.utils.WebFrameworkUtils.getLoginUserIdL;
 
 @Tag(name = "管理后台 - 用户个人中心")
 @RestController
@@ -57,8 +59,8 @@ public class UserProfileController {
     // @DataPermission(enable = false) // 关闭数据权限，避免只查看自己时，查询不到部门。
     public R<UserProfileRespVO> profile() {
         // 获得用户基本信息
-        CreedUser user = userService.getUser(getLoginUserId());
-        UserProfileRespVO resp = UserConvert.INSTANCE.convert03(user);
+        SystemUsers user = userService.getUser(getLoginUserIdL());
+        UserProfileRespVO resp = UserConvert.INSTANCE.convert2ProfileResp(user);
         // 获得用户角色
         // List<RoleDO> userRoles = roleService.getRolesFromCache(permissionService.getUserRoleIdListByUserId(user.getId()));
         // resp.setRoles(UserConvert.INSTANCE.convertList(userRoles));
@@ -81,14 +83,14 @@ public class UserProfileController {
     @PutMapping("/update")
     @Schema(name = "修改用户个人信息")
     public R<Boolean> updateUserProfile(@Valid @RequestBody UserProfileUpdateReqVO reqVO) {
-        userService.updateUserProfile(getLoginUserId(), reqVO);
+        userService.updateUserProfile(getLoginUserIdL(), reqVO);
         return success(true);
     }
 
     @PutMapping("/update-password")
     @Schema(name = "修改用户个人密码")
     public R<Boolean> updateUserProfilePassword(@Valid @RequestBody UserProfileUpdatePasswordReqVO reqVO) {
-        userService.updateUserPassword(getLoginUserId(), reqVO);
+        userService.updateUserPassword(getLoginUserIdL(), reqVO);
         return success(true);
     }
 
@@ -98,7 +100,7 @@ public class UserProfileController {
         if (file.isEmpty()) {
             throw ServiceExceptionUtil.exception(ErrorCodeConstants.FILE_IS_EMPTY);
         }
-        String avatar = userService.updateUserAvatar(getLoginUserId(), file.getInputStream());
+        String avatar = userService.updateUserAvatar(getLoginUserIdL(), file.getInputStream());
         return success(avatar);
     }
 

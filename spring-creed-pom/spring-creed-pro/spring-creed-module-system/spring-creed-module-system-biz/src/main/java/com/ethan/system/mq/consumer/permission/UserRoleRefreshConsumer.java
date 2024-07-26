@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 /**
  * 针对 {@link UserRoleRefreshMessage} 的消费者
  *
- * @author 芋道源码
  */
 @Component
 @Slf4j
@@ -23,7 +22,7 @@ public class UserRoleRefreshConsumer extends AbstractChannelMessageListener<User
     @Override
     public void onMessage(UserRoleRefreshMessage message) {
         log.info("[onMessage][收到 User 与 Role 的关联刷新消息]");
-        permissionService.initLocalCache();
+        // permissionService.initLocalCache();
     }
 
 }

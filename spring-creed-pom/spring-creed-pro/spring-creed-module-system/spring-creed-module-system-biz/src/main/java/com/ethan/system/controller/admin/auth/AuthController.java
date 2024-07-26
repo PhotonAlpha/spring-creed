@@ -1,23 +1,25 @@
 package com.ethan.system.controller.admin.auth;
 
+import cn.hutool.core.collection.CollUtil;
 import com.ethan.common.common.R;
 import com.ethan.common.constant.CommonStatusEnum;
-import com.ethan.common.utils.collection.SetUtils;
 import com.ethan.framework.operatelog.annotations.OperateLog;
 import com.ethan.security.websecurity.entity.CreedAuthorities;
 import com.ethan.security.websecurity.entity.CreedUser;
 import com.ethan.system.constant.logger.LoginLogTypeEnum;
-import com.ethan.system.constant.permission.MenuTypeEnum;
 import com.ethan.system.controller.admin.auth.vo.AuthLoginReqVO;
 import com.ethan.system.controller.admin.auth.vo.AuthLoginRespVO;
-import com.ethan.system.controller.admin.auth.vo.AuthMenuRespVO;
 import com.ethan.system.controller.admin.auth.vo.AuthPermissionInfoRespVO;
 import com.ethan.system.controller.admin.auth.vo.AuthSmsLoginReqVO;
 import com.ethan.system.controller.admin.auth.vo.AuthSmsSendReqVO;
 import com.ethan.system.controller.admin.auth.vo.AuthSocialLoginReqVO;
-import com.ethan.system.controller.admin.permission.vo.menu.MenuVO;
 import com.ethan.system.convert.auth.AuthConvert;
 import com.ethan.system.dal.entity.permission.MenuDO;
+import com.ethan.system.dal.entity.permission.RoleDO;
+import com.ethan.system.dal.entity.permission.SystemMenus;
+import com.ethan.system.dal.entity.permission.SystemRoles;
+import com.ethan.system.dal.entity.permission.SystemUsers;
+import com.ethan.system.dal.entity.user.AdminUserDO;
 import com.ethan.system.service.auth.AdminAuthService;
 import com.ethan.system.service.permission.MenuService;
 import com.ethan.system.service.permission.PermissionService;
@@ -43,14 +45,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 import static com.ethan.common.common.R.success;
 import static com.ethan.common.utils.WebFrameworkUtils.getLoginUserId;
+import static com.ethan.common.utils.WebFrameworkUtils.getLoginUserIdL;
 import static com.ethan.common.utils.collection.CollUtils.convertSet;
-import static java.util.Collections.singleton;
 
 @Tag(name = "管理后台 - 认证")
 @RestController
@@ -109,28 +112,30 @@ public class AuthController {
     @GetMapping("/get-permission-info")
     @Schema(name = "获取登录用户的权限信息")
     public R<AuthPermissionInfoRespVO> getPermissionInfo() {
-        // 获得用户信息
-        CreedUser user = userService.getUser(getLoginUserId());
+        // 1.1 获得用户信息
+        SystemUsers user = userService.getUser(getLoginUserIdL());
         if (user == null) {
-            return null;
+            return success(null);
         }
-        // 获得角色列表
-        // singleton(CommonStatusEnum.ENABLE.getStatus())
-        Set<String> roleIds = permissionService.getUserRoleIdListByUserId(getLoginUserId());
-        List<CreedAuthorities> roles = roleService.getRoleList(roleIds);
-        roles.removeIf(role -> !CommonStatusEnum.ENABLE.equals(role.getEnabled())); // 移除禁用的角色
-        // 获得菜单列表
-        // List<MenuDO> menuList = permissionService.getRoleMenuListFromCache(roleIds,
-        //         SetUtils.asSet(MenuTypeEnum.DIR.getType(), MenuTypeEnum.MENU.getType(), MenuTypeEnum.BUTTON.getType()),
-        //         singleton(CommonStatusEnum.ENABLE.getStatus())); // 只要开启的
 
-        Set<Long> menuIds = permissionService.getRoleMenuListByRoleId(convertSet(roles, CreedAuthorities::getId));
-        List<MenuDO> menuList = menuService.getMenuList(menuIds);
-        // 拼接结果返回
+        // 1.2 获得角色列表
+        Set<Long> roleIds = permissionService.getUserRoleIdListByUserId(getLoginUserIdL());
+        if (CollUtil.isEmpty(roleIds)) {
+            return success(AuthConvert.INSTANCE.convert(user, Collections.emptyList(), Collections.emptyList()));
+        }
+        List<SystemRoles> roles = roleService.getRoleList(roleIds);
+        roles.removeIf(role -> !CommonStatusEnum.ENABLE.getStatus().equals(role.getEnabled())); // 移除禁用的角色
+
+        // 1.3 获得菜单列表
+        Set<Long> menuIds = permissionService.getRoleMenuListByRoleId(convertSet(roles, SystemRoles::getId));
+        List<SystemMenus> menuList = menuService.getMenuList(menuIds);
+        menuList = menuService.filterDisableMenus(menuList);
+
+        // 2. 拼接结果返回
         return success(AuthConvert.INSTANCE.convert(user, roles, menuList));
     }
 
-    @GetMapping("/list-menus")
+    /* @GetMapping("/list-menus")
     @Schema(name = "获得登录用户的菜单列表")
     public R<List<MenuVO>> getMenus() {
         // 获得角色列表
@@ -141,7 +146,7 @@ public class AuthController {
                 singleton(CommonStatusEnum.ENABLE.getStatus())); // 只要开启的
         // 转换成 Tree 结构返回
         return success(AuthConvert.INSTANCE.buildMenuTree(menuList));
-    }
+    } */
 
     // ========== 短信登录相关 ==========
 

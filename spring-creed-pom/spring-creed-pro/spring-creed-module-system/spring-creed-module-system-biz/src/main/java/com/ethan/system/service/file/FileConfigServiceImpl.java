@@ -31,6 +31,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -105,8 +106,9 @@ public class FileConfigServiceImpl implements FileConfigService {
         //     }
         // });
 
-        // 写入缓存
-        maxUpdateTime = CollUtils.getMaxValue(configs, FileConfigDO::getUpdateTime);
+        // 写入缓存 TODO
+        maxUpdateTime = ZonedDateTime.ofInstant(CollUtils.getMaxValue(configs, FileConfigDO::getUpdateTime), ZoneId.systemDefault());
+        // maxUpdateTime = CollUtils.getMaxValue(configs, FileConfigDO::getUpdateTime);
         log.info("[initFileClients][初始化 FileConfig 数量为 {}]", configs.size());
     }
 

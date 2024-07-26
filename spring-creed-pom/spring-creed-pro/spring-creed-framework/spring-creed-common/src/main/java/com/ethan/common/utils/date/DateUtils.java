@@ -7,6 +7,11 @@
 
 package com.ethan.common.utils.date;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.validation.constraints.NotNull;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.Duration;
@@ -21,11 +26,6 @@ import java.util.Date;
 
 public class DateUtils {
 
-    /**
-     * 时区 - 默认
-     */
-    public static final String TIME_ZONE_DEFAULT = "GMT+8";
-
     public static final String FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECONDS = "uuuu-MM-dd HH:mm:ssSSS";
     public static final String FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND = "uuuu-MM-dd HH:mm:ss";
     public static final DateTimeFormatter DEFAULT_FORMATTER = DateTimeFormatter.ofPattern(FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECONDS);
@@ -34,6 +34,10 @@ public class DateUtils {
      * 秒转换成毫秒
      */
     public static final long SECOND_MILLIS = 1000;
+    /**
+     * 时区 - 默认
+     */
+    public static final String UTC_8 = "UTC+8";
 
 
     public static Date addTime(Duration duration) {
@@ -152,11 +156,19 @@ public class DateUtils {
         LocalDate localDate = LocalDate.ofInstant(date.toInstant(), ZoneId.systemDefault());
         return LocalDate.now().equals(localDate);
     }
+    @Deprecated(forRemoval = true)
     public static boolean isToday(ZonedDateTime date) {
         if (date == null) {
             return false;
         }
         LocalDate localDate = date.toLocalDate();
+        return LocalDate.now().equals(localDate);
+    }
+    public static boolean isToday(Instant date) {
+        if (date == null) {
+            return false;
+        }
+        LocalDate localDate = LocalDate.ofInstant(date, ZoneId.of(UTC_8));
         return LocalDate.now().equals(localDate);
     }
 
@@ -165,8 +177,30 @@ public class DateUtils {
             return true;
         }
 //        ZoneId.getAvailableZoneIds(), check all available zone ids
-        LocalDateTime nowTime = ZonedDateTime.now(ZoneId.of("Asia/Shanghai")).toLocalDateTime();
-        LocalDateTime expiringTime = LocalDateTime.parse(timestamp, DEFAULT_FORMATTER).plusSeconds(timeoutSeconds).atZone(ZoneId.of("Asia/Shanghai")).toLocalDateTime();
+        LocalDateTime nowTime = ZonedDateTime.now(ZoneId.of(UTC_8)).toLocalDateTime();
+        LocalDateTime expiringTime = LocalDateTime.parse(timestamp, DEFAULT_FORMATTER).plusSeconds(timeoutSeconds).atZone(ZoneId.of(UTC_8)).toLocalDateTime();
         return nowTime.isAfter(expiringTime);
+    }
+
+
+    public static Instant localDateTime2Instant(LocalDateTime date) {
+        if (date == null) {
+            return null;
+        }
+        return date.atZone(ZoneId.of(UTC_8)).toInstant();
+    }
+    public static LocalDateTime instant2LocalDateTime(Instant date) {
+        if (date == null) {
+            return null;
+        }
+        return LocalDateTime.ofInstant(date, ZoneId.of(UTC_8));
+    }
+
+    public static Predicate instantCriteriaBuilder(CriteriaBuilder cb, @NotNull Expression<Instant> dateExpress, @NotNull LocalDateTime[] createTime) {
+        if (ArrayUtils.getLength(createTime) > 1) {
+            return cb.between(dateExpress, localDateTime2Instant(createTime[0]), localDateTime2Instant(createTime[1]));
+        } else {
+            return cb.greaterThanOrEqualTo(dateExpress, localDateTime2Instant(createTime[0]));
+        }
     }
 }

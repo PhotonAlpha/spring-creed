@@ -25,6 +25,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -93,9 +94,9 @@ public class SmsTemplateServiceImpl implements SmsTemplateService {
             return;
         }
 
-        // 写入缓存
+        // 写入缓存 TODO
         smsTemplateCache = CollUtils.convertMap(smsTemplateList, SmsTemplateDO::getCode);
-        maxUpdateTime = CollUtils.getMaxValue(smsTemplateList, SmsTemplateDO::getUpdateTime);
+        maxUpdateTime = ZonedDateTime.ofInstant(CollUtils.getMaxValue(smsTemplateList, SmsTemplateDO::getUpdateTime), ZoneId.systemDefault());
         log.info("[initLocalCache][初始化 SmsTemplate 数量为 {}]", smsTemplateList.size());
     }
 

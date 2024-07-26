@@ -1,9 +1,5 @@
 package com.ethan.security.oauth2.config;
 
-import com.ethan.security.oauth2.provider.JpaOAuth2AuthorizationConsentService;
-import com.ethan.security.oauth2.provider.JpaOAuth2AuthorizationService;
-import com.ethan.security.oauth2.repository.CreedOAuth2AuthorizationConsentRepository;
-import com.ethan.security.oauth2.repository.CreedOAuth2AuthorizationRepository;
 import com.ethan.security.provider.UnAuthExceptionHandler;
 import com.ethan.security.websecurity.filter.LoginTokenAuthenticationFilter;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -32,6 +28,8 @@ import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.security.oauth2.server.authorization.InMemoryOAuth2AuthorizationConsentService;
+import org.springframework.security.oauth2.server.authorization.InMemoryOAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
@@ -79,6 +77,7 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.Arrays;
 import java.util.UUID;
 
 @Configuration
@@ -226,7 +225,7 @@ public class AuthorizationServerConfig {
                         // .accessDeniedHandler(exceptionHandler())
                         // .authenticationEntryPoint(exceptionHandler())
                 )
-                //oauth2Login 用于三方登陆
+                // oauth2Login 用于三方登陆
 //                .oauth2Login(oauth2login -> oauth2login.)
 
                 /*.formLogin(form ->
@@ -240,6 +239,7 @@ public class AuthorizationServerConfig {
 
                 // Accept access tokens for User Info and/or Client Registration
                 .addFilterAfter(loginTokenAuthenticationFilter, AnonymousAuthenticationFilter.class)
+                // .addFilterBefore(loginTokenSupportFilter(), BearerTokenAuthenticationFilter.class)
                 // .oauth2ResourceServer(OAuth2ResourceServerConfigurer::opaqueToken)
                 // .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 // add api validation by token
@@ -327,9 +327,10 @@ public class AuthorizationServerConfig {
     public RegisteredClientRepository registeredClientRepository() {
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId("messaging-client")
-                .clientSecret("{noop}secret")
+                .clientSecret("{noop}password1")
                 // .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
+                // .clientAuthenticationMethods(coll -> coll.addAll(Arrays.asList(ClientAuthenticationMethod.CLIENT_SECRET_BASIC, ClientAuthenticationMethod.CLIENT_SECRET_POST)))
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
@@ -341,8 +342,22 @@ public class AuthorizationServerConfig {
                 .scope("message.write")
                 .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
                 .build();
-        InMemoryRegisteredClientRepository registeredClientRepository = new InMemoryRegisteredClientRepository(registeredClient);
-        return registeredClientRepository;
+        RegisteredClient registeredClient2 = RegisteredClient.withId(UUID.randomUUID().toString())
+                .clientId("default-client")
+                .clientSecret("{noop}password")
+                .clientAuthenticationMethods(coll -> coll.addAll(Arrays.asList(ClientAuthenticationMethod.CLIENT_SECRET_BASIC, ClientAuthenticationMethod.CLIENT_SECRET_POST)))
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .redirectUri("http://127.0.0.1:8080/login/oauth2/code/messaging-client-oidc")
+                .redirectUri("http://127.0.0.1:8080/authorized")
+                .scope(OidcScopes.OPENID)
+                .scope(OidcScopes.PROFILE)
+                .scope("message.read")
+                .scope("message.write")
+                .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
+                .build();
+        return new InMemoryRegisteredClientRepository(Arrays.asList(registeredClient, registeredClient2));
     }
 
     /**
@@ -420,15 +435,27 @@ public class AuthorizationServerConfig {
     }
 
     @Bean
+    @ConditionalOnMissingBean
+    public OAuth2AuthorizationService authorizationService() {
+        return new InMemoryOAuth2AuthorizationService();
+    }
+    @Bean
+    @ConditionalOnMissingBean
+    public OAuth2AuthorizationConsentService authorizationConsentService() {
+        return new InMemoryOAuth2AuthorizationConsentService();
+    }
+
+/* JPA实现
+    @Bean
     public OAuth2AuthorizationService authorizationService(CreedOAuth2AuthorizationRepository authorizationRepository, RegisteredClientRepository registeredClientRepository) {
-        /* return new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository); */
+         *//* return new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository); *//*
         return new JpaOAuth2AuthorizationService(authorizationRepository, registeredClientRepository);
     }
     @Bean
     public OAuth2AuthorizationConsentService authorizationConsentService(CreedOAuth2AuthorizationConsentRepository authorizationConsentRepository, RegisteredClientRepository registeredClientRepository) {
-        /* return new JdbcOAuth2AuthorizationConsentService(jdbcTemplate, registeredClientRepository); */
+         *//* return new JdbcOAuth2AuthorizationConsentService(jdbcTemplate, registeredClientRepository); *//*
         return new JpaOAuth2AuthorizationConsentService(authorizationConsentRepository, registeredClientRepository);
-    }
+    } */
 
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
