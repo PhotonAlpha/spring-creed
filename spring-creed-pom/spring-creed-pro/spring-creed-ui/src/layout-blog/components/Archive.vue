@@ -142,6 +142,7 @@ const loadNode = (node: Node, resolve: Function) => {
   emit('getCategoryList', node, resolve)
 }
 const handlePostClick = (data) => {
+  // innerRef.value.$el!.scrollIntoView({ block: 'end', behavior: 'smooth' }) //滚动到底部
   data.element.scrollIntoView({ behavior: 'smooth' })
 }
 const handleNodeClick = (data: Tree) => {

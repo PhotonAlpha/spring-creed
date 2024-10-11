@@ -32,14 +32,19 @@ import com.mzt.logapi.context.LogRecordContext;
 import com.mzt.logapi.service.impl.DiffParseFunction;
 import com.mzt.logapi.starter.annotation.LogRecord;
 import jakarta.annotation.Resource;
+import jakarta.persistence.NamedEntityGraph;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -158,7 +163,6 @@ public class AdminUserServiceImpl implements AdminUserService {
     @LogRecord(type = SYSTEM_USER_TYPE, subType = SYSTEM_USER_UPDATE_SUB_TYPE, bizNo = "{{#updateReqVO.id}}",
             success = SYSTEM_USER_UPDATE_SUCCESS)
     public void updateUser(UserSaveReqVO updateReqVO) {
-        updateReqVO.setPassword(null); // 特殊：此处不更新密码
         // 1. 校验正确性
         SystemUsers users = validateUserForCreateOrUpdate(updateReqVO.getId(), updateReqVO.getUsername(),
                 updateReqVO.getPhone(), updateReqVO.getEmail(), updateReqVO.getDeptId(), updateReqVO.getPostIds());
@@ -295,17 +299,22 @@ public class AdminUserServiceImpl implements AdminUserService {
     @LogRecord(type = SYSTEM_USER_TYPE, subType = SYSTEM_USER_DELETE_SUB_TYPE, bizNo = "{{#id}}",
             success = SYSTEM_USER_DELETE_SUCCESS)
     public void deleteUser(Long id) {
-        // 1. 校验用户存在
+        log.info("deleteUser:{}", id);
+        // 2.1 校验用户存在
         SystemUsers user = validateUserExists(id);
 
-        // 2.1 删除用户
-        usersRepository.delete(user);
         // 2.2 删除用户关联数据
         permissionService.processUserDeleted(id);
         // 2.2 删除用户岗位
-        deptUsersRepository.deleteAll(user.getDeptUsers());
+        var deptUsers = user.getDeptUsers();
+        log.info("deptUsers size:{}", deptUsers.size());
+        deptUsersRepository.deleteAll(deptUsers);
         // 2.3 删除用户部门
-        postUsersRepository.deleteAll(user.getPostUsers());
+        var postUsers = user.getPostUsers();
+        log.info("postUsers size:{}", postUsers.size());
+        postUsersRepository.deleteAll(postUsers);
+        // 2.4 删除用户
+        usersRepository.delete(user);
 
         // 3. 记录操作日志上下文
         LogRecordContext.putVariable("user", user);
@@ -328,12 +337,15 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public PageResult<SystemUsers> getUserPage(UserPageReqVO reqVO) {
-        Page<SystemUsers> page = usersRepository.findByCondition(reqVO, getDeptCondition(reqVO.getDeptId()));
+        // Page<SystemUsers> page = usersRepository.findByCondition(reqVO, getDeptCondition(reqVO.getDeptId()));
+        //TODO 临时禁用dept的check
+        Page<SystemUsers> page = usersRepository.findByCondition(reqVO, null);
         return new PageResult(page.getContent(), page.getTotalElements());
     }
 
     @Override
     public SystemUsers getUser(Long id) {
+        Assert.notNull(id, "User Id can not be null");
         return usersRepository.findById(id).orElse(null);
     }
 
@@ -437,7 +449,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @VisibleForTesting
     void validateUsernameUnique(Long id, String username) {
-        if (StringUtils.hasText(username)) {
+        if (!StringUtils.hasText(username)) {
             return;
         }
         Optional<SystemUsers> userOptional = usersRepository.findByUsername(username);
@@ -456,7 +468,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @VisibleForTesting
     void validateEmailUnique(Long id, String email) {
-        if (StringUtils.hasText(email)) {
+        if (!StringUtils.hasText(email)) {
             return;
         }
         Optional<SystemUsers> userOptional = usersRepository.findByEmail(email);
@@ -473,11 +485,11 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @VisibleForTesting
-    void validateMobileUnique(Long id, String mobile) {
-        if (StringUtils.hasText(mobile)) {
+    void validateMobileUnique(Long id, String phoneNo) {
+        if (!StringUtils.hasText(phoneNo)) {
             return;
         }
-        Optional<SystemUsers> userOptional = usersRepository.findByPhone(mobile);
+        Optional<SystemUsers> userOptional = usersRepository.findByPhone(phoneNo);
         if (userOptional.isEmpty()) {
             return;
         }
@@ -574,4 +586,94 @@ public class AdminUserServiceImpl implements AdminUserService {
         return passwordEncoder.encode(password);
     }
 
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        //TODO
+    }
+
+    @Override
+    public void setMessageSource(MessageSource messageSource) {
+        //TODO
+    }
+
+    @Override
+    public List<String> findAllGroups() {
+        //TODO
+        return null;
+    }
+
+    @Override
+    public List<String> findUsersInGroup(String groupName) {
+        //TODO
+
+        return null;
+    }
+
+    @Override
+    public void createGroup(String groupName, List<GrantedAuthority> authorities) {
+        //TODO
+    }
+
+    @Override
+    public void deleteGroup(String groupName) {
+        //TODO
+    }
+
+    @Override
+    public void renameGroup(String oldName, String newName) {
+        //TODO
+    }
+
+    @Override
+    public void addUserToGroup(String username, String group) {
+        //TODO
+    }
+
+    @Override
+    public void removeUserFromGroup(String username, String groupName) {
+        //TODO
+    }
+
+    @Override
+    public List<GrantedAuthority> findGroupAuthorities(String groupName) {
+        //TODO
+        return null;
+    }
+
+    @Override
+    public void addGroupAuthority(String groupName, GrantedAuthority authority) {
+        //TODO
+    }
+
+    @Override
+    public void removeGroupAuthority(String groupName, GrantedAuthority authority) {
+        //TODO
+    }
+
+    @Override
+    public void createUser(UserDetails user) {
+        //TODO
+    }
+
+    @Override
+    public void updateUser(UserDetails user) {
+        //TODO
+    }
+
+    @Override
+    public void deleteUser(String username) {
+        //TODO
+    }
+
+    @Override
+    public void changePassword(String oldPassword, String newPassword) {
+        //TODO
+    }
+
+    @Override
+    public boolean userExists(String username) {
+        //TODO
+        return false;
+    }
 }

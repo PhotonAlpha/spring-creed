@@ -34,6 +34,7 @@ public interface SystemRolesConvert extends BasicConvert {
 
     RoleSaveReqVO convert0(SystemRoles bean);
 
+    @Mapping(source = "enabled", target = "status")
     RoleRespVO convert(SystemRoles bean);
 
     List<RoleSimpleRespVO> convertList(List<SystemRoles> list);

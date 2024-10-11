@@ -21,6 +21,7 @@ import com.ethan.system.dal.redis.RedisKeyConstants;
 import com.ethan.system.dal.repository.permission.SystemGroupRolesRepository;
 import com.ethan.system.dal.repository.permission.SystemMenuRolesRepository;
 import com.ethan.system.dal.repository.permission.SystemRoleAuthoritiesRepository;
+import com.ethan.system.dal.repository.permission.SystemUserAuthoritiesRepository;
 import com.ethan.system.dal.repository.permission.SystemUserRolesRepository;
 import com.ethan.system.dal.repository.permission.SystemUsersRepository;
 import com.ethan.system.mq.producer.permission.PermissionProducer;
@@ -32,6 +33,7 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -51,6 +53,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.ethan.common.utils.collection.CollUtils.convertSet;
+
 /**
  * 权限 Service 实现类
  *
@@ -59,13 +63,18 @@ import java.util.stream.Stream;
 @Service
 @Slf4j
 public class PermissionServiceImpl implements PermissionService {
-
+    private static final int RECURSION_THRESHOLD = Short.MAX_VALUE;
     @Resource
     private SystemMenuRolesRepository menuRolesRepository;
     @Resource
     private SystemGroupRolesRepository groupRolesRepository;
     @Resource
     private SystemRoleAuthoritiesRepository roleAuthoritiesRepository;
+    @Resource
+    private SystemUserAuthoritiesRepository userAuthoritiesRepository;
+    @Resource
+    private AuthorityService authorityService;
+
     @Resource
     private SystemUserRolesRepository userRolesRepository;
     @Resource
@@ -75,6 +84,8 @@ public class PermissionServiceImpl implements PermissionService {
     private RoleService roleService;
     @Resource
     private MenuService menuService;
+    @Resource
+    private CacheManager cacheManager;
     @Resource
     private DeptService deptService;
     @Resource
@@ -116,7 +127,7 @@ public class PermissionServiceImpl implements PermissionService {
         }
         List<SystemRoles> systemRoles = getEnableUserRolesByUserIdFromCache(userId);
         // 情况二：如果是超管，也说明有权限
-        return roleService.hasAnySuperAdmin(CollUtils.convertSet(systemRoles, SystemRoles::getId));
+        return roleService.hasAnySuperAdmin(convertSet(systemRoles, SystemRoles::getId));
     }
 
     /**
@@ -158,7 +169,7 @@ public class PermissionServiceImpl implements PermissionService {
         }
 
         // 判断是否有角色
-        Set<String> userRoles = CollUtils.convertSet(roleList, SystemRoles::getCode);
+        Set<String> userRoles = convertSet(roleList, SystemRoles::getCode);
         return CollUtil.containsAny(userRoles, Sets.newHashSet(roles));
     }
 
@@ -188,7 +199,7 @@ public class PermissionServiceImpl implements PermissionService {
                 CollUtils.convertList(deleteMenuIds, menuIdMapping::get,
                         menuId -> Objects.nonNull(menuService.getMenuFromCache(menuId)))
             );
-        }
+    }
     }
 
     @Override
@@ -225,6 +236,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
+    @Transactional
     public Set<Long> getRoleMenuListByRoleId(Collection<Long> roleIds) {
         if (CollUtil.isEmpty(roleIds)) {
             return Collections.emptySet();
@@ -232,13 +244,14 @@ public class PermissionServiceImpl implements PermissionService {
 
         // 如果是管理员的情况下，获取全部菜单编号
         if (roleService.hasAnySuperAdmin(roleIds)) {
-            return CollUtils.convertSet(menuService.getMenuList(), SystemMenus::getId);
+            return convertSet(menuService.getMenuList(), SystemMenus::getId);
         }
         // 如果是非管理员的情况下，获得拥有的菜单编号
-        List<SystemMenus> systemMenus = roleService.getRoleListFromCache(roleIds).stream().map(SystemRoles::getMenuRoles)
+        List<SystemMenus> systemMenus = roleService.getRoleList(roleIds).stream().map(SystemRoles::getMenuRoles)
+                .filter(CollUtil::isNotEmpty)
                 .flatMap(Collection::stream)
                 .map(SystemMenuRoles::getMenus).toList();
-        return CollUtils.convertSet(systemMenus, SystemMenus::getId);
+        return convertSet(systemMenus, SystemMenus::getId);
     }
 
     @Override
@@ -253,38 +266,53 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     @CacheEvict(value = RedisKeyConstants.USER_ROLE_ID_LIST, key = "#userId")
     public void assignUserRole(Long userId, Set<Long> roleIds) {
-        // 获得角色拥有角色编号 TODO
-        // adminUserService.getUser()
-        // Set<Long> dbRoleIds = CollUtils.convertSet(userRoleMapper.selectListByUserId(userId),
-        //         UserRoleDO::getRoleId);
-        // // 计算新增和删除的角色编号
-        // Set<Long> roleIdList = CollUtil.emptyIfNull(roleIds);
-        // Collection<Long> createRoleIds = CollUtil.subtract(roleIdList, dbRoleIds);
-        // Collection<Long> deleteMenuIds = CollUtil.subtract(dbRoleIds, roleIdList);
-        // // 执行新增和删除。对于已经授权的角色，不用做任何处理
-        // if (!CollectionUtil.isEmpty(createRoleIds)) {
-        //     userRoleMapper.insertBatch(CollectionUtils.convertList(createRoleIds, roleId -> {
-        //         UserRoleDO entity = new UserRoleDO();
-        //         entity.setUserId(userId);
-        //         entity.setRoleId(roleId);
-        //         return entity;
-        //     }));
-        // }
-        // if (!CollectionUtil.isEmpty(deleteMenuIds)) {
-        //     userRoleMapper.deleteListByUserIdAndRoleIdIds(userId, deleteMenuIds);
-        // }
+        // 获得角色拥有角色编号
+        Optional<SystemUsers> systemUsersOptional = usersRepository.findById(userId);
+        Set<SystemRoles> dbRoles = getUserRolesByUser(systemUsersOptional);
+        // 计算新增和删除的角色编号
+        Map<Long, SystemRoles> dbRoleMapping = CollUtils.convertMap(dbRoles, SystemRoles::getId, Function.identity());
+        List<SystemRoles> pendingRoles = Optional.ofNullable(roleIds)
+                .map(roleService::getRoleList)
+                .orElse(Collections.emptyList());
+        Map<Long, SystemRoles> assignRoleMapping = CollUtils.convertMap(pendingRoles, SystemRoles::getId, Function.identity());
+
+
+        Collection<Long> createRoleIds = CollUtil.subtract(assignRoleMapping.keySet(), dbRoleMapping.keySet());
+        Collection<Long> deleteRoleIds = CollUtil.subtract(dbRoleMapping.keySet(), assignRoleMapping.keySet());
+        // 执行新增和删除。对于已经授权的角色，不用做任何处理
+        if (CollUtil.isNotEmpty(createRoleIds)) {
+            systemUsersOptional.ifPresent(usr -> {
+                var creatingList = CollUtils.convertList(createRoleIds, roleId -> {
+                    SystemUserRoles entity = new SystemUserRoles();
+                    entity.setUsers(usr);
+                    entity.setRoles(assignRoleMapping.get(roleId));
+                    return entity;
+                });
+                userRolesRepository.saveAll(creatingList);
+            });
+        }
+        if (CollUtil.isNotEmpty(deleteRoleIds)) {
+            systemUsersOptional.ifPresent(usr -> {
+                var removingList = CollUtils.convertList(deleteRoleIds, roleId -> {
+                    SystemUserRoles entity = new SystemUserRoles();
+                    entity.setUsers(usr);
+                    entity.setRoles(assignRoleMapping.get(roleId));
+                    return entity;
+                });
+                userRolesRepository.deleteAll(removingList);
+            });
+        }
     }
 
     @Override
     @CacheEvict(value = RedisKeyConstants.USER_ROLE_ID_LIST, key = "#userId")
     public void processUserDeleted(Long userId) {
-        //TODO
+        userRolesRepository.deleteByUsersId(userId);
     }
 
     @Override
     public Set<Long> getUserRoleIdListByRoleId(Collection<Long> roleIds) {
-        // return convertSet(userRoleMapper.selectListByUserId(userId), UserRoleDO::getRoleId); TODO
-        return null;
+        return convertSet(userRolesRepository.findByRolesIdIn(roleIds), ur -> ur.getRoles().getId());
     }
 
     /**
@@ -344,6 +372,24 @@ public class PermissionServiceImpl implements PermissionService {
                 .collect(Collectors.toSet());
     }
 
+    public Set<SystemRoles> getUserRolesByUser(Optional<SystemUsers> systemUsersOptional) {
+        List<SystemRoles> groupRoles = systemUsersOptional.map(SystemUsers::getGroupUsers)
+                .orElse(Collections.emptyList())
+                .stream().map(SystemGroupUsers::getGroups)
+                .filter(getEnabledPredicate())
+                .map(SystemGroups::getGroupRoles)
+                .flatMap(Collection::stream)
+                .map(SystemGroupRoles::getRoles).toList();
+        log.info("::::::groupRoles:{}", groupRoles.size());
+
+        List<SystemRoles> roleRoles = systemUsersOptional.map(SystemUsers::getUserRoles)
+                .orElse(Collections.emptyList())
+                .stream().map(SystemUserRoles::getRoles).toList();
+        log.info("::::::roles:{}", roleRoles.size());
+        return Stream.concat(groupRoles.stream(), roleRoles.stream())
+                .collect(Collectors.toSet());
+    }
+
     @NotNull
     private static Predicate<? super BaseVersioningXDO> getEnabledPredicate() {
         return b -> CommonStatusEnum.ENABLE.equals(b.getEnabled());
@@ -356,6 +402,15 @@ public class PermissionServiceImpl implements PermissionService {
         return getUserAuthoritiesByUserId(userId);
     }
 
+    /**
+     * org.springframework.data.redis.serializer.SerializationException: Could not read JSON:Could not resolve subtype of [simple type, class java.lang.Object]: missing type id property '@class'
+     * at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 268]
+     * <p>
+     * https://github.com/FasterXML/jackson-modules-java8/issues/100
+     *
+     * @param userId
+     * @return
+     */
     @Override
     @Cacheable(value = RedisKeyConstants.USER_ROLE_ID_LIST, key = "#userId")
     public Set<SystemRoles> getUserRolesByUserIdFromCache(Long userId) {
@@ -365,14 +420,13 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public Set<Long> getUserRoleIdListByUserId(Long userId) {
-        // return convertSet(userRoleMapper.selectListByUserId(userId), UserRoleDO::getRoleId); TODO
-        return null;
+        return convertSet(getUserRolesByUserId(userId), SystemRoles::getId);
     }
 
     @Override
     @Cacheable(value = RedisKeyConstants.USER_ROLE_ID_LIST, key = "#userId")
     public Set<Long> getUserRoleIdListByUserIdFromCache(Long userId) {
-        return null; //TODO
+        return getUserRoleIdListByUserId(userId);
     }
 
     @Override
@@ -383,6 +437,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     // @DataPermission(enable = false) // 关闭数据权限，不然就会出现递归获取数据权限的问题
     public DeptDataPermissionRespDTO getDeptDataPermission(Long userId) {
+        log.info("::getDeptDataPermission:{}", userId);
         // // 获得用户的角色 TODO
         // List<RoleDO> roles = getEnableUserRoleListByUserIdFromCache(userId);
         //
@@ -439,4 +494,21 @@ public class PermissionServiceImpl implements PermissionService {
         return null;
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    // @Caching(evict = {
+    //         @CacheEvict(value = RedisKeyConstants.MENU_ROLE_ID_LIST,
+    //                 allEntries = true), // allEntries 清空所有缓存，此处无法方便获得 roleId 对应的 menu 缓存们
+    //         @CacheEvict(value = RedisKeyConstants.USER_ROLE_ID_LIST,
+    //                 allEntries = true) // allEntries 清空所有缓存，此处无法方便获得 roleId 对应的 user 缓存们
+    // })
+    public void processAuthorityDeleted(Long id) {
+        var authority = authorityService.getAuthority(id);
+        // 标记删除 RoleAuthorities
+        List<SystemRoleAuthorities> roleAuthorities = authority.getRoleAuthorities();
+        roleAuthoritiesRepository.deleteAll(roleAuthorities);
+        // 标记删除 UserAuthorities
+        List<SystemUserAuthorities> userAuthorities = authority.getUserAuthorities();
+        userAuthoritiesRepository.deleteAll(userAuthorities);
+    }
 }

@@ -5,12 +5,14 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 字典数据 Base VO，提供给添加、修改、详细的子 VO 使用
  * 如果子 VO 存在差异的字段，请不要添加到这里，影响 Swagger 文档生成
  */
 @Data
+@NoArgsConstructor
 public class DictDataBaseVO {
 
     @Schema(name = "显示顺序不能为空", required = true, example = "1024")
@@ -45,4 +47,8 @@ public class DictDataBaseVO {
     @Schema(name = "备注", example = "我是一个角色")
     private String remark;
 
+    public DictDataBaseVO(String label, String value) {
+        this.label = label;
+        this.value = value;
+    }
 }

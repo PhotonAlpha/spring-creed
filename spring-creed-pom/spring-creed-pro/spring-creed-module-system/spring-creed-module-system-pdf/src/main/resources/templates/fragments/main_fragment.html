@@ -16,6 +16,7 @@
                     <td>
                         <p class="font-12-text">Name</p>
                         <p class="font-12" th:text="*{companyName}"></p>
+                        <div th:with="isEven=|abc*{companyName}|">
                     </td>
                     <td>
                         <p class="font-12-text">Mobile Number</p>

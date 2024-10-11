@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.webflux.ProxyExchange;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -23,6 +24,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /**
  * @author EthanCao
@@ -32,6 +35,9 @@ import java.util.List;
 @RestController
 @Slf4j
 public class GreetingsController {
+    @Value("${server.port:}")
+    private int port;
+
     @GetMapping("/proxy/showAll")
     public Mono<ResponseEntity<?>> showAll(ProxyExchange<byte[]> proxy) {
         // String path = proxy.path("/proxy/path/");
@@ -92,6 +98,8 @@ public class GreetingsController {
                 new StudentDTO("2", "xiaowang", "male", 20),
                 new StudentDTO("3", "xiaohao", "male", 40)
         );
+        Consumer<StudentDTO> c = s -> s.setServer(port + "");
+        list.forEach(c);
         return Mono.justOrEmpty(list.stream().filter(s -> StringUtils.equals(id, s.getId())).findFirst());
     }
 

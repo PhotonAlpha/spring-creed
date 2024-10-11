@@ -251,6 +251,7 @@ public class GlobalExceptionHandler {
         errorLog.setExceptionMessage(ExceptionUtils.getMessage(e));
         errorLog.setExceptionRootCauseMessage(ExceptionUtils.getRootCauseMessage(e));
         errorLog.setExceptionStackTrace(ExceptionUtils.getStackTrace(e));
+        log.info("ExceptionStackTrace:{}", errorLog.getExceptionStackTrace());
         StackTraceElement[] stackTraceElements = e.getStackTrace();
         Assert.notEmpty(stackTraceElements, "异常 stackTraceElements 不能为空");
         StackTraceElement stackTraceElement = stackTraceElements[0];

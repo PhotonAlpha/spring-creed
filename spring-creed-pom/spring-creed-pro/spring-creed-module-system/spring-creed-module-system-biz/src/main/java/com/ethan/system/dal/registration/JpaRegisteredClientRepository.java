@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
@@ -18,9 +19,10 @@ import org.springframework.security.oauth2.server.authorization.settings.Configu
 import org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat;
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -83,7 +85,7 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
         entity.setClientSecret(registeredClient.getClientSecret());
         entity.setClientSecretExpiresAt(registeredClient.getClientSecretExpiresAt());
         entity.setClientName(registeredClient.getClientName());
-        entity.setClientAuthenticationMethods(StringUtils.collectionToCommaDelimitedString(clientAuthenticationMethods));
+        entity.setClientAuthenticationMethods(clientAuthenticationMethods);
         entity.setAuthorizationGrantTypes(authorizationGrantTypes);
         entity.setRedirectUris(registeredClient.getRedirectUris());
         entity.setPostLogoutRedirectUris(registeredClient.getPostLogoutRedirectUris());
@@ -128,7 +130,7 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
         entity.setClientSecret(registeredClient.getClientSecret());
         entity.setClientSecretExpiresAt(registeredClient.getClientSecretExpiresAt());
         entity.setClientName(registeredClient.getClientName());
-        entity.setClientAuthenticationMethods(StringUtils.collectionToCommaDelimitedString(clientAuthenticationMethods));
+        entity.setClientAuthenticationMethods(clientAuthenticationMethods);
         entity.setAuthorizationGrantTypes(authorizationGrantTypes);
         entity.setRedirectUris(registeredClient.getRedirectUris());
         entity.setPostLogoutRedirectUris(registeredClient.getPostLogoutRedirectUris());
@@ -144,7 +146,7 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
     }
 
     private RegisteredClient toObject(CreedOAuth2RegisteredClient client) {
-        Set<String> clientAuthenticationMethods = StringUtils.commaDelimitedListToSet(
+        Set<String> clientAuthenticationMethods = new HashSet<>(
                 client.getClientAuthenticationMethods());
         List<String> authorizationGrantTypes = client.getAuthorizationGrantTypes();
         Set<String> redirectUris = client.getRedirectUris();
@@ -180,25 +182,34 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
     }
 
     private ClientAuthenticationMethod resolveClientAuthenticationMethod(String clientAuthenticationMethod) {
-        if (ClientAuthenticationMethod.CLIENT_SECRET_BASIC.getValue().equals(clientAuthenticationMethod)) {
-            return ClientAuthenticationMethod.CLIENT_SECRET_BASIC;
-        } else if (ClientAuthenticationMethod.CLIENT_SECRET_POST.getValue().equals(clientAuthenticationMethod)) {
-            return ClientAuthenticationMethod.CLIENT_SECRET_POST;
-        } else if (ClientAuthenticationMethod.NONE.getValue().equals(clientAuthenticationMethod)) {
-            return ClientAuthenticationMethod.NONE;
-        }
-        return new ClientAuthenticationMethod(clientAuthenticationMethod);      // Custom client authentication method
+        var resolveList = Arrays.asList(
+                ClientAuthenticationMethod.CLIENT_SECRET_BASIC,
+                ClientAuthenticationMethod.CLIENT_SECRET_POST,
+                ClientAuthenticationMethod.CLIENT_SECRET_JWT,
+                ClientAuthenticationMethod.PRIVATE_KEY_JWT,
+                ClientAuthenticationMethod.NONE,
+                ClientAuthenticationMethod.TLS_CLIENT_AUTH,
+                ClientAuthenticationMethod.SELF_SIGNED_TLS_CLIENT_AUTH
+        );
+        return resolveList.stream()
+                .filter(me -> StringUtils.equals(me.getValue(), clientAuthenticationMethod))
+                .findFirst()
+                .orElse(new ClientAuthenticationMethod(clientAuthenticationMethod));// Custom client authentication method
     }
 
     private AuthorizationGrantType resolveAuthorizationGrantType(String authorizationGrantType) {
-        if (AuthorizationGrantType.AUTHORIZATION_CODE.getValue().equals(authorizationGrantType)) {
-            return AuthorizationGrantType.AUTHORIZATION_CODE;
-        } else if (AuthorizationGrantType.CLIENT_CREDENTIALS.getValue().equals(authorizationGrantType)) {
-            return AuthorizationGrantType.CLIENT_CREDENTIALS;
-        } else if (AuthorizationGrantType.REFRESH_TOKEN.getValue().equals(authorizationGrantType)) {
-            return AuthorizationGrantType.REFRESH_TOKEN;
-        }
-        return new AuthorizationGrantType(authorizationGrantType);
+        var resolveList = Arrays.asList(
+                AuthorizationGrantType.AUTHORIZATION_CODE,
+                AuthorizationGrantType.CLIENT_CREDENTIALS,
+                AuthorizationGrantType.REFRESH_TOKEN,
+                AuthorizationGrantType.JWT_BEARER,
+                AuthorizationGrantType.DEVICE_CODE,
+                AuthorizationGrantType.TOKEN_EXCHANGE
+        );
+        return resolveList.stream()
+                .filter(me -> StringUtils.equals(me.getValue(), authorizationGrantType))
+                .findFirst()
+                .orElse(new AuthorizationGrantType(authorizationGrantType));// Custom client authentication method
     }
 
     @SneakyThrows

@@ -3,6 +3,7 @@ package com.ethan.system.dal.entity.permission;
 import com.ethan.common.constant.CommonStatusEnum;
 import com.ethan.common.pojo.BaseVersioningXDO;
 import com.ethan.system.constant.permission.MenuTypeEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -53,7 +54,6 @@ public class SystemMenus extends BaseVersioningXDO {
      * - 对于后端，配合 @PreAuthorize 注解，配置 API 接口需要该权限，从而对 API 接口进行权限控制。
      * - 对于前端，配合前端标签，配置按钮是否展示，避免用户没有该权限时，结果可以看到该操作。
      */
-    @Transient
     private String permission;
     /**
      * 菜单类型
@@ -106,6 +106,7 @@ public class SystemMenus extends BaseVersioningXDO {
      */
     private Boolean alwaysShow;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "menus")
     private List<SystemMenuRoles> menuRoles;
 

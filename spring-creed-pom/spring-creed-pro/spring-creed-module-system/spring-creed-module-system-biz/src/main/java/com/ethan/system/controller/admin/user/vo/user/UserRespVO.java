@@ -2,6 +2,8 @@ package com.ethan.system.controller.admin.user.vo.user;
 
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.ethan.common.constant.CommonStatusEnum;
+import com.ethan.common.constant.SexEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -48,7 +50,7 @@ public class UserRespVO{
     @Schema(description = "用户性别，参见 SexEnum 枚举类", example = "1")
     // @ExcelProperty(value = "用户性别", converter = DictConvert.class)
     // @DictFormat(DictTypeConstants.USER_SEX)
-    private Integer sex;
+    private SexEnum sex;
 
     @Schema(description = "用户头像", example = "https://www.iocoder.cn/xxx.png")
     private String avatar;
@@ -56,7 +58,7 @@ public class UserRespVO{
     @Schema(description = "状态，参见 CommonStatusEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     // @ExcelProperty(value = "帐号状态", converter = DictConvert.class)
     // @DictFormat(DictTypeConstants.COMMON_STATUS)
-    private Integer status;
+    private CommonStatusEnum status;
 
     @Schema(description = "最后登录 IP", requiredMode = Schema.RequiredMode.REQUIRED, example = "192.168.1.1")
     @ExcelProperty("最后登录IP")

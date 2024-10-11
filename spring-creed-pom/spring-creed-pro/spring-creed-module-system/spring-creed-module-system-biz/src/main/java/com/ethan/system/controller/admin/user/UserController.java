@@ -16,6 +16,7 @@ import com.ethan.system.controller.admin.user.vo.user.UserSimpleRespVO;
 import com.ethan.system.controller.admin.user.vo.user.UserUpdatePasswordReqVO;
 import com.ethan.system.controller.admin.user.vo.user.UserUpdateStatusReqVO;
 import com.ethan.system.convert.user.UserConvert;
+import com.ethan.system.dal.entity.dept.SystemDeptUsers;
 import com.ethan.system.dal.entity.dept.SystemDepts;
 import com.ethan.system.dal.entity.permission.SystemUsers;
 import com.ethan.system.service.dept.DeptService;
@@ -27,6 +28,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
@@ -42,8 +44,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.ethan.common.common.R.success;
 import static com.ethan.framework.operatelog.constant.OperateTypeEnum.EXPORT;
@@ -52,6 +56,7 @@ import static com.ethan.framework.operatelog.constant.OperateTypeEnum.EXPORT;
 @RestController
 @RequestMapping("/system/user")
 @Validated
+@Slf4j
 public class UserController {
 
     @Resource
@@ -138,9 +143,13 @@ public class UserController {
         if (user == null) {
             return success(null);
         }
+        log.info("fetching dept");
+        var dept = Optional.ofNullable(user.getDeptUsers())
+                .orElse(Collections.emptyList())
+                .stream().map(SystemDeptUsers::getDepts)
+                .findFirst().orElse(null);
         // 拼接数据
-        SystemDepts dept = deptService.getDept(user.getDeptId());
-        return success(UserConvert.INSTANCE.convert2UserSaveReq(user, dept));
+        return success(UserConvert.INSTANCE.convert2UserResp(user, dept));
     }
 
     @GetMapping("/export")

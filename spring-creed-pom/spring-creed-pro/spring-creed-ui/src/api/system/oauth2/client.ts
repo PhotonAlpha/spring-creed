@@ -45,3 +45,12 @@ export const updateOAuth2Client = (data: OAuth2ClientVO) => {
 export const deleteOAuth2Client = (id: number) => {
   return request.delete({ url: '/system/oauth2-client/delete?id=' + id })
 }
+
+// 获取授权方法
+export const listAuthenticationMethods = () => {
+  return request.get({ url: '/system/oauth2-client/list-authentication-methods' })
+}
+// 获取授权类型
+export const listGrantTypes = () => {
+  return request.get({ url: '/system/oauth2-client/list-grant-types' })
+}

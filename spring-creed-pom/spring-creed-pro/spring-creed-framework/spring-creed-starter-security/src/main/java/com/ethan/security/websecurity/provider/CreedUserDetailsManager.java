@@ -48,6 +48,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
+@Deprecated
 public class CreedUserDetailsManager implements UserDetailsManager, GroupManager, MessageSourceAware, InitializingBean {
     private final CreedAuthorityRepository authorityRepository;
     private final CreedUserRepository creedUserRepository;

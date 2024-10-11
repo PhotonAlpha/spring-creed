@@ -18,18 +18,24 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
+import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthentication;
 import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -38,7 +44,7 @@ public class LoginTokenAuthenticationFilter extends OncePerRequestFilter {
     @Resource
     private OAuth2AuthorizationService authorizationService;
     @Resource
-    private CreedSecurityProperties securityProperties;;
+    private CreedSecurityProperties securityProperties;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         DefaultBearerTokenResolver defaultBearerTokenResolver = new DefaultBearerTokenResolver();
@@ -51,7 +57,23 @@ public class LoginTokenAuthenticationFilter extends OncePerRequestFilter {
             chain.doFilter(request, response);
             return;
         }
-        OAuth2Authorization authorizedClient = buildLoginUserByToken(token);
+        OAuth2Authorization authorizedClient = null;
+        if (Boolean.TRUE.equals(securityProperties.getMockEnable())) {
+            BearerTokenAuthentication authentication = (BearerTokenAuthentication) SecurityFrameworkUtils.getAuthentication();
+            assert authentication != null;
+            authorizedClient = OAuth2Authorization.withRegisteredClient(
+                            RegisteredClient.withId(UUID.randomUUID().toString())
+                                    .clientId("mock-client")
+                                    .clientSecret("{noop}mock")
+                                    .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                                    .build())
+                    .id("-1")
+                    .principalName("1")
+                    .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                    .authorizedScopes(Collections.singleton("message.read")).build();
+        } else {
+            authorizedClient = buildLoginUserByToken(token);
+        }
 
         SecurityFrameworkUtils.setLoginUser(authorizedClient, request);
         chain.doFilter(request, response);

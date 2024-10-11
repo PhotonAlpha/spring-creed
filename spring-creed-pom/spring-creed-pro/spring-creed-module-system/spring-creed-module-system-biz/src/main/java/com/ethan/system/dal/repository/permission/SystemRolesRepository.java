@@ -56,22 +56,4 @@ public interface SystemRolesRepository extends JpaRepository<SystemRoles, Long>,
                     return cb.and(predicateList.toArray(new Predicate[0]));
                 }, PageRequest.of(reqVO.getPageNo(), reqVO.getPageSize()));
     }
-    /* default List<DictDataDO> selectList(DictDataExportReqVO reqVO) {
-        return findAll(
-                (Specification<DictDataDO>) (root, query, cb) -> {
-                    List<Predicate> predicateList = new ArrayList<>();
-                    if (StringUtils.isNotBlank(reqVO.getLabel())) {
-                        // // 本处我都转为小写，进行模糊匹配
-                        predicateList.add(cb.like(root.get("label"), "%" + reqVO.getLabel() + "%"));
-                    }
-                    if (StringUtils.isNotBlank(reqVO.getDictType())) {
-                        // // 本处我都转为小写，进行模糊匹配
-                        predicateList.add(cb.like(root.get("dictType"), "%" + reqVO.getDictType() + "%"));
-                    }
-                    if (Objects.nonNull(reqVO.getStatus())) {
-                        predicateList.add(cb.equal(root.get("status"), reqVO.getStatus()));
-                    }
-                    return cb.and(predicateList.toArray(new Predicate[0]));
-                });
-    } */
 }

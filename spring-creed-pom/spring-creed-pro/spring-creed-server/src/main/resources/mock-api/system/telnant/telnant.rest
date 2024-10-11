@@ -31,7 +31,7 @@ sec-ch-ua-platform: "Windows"
 tenant-id: 1
 
 ###
-#{"code":0,"data":{"list":[{"name":"测试租户","contactName":"芋道","contactMobile":"15601691300","status":0,"domain":"https://www.iocoder.cn","packageId":111,"expireTime":1651248000000,"accountCount":50,"id":122,"createTime":1646660278000},{"name":"小租户","contactName":"小王2","contactMobile":"15601691300","status":0,"domain":"http://www.iocoder.cn","packageId":111,"expireTime":1710086400000,"accountCount":20,"id":121,"createTime":1645462574000},{"name":"芋道源码","contactName":"芋艿","contactMobile":"17321315478","status":0,"domain":"https://www.iocoder.cn","packageId":0,"expireTime":4075175656000,"accountCount":9999,"id":1,"createTime":1609837427000}],"total":3},"msg":""}
+#{"code":0,"data":{"list":[{"name":"测试租户","contactName":"Creed","contactMobile":"15601691300","status":0,"domain":"https://www.iocoder.cn","packageId":111,"expireTime":1651248000000,"accountCount":50,"id":122,"createTime":1646660278000},{"name":"小租户","contactName":"小王2","contactMobile":"15601691300","status":0,"domain":"http://www.iocoder.cn","packageId":111,"expireTime":1710086400000,"accountCount":20,"id":121,"createTime":1645462574000},{"name":"芋道源码","contactName":"芋艿","contactMobile":"17321315478","status":0,"domain":"https://www.iocoder.cn","packageId":0,"expireTime":4075175656000,"accountCount":9999,"id":1,"createTime":1609837427000}],"total":3},"msg":""}
 
 
 # curl 'http://localhost:48080/admin-api/system/tenant-package/get-simple-list'

@@ -71,10 +71,10 @@ public interface RoleService {
     /**
      * 获得角色列表
      *
-     * @param statuses 筛选的状态。允许空，空时不筛选
+     * @param ids 角色编号数组
      * @return 角色列表
      */
-    List<SystemRoles> getRoleList(@Nullable Collection<Long> statuses);
+    List<SystemRoles> getRoleList(@Nullable Collection<Long> ids);
 
     /**
      * 获得角色数组，从缓存中

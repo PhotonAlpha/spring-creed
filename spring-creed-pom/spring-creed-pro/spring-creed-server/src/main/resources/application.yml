@@ -10,7 +10,8 @@ logging:
       redisson:
         command:
           RedisExecutor: info
-
+      hibernate:
+        stat: DEBUG
 spring:
   profiles:
     active: redis,shardingsphere
@@ -25,10 +26,14 @@ spring:
     password: root
   main:
     allow-circular-references: true
+    lazy-initialization: true
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: none
+    properties:
+      hibernate:
+        generate_statistics: true
   data:
     web:
       pageable:
@@ -78,8 +83,11 @@ management:
 #          okta:
 #            token-uri: https://dev-1234.oktapreview.com/oauth2/v1/token
 
+
 creed:
   security:
     permitAllUrls:
       - /admin-ui/** # /resources/admin-ui 目录下的静态资源
-      - /admin-api/**
+#      - /admin-api/**
+    mock-enable: true
+

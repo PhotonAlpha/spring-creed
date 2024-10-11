@@ -37,7 +37,7 @@ public class RoleRespVO {
     @Schema(description = "状态，参见 CommonStatusEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     // @ExcelProperty(value = "角色状态", converter = DictConvert.class)
     // @DictFormat(DictTypeConstants.COMMON_STATUS)
-    private CommonStatusEnum enabled;
+    private CommonStatusEnum status;
 
     @Schema(description = "角色类型，参见 RoleTypeEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private RoleTypeEnum type;

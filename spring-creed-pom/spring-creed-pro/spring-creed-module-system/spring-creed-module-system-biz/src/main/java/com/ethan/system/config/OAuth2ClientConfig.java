@@ -58,21 +58,11 @@ public class OAuth2ClientConfig {
 
     @Bean
     public ClientRegistrationRepository clientRegistrationRepository(CreedOAuth2ClientConfigurationRepository repo) {
-        /*ClientRegistration clientRegistration = ClientRegistration.withRegistrationId("okta")
-                .tokenUri("http://localhost:8081/oauth2/token")
-                .clientId("default")
-                .clientSecret("secret")
-                .scope(StringUtils.split("openid,profile,message.read,message.write", ","))
-                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                .build();
-        return new InMemoryClientRegistrationRepository(clientRegistration);*/
         return new JpaClientRegistrationRepository(repo);
     }
 
     @Bean
     public OAuth2AuthorizedClientService auth2AuthorizedClientService(ClientRegistrationRepository clientRegistrationRepository, CreedOAuth2AuthorizedClientRepository authorizedClientRepository) {
-//        return new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository);
         return new JpaOAuth2AuthorizedClientService(clientRegistrationRepository, authorizedClientRepository);
     }
 
@@ -80,42 +70,4 @@ public class OAuth2ClientConfig {
     public OAuth2AuthorizedClientRepository auth2AuthorizedClientRepository(OAuth2AuthorizedClientService auth2AuthorizedClientService) {
         return new AuthenticatedPrincipalOAuth2AuthorizedClientRepository(auth2AuthorizedClientService);
     }
-
-    /* @Bean
-    public OAuth2AuthorizedClientManager authorizedClientManager(
-            ClientRegistrationRepository clientRegistrationRepository,
-            OAuth2AuthorizedClientRepository authorizedClientRepository) {
-
-        ClientRegistration clientRegistration = ClientRegistration.withRegistrationId("okta")
-                .tokenUri("http://localhost:8081/oauth2/token")
-                .clientId("default")
-                .clientSecret("secret")
-                .scope("openid,profile,message.read,message.write")
-                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .build();
-
-
-
-        OAuth2AuthorizedClientProvider authorizedClientProvider =
-                OAuth2AuthorizedClientProviderBuilder.builder()
-                        .clientCredentials()
-                        .build();
-        DefaultOAuth2AuthorizedClientManager authorizedClientManager =
-                new DefaultOAuth2AuthorizedClientManager(
-                        clientRegistrationRepository, authorizedClientRepository);
-        authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
-
-
-        OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId("okta")
-
-                // .principal(authentication)
-                .attributes(attrs -> {
-                    attrs.put(HttpServletRequest.class.getName(), servletRequest);
-                    attrs.put(HttpServletResponse.class.getName(), servletResponse);
-                })
-                .build();
-
-        authorizedClientManager.authorize()
-        return authorizedClientManager;
-    } */
 }

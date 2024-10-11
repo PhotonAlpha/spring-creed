@@ -65,5 +65,4 @@
             <artifactId>spring-creed-starter-monitor</artifactId>
         </dependency>
     </dependencies>
-
 </project>

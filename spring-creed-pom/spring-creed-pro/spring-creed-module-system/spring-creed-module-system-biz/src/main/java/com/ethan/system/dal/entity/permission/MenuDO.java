@@ -20,6 +20,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Deprecated(forRemoval = true)
 public class MenuDO extends BaseDO {
     /**
      * 菜单编号 - 根节点
@@ -73,6 +74,10 @@ public class MenuDO extends BaseDO {
      */
     private String component;
     /**
+     * 组件路径
+     */
+    private String componentName;
+    /**
      * 状态
      *
      * 枚举 {@link CommonStatusEnum}
@@ -92,5 +97,6 @@ public class MenuDO extends BaseDO {
      * 是否使用 Vue 路由的 keep-alive 特性
      */
     private Boolean keepAlive;
+    private Boolean alwaysShow;
 
 }

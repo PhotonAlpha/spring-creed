@@ -16,6 +16,7 @@ import java.time.ZonedDateTime;
 import java.util.Optional;
 
 @Repository
+@Deprecated(forRemoval = true)
 public interface MenuRepository extends JpaRepository<MenuDO, Long>, JpaSpecificationExecutor<MenuDO> {
 
 

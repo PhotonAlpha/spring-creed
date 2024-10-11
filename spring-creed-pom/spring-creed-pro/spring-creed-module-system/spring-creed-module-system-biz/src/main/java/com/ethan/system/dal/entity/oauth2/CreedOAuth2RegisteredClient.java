@@ -11,8 +11,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.security.oauth2.core.oidc.OidcScopes;
 
 import java.time.Instant;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -31,12 +34,20 @@ public class CreedOAuth2RegisteredClient extends BaseXDO {
     private String clientSecret;
     private Instant clientSecretExpiresAt;
     private String clientName;
+    /**
+     * 授权方法：{@link  org.springframework.security.oauth2.core.ClientAuthenticationMethod}
+     */
     @Column(length = 1000)
-    private String clientAuthenticationMethods;
+    @Convert(converter = ListTypeConverter.class)
+    private List<String> clientAuthenticationMethods;
 
+    /**
+     * 授权类型：{@link  org.springframework.security.oauth2.core.AuthorizationGrantType}
+     */
     @Convert(converter = ListTypeConverter.class)
     @Column(length = 1000)
     private List<String> authorizationGrantTypes;
+
     @Convert(converter = SetTypeConverter.class)
     @Column(length = 1000)
     private Set<String> redirectUris;

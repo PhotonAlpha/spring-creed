@@ -22,6 +22,13 @@ public interface RedisKeyConstants {
      * VALUE 数据类型：String 角色信息
      */
     String ROLE = "role";
+    /**
+     * 角色的缓存
+     * <p>
+     * KEY 格式：role:{id}
+     * VALUE 数据类型：String 角色信息
+     */
+    String AUTHORITY = "authorities";
 
     /**
      * 用户拥有的角色编号的缓存

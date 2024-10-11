@@ -163,4 +163,5 @@ public interface PermissionService {
      */
     DeptDataPermissionRespDTO getDeptDataPermission(Long userId);
 
+    void processAuthorityDeleted(Long id);
 }

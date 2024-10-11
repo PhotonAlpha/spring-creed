@@ -11,7 +11,11 @@ import com.ethan.system.controller.admin.user.vo.user.UserPageReqVO;
 import com.ethan.system.controller.admin.user.vo.user.UserSaveReqVO;
 import com.ethan.system.dal.entity.permission.SystemUsers;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.MessageSourceAware;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.GroupManager;
+import org.springframework.security.provisioning.UserDetailsManager;
 
 import java.io.InputStream;
 import java.util.Collection;
@@ -24,7 +28,7 @@ import java.util.Map;
  *
  * 
  */
-public interface AdminUserService extends UserDetailsService {
+public interface AdminUserService extends UserDetailsManager, GroupManager, MessageSourceAware, InitializingBean {
 
     /**
      * 创建用户

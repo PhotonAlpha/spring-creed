@@ -14,9 +14,14 @@ import com.ethan.system.dal.entity.dept.SystemDepts;
 import com.ethan.system.dal.entity.permission.SystemUsers;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
+import org.apache.poi.ss.formula.functions.T;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -37,6 +42,19 @@ public interface SystemUsersRepository extends JpaRepository<SystemUsers, Long>,
 
     Optional<SystemUsers> findByPhone(String mobile);
 
+
+    /**
+     * @EntityGraph(value = "User.list", type = EntityGraph.EntityGraphType.FETCH)
+     * 在分页查询会报错：cannot simultaneously fetch multiple bags
+     *
+     * 但是使用之后就不能清楚知道limit与offset，只能将数据返回给后端，让JPA处理，组装完成后再返回一个Page对象。
+     *
+     * 现在的处理方式是先通过普通查询，将需要的数据ID找出，再通过数据的ID和@Entity查询详细的细节。
+     *
+     * @param reqVO
+     * @param deptCondition
+     * @return
+     */
     default Page<SystemUsers> findByCondition(UserPageReqVO reqVO, Set<Long> deptCondition) {
         return findAll(
                 (Specification<SystemUsers>) (root, query, cb) -> {

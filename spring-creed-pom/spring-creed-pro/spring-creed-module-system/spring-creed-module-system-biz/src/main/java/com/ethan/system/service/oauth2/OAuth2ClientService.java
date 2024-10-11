@@ -1,9 +1,8 @@
 package com.ethan.system.service.oauth2;
 
 import com.ethan.common.pojo.PageResult;
-import com.ethan.system.controller.admin.oauth2.vo.client.OAuth2ClientCreateReqVO;
 import com.ethan.system.controller.admin.oauth2.vo.client.OAuth2ClientPageReqVO;
-import com.ethan.system.controller.admin.oauth2.vo.client.OAuth2ClientUpdateReqVO;
+import com.ethan.system.controller.admin.oauth2.vo.client.OAuth2ClientSaveReqVO;
 import com.ethan.system.dal.entity.oauth2.CreedOAuth2RegisteredClient;
 import jakarta.validation.Valid;
 
@@ -17,26 +16,20 @@ import java.util.Collection;
  * 
  */
 public interface OAuth2ClientService {
-
-    /**
-     * 初始化 OAuth2Client 的本地缓存
-     */
-    void initLocalCache();
-
     /**
      * 创建 OAuth2 客户端
      *
      * @param createReqVO 创建信息
      * @return 编号
      */
-    String createOAuth2Client(@Valid OAuth2ClientCreateReqVO createReqVO);
+    String createOAuth2Client(@Valid OAuth2ClientSaveReqVO createReqVO);
 
     /**
      * 更新 OAuth2 客户端
      *
      * @param updateReqVO 更新信息
      */
-    void updateOAuth2Client(@Valid OAuth2ClientUpdateReqVO updateReqVO);
+    void updateOAuth2Client(@Valid OAuth2ClientSaveReqVO updateReqVO);
 
     /**
      * 删除 OAuth2 客户端
@@ -52,6 +45,14 @@ public interface OAuth2ClientService {
      * @return OAuth2 客户端
      */
     CreedOAuth2RegisteredClient getOAuth2Client(String id);
+
+    /**
+     * 获得 OAuth2 客户端，从缓存中
+     *
+     * @param clientId 客户端编号
+     * @return OAuth2 客户端
+     */
+    CreedOAuth2RegisteredClient getOAuth2ClientFromCache(String clientId);
 
     /**
      * 获得 OAuth2 客户端分页
