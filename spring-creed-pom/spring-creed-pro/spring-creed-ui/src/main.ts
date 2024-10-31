@@ -43,10 +43,16 @@ import '@/plugins/tongji' // 百度统计
 import Logger from '@/utils/Logger'
 
 import VueDOMPurifyHTML from 'vue-dompurify-html' // 解决v-html 的安全隐患
-
+// 全量导入：https://www.greprn.com/archives/vue3-vite-ep-icon， 或者自动导入：https://github.com/unplugin/unplugin-icons/issues/5，本项目采用第二种方式
+// import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 // 创建实例
 const setupAll = async () => {
   const app = createApp(App)
+
+  // for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  //   // console.log(`component->key`,key)
+  //   app.component(key, component)
+  // }
 
   await setupI18n(app)
 

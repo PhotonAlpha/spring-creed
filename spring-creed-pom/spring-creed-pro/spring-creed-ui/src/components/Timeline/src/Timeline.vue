@@ -31,17 +31,13 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment'
-
-type TreeItem = {
-  name: string
-  sha: string
-  date: Date
-}
+import { handlerDateFormat, handlerDateFormatSlash } from '@/utils/pathTransferUtil'
+import { BolgTreeItem, GitTreeItem } from '@/api/github'
+import { MoreFilled, MagicStick } from '@element-plus/icons-vue'
 
 withDefaults(
   defineProps<{
-    tree: TreeItem[]
+    tree: BolgTreeItem[]
     totalNum: number
   }>(),
   {
@@ -49,7 +45,8 @@ withDefaults(
       {
         name: 'test',
         sha: 'abc',
-        date: new Date()
+        date: new Date().getMilliseconds(),
+        git_url: 'NA'
       }
     ],
     totalNum: () => 20
@@ -68,19 +65,14 @@ const showDetails = (sha: string, title: string) => {
 const handleCurrentChange = (val: number) => {
   emit('handle-pagenum', val)
 }
-const handlerDateFormat = (timestamp) => {
-  return moment(timestamp).format('YYYY-MM-DD')
-}
-const handlerDateFormatSlash = (timestamp) => {
-  return moment(timestamp).format('YYYY/MM/DD')
-}
+
 const handlerColor = (index) => {
   if (index === 0) {
-    return { icon: 'el-icon-more', size: 'large', type: 'primary' }
+    return { icon: MoreFilled, size: 'large', type: 'primary' }
   } else if (index === 1) {
-    return { icon: 'el-icon-star-on', size: 'large', type: 'primary' }
+    return { icon: MagicStick, size: 'large', type: 'primary' }
   } else if (index === 2) {
-    return { size: 'large', type: 'warning' }
+    return { color: '#0bbd87', size: 'large' }
   } else {
     return { color: '#0bbd87', size: 'normal' }
   }

@@ -15,6 +15,8 @@ import Components from 'unplugin-vue-components/vite'
 import viteCompression from 'vite-plugin-compression'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import topLevelAwait from 'vite-plugin-top-level-await'
+import Icons from 'unplugin-icons/vite'
+import IconsResolver from 'unplugin-icons/resolver'
 
 export function createVitePlugins() {
   const root = process.cwd()
@@ -31,6 +33,7 @@ export function createVitePlugins() {
     progress(),
     PurgeIcons(),
     ElementPlus({}),
+    Icons({}),
     AutoImport({
       include: [
         /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
@@ -52,7 +55,10 @@ export function createVitePlugins() {
         }
       ],
       dts: 'src/types/auto-imports.d.ts',
-      resolvers: [ElementPlusResolver()],
+      resolvers: [ElementPlusResolver(), IconsResolver({
+        prefix: 'icon',
+        enabledCollections: ["mdi", "ep"]
+      })],
       eslintrc: {
         enabled: false, // Default `false`
         filepath: './.eslintrc-auto-import.json', // Default `./.eslintrc-auto-import.json`
@@ -70,7 +76,7 @@ export function createVitePlugins() {
       // 生成自定义 `auto-components.d.ts` 全局声明
       dts: 'src/types/auto-components.d.ts',
       // 自定义组件的解析器
-      resolvers: [ElementPlusResolver()],
+      resolvers: [ElementPlusResolver(), IconsResolver()],
       exclude: [/[\\/]node_modules[\\/]/]
     }),
     EslintPlugin({

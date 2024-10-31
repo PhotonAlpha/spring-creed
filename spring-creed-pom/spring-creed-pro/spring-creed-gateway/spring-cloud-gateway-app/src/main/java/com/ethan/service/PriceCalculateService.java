@@ -23,9 +23,9 @@ import java.util.function.Function;
 @Service
 @Slf4j
 public class PriceCalculateService {
-    public Mono<ResponseEntity<PriceInfoVo>> getPriceCalculate(ProxyExchange<byte[]> proxy, ServerWebExchange exchange, GoodsInfoDto goods) {
+    public Mono<PriceInfoVo> getPriceCalculate(ProxyExchange<byte[]> proxy, ServerWebExchange exchange, GoodsInfoDto goods) {
         log.info("getPriceCalculate:{}", goods);
-        ProxyExchangeResolver<String, Mono<ResponseEntity<PriceInfoVo>>> resolver = ProxyExchangeResolver.post(goods);
+        ProxyExchangeResolver<String, Mono<PriceInfoVo>> resolver = ProxyExchangeResolver.post(goods, PriceInfoVo.class);
         return resolver.apply(proxy, exchange, "/price/info");
     }
 

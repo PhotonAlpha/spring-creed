@@ -33,12 +33,13 @@ import java.util.List;
 @Slf4j
 public class GreetingsController {
     @GetMapping("/proxy/showAll")
-    public Mono<ResponseEntity<?>> showAll(ProxyExchange<byte[]> proxy, ServerWebExchange exchange) {
+    public Mono<ResponseEntity<?>> showAll(ProxyExchange<byte[]> proxy) {
         // String path = proxy.path("/proxy/path/");
         // System.out.println("path:" + path);
-        ServerHttpRequest request = exchange.getRequest();
-        String currentPath = request.getURI().toString().replaceAll(request.getPath().value(), "");
+        // ServerHttpRequest request = exchange.getRequest();
+        // String currentPath = request.getURI().toString().replaceAll(request.getPath().value(), "");
 
+        String currentPath = "";
         Mono<ResponseEntity<String>> firstApi = proxy.uri(currentPath + "/mono/showMono").get(o -> {
             byte[] body = o.getBody();
             return ResponseEntity.ok(new String(body, StandardCharsets.UTF_8));

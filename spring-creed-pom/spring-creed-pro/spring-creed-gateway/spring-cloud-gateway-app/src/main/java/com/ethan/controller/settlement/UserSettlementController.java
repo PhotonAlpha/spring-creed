@@ -23,7 +23,7 @@ public class UserSettlementController {
     private UserSettlementService userSettlementService;
     @PostMapping("/submit")
     public Mono<UserSettlementVo> submitRequest(ProxyExchange<byte[]> proxy, ServerWebExchange exchange, @RequestBody UserSettlementReqDto dto) {
-        log.info("submitRequest");
+        log.info("submitRequest{}", dto);
         return userSettlementService.submitRequest(proxy, exchange, dto);
     }
 }

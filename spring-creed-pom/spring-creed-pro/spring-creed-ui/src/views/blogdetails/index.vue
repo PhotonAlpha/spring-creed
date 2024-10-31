@@ -1,24 +1,56 @@
 <template>
-  <blog
-    :content="content"
-    :current-issue="currentIssue"
-    @commit-comment="handlerCommitComment"
-    @sign="sign"
-  />
+  <el-container ref="mainScrollbar">
+    <el-main id="mainContent">
+      <el-row>
+        <el-col :md="18" :sm="24" :xs="24">
+          <blog
+            :content="content"
+            :current-issue="currentIssue"
+            @commit-comment="handlerCommitComment"
+            @sign="sign"
+            @update-markdown-action="handlerPostDirectory"
+          />
+        </el-col>
+        <el-col
+          :md="4"
+          :xs="0"
+          class="hidden-sm-only right-side-cnt"
+          :class="{ 'side-cnt-scrolled': isLeftSideScrolled }"
+        >
+          <el-scrollbar class="page-component__scrollbar">
+            <archive :is-leaf="true" :anchor="postDirectory" />
+          </el-scrollbar>
+        </el-col>
+      </el-row>
+    </el-main>
+  </el-container>
 </template>
 
 <script setup lang="ts">
+import { Archive } from '../../layout-blog/components'
 import { Blog } from '@/components/Blog'
+import * as GithubApi from '@/api/github'
+import { Base64 } from 'js-base64'
+import { ElLoading } from 'element-plus'
+
 const route = useRoute()
 
 const { shaCode } = route.params
 console.log(`params`, shaCode)
-const content = ref('# hello')
+const content = ref('')
 const currentIssue = ref({})
 const sha = ref('')
+const device = ref('web')
+const loadingInstance = ElLoading.service({ fullscreen: true })
+const isLeftSideScrolled = ref(false)
+const postDirectory = ref<any[]>([])
+// const markdownEl = ref<null | Element>(null)
 
-const getBlogDetails = (sha) => {
-  console.log(`getBlogDetails->`)
+const getBlogDetails = async (sha) => {
+  const response = await GithubApi.getBlog(sha)
+  // const result = Base64.decode(response.content)
+  // console.log(`getBlogDetails->`, result)
+  content.value = Base64.decode(response.content)
   // this.loading = this.$loading(options)
   // getBlog(sha).then(response => {
   //   // console.log('blog', response)
@@ -33,19 +65,7 @@ const getBlogDetails = (sha) => {
   //     this.$nextTick(() => this.initDomTree())
   //   })
 }
-const treeDecoration = (item) => {
-  console.log(`output->item`, item)
-  // const level = item.tagName.substring(1, 2)
-  // let content = item.innerHTML
-  // if (level > 1) {
-  //   content = '-\u00a0' + content
-  //   for (var i = 0; i < level - 1; i++) {
-  //     content = '\u00a0\u00a0' + content
-  //   }
-  // }
-  // // console.log('content:', content)
-  // return { label: content, element: item }
-}
+
 const initIssues = () => {
   console.log(`initIssues->`)
   // const currentTitle = localStorage.getItem(CURRENT_TITLE)
@@ -137,6 +157,20 @@ const handlerCommitComment = (val) => {
   // console.log('details commit', val, token)
   console.log('details commit', val)
 }
+const handlerPostDirectory = (event) => {
+  const select = document.querySelector('#markdown-content')
+  if (select) {
+    const anchors = Array.from(select.querySelectorAll('h1,h2,h3,h4,h5,h6'))
+    // console.log('anchors', anchors)
+    const anchorsVal: any[] = []
+    for (const item of anchors) {
+      anchorsVal.push(treeDecoration(item))
+    }
+    // console.log('ananchorsValcher', anchorsVal)
+    postDirectory.value = anchorsVal
+  }
+  loadingInstance.close()
+}
 const sign = (action) => {
   console.log('signUp start', action)
   // if (action === 'signin') {
@@ -149,6 +183,18 @@ const sign = (action) => {
   // } else if (action === 'signout') {
   //   this.$store.dispatch('user/logout')
   // }
+}
+const treeDecoration = (item) => {
+  const level = item.tagName.substring(1, 2)
+  let content = item.innerHTML
+  if (level > 1) {
+    content = '-\u00a0' + content
+    for (var i = 0; i < level - 1; i++) {
+      content = '\u00a0\u00a0' + content
+    }
+  }
+  // console.log('content:', content)
+  return { label: content, element: item }
 }
 
 /** 初始化 **/

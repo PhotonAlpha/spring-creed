@@ -74,9 +74,11 @@ public class UserSettlementService {
                                     comb.getT1().getRecipientInfo(),
                                     comb.getT1().getInvoiceInfo(),
                                     comb.getT1().getActivityInfo(),
-                                    comb.getT1().getCoupon()
+                                    comb.getT1().getCoupon(),
+                                    comb.getT2()
                                     ))
                 )
+                // .onErrorResume()
                 .flatMap(comb -> this.success(comb.getUserName(), comb.getOrderNo()))
                 .switchIfEmpty(Mono.defer(() -> this.fallback(dto.getUserName())));
     }

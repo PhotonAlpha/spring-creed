@@ -13,7 +13,10 @@ export const CACHE_KEY = {
   THEME: 'theme',
   LAYOUT: 'layout',
   ROLE_ROUTERS: 'roleRouters',
-  DICT_CACHE: 'dictCache'
+  DICT_CACHE: 'dictCache',
+  TREES_CACHE: 'trees',
+  CATEGORY_CACHE: 'category',
+  RECOMMEND_CACHE: 'latestRecommend'
 }
 
 export const useCache = (type: CacheType = 'localStorage') => {

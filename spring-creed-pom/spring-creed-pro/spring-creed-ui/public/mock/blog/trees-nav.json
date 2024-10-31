@@ -1,0 +1,63 @@
+{
+    "sha": "b719c0ec0ea316b2d00face5f2e4b638ecfb9485",
+    "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/trees/b719c0ec0ea316b2d00face5f2e4b638ecfb9485",
+    "tree": [
+        {
+            "path": "Angular",
+            "mode": "040000",
+            "type": "tree",
+            "sha": "a650765e794b8911101d0a48223b5dd82d0fdab7",
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/trees/a650765e794b8911101d0a48223b5dd82d0fdab7"
+        },
+        {
+            "path": "Docker",
+            "mode": "040000",
+            "type": "tree",
+            "sha": "c59e5e7c60bb9b1ff0bf06aa15c064999c42b9d8",
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/trees/c59e5e7c60bb9b1ff0bf06aa15c064999c42b9d8"
+        },
+        {
+            "path": "GraphQL",
+            "mode": "040000",
+            "type": "tree",
+            "sha": "bc35504d79fb781277507675159c9b465b64536c",
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/trees/bc35504d79fb781277507675159c9b465b64536c"
+        },
+        {
+            "path": "Java",
+            "mode": "040000",
+            "type": "tree",
+            "sha": "4aebd8991227517e9fecf66f4a8f19974c92231b",
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/trees/4aebd8991227517e9fecf66f4a8f19974c92231b"
+        },
+        {
+            "path": "ReactJS",
+            "mode": "040000",
+            "type": "tree",
+            "sha": "0ce80408e7bfd1b789ca8cf3b46461188e0faa5a",
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/trees/0ce80408e7bfd1b789ca8cf3b46461188e0faa5a"
+        },
+        {
+            "path": "SpringBoot",
+            "mode": "040000",
+            "type": "tree",
+            "sha": "7ec86795201559457df03b6aee4f7540bf7d5671",
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/trees/7ec86795201559457df03b6aee4f7540bf7d5671"
+        },
+        {
+            "path": "SpringCloud",
+            "mode": "040000",
+            "type": "tree",
+            "sha": "c16fd01e5bae3af9e12ed800b17c03d244b4fa4d",
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/trees/c16fd01e5bae3af9e12ed800b17c03d244b4fa4d"
+        },
+        {
+            "path": "Vue",
+            "mode": "040000",
+            "type": "tree",
+            "sha": "67e2f8b606180e035052644f3db3dfa9c3386c3c",
+            "url": "https://api.github.com/repos/PhotonAlpha/blogs/git/trees/67e2f8b606180e035052644f3db3dfa9c3386c3c"
+        }
+    ],
+    "truncated": false
+}

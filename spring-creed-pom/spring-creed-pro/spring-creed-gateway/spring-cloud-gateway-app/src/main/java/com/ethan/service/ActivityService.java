@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 public class ActivityService {
     public Mono<ActivityInfoVo> getActivityInfo(ProxyExchange<byte[]> proxy, ServerWebExchange exchange, String name) {
         log.info("getActivityInfo:{}", name);
-        ProxyExchangeResolver<String, Mono<ActivityInfoVo>> resolver = ProxyExchangeResolver.get();
+        ProxyExchangeResolver<String, Mono<ActivityInfoVo>> resolver = ProxyExchangeResolver.get(ActivityInfoVo.class);
         return resolver.apply(proxy, exchange, "/activity/info/" + name);
     }
 }

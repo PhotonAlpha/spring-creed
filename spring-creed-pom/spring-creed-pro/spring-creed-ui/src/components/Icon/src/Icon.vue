@@ -4,11 +4,257 @@ import Iconify from '@purge-icons/generated'
 import { useDesign } from '@/hooks/web/useDesign'
 
 defineOptions({ name: 'Icon' })
+// 维护一个mapping列表管理icon： https://github.com/unplugin/unplugin-icons/issues/5
+const items = [
+  {
+    name: 'home',
+    icon: IconMdiHomeSoundOut
+  },
+  {
+    name: 'peoples',
+    icon: IconMdiPeopleGroup
+  },
+  {
+    name: 'monitor',
+    icon: IconMdiMonitorDashboard
+  },
+  {
+    name: 'eye',
+    icon: IconMdiEye
+  },
+  {
+    name: 'user',
+    icon: IconMdiUserHeart
+  },
+  {
+    name: 'table',
+    icon: IconMdiFileTable
+  },
+  {
+    name: 'tree',
+    icon: IconMdiPineTreeVariant
+  },
+  {
+    name: 'post',
+    icon: IconMdiPostageStamp
+  },
+  {
+    name: 'dict',
+    icon: IconMdiDictionary
+  },
+  {
+    name: 'message',
+    icon: IconMdiMessageBadge
+  },
+  {
+    name: 'log',
+    icon: IconMdiMathLog
+  },
+  {
+    name: 'form',
+    icon: IconMdiFormOutline
+  },
+  {
+    name: 'logininfor',
+    icon: IconMdiPsychology
+  },
+  {
+    name: 'tool',
+    icon: IconMdiTools
+  },
+  {
+    name: 'ep:tools',
+    icon: IconEpTools
+  },
+  {
+    name: 'ep:menu',
+    icon: IconEpMenu
+  },
+  {
+    name: 'ep:switch-button',
+    icon: IconEpSwitchButton
+  },
+  {
+    name: 'online',
+    icon: IconMdiAccountOnline
+  },
+  {
+    name: 'validCode',
+    icon: IconMdiCodeBlockBraces
+  },
+  {
+    name: 'phone',
+    icon: IconMdiCellphone
+  },
+  {
+    name: 'email',
+    icon: IconMdiEmail
+  },
+  {
+    name: 'education',
+    icon: IconMdiBookEducation
+  },
+  {
+    name: 'edit',
+    icon: IconMdiFileDocumentEdit
+  },
+  {
+    name: 'code',
+    icon: IconMdiFileCode
+  },
+  {
+    name: 'row',
+    icon: IconMdiTableRowHeight
+  },
+  {
+    name: 'rate',
+    icon: IconMdiStarRate
+  },
+  {
+    name: 'build',
+    icon: IconMdiBuild
+  },
+  {
+    name: 'swagger',
+    icon: IconMdiFileDocumentBoxCheck
+  },
+  {
+    name: 'download',
+    icon: IconMdiTrayDownload
+  },
+  {
+    name: 'config',
+    icon: IconMdiSettingsPlay
+  },
+  {
+    name: 'upload',
+    icon: IconMdiCloudUpload
+  },
+  {
+    name: 'redis',
+    icon: IconMdiMemory
+  },
+  {
+    name: 'server',
+    icon: IconMdiServer
+  },
+  {
+    name: 'job',
+    icon: IconMdiFanSchedule
+  },
+  {
+    name: 'eye-open',
+    icon: IconMdiEyeCircle
+  },
+  {
+    name: 'money',
+    icon: IconMdiMoney100
+  },
+  {
+    name: 'notebook',
+    icon: IconMdiNotebookHeart
+  },
+  {
+    name: 'angular',
+    icon: IconMdiAngular
+  },
+  {
+    name: 'java',
+    icon: IconMdiLanguageJava
+  },
+  {
+    name: 'spring',
+    icon: IconMdiLeafCircle
+  },
+  {
+    name: 'cloud',
+    icon: IconMdiCloudTags
+  },
+  {
+    name: 'vuejs',
+    icon: IconMdiVuejs
+  },
+  {
+    name: 'receiptSend',
+    icon: IconMdiReceiptSend
+  },
+  {
+    name: 'github',
+    icon: IconMdiGithub
+  },
+  {
+    name: 'vite',
+    icon: IconMdiVuetify
+  },
+  {
+    name: 'react',
+    icon: IconMdiReact
+  },
+  {
+    name: 'webpack',
+    icon: IconMdiWebpack
+  },
+  {
+    name: 'ion:language-sharp',
+    icon: IconMdiLanguageBox
+  },
+  {
+    name: 'ep:bell',
+    icon: IconMdiBell
+  },
+  {
+    name: 'zmdi:fullscreen',
+    icon: IconMdiFullscreen
+  },
+  {
+    name: 'zmdi:fullscreen-exit',
+    icon: IconMdiFullscreenExit
+  },
+  {
+    name: 'mdi:format-size',
+    icon: IconMdiFormatSize
+  },
+  {
+    name: 'ep:refresh',
+    icon: IconEpRefresh
+  },
+  {
+    name: 'ep:refresh-right',
+    icon: IconEpRefreshRight
+  },
+  {
+    name: 'ep:refresh',
+    icon: IconEpRefresh
+  },
+  {
+    name: 'ep:close',
+    icon: IconEpClose
+  },
+  {
+    name: 'ep:d-arrow-left',
+    icon: IconEpDArrowLeft
+  },
+  {
+    name: 'ep:d-arrow-right',
+    icon: IconEpDArrowRight
+  },
+  {
+    name: 'ep:discount',
+    icon: IconEpDiscount
+  },
+  {
+    name: 'ep:minus',
+    icon: IconEpMinus
+  },
+  {
+    name: 'default',
+    icon: IconMdiBlinky
+  }
+]
 
 const { getPrefixCls } = useDesign()
 
 const prefixCls = getPrefixCls('icon')
-
 const props = defineProps({
   // icon name
   icon: propTypes.string,
@@ -27,7 +273,7 @@ const isLocal = computed(() => props.icon.startsWith('svg-icon:'))
 
 const symbolId = computed(() => {
   const res = unref(isLocal) ? `#icon-${props.icon.split('svg-icon:')[1]}` : props.icon
-  console.log(`symbolId:`, res)
+  // console.log(`symbolId:`, res) //debug 查看Miss的symbolId
   return res
 })
 
@@ -59,7 +305,7 @@ const updateIcon = async (icon: string) => {
   // 参考文档：https://iconify.design/docs/icon-components/vue/
   // https://juejin.cn/post/7087827571861585956
   // npm install --save-dev @iconify/vue
-  console.log(`output->icon`, icon)
+  // console.log(`output->icon`, icon)
   const svg = Iconify.renderSVG(icon, {})
   if (svg) {
     el.textContent = ''
@@ -71,6 +317,9 @@ const updateIcon = async (icon: string) => {
     el.textContent = ''
     el.appendChild(span)
   }
+}
+const getIcon = (icon: string) => {
+  return items.find((i) => i.name === icon) || items.slice(-1).pop()
 }
 
 watch(
@@ -88,7 +337,7 @@ watch(
     </svg>
 
     <span v-else ref="elRef" :class="$attrs.class" :style="getIconifyStyle">
-      <span :class="getSvgClass" :data-icon="symbolId"></span>
+      <component :is="getIcon(symbolId)?.icon" />
     </span>
   </ElIcon>
 </template>

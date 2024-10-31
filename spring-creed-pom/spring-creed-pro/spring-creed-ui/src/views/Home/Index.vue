@@ -202,42 +202,42 @@ const getProject = async () => {
   const data = [
     {
       name: 'Github',
-      icon: 'akar-icons:github-fill',
+      icon: 'github',
       message: 'workplace.introduction',
       personal: 'Archer',
       time: new Date()
     },
     {
       name: 'Vue',
-      icon: 'logos:vue',
+      icon: 'vuejs',
       message: 'workplace.introduction',
       personal: 'Archer',
       time: new Date()
     },
     {
       name: 'Angular',
-      icon: 'logos:angular-icon',
+      icon: 'angular',
       message: 'workplace.introduction',
       personal: 'Archer',
       time: new Date()
     },
     {
       name: 'React',
-      icon: 'logos:react',
+      icon: 'react',
       message: 'workplace.introduction',
       personal: 'Archer',
       time: new Date()
     },
     {
       name: 'Webpack',
-      icon: 'logos:webpack',
+      icon: 'webpack',
       message: 'workplace.introduction',
       personal: 'Archer',
       time: new Date()
     },
     {
       name: 'Vite',
-      icon: 'vscode-icons:file-type-vite',
+      icon: 'vite',
       message: 'workplace.introduction',
       personal: 'Archer',
       time: new Date()
@@ -285,32 +285,42 @@ const getShortcut = async () => {
   const data = [
     {
       name: 'Github',
-      icon: 'akar-icons:github-fill',
+      icon: 'github',
       url: 'github.io'
     },
     {
       name: 'Vue',
-      icon: 'logos:vue',
+      icon: 'vuejs',
       url: 'vuejs.org'
     },
     {
       name: 'Vite',
-      icon: 'vscode-icons:file-type-vite',
+      icon: 'vite',
       url: 'https://vitejs.dev/'
     },
     {
       name: 'Angular',
-      icon: 'logos:angular-icon',
+      icon: 'angular',
       url: 'github.io'
     },
     {
       name: 'React',
-      icon: 'logos:react',
+      icon: 'react',
+      url: 'github.io'
+    },
+    {
+      name: 'zmdi:fullscreen',
+      icon: 'react',
+      url: 'github.io'
+    },
+    {
+      name: 'zmdi:fullscreen-exit',
+      icon: 'react',
       url: 'github.io'
     },
     {
       name: 'Webpack',
-      icon: 'logos:webpack',
+      icon: 'webpack',
       url: 'github.io'
     }
   ]

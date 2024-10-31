@@ -11,6 +11,6 @@ import LayoutBlog from '@/layout-blog/index.vue'
 //   console.log(`route val`, s)
 //   return (s && s[0].toUpperCase() + s.slice(1)) || ''
 // }
-const pathVal = ref('SpringBoot')
+const pathVal = ref('Java')
 </script>
 <style scoped lang="scss"></style>

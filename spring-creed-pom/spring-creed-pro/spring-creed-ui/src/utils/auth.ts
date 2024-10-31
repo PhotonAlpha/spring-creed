@@ -101,7 +101,8 @@ const accessToken =
 
 const redirect_uri = `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}/callback`
 const clientId = import.meta.env.VUE_APP_CLIENT_ID
-export const AUTHURL = ` https://github.com/login/oauth/authorize?client_id=${decryptAES(clientId)}&scope=public_repo&redirect_uri=${redirect_uri}`
+export const AUTHURL = ` https://github.com`
+// export const AUTHURL = ` https://github.com/login/oauth/authorize?client_id=${decryptAES(clientId)}&scope=public_repo&redirect_uri=${redirect_uri}`
 
 export function getAdminToken() {
   let token = Cookies.get(tokenKey)

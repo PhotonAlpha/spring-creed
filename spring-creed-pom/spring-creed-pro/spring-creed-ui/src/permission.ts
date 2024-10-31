@@ -8,6 +8,8 @@ import { usePageLoading } from '@/hooks/web/usePageLoading'
 import { useDictStoreWithOut } from '@/store/modules/dict'
 import { useUserStoreWithOut } from '@/store/modules/user'
 import { usePermissionStoreWithOut } from '@/store/modules/permission'
+import * as LoginApi from '@/api/login'
+import * as authUtil from '@/utils/auth'
 
 const { start, done } = useNProgress()
 
@@ -23,11 +25,52 @@ const whiteList = [
   '/blog'
 ]
 
+const loginData = reactive({
+  isShowPassword: false,
+  captchaEnable: import.meta.env.VITE_APP_CAPTCHA_ENABLE,
+  tenantEnable: import.meta.env.VITE_APP_TENANT_ENABLE,
+  loginForm: {
+    tenantName: 'CreedMall',
+    username: 'ethan',
+    password: 'password',
+    captchaVerification: '',
+    rememberMe: false
+  }
+})
+const loginLoading = ref(false)
+const loading = ref() // ElLoading.service 返回的实例
+const handleLogin = async (params) => {
+  loginLoading.value = true
+  try {
+    const res = await LoginApi.login(loginData.loginForm)
+    if (!res) {
+      return
+    }
+    loading.value = ElLoading.service({
+      lock: true,
+      text: '正在加载系统中...',
+      background: 'rgba(0, 0, 0, 0.7)'
+    })
+    if (loginData.loginForm.rememberMe) {
+      authUtil.setLoginForm(loginData.loginForm)
+    } else {
+      authUtil.removeLoginForm()
+    }
+    authUtil.setToken(res)
+  } finally {
+    loginLoading.value = false
+    if (loading.value) {
+      loading.value.close()
+    }
+  }
+}
+
 // 路由加载前
 router.beforeEach(async (to, from, next) => {
   start()
   loadStart()
-  const token = getAccessToken()
+  await handleLogin('')
+  const token = 'admin' //getAccessToken() skip login page
   console.log('access token', token)
   if (token) {
     if (to.path === '/login') {

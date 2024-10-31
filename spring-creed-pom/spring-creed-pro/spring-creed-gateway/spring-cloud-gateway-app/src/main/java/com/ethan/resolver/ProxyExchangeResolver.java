@@ -1,8 +1,11 @@
 package com.ethan.resolver;
 
+import com.ethan.controller.product.vo.ProductInfoVo;
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.webflux.ProxyExchange;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.server.ServerWebExchange;
@@ -34,17 +37,19 @@ public interface ProxyExchangeResolver<T, R> {
 
     /**
      *
+     * @param responseType
      * @return
-     * @param <T> will be path for get query
-     * @param <R>
+     * @param <V> response type
      */
-    static <T, R> ProxyExchangeResolver<T, Mono<R>> get() {
+    static <T, V> ProxyExchangeResolver<T, Mono<V>> get(Class<V> responseType) {
         return (proxy, exchange, path) -> {
             ServerHttpRequest request = exchange.getRequest();
             String currentPath = request.getURI().toString().replaceAll(request.getPath().value(), "");
-            return proxy.uri(currentPath + path).get(o -> {
+            return proxy.uri(currentPath + path)
+                    .header(HttpHeaders.CONTENT_LENGTH, "0")
+                    .get(o -> {
                 byte[] bytes = o.getBody();
-                return ResponseEntity.ok(JacksonUtils.parseObject(bytes, new TypeReference<R>() {}));
+                return ResponseEntity.ok(JacksonUtils.parseObject(bytes, responseType));
             }).mapNotNull(HttpEntity::getBody);
         };
     }
@@ -56,14 +61,15 @@ public interface ProxyExchangeResolver<T, R> {
      * @param <T> will be path for post query
      * @param <R>
      */
-    static <V, T, R> ProxyExchangeResolver<T, Mono<R>> post(V req) {
+    static <V, T, R> ProxyExchangeResolver<T, Mono<V>> post(R req, Class<V> responseType) {
         return (proxy, exchange, path) -> {
             ServerHttpRequest request = exchange.getRequest();
             String currentPath = request.getURI().toString().replaceAll(request.getPath().value(), "");
-            return proxy.uri(currentPath + path).body(req).post(o -> {
+            return proxy.uri(currentPath + path).body(req)
+                    .header(HttpHeaders.CONTENT_LENGTH, "0")
+                    .post(o -> {
                 byte[] bytes = o.getBody();
-                return ResponseEntity.ok(JacksonUtils.parseObject(bytes, new TypeReference<R>() {
-                }));
+                return ResponseEntity.ok(JacksonUtils.parseObject(bytes, responseType));
             }).mapNotNull(HttpEntity::getBody);
         };
     }

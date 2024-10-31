@@ -88,23 +88,26 @@ public class MyRestTemplateConfig {
      3）  http.conn-manager.max-total 总的连接数；
      */
     // The maximum number of connections per route.
-    @Value("${httpclient.config.connections-per-route:20}")
+    @Value("${httpclient.config.connections-per-route:1}")
     private int connectionsPerRoute;
 
     //The maximum number of connections.
-    @Value("${httpclient.config.max-total-connections:80}")
+    @Value("${httpclient.config.max-total-connections:1}")
     private int maxTotalConnections;
 
     // Returns the connection lease request timeout used when requesting a connection from the connection manager. A timeout value of zero is interpreted as a disabled timeout.
-    @Value("${httpclient.config.connection-request-timeout:120000}")
+    // 从连接池获取的超时时间，可以通过限制连接池数量来复现maxTotalConnections
+    @Value("${httpclient.config.connection-request-timeout:8000}")
     private int connectionRequestTimeout;
 
     // The time to establish the connection with the remote host
-    @Value("${httpclient.config.connect-timeout:10000}")
+    // 连接目标服务超时的时间http://74.125.203.10
+    @Value("${httpclient.config.connect-timeout:5000}")
     private int connectionTimeout;
 
     // The time waiting for data – after establishing the connection; maximum time of inactivity between two data packets
-    @Value("${httpclient.config.socket-timeout:180000}")
+    // 等待响应的时间
+    @Value("${httpclient.config.socket-timeout:12000}")
     private int socketTimeout;
 
     // The time for connection to live, the time unit is millisecond, the default value is always keep alive.

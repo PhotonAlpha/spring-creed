@@ -1,13 +1,13 @@
+import { BolgTreeItem, GitTreeItem } from '@/api/github'
+import moment from 'moment'
+
 /**
  * Parse the time to string
  * @param {(Object|string|number)} time
  * @param {string} cFormat
  * @returns {string | null}
  */
-export function parseTime(time, cFormat) {
-  if (arguments.length === 0) {
-    return null
-  }
+export const parseTime = (time, cFormat) => {
   const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}'
   let date
   if (typeof time === 'object') {
@@ -46,16 +46,16 @@ export function parseTime(time, cFormat) {
  * @param {string} option
  * @returns {string}
  */
-export function formatTime(time, option) {
+export const formatTime = (time, option) => {
   if (('' + time).length === 10) {
     time = parseInt(time) * 1000
   } else {
     time = +time
   }
-  const d = new Date(time)
+  const before = new Date(time)
   const now = Date.now()
 
-  const diff = (now - d) / 1000
+  const diff = (now - before.getMilliseconds()) / 1000
 
   if (diff < 30) {
     return '刚刚'
@@ -71,7 +71,15 @@ export function formatTime(time, option) {
     return parseTime(time, option)
   } else {
     return (
-      d.getMonth() + 1 + '月' + d.getDate() + '日' + d.getHours() + '时' + d.getMinutes() + '分'
+      before.getMonth() +
+      1 +
+      '月' +
+      before.getDate() +
+      '日' +
+      before.getHours() +
+      '时' +
+      before.getMinutes() +
+      '分'
     )
   }
 }
@@ -96,27 +104,18 @@ export function param2Obj(url) {
   )
 }
 
-export type GithubItem = {
-  path: string
-  type: string
-  url: string
-  sha: string
+export const handlerDateFormat = (timestamp) => {
+  return moment(timestamp).format('YYYY-MM-DD')
 }
-export type Title = {
-  name: string
-  date: number
-  path: string
-  git_url: string
-  sha: string
-  type: string
+export const handlerDateFormatSlash = (timestamp) => {
+  return moment(timestamp).format('YYYY/MM/DD')
 }
 
-export function reconstructorTitle(tree: GithubItem[] = []) {
+export const reconstructorTitle = (tree: GitTreeItem[] = []) => {
   const pattern = /^[0-9]{4}[-]{1}[0-9]{1,2}[-]{1}[0-9]{1,2}/
-  let blogdatas: Title[] = []
+  let blogdatas: BolgTreeItem[] = []
   if (tree && tree.length > 0) {
-    const items = tree
-    blogdatas = items
+    blogdatas = tree
       .filter((item) => {
         const match = pattern.exec(item.path)
         return match && item.type === 'blob'
@@ -124,6 +123,7 @@ export function reconstructorTitle(tree: GithubItem[] = []) {
       .map((item) => {
         const name = item.path
         const match = pattern.exec(name) || ['']
+
         const blogname = name.substring(match[0].length + 1, name.length).replace('.md', '')
         return {
           name: blogname,
@@ -134,7 +134,7 @@ export function reconstructorTitle(tree: GithubItem[] = []) {
           type: item.type
         }
       })
-    blogdatas.sort((a: Title, b: Title) => {
+    blogdatas.sort((a, b) => {
       return b.date - a.date
     })
   }

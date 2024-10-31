@@ -54,6 +54,14 @@ export default {
       }
     }
   },
+  setup(props, { emit }) {
+    const updateAction = (event) => {
+      emit('updateMarkdownAction', event)
+    }
+    return {
+      updateAction
+    }
+  },
   data() {
     const optMarkdownIt = this.options.markdownIt
     const linkAttributes = this.options.linkAttributes || DEFAULT_OPTIONS_LINK_ATTRIBUTES
@@ -133,6 +141,7 @@ export default {
       handler(val) {
         this.$nextTick(() => {
           this.$refs['markdown-it-vue-container'].innerHTML = this.md.render(val)
+          this.updateAction('markdown-it-vue-container')
         })
       }
     }

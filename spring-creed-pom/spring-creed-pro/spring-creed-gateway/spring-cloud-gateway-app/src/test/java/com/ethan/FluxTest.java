@@ -104,4 +104,51 @@ public class FluxTest {
 
         System.out.println(new BigDecimal("15").movePointLeft(2));
     }
+
+    /**
+     * 异常情况的处理
+     */
+    @Test
+    void onError() {
+        // Flux.range(1,5)
+        //         .doOnNext(i -> System.out.println("input=" + i))
+        //         .map(i -> i == 2 ? i / 0 : i)
+        //         .map(i -> i * 2)
+        //         .reduce((i,j) -> i+j)
+        //         .doOnNext(i -> System.out.println("sum=" + i))
+        //         .block();
+
+
+        Flux.range(1,5)
+                .doOnNext(i -> System.out.println("input=" + i))
+                .map(i -> i == 2 ? i / 0 : i)
+                .map(i -> i * 2)
+                .onErrorResume(err -> {
+                    log.info("onErrorResume", err);
+                    return Flux.empty();
+                })
+                .reduce((i,j) -> i+j)
+                .doOnNext(i -> System.out.println("sum=" + i))
+                .block();
+        System.out.println("----------split-------");
+        Flux.range(1,5)
+                .doOnNext(i -> System.out.println("input=" + i))
+                .map(i -> i == 2 ? i / 0 : i)
+                .map(i -> i * 2)
+                .onErrorContinue((err, i) -> {
+                    log.info("onErrorResume i={}", i, err);
+                })
+                .reduce((i,j) -> i+j)
+                .doOnNext(i -> System.out.println("sum=" + i))
+                .block();
+        System.out.println("----------split-------");
+        Flux.range(1,5)
+                .doOnNext(i -> System.out.println("input=" + i))
+                .map(i -> i == 2 ? i / 0 : i)
+                .map(i -> i * 2)
+                .onErrorComplete()
+                .reduce((i,j) -> i+j)
+                .doOnNext(i -> System.out.println("sum=" + i))
+                .block();
+    }
 }
