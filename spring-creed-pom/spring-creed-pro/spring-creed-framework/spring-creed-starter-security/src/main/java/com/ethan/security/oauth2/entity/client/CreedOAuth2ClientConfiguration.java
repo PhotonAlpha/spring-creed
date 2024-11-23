@@ -28,6 +28,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode
 @Accessors(chain = true)
+@Deprecated(forRemoval = true)
 public class CreedOAuth2ClientConfiguration extends BaseDO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

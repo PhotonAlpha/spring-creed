@@ -37,6 +37,7 @@ This system still under building.
 
 [云设计模式](https://iambowen.gitbooks.io/cloud-design-pattern/content/cloud-design-patterns.html)
 
+[system-design 文章](https://javaguide.cn/system-design/security/data-desensitization.html)
 
 ### MacBook 生产工具列表
 - **draw.io**
@@ -57,3 +58,17 @@ This system still under building.
 - **Sonarlint**
 - **VisualVM Launcher**
 - Json Parser(optional)
+
+
+ruoyi-vue-pro 使用记录
+https://blog.csdn.net/qq_41146650/article/details/138668579
+
+antRain 提供了所有sql
+
+脚本： https://greasyfork.org/zh-CN/scripts/481001-yudao
+
+破解弹框： https://www.zhihu.com/question/577119224
+https://github.com/talkpoin/ruoyi-spring-boot-all
+
+https://www.mjga.cc/
+

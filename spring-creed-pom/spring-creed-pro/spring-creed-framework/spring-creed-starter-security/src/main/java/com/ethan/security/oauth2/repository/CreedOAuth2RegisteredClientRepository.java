@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
+@Deprecated(forRemoval = true)
 @Repository
 public interface CreedOAuth2RegisteredClientRepository extends JpaRepository<CreedOAuth2RegisteredClient, String> {
 

@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Hooks;
 import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
 import reactor.util.function.Tuple4;
@@ -43,6 +44,7 @@ public class UserSettlementService {
     private PriceCalculateService priceCalculateService;
 
     public Mono<UserSettlementVo> submitRequest(ProxyExchange<byte[]> proxy, ServerWebExchange exchange, UserSettlementReqDto dto) {
+        // Hooks.onOperatorDebug(); //解决debug困难问题
         return userLoginService.getUserInfo(proxy, exchange, dto.getUserName())
                 .filter(userLoginService.hasLogin())
                 .zipWith(productService.getProductInfo(proxy, exchange, dto.getUserName()))

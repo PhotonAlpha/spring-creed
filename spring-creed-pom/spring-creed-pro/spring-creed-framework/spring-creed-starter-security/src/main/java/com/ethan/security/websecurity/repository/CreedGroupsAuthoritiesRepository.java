@@ -5,5 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@Deprecated(forRemoval = true)
 public interface CreedGroupsAuthoritiesRepository extends JpaRepository<CreedGroupAuthorities, String> {
 }

@@ -25,6 +25,7 @@ import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.util.CollectionUtils;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Collections;
@@ -59,7 +60,7 @@ public class CreedUserService {
         }
         // 初始化 userRoleCache 缓存
         Map<String, Set<String>> userRoleMapping = convertMap(users, CreedUser::getId, a -> a.getAuthorities().stream().map(CreedAuthorities::getId).collect(Collectors.toSet()));
-        ZonedDateTime maxValue = CollUtils.getMaxValue(users, BaseXDO::getUpdateTime);
+        ZonedDateTime maxValue = ZonedDateTime.ofInstant(CollUtils.getMaxValue(users, BaseXDO::getUpdateTime), ZoneId.systemDefault());
         log.info("[initUserRoleLocalCache][初始化用户与角色的关联数量为 {}]", users.size());
         return Pair.of(maxValue, userRoleMapping);
     }

@@ -26,6 +26,8 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,11 +49,14 @@ import org.springframework.security.config.annotation.web.configurers.LogoutConf
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.server.resource.introspection.NimbusOpaqueTokenIntrospector;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
@@ -274,23 +279,26 @@ public class SecurityConfig {
     }
 
     @Bean
+    @ConditionalOnMissingBean
+    public UserDetailsService userDetailsService() {
+        UserDetails userDetails = User.withUsername("ethan")
+                .password("{noop}password")
+                .authorities("GUEST")
+                .build();
+        return new InMemoryUserDetailsManager(userDetails);
+    }
+    /* @Bean
     public UserDetailsService userDetailsService(CreedAuthorityRepository authorityRepository,
                                                  CreedUserRepository consumerRepository,
                                                  CreedGroupsAuthoritiesRepository groupsAuthoritiesRepository,
                                                  CreedGroupsMembersRepository groupsMembersRepository,
                                                  CreedGroupsRepository groupsRepository) {
-        // UserDetails userDetails = User.withDefaultPasswordEncoder()
-        //         .username("user")
-        //         .password("password")
-        //         .roles("USER")
-        //         .build();
-        // return new InMemoryUserDetailsManager(userDetails);
         return new CreedUserDetailsManager(authorityRepository,
                 consumerRepository,
                 groupsAuthoritiesRepository,
                 groupsMembersRepository,
                 groupsRepository);
-    }
+    } */
 
 
     /**

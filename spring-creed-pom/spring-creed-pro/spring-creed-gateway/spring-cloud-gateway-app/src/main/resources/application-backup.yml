@@ -1,0 +1,30 @@
+server:
+  shutdown: graceful
+
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+      - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+        #security:
+        #oauth2:
+        #resourceserver:
+        #jwt:
+      #jwk-set-uri: ${jwk.set.uri:http://127.0.0.1:8080/auth/realms/oauth2-sample/protocol/openid-connect/certs}
+      #public-key-location: ${utilityservicesapijwtvalidationpubkey:}
+      #public-key-location: classpath:jwt-verification-rs256-key.pub
+#  cloud:
+#    gateway:
+#      discovery:
+#        locator:
+## enabled：默认为false，设置为true表明spring cloud gateway开启服务发现和路由的功能，网关自动根据注册中心的服务名为每个服务创建一个router，将以服务名开头的请求路径转发到对应的服务
+#          enabled: true
+## lowerCaseServiceId：启动 locator.enabled=true 自动路由时，路由的路径默认会使用大写ID，若想要使用小写ID，可将lowerCaseServiceId设置为true
+#          lower-case-service-id: true
+#          filters:
+#            - Pre
+
+
+

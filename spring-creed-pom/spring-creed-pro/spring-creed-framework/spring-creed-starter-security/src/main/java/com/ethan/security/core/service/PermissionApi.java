@@ -1,6 +1,7 @@
 package com.ethan.security.core.service;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -43,4 +44,22 @@ public interface PermissionApi {
      */
     // DeptDataPermissionRespDTO getDeptDataPermission(String userId);
 
+    static PermissionApi instant() {
+        return new PermissionApi() {
+            @Override
+            public Set<String> getUserRoleIdListByRoleIds(Collection<String> roleIds) {
+                return new HashSet<>(roleIds);
+            }
+
+            @Override
+            public boolean hasAnyPermissions(String userId, String... permissions) {
+                return true;
+            }
+
+            @Override
+            public boolean hasAnyRoles(String userId, String... roles) {
+                return true;
+            }
+        };
+    }
 }

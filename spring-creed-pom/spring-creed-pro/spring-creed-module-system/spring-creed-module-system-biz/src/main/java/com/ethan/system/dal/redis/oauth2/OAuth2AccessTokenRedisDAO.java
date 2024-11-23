@@ -31,7 +31,7 @@ public class OAuth2AccessTokenRedisDAO {
     public void set(CreedOAuth2AuthorizedClient accessTokenDO) {
         String redisKey = formatKey(accessTokenDO.getAccessTokenValue());
         // 清理多余字段，避免缓存
-        // accessTokenDO.setUpda(null).setUpdateTime(null).setCreateTime(null).setCreator(null).setDeleted(null);
+        // accessTokenDO.setUpda(null).setUpdateTime(null).setCreateTime(null).setCreator(null).setEnabled(null);
         // stringRedisTemplate.put(redisKey, JacksonUtils.toJsonString(accessTokenDO),
         //         accessTokenDO.getExpiresTime().getTime() - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
         stringRedisTemplate.put(redisKey, JacksonUtils.toJsonString(accessTokenDO));

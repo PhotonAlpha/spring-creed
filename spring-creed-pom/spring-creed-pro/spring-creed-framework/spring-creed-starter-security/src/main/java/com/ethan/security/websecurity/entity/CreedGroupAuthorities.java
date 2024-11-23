@@ -17,6 +17,7 @@ import lombok.EqualsAndHashCode;
 @Table(name = "creed_group_authorities")
 @Data
 @EqualsAndHashCode
+@Deprecated(forRemoval = true)
 public class CreedGroupAuthorities extends BaseXDO {
     /**
      * 组织名

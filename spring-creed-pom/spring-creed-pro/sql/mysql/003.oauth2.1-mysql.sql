@@ -128,7 +128,7 @@ INSERT INTO `creed_oauth2_registered_client` (`id`, `client_id`, `client_id_issu
                                               `authorization_grant_types`, `redirect_uris`, `scopes`, `client_settings`,
                                               `token_settings`)
 VALUES ('9dc45c80-e673-4215-9a19-329c161e08b0', 'default-client', '2023-12-02 06:42:51', '{noop}secret',
-        '2023-12-02 06:42:51', 'random-token', 'client_secret_basic',
+        '2033-12-02 06:42:51', 'random-token', 'client_secret_basic',
         'refresh_token,client_credentials,authorization_code',
         'http://127.0.0.1:8080/authorized,http://127.0.0.1:8080/login/oauth2/code/messaging-client-oidc',
         'openid,profile,message.read,message.write',

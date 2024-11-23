@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@Deprecated(forRemoval = true)
 public class OAuth2RegisteredClientConverter implements AttributeConverter<Map<String, Object>, String> {
     private final ObjectMapper objectMapper = new ObjectMapper();
 

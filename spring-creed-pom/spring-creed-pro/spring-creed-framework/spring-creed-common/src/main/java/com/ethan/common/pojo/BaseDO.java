@@ -1,23 +1,26 @@
 package com.ethan.common.pojo;
 
-import com.ethan.common.constant.CommonStatusEnum;
+import com.ethan.common.converter.SoftDelConverter;
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SoftDelete;
+import org.hibernate.annotations.SoftDeleteType;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 
 /**
  * basic Object
+ * including createTime/creator/updateTime/updater only
  */
 @Data
 @MappedSuperclass
 @Accessors(chain = true)
+@SoftDelete(strategy = SoftDeleteType.ACTIVE, columnName = "deleted", converter = SoftDelConverter.class)
 public abstract class BaseDO implements Serializable {
     /**
      * 创建时间
@@ -25,14 +28,14 @@ public abstract class BaseDO implements Serializable {
     // @CreatedDate TODO 需要使用spring security 框架
     @Column(name = "create_time")
     @CreationTimestamp
-    protected ZonedDateTime createTime;
+    protected Instant createTime;
     /**
      * 最后更新时间
      */
     // @LastModifiedDate
     @Column(name = "update_time")
     @UpdateTimestamp
-    protected ZonedDateTime updateTime;
+    protected Instant updateTime;
     /**
      * 创建者，目前使用 SysUser 的 id 编号
      * <p>
@@ -47,18 +50,4 @@ public abstract class BaseDO implements Serializable {
      */
     // @LastModifiedBy
     protected String updater = "default";
-
-    /**
-     * 是否删除
-     *
-     * 枚举 {@link CommonStatusEnum}
-     */
-    // @Convert(converter = CommonStatusEnum.Converter.class)
-    // protected CommonStatusEnum enabled= CommonStatusEnum.ENABLE;
-    @Convert(converter = CommonStatusEnum.Converter.class)
-    protected CommonStatusEnum deleted= CommonStatusEnum.ENABLE;
-
-/*     @Version
-    protected int version; */
-
 }

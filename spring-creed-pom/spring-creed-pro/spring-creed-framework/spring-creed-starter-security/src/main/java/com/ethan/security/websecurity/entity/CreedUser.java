@@ -9,6 +9,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
@@ -23,6 +24,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.Objects;
@@ -37,10 +39,12 @@ import java.util.Set;
 @EqualsAndHashCode
 @ToString(exclude = "authorities")
 @Accessors(chain = true)
+@Deprecated(forRemoval = true)
 public class CreedUser extends BaseXDO {
     @Id
-    @GenericGenerator(name = "snowflakeId", strategy = "com.ethan.security.utils.SnowFlakeIdGenerator")
-    @GeneratedValue(generator = "snowflakeId")
+    // @GenericGenerator(name = "snowflakeId", strategy = "com.ethan.security.utils.SnowFlakeIdGenerator")
+    // @GeneratedValue(generator = "snowflakeId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected String id;
     /**
      * 用户账号
@@ -93,7 +97,7 @@ public class CreedUser extends BaseXDO {
     /**
      * 最后登录时间
      */
-    private ZonedDateTime loginDate;
+    private Instant loginDate;
 
     @Column
     @Convert(converter = CommonStatusEnum.Converter.class)

@@ -9,6 +9,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
@@ -26,8 +27,8 @@ import java.util.Set;
 @Entity
 @Table(name = "creed_authorities")
 @Data
-@EqualsAndHashCode
 @ToString(exclude = "users")
+@Deprecated(forRemoval = true)
 public class CreedAuthorities extends BaseXDO {
 
     /**
@@ -35,8 +36,9 @@ public class CreedAuthorities extends BaseXDO {
      */
     @Id
     @Column
-    @GenericGenerator(name = "snowflakeId", strategy = "com.ethan.security.utils.SnowFlakeIdGenerator")
-    @GeneratedValue(generator = "snowflakeId")
+    // @GenericGenerator(name = "snowflakeId", strategy = "com.ethan.security.utils.SnowFlakeIdGenerator")
+    // @GeneratedValue(generator = "snowflakeId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     private String authority;

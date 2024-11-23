@@ -28,6 +28,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Slf4j
+@Deprecated(forRemoval = true)
 public class JpaClientRegistrationRepository implements ClientRegistrationRepository, Iterable<ClientRegistration>, InitializingBean {
     private Map<String, ClientRegistration> registrations;
     private final CreedOAuth2ClientConfigurationRepository clientConfigurationRepository;
