@@ -21,7 +21,7 @@ public class RoleRefreshConsumer extends AbstractChannelMessageListener<RoleRefr
     @Override
     public void onMessage(RoleRefreshMessage message) {
         log.info("[onMessage][收到 Role 刷新消息]");
-        roleService.initLocalCache();
+        // roleService.initLocalCache();
     }
 
 }

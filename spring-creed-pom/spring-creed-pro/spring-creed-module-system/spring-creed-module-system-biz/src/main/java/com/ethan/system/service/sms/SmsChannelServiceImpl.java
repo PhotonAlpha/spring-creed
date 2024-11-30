@@ -8,6 +8,7 @@ import com.ethan.system.controller.admin.sms.vo.channel.SmsChannelCreateReqVO;
 import com.ethan.system.controller.admin.sms.vo.channel.SmsChannelPageReqVO;
 import com.ethan.system.controller.admin.sms.vo.channel.SmsChannelUpdateReqVO;
 import com.ethan.system.convert.sms.SmsChannelConvert;
+import com.ethan.system.dal.entity.file.FileConfigDO;
 import com.ethan.system.dal.entity.sms.SmsChannelDO;
 import com.ethan.system.dal.repository.sms.SmsChannelRepository;
 import jakarta.annotation.PostConstruct;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -72,8 +74,8 @@ public class SmsChannelServiceImpl implements SmsChannelService {
         List<SmsChannelProperties> propertiesList = SmsChannelConvert.INSTANCE.convertList02(smsChannels);
         // propertiesList.forEach(properties -> smsClientFactory.createOrUpdateSmsClient(properties));
 
-        // 写入缓存
-        maxUpdateTime = CollUtils.getMaxValue(smsChannels, SmsChannelDO::getUpdateTime);
+        // 写入缓存 TODO
+        maxUpdateTime = ZonedDateTime.ofInstant(CollUtils.getMaxValue(smsChannels, SmsChannelDO::getUpdateTime), ZoneId.systemDefault());
         log.info("[initSmsClients][初始化 SmsChannel 数量为 {}]", smsChannels.size());
     }
 

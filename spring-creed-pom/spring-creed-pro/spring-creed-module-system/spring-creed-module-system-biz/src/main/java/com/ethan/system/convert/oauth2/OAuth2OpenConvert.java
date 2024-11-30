@@ -1,22 +1,13 @@
 package com.ethan.system.convert.oauth2;
 
 import com.ethan.common.constant.UserTypeEnum;
-import com.ethan.common.utils.collection.CollUtils;
-import com.ethan.security.oauth2.entity.client.CreedOAuth2AuthorizedClient;
 import com.ethan.security.utils.SecurityFrameworkUtils;
 import com.ethan.system.api.utils.oauth2.OAuth2Utils;
 import com.ethan.system.controller.admin.oauth2.vo.open.OAuth2OpenAccessTokenRespVO;
-import com.ethan.system.controller.admin.oauth2.vo.open.OAuth2OpenAuthorizeInfoRespVO;
 import com.ethan.system.controller.admin.oauth2.vo.open.OAuth2OpenCheckTokenRespVO;
-import com.ethan.system.dal.entity.oauth2.OAuth2ApproveDO;
-import com.ethan.system.dal.entity.oauth2.OAuth2ClientDO;
-import org.apache.commons.lang3.tuple.Pair;
+import com.ethan.system.dal.entity.oauth2.client.CreedOAuth2AuthorizedClient;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface OAuth2OpenConvert {
@@ -40,7 +31,7 @@ public interface OAuth2OpenConvert {
     }
     OAuth2OpenCheckTokenRespVO convert3(CreedOAuth2AuthorizedClient bean);
 
-    default OAuth2OpenAuthorizeInfoRespVO convert(OAuth2ClientDO client, List<OAuth2ApproveDO> approves) {
+    /* default OAuth2OpenAuthorizeInfoRespVO convert(CreedOAuth2AuthorizedClient client, List<CreedOAuth2RegisteredClient> approves) {
         // 构建 scopes
         List<Pair<String, Boolean>> scopes = new ArrayList<>(client.getScopes().size());
         Map<String, OAuth2ApproveDO> approveMap = CollUtils.convertMap(approves, OAuth2ApproveDO::getScope);
@@ -51,6 +42,6 @@ public interface OAuth2OpenConvert {
         // 拼接返回
         return new OAuth2OpenAuthorizeInfoRespVO(
                 new OAuth2OpenAuthorizeInfoRespVO.Client(client.getName(), client.getLogo()), scopes);
-    }
+    } */
 
 }

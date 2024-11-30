@@ -1,6 +1,6 @@
 package com.ethan.system.service.oauth2;
 
-import com.ethan.system.dal.entity.oauth2.OAuth2CodeDO;
+import com.ethan.system.dal.entity.oauth2.CreedOAuth2Authorization;
 
 import java.util.List;
 
@@ -26,14 +26,14 @@ public interface OAuth2CodeService {
      * @param state 状态
      * @return 授权码的信息
      */
-    OAuth2CodeDO createAuthorizationCode(Long userId, Integer userType, String clientId,
-                                         List<String> scopes, String redirectUri, String state);
+    CreedOAuth2Authorization createAuthorizationCode(Long userId, Integer userType, String clientId,
+                                                     List<String> scopes, String redirectUri, String state);
 
     /**
      * 使用授权码
      *
      * @param code 授权码
      */
-    OAuth2CodeDO consumeAuthorizationCode(String code);
+    CreedOAuth2Authorization consumeAuthorizationCode(String code);
 
 }

@@ -6,7 +6,9 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 权限 API 实现类
@@ -20,17 +22,18 @@ public class PermissionApiImpl implements PermissionApi {
 
     @Override
     public Set<String> getUserRoleIdListByRoleIds(Collection<String> roleIds) {
-        return permissionService.getUserRoleIdListByRoleIds(roleIds);
+        List<Long> roleIdList = roleIds.stream().map(Long::parseLong).toList(); //TODO
+        return permissionService.getUserRoleIdListByRoleId(roleIdList).stream().map(String::valueOf).collect(Collectors.toSet());
     }
 
     @Override
     public boolean hasAnyPermissions(String userId, String... permissions) {
-        return permissionService.hasAnyPermissions(userId, permissions);
+        return permissionService.hasAnyPermissions(Long.parseLong(userId), permissions);
     }
 
     @Override
     public boolean hasAnyRoles(String userId, String... roles) {
-        return permissionService.hasAnyRoles(userId, roles);
+        return permissionService.hasAnyRoles(Long.parseLong(userId), roles);
     }
 
 /*     @Override

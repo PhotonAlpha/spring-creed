@@ -8,12 +8,8 @@
 package com.ethan.security.websecurity.filter;
 
 import com.ethan.common.exception.ServiceException;
-import com.ethan.common.utils.WebFrameworkUtils;
-import com.ethan.security.oauth2.entity.CreedOAuth2Authorization;
-import com.ethan.security.oauth2.entity.client.CreedOAuth2AuthorizedClient;
-import com.ethan.security.oauth2.repository.CreedOAuth2AuthorizationRepository;
-import com.ethan.security.oauth2.repository.client.CreedOAuth2AuthorizedClientRepository;
 import com.ethan.security.utils.SecurityFrameworkUtils;
+import com.ethan.security.websecurity.config.CreedSecurityProperties;
 import jakarta.annotation.Resource;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,10 +18,17 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Objects;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -33,50 +36,52 @@ import java.util.Optional;
 public class LoginTokenAuthenticationFilter extends OncePerRequestFilter {
 
     @Resource
-    //    private CreedOAuth2AuthorizedClientRepository clientRepository;
-    private CreedOAuth2AuthorizationRepository clientRepository;
+    private OAuth2AuthorizationService authorizationService;
     @Resource
-    private CreedOAuth2AuthorizedClientRepository authorizedClientRepository;
+    private CreedSecurityProperties securityProperties;;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         DefaultBearerTokenResolver defaultBearerTokenResolver = new DefaultBearerTokenResolver();
         String token = defaultBearerTokenResolver.resolve(request);
-        if (StringUtils.isBlank(token)) {
-            log.debug("Did not process request since did not find bearer token");
+        boolean matched = Optional.ofNullable(securityProperties).map(CreedSecurityProperties::getPermitAllUrls)
+                .orElse(Collections.emptyList())
+                .stream().anyMatch(str -> new AntPathRequestMatcher(str).matches(request));
+        if (StringUtils.isBlank(token) || matched) {
+            log.warn("Did not process request since did not find bearer token or by pass already");
             chain.doFilter(request, response);
             return;
         }
-        CreedOAuth2AuthorizedClient authorizedClient = buildLoginUserByToken(token);
+        OAuth2Authorization authorizedClient = buildLoginUserByToken(token);
 
         SecurityFrameworkUtils.setLoginUser(authorizedClient, request);
         chain.doFilter(request, response);
     }
 
-    private CreedOAuth2Authorization buildLoginUserByToken(String token, Integer userType) {
+    private OAuth2Authorization buildLoginUserByToken(String token, Integer userType) {
         try {
-            Optional<CreedOAuth2Authorization> accessToken = clientRepository.findByAccessTokenValue(token);
-            if (accessToken.isEmpty()) {
+            OAuth2Authorization accessToken = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
+            if (Objects.isNull(accessToken)) {
                 return null;
             }
             // 用户类型不匹配，无权限
 
             // 构建登录用户
-            return accessToken.get();
+            return accessToken;
         } catch (ServiceException serviceException) {
             // 校验 Token 不通过时，考虑到一些接口是无需登录的，所以直接返回 null 即可
             return null;
         }
     }
-    private CreedOAuth2AuthorizedClient buildLoginUserByToken(String token) {
+    private OAuth2Authorization buildLoginUserByToken(String token) {
         try {
-            Optional<CreedOAuth2AuthorizedClient> authorizedClientOptional = authorizedClientRepository.findByAccessTokenValue(token);
-            if (authorizedClientOptional.isEmpty()) {
+            OAuth2Authorization accessToken = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
+            if (Objects.isNull(accessToken)) {
                 return null;
             }
             // 用户类型不匹配，无权限
 
             // 构建登录用户
-            return authorizedClientOptional.get();
+            return accessToken;
         } catch (ServiceException serviceException) {
             // 校验 Token 不通过时，考虑到一些接口是无需登录的，所以直接返回 null 即可
             return null;

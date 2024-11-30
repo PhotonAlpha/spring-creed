@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
@@ -23,6 +24,7 @@ import org.hibernate.annotations.NotFoundAction;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(exclude = {"menus", "roles"})
+@NoArgsConstructor
 public class SystemMenuRoles extends BaseDO {
     @Id
     // @GenericGenerator(name = "snowflakeId", strategy = "com.ethan.security.utils.SnowFlakeIdGenerator")
@@ -41,4 +43,8 @@ public class SystemMenuRoles extends BaseDO {
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private SystemRoles roles;
 
+    public SystemMenuRoles(SystemMenus menus, SystemRoles roles) {
+        this.menus = menus;
+        this.roles = roles;
+    }
 }

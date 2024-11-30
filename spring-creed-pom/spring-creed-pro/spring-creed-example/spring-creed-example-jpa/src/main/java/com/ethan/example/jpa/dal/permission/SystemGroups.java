@@ -19,7 +19,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "creed_system_groups", indexes = {
-        @Index(name = "CSG_IDX_COMMON", columnList = "groupName")
+        @Index(name = "CSG_IDX_COMMON", columnList = "groupName,groupCode")
 })
 @DynamicUpdate
 @Data
@@ -36,6 +36,8 @@ public class SystemGroups extends BaseVersioningXDO {
      */
     @Column(nullable = false, name = "group_name")
     private String groupName;
+    @Column(nullable = false, name = "group_code")
+    private String groupCode;
     private String remark;
     private String avatar;
     private Boolean groupNonLocked;

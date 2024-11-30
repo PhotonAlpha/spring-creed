@@ -1,6 +1,7 @@
 package com.ethan.system.service.oauth2;
 
-import com.ethan.security.oauth2.entity.client.CreedOAuth2AuthorizedClient;
+
+import com.ethan.system.dal.entity.oauth2.client.CreedOAuth2AuthorizedClient;
 
 import java.util.List;
 
@@ -61,7 +62,7 @@ public interface OAuth2GrantService {
      * @return 访问令牌
      */
     CreedOAuth2AuthorizedClient grantAuthorizationCodeForAccessToken(String clientId, String code,
-                                                             String redirectUri, String state);
+                                                                     String redirectUri, String state);
 
     /**
      * 密码模式

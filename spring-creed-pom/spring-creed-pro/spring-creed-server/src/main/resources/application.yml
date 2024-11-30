@@ -82,3 +82,4 @@ creed:
   security:
     permitAllUrls:
       - /admin-ui/** # /resources/admin-ui 目录下的静态资源
+      - /admin-api/**

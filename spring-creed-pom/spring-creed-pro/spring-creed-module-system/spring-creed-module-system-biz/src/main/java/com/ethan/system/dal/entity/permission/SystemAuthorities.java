@@ -1,7 +1,7 @@
 package com.ethan.system.dal.entity.permission;
 
 import com.ethan.common.pojo.BaseVersioningXDO;
-import com.ethan.example.jpa.constant.RoleTypeEnum;
+import com.ethan.security.websecurity.constant.RoleTypeEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -25,7 +25,7 @@ import java.util.List;
 })
 @DynamicUpdate
 @Data
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false, exclude = {"roleAuthorities", "userAuthorities"})
 @Accessors(chain = true)
 @ToString(exclude = {"roleAuthorities", "userAuthorities"})
 public class SystemAuthorities extends BaseVersioningXDO {

@@ -57,7 +57,7 @@ public class SmsCodeServiceImpl implements SmsCodeService {
         // 校验是否可以发送验证码，不用筛选场景
         SmsCodeDO lastSmsCode = smsCodeRepository.findTop1ByMobileAndCodeAndSceneOrderByIdDesc(mobile, null,null);
         if (lastSmsCode != null) {
-            if (System.currentTimeMillis() - lastSmsCode.getCreateTime().toEpochSecond()
+            if (System.currentTimeMillis() - lastSmsCode.getCreateTime().getEpochSecond()
                     < smsCodeProperties.getSendFrequency().toMillis()) { // 发送过于频繁
                 throw ServiceExceptionUtil.exception(SMS_CODE_SEND_TOO_FAST);
             }
@@ -100,7 +100,7 @@ public class SmsCodeServiceImpl implements SmsCodeService {
             throw ServiceExceptionUtil.exception(SMS_CODE_NOT_FOUND);
         }
         // 超过时间
-        if (System.currentTimeMillis() - lastSmsCode.getCreateTime().toEpochSecond()
+        if (System.currentTimeMillis() - lastSmsCode.getCreateTime().getEpochSecond()
                 >= smsCodeProperties.getExpireTimes().toMillis()) { // 验证码已过期
             throw ServiceExceptionUtil.exception(SMS_CODE_EXPIRED);
         }

@@ -2,8 +2,8 @@ package com.ethan.system.dal.entity.permission;
 
 import com.ethan.common.converter.SetJacksonConverter;
 import com.ethan.common.pojo.BaseVersioningXDO;
-import com.ethan.example.jpa.constant.DataScopeEnum;
-import com.ethan.example.jpa.constant.RoleTypeEnum;
+import com.ethan.security.websecurity.constant.DataScopeEnum;
+import com.ethan.security.websecurity.constant.RoleTypeEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;

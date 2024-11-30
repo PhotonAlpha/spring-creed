@@ -3,7 +3,7 @@ package com.ethan.system.service.logger;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ethan.common.pojo.PageResult;
-import com.ethan.security.websecurity.entity.CreedUser;
+import com.ethan.system.dal.entity.permission.SystemUsers;
 import com.ethan.system.service.user.AdminUserService;
 import com.ethan.framework.logger.core.dto.OperateLogCreateReqDTO;
 import com.ethan.framework.logger.core.vo.operatelog.OperateLogExportReqVO;
@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import static com.ethan.common.utils.collection.CollUtils.combine;
 import static com.ethan.common.utils.collection.CollUtils.convertSet;
 import static com.ethan.framework.operatelog.entity.OperateLogDO.JAVA_METHOD_ARGS_MAX_LENGTH;
 import static com.ethan.framework.operatelog.entity.OperateLogDO.RESULT_MAX_LENGTH;
@@ -55,7 +56,7 @@ public class OperateLogServiceImpl implements OperateLogService {
         // 处理基于用户昵称的查询
         Collection<String> userIds = null;
         if (StrUtil.isNotEmpty(reqVO.getUserNickname())) {
-            userIds = convertSet(userService.getUsersByNickname(reqVO.getUserNickname()), CreedUser::getId);
+            userIds = convertSet(userService.getUserListByNickname(reqVO.getUserNickname()), combine(SystemUsers::getId, String::valueOf));
             if (CollUtil.isEmpty(userIds)) {
                 return PageResult.empty();
             }
@@ -93,7 +94,7 @@ public class OperateLogServiceImpl implements OperateLogService {
         // 处理基于用户昵称的查询
         Collection<String> userIds = null;
         if (StrUtil.isNotEmpty(reqVO.getUserNickname())) {
-            userIds = convertSet(userService.getUsersByNickname(reqVO.getUserNickname()), CreedUser::getId);
+            userIds = convertSet(userService.getUserListByNickname(reqVO.getUserNickname()), combine(SystemUsers::getId, String::valueOf));
             if (CollUtil.isEmpty(userIds)) {
                 return Collections.emptyList();
             }

@@ -10,7 +10,10 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -73,5 +76,18 @@ public class UnitTest {
     void testZoneIds() {
         ArrayList<Integer> list = new ArrayList<>();
         ZoneId.getAvailableZoneIds().forEach(System.out::println);
+    }
+
+    @Test
+    void dateTimeTest() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss");
+        Instant instant = Instant.now();
+        ZonedDateTime now = ZonedDateTime.now();
+        ZonedDateTime instant2Zone = ZonedDateTime.ofInstant(instant, ZoneId.of("UTC+8"));
+        System.out.println(instant);
+        System.out.println(now);
+        System.out.println(LocalDateTime.ofInstant(instant, ZoneOffset.of("+08:00")).format(dtf));
+        System.out.println(now.format(dtf));
+        System.out.println(instant2Zone.format(dtf));
     }
 }

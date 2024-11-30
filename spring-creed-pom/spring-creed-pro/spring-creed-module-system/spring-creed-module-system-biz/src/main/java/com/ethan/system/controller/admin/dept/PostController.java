@@ -2,19 +2,17 @@ package com.ethan.system.controller.admin.dept;
 
 import com.ethan.common.common.R;
 import com.ethan.common.constant.CommonStatusEnum;
+import com.ethan.common.pojo.PageParam;
 import com.ethan.common.pojo.PageResult;
-import com.ethan.system.controller.admin.dept.vo.post.PostCreateReqVO;
-import com.ethan.system.controller.admin.dept.vo.post.PostExcelVO;
-import com.ethan.system.controller.admin.dept.vo.post.PostExportReqVO;
-import com.ethan.system.controller.admin.dept.vo.post.PostPageReqVO;
-import com.ethan.system.controller.admin.dept.vo.post.PostRespVO;
-import com.ethan.system.controller.admin.dept.vo.post.PostSimpleRespVO;
-import com.ethan.system.controller.admin.dept.vo.post.PostUpdateReqVO;
-import com.ethan.system.convert.dept.PostConvert;
-import com.ethan.system.dal.entity.dept.PostDO;
-import com.ethan.system.service.dept.PostService;
 import com.ethan.framework.operatelog.annotations.OperateLog;
 import com.ethan.framework.operatelog.constant.OperateTypeEnum;
+import com.ethan.system.controller.admin.dept.vo.post.PostPageReqVO;
+import com.ethan.system.controller.admin.dept.vo.post.PostRespVO;
+import com.ethan.system.controller.admin.dept.vo.post.PostSaveReqVO;
+import com.ethan.system.controller.admin.dept.vo.post.PostSimpleRespVO;
+import com.ethan.system.convert.dept.PostConvert;
+import com.ethan.system.dal.entity.dept.SystemPosts;
+import com.ethan.system.service.dept.PostService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -52,7 +50,7 @@ public class PostController {
     @PostMapping("/create")
     @Schema(name = "创建岗位")
     @PreAuthorize("@ss.hasPermission('system:post:create')")
-    public R<Long> createPost(@Valid @RequestBody PostCreateReqVO reqVO) {
+    public R<Long> createPost(@Valid @RequestBody PostSaveReqVO reqVO) {
         Long postId = postService.createPost(reqVO);
         return success(postId);
     }
@@ -60,7 +58,7 @@ public class PostController {
     @PutMapping("/update")
     @Schema(name = "修改岗位")
     @PreAuthorize("@ss.hasPermission('system:post:update')")
-    public R<Boolean> updatePost(@Valid @RequestBody PostUpdateReqVO reqVO) {
+    public R<Boolean> updatePost(@Valid @RequestBody PostSaveReqVO reqVO) {
         postService.updatePost(reqVO);
         return success(true);
     }
@@ -85,10 +83,10 @@ public class PostController {
     @Schema(name = "获取岗位精简信息列表", description = "只包含被开启的岗位，主要用于前端的下拉选项")
     public R<List<PostSimpleRespVO>> getSimplePosts() {
         // 获得岗位列表，只要开启状态的
-        List<PostDO> list = postService.getPosts(null, Collections.singleton(CommonStatusEnum.ENABLE.getStatus()));
+        List<SystemPosts> list = postService.getPostList(null, Collections.singleton(CommonStatusEnum.ENABLE.getStatus()));
         // 排序后，返回给前端
-        list.sort(Comparator.comparing(PostDO::getSort));
-        return success(PostConvert.INSTANCE.convertList02(list));
+        list.sort(Comparator.comparing(SystemPosts::getSort));
+        return success(PostConvert.INSTANCE.convert0(list));
     }
 
     @GetMapping("/page")
@@ -102,11 +100,12 @@ public class PostController {
     @Schema(name = "岗位管理")
     @PreAuthorize("@ss.hasPermission('system:post:export')")
     @OperateLog(type = OperateTypeEnum.EXPORT)
-    public void export(HttpServletResponse response, @Validated PostExportReqVO reqVO) throws IOException {
-        List<PostDO> posts = postService.getPosts(reqVO);
-        List<PostExcelVO> data = PostConvert.INSTANCE.convertList03(posts);
+    public void export(HttpServletResponse response, @Validated PostPageReqVO reqVO) throws IOException {
+        reqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
+        List<SystemPosts> list = postService.getPostPage(reqVO).getList();
         // 输出
-        // ExcelUtils.write(response, "岗位数据.xls", "岗位列表", PostExcelVO.class, data);
+        // ExcelUtils.write(response, "岗位数据.xls", "岗位列表", PostRespVO.class,
+        //         BeanUtils.toBean(list, PostRespVO.class));
     }
 
 }

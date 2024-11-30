@@ -1,6 +1,6 @@
 package com.ethan.system.controller.admin.auth.vo;
 
-import com.ethan.system.controller.admin.permission.vo.menu.MenuVO;
+import com.ethan.system.dal.entity.permission.SystemMenus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -28,7 +28,7 @@ public class AuthPermissionInfoRespVO {
     private Set<String> permissions;
 
     @Schema(description = "菜单树", requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<MenuVO> menus;
+    private List<SystemMenus> menus;
 
     @Tag(name = "用户信息 VO")
     @Data
@@ -38,7 +38,7 @@ public class AuthPermissionInfoRespVO {
     public static class UserVO {
 
         @Schema(name = "用户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-        private String id;
+        private Long id;
 
         @Schema(name = "用户昵称", requiredMode = Schema.RequiredMode.REQUIRED, example = "TEST")
         private String nickname;

@@ -101,12 +101,12 @@ public class SocialUserServiceImpl implements SocialUserService {
         socialUserBindRepository.deleteByUserTypeAndSocialUserId(reqDTO.getUserType(), socialUser.getId());
 
         // 用户可能之前已经绑定过该社交类型，需要进行解绑
-        socialUserBindRepository.deleteByUserTypeAndUserIdAndSocialType(reqDTO.getUserType(), reqDTO.getUserId(),
+        socialUserBindRepository.deleteByUserTypeAndUserIdAndSocialType(reqDTO.getUserType(), reqDTO.getUserId() + "",
                 socialUser.getType());
 
         // 绑定当前登录的社交用户
         SocialUserBindDO socialUserBind = SocialUserBindDO.builder()
-                .userId(reqDTO.getUserId()).userType(reqDTO.getUserType())
+                .userId(reqDTO.getUserId()+"").userType(reqDTO.getUserType())
                 .socialUserId(socialUser.getId()).socialType(socialUser.getType()).build();
         socialUserBindRepository.save(socialUserBind);
     }

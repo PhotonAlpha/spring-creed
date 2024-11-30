@@ -5,6 +5,7 @@ import com.ethan.security.websecurity.entity.CreedUser;
 import com.ethan.system.controller.admin.oauth2.vo.user.OAuth2UserInfoRespVO;
 import com.ethan.system.controller.admin.oauth2.vo.user.OAuth2UserUpdateReqVO;
 import com.ethan.system.convert.oauth2.OAuth2UserConvert;
+import com.ethan.system.dal.entity.permission.SystemUsers;
 import com.ethan.system.service.dept.DeptService;
 import com.ethan.system.service.dept.PostService;
 import com.ethan.system.service.user.AdminUserService;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.ethan.common.common.R.success;
 import static com.ethan.common.utils.WebFrameworkUtils.getLoginUserId;
+import static com.ethan.common.utils.WebFrameworkUtils.getLoginUserIdL;
 
 /**
  * 提供给外部应用调用为主
@@ -51,7 +53,7 @@ public class OAuth2UserController {
     @PreAuthorize("@ss.hasScope('user.read')") //
     public R<OAuth2UserInfoRespVO> getUserInfo() {
         // 获得用户基本信息
-        CreedUser user = userService.getUser(getLoginUserId());
+        SystemUsers user = userService.getUser(getLoginUserIdL());
         OAuth2UserInfoRespVO resp = OAuth2UserConvert.INSTANCE.convert(user);
         // 获得部门信息
         // if (user.getDeptId() != null) {
@@ -72,7 +74,7 @@ public class OAuth2UserController {
     public R<Boolean> updateUserInfo(@Valid @RequestBody OAuth2UserUpdateReqVO reqVO) {
         // 这里将 UserProfileUpdateReqVO =》UserProfileUpdateReqVO 对象，实现接口的复用。
         // 主要是，AdminUserService 没有自己的 BO 对象，所以复用只能这么做
-        userService.updateUserProfile(getLoginUserId(), OAuth2UserConvert.INSTANCE.convert(reqVO));
+        userService.updateUserProfile(getLoginUserIdL(), OAuth2UserConvert.INSTANCE.convert(reqVO));
         return success(true);
     }
 

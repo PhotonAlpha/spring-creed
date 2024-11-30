@@ -62,7 +62,7 @@ public class WebFrameworkUtils {
      */
     public static String getLoginUserId(HttpServletRequest request) {
         if (request == null) {
-            return null;
+            return "-1";
         }
         return request.getAttribute(REQUEST_ATTRIBUTE_LOGIN_USER_ID) == null ? "-1": (String) request.getAttribute(REQUEST_ATTRIBUTE_LOGIN_USER_ID);
     }
@@ -101,6 +101,10 @@ public class WebFrameworkUtils {
     public static String getLoginUserId() {
         HttpServletRequest request = getRequest();
         return getLoginUserId(request);
+    }
+    public static Long getLoginUserIdL() {
+        HttpServletRequest request = getRequest();
+        return Long.parseLong(getLoginUserId(request));
     }
 
     public static void setCommonResult(ServletRequest request, R<?> result) {

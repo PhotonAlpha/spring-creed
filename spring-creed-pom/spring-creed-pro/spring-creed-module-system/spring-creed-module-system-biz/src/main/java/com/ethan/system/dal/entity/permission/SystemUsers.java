@@ -3,6 +3,8 @@ package com.ethan.system.dal.entity.permission;
 import com.ethan.common.constant.CommonStatusEnum;
 import com.ethan.common.constant.SexEnum;
 import com.ethan.common.pojo.BaseVersioningXDO;
+import com.ethan.system.dal.entity.dept.SystemDeptUsers;
+import com.ethan.system.dal.entity.dept.SystemPostUsers;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -12,15 +14,20 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.Instant;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "creed_system_users", indexes = {
@@ -29,9 +36,9 @@ import java.util.List;
 @DynamicUpdate
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ToString(exclude = {"groupUsers", "userRoles", "userAuthorities"})
+@ToString(exclude = {"groupUsers", "userRoles", "userAuthorities", "deptUsers"})
 @Accessors(chain = true)
-public class SystemUsers extends BaseVersioningXDO {
+public class SystemUsers extends BaseVersioningXDO implements UserDetails {
     @Id
     // @GenericGenerator(name = "snowflakeId", strategy = "com.ethan.security.utils.SnowFlakeIdGenerator")
     // @GeneratedValue(generator = "snowflakeId")
@@ -132,4 +139,49 @@ public class SystemUsers extends BaseVersioningXDO {
     @OneToMany(mappedBy = "users")
     private List<SystemUserAuthorities> userAuthorities;
 
+    @OneToMany(mappedBy = "users")
+    private List<SystemDeptUsers> deptUsers;
+    @OneToMany(mappedBy = "users")
+    private List<SystemPostUsers> postUsers;
+
+    /**
+     * 部门 ID
+     */
+    @Transient
+    private Long deptId;
+    /**
+     * 岗位编号数组
+     */
+    @Transient
+    private Set<Long> postIds;
+
+    @Override
+    @Transient
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        throw new UnsupportedOperationException("getAuthorities unsupported");
+    }
+
+    @Override
+    @Transient
+    public boolean isAccountNonExpired() {
+        return CommonStatusEnum.ENABLE.equals(accNonExpired);
+    }
+
+    @Override
+    @Transient
+    public boolean isAccountNonLocked() {
+        return CommonStatusEnum.ENABLE.equals(accNonLocked);
+    }
+
+    @Override
+    @Transient
+    public boolean isCredentialsNonExpired() {
+        return CommonStatusEnum.ENABLE.equals(credentialsNonExpired);
+    }
+
+    @Override
+    @Transient
+    public boolean isEnabled() {
+        return CommonStatusEnum.ENABLE.equals(enabled);
+    }
 }

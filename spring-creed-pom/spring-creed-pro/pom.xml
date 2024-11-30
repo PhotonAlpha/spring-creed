@@ -16,6 +16,7 @@
         <module>spring-authorization-server-test</module>
         <module>spring-creed-gateway</module>
         <module>spring-creed-example</module>
+        <module>spring-creed-module-infra</module>
     </modules>
     <packaging>pom</packaging>
 

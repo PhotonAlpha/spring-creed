@@ -8,14 +8,9 @@ package com.ethan.security.websecurity.config;
 
 
 import com.ethan.security.core.context.TransmittableThreadLocalSecurityContextHolderStrategy;
+import com.ethan.security.websecurity.filter.DefaultTokenIntrospectorProvider;
 import com.ethan.security.provider.UnAuthExceptionHandler;
 import com.ethan.security.websecurity.filter.LoginTokenAuthenticationFilter;
-import com.ethan.security.websecurity.provider.CreedUserDetailsManager;
-import com.ethan.security.websecurity.repository.CreedAuthorityRepository;
-import com.ethan.security.websecurity.repository.CreedUserRepository;
-import com.ethan.security.websecurity.repository.CreedGroupsAuthoritiesRepository;
-import com.ethan.security.websecurity.repository.CreedGroupsMembersRepository;
-import com.ethan.security.websecurity.repository.CreedGroupsRepository;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import jakarta.annotation.Resource;
@@ -26,7 +21,6 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -137,6 +131,7 @@ public class SecurityConfig {
                 .oauth2ResourceServer(oauth2 ->
                         oauth2
                                 //**对于resource app来讲，同一时间只能存在一种token兼容**
+                        /** 此处会添加 {@link org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter} */
                                 .opaqueToken(Customizer.withDefaults())
 //                                .jwt(Customizer.withDefaults())// for id_token /userinfo endpoint. {@see https://docs.spring.io/spring-authorization-server/docs/current/reference/html/protocol-endpoints.html#oidc-client-registration-endpoint}
 
@@ -151,7 +146,7 @@ public class SecurityConfig {
 
 
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers(HttpMethod.GET, "/*.html", "/*/*.html", "/*/*.css", "/*/*.js", "/favicon.ico", "/css/**","/img/**","/fonts/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/*.html", "/*/*.html", "/**.css", "/**.js", "/*/*.css", "/*/*.js", "/favicon.ico", "/css/**","/img/**","/fonts/**").permitAll()
                         // .requestMatchers("/css/**", "/js/**", "/fonts/**", "/*.html", "/favicon.ico", "/*.css", "/*.js").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/actuator/**", "/webjars/**", "/resources/**", "/static/**").permitAll()
                         .requestMatchers(HttpMethod.GET, permitAllUrls.get(HttpMethod.GET).toArray(new String[0])).permitAll()
@@ -189,7 +184,8 @@ public class SecurityConfig {
 
     @Bean
     public OpaqueTokenIntrospector defaultIntrospector() {
-        return new NimbusOpaqueTokenIntrospector("http://localhost:48080/oauth2/introspect", "messaging-client", "secret");
+        return new DefaultTokenIntrospectorProvider(securityProperties,
+                new NimbusOpaqueTokenIntrospector("http://localhost:48080/oauth2/introspect", "messaging-client", "secret"));
     }
 
     private Multimap<HttpMethod, String> getPermitAllUrlsFromAnnotations() {

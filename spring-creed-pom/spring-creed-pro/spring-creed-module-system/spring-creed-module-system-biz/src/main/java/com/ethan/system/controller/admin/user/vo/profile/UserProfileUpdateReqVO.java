@@ -1,5 +1,6 @@
 package com.ethan.system.controller.admin.user.vo.profile;
 
+import com.ethan.common.constant.SexEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
@@ -24,6 +25,6 @@ public class UserProfileUpdateReqVO {
     private String mobile;
 
     @Schema(name = "用户性别", example = "1", description = "参见 SexEnum 枚举类")
-    private Integer sex;
+    private SexEnum sex;
 
 }

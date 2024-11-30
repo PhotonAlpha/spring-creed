@@ -2,7 +2,7 @@ package com.ethan.system.dal.redis.oauth2;
 
 import com.ethan.common.utils.collection.CollUtils;
 import com.ethan.common.utils.json.JacksonUtils;
-import com.ethan.security.oauth2.entity.client.CreedOAuth2AuthorizedClient;
+import com.ethan.system.dal.entity.oauth2.client.CreedOAuth2AuthorizedClient;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;

@@ -14,7 +14,7 @@ public class PermissionAssignRoleDataScopeReqVO {
 
     @Schema(name = "角色编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @NotNull(message = "角色编号不能为空")
-    private String roleId;
+    private Long roleId;
 
     @Schema(name = "数据范围", requiredMode = Schema.RequiredMode.REQUIRED, example = "1", description = "参见 DataScopeEnum 枚举类")
     @NotNull(message = "数据范围不能为空")

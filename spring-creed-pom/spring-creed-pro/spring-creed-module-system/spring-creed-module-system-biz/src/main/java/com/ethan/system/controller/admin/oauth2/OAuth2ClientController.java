@@ -2,11 +2,11 @@ package com.ethan.system.controller.admin.oauth2;
 
 import com.ethan.common.common.R;
 import com.ethan.common.pojo.PageResult;
-import com.ethan.security.oauth2.entity.CreedOAuth2RegisteredClient;
 import com.ethan.system.controller.admin.oauth2.vo.client.OAuth2ClientCreateReqVO;
 import com.ethan.system.controller.admin.oauth2.vo.client.OAuth2ClientPageReqVO;
 import com.ethan.system.controller.admin.oauth2.vo.client.OAuth2ClientRespVO;
 import com.ethan.system.controller.admin.oauth2.vo.client.OAuth2ClientUpdateReqVO;
+import com.ethan.system.dal.entity.oauth2.CreedOAuth2RegisteredClient;
 import com.ethan.system.service.oauth2.OAuth2ClientService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;

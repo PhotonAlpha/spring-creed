@@ -2,6 +2,8 @@ package com.ethan.common.constant;
 
 import com.ethan.common.converter.AbstractEnumConverter;
 import com.ethan.common.converter.PersistEnum2DB;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -22,6 +24,7 @@ public enum SexEnum implements PersistEnum2DB<Integer> {
         this.sex = sex;
     }
 
+    @JsonCreator //序列化的时候，标记此转换方式
     public static SexEnum findByValue(Integer value) {
         return Stream.of(values()).filter(e -> Objects.equals(e.getSex(), value))
                 .findFirst().orElse(UNKNOWN);
@@ -32,6 +35,7 @@ public enum SexEnum implements PersistEnum2DB<Integer> {
     }
 
     @Override
+    @JsonValue //反序列化的时候，标记此转换方式
     public Integer getData() {
         return sex;
     }

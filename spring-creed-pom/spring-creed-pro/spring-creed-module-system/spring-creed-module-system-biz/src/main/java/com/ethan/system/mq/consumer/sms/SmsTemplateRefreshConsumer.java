@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 /**
  * 针对 {@link SmsTemplateRefreshMessage} 的消费者
  *
- * @author 芋道源码
  */
 @Component
 @Slf4j

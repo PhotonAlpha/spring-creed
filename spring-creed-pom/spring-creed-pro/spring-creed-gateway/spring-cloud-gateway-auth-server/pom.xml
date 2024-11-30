@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.ethan</groupId>
         <artifactId>spring-creed-gateway</artifactId>
-        <version>1.1.0</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>spring-cloud-gateway-auth-server</artifactId>

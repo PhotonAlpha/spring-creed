@@ -1,33 +1,27 @@
 package com.ethan.system.convert.dept;
 
-import com.ethan.system.controller.admin.dept.dto.DeptRespDTO;
-import com.ethan.system.controller.admin.dept.vo.dept.DeptCreateReqVO;
+import com.ethan.common.converter.BasicConvert;
 import com.ethan.system.controller.admin.dept.vo.dept.DeptRespVO;
+import com.ethan.system.controller.admin.dept.vo.dept.DeptSaveReqVO;
 import com.ethan.system.controller.admin.dept.vo.dept.DeptSimpleRespVO;
-import com.ethan.system.controller.admin.dept.vo.dept.DeptUpdateReqVO;
-import com.ethan.system.dal.entity.dept.DeptDO;
+import com.ethan.system.dal.entity.dept.SystemDepts;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
 @Mapper
-public interface DeptConvert {
+public interface DeptConvert extends BasicConvert {
 
     DeptConvert INSTANCE = Mappers.getMapper(DeptConvert.class);
 
-    List<DeptRespVO> convertList(List<DeptDO> list);
+    SystemDepts convert(DeptSaveReqVO req);
+    DeptRespVO convert(SystemDepts bean);
 
-    List<DeptSimpleRespVO> convertList02(List<DeptDO> list);
+    void update(DeptSaveReqVO bean, @MappingTarget SystemDepts depts);
 
-    DeptRespVO convert(DeptDO bean);
+    List<DeptRespVO> convert(List<SystemDepts> list);
 
-    DeptDO convert(DeptCreateReqVO bean);
-
-    DeptDO convert(DeptUpdateReqVO bean);
-
-    List<DeptRespDTO> convertList03(List<DeptDO> list);
-
-    DeptRespDTO convert03(DeptDO bean);
-
+    List<DeptSimpleRespVO> convert0(List<SystemDepts> list);
 }

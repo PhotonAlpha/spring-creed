@@ -3,13 +3,12 @@ package com.ethan.system.controller.admin.permission;
 
 import com.ethan.common.common.R;
 import com.ethan.common.constant.CommonStatusEnum;
-import com.ethan.system.controller.admin.permission.vo.menu.MenuCreateReqVO;
 import com.ethan.system.controller.admin.permission.vo.menu.MenuListReqVO;
-import com.ethan.system.controller.admin.permission.vo.menu.MenuVO;
+import com.ethan.system.controller.admin.permission.vo.menu.MenuRespVO;
+import com.ethan.system.controller.admin.permission.vo.menu.MenuSaveVO;
 import com.ethan.system.controller.admin.permission.vo.menu.MenuSimpleRespVO;
-import com.ethan.system.controller.admin.permission.vo.menu.MenuUpdateReqVO;
 import com.ethan.system.convert.permission.MenuConvert;
-import com.ethan.system.dal.entity.permission.MenuDO;
+import com.ethan.system.dal.entity.permission.SystemMenus;
 import com.ethan.system.service.permission.MenuService;
 import com.ethan.system.service.tenant.TenantService;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -48,7 +47,7 @@ public class MenuController {
     @PostMapping("/create")
     @Schema(name = "创建菜单")
     @PreAuthorize("@ss.hasPermission('system:menu:create')")
-    public R<Long> createMenu(@Valid @RequestBody MenuCreateReqVO reqVO) {
+    public R<Long> createMenu(@Valid @RequestBody MenuSaveVO reqVO) {
         Long menuId = menuService.createMenu(reqVO);
         return success(menuId);
     }
@@ -56,7 +55,7 @@ public class MenuController {
     @PutMapping("/update")
     @Schema(name = "修改菜单")
     @PreAuthorize("@ss.hasPermission('system:menu:update')")
-    public R<Boolean> updateMenu(@Valid @RequestBody MenuUpdateReqVO reqVO) {
+    public R<Boolean> updateMenu(@Valid @RequestBody MenuSaveVO reqVO) {
         menuService.updateMenu(reqVO);
         return success(true);
     }
@@ -73,10 +72,10 @@ public class MenuController {
     @GetMapping("/list")
     @Schema(name = "获取菜单列表", description = "用于【菜单管理】界面")
     @PreAuthorize("@ss.hasPermission('system:menu:query')")
-    public R<List<MenuVO>> getMenus(MenuListReqVO reqVO) {
-        List<MenuDO> list = menuService.getMenus(reqVO);
-        list.sort(Comparator.comparing(MenuDO::getSort));
-        return success(MenuConvert.INSTANCE.convertList(list));
+    public R<List<MenuRespVO>> getMenus(MenuListReqVO reqVO) {
+        List<SystemMenus> list = menuService.getMenuList(reqVO);
+        list.sort(Comparator.comparing(SystemMenus::getSort));
+        return success(MenuConvert.INSTANCE.convert(list));
     }
 
     @GetMapping("/list-all-simple")
@@ -86,17 +85,17 @@ public class MenuController {
         // 获得菜单列表，只要开启状态的
         MenuListReqVO reqVO = new MenuListReqVO();
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-        List<MenuDO> list = menuService.getTenantMenus(reqVO);
+        List<SystemMenus> list = menuService.getMenuListByTenant(reqVO);
         // 排序后，返回给前端
-        list.sort(Comparator.comparing(MenuDO::getSort));
-        return success(MenuConvert.INSTANCE.convertList02(list));
+        list.sort(Comparator.comparing(SystemMenus::getSort));
+        return success(MenuConvert.INSTANCE.convert0(list));
     }
 
     @GetMapping("/get")
     @Schema(name = "获取菜单信息")
     @PreAuthorize("@ss.hasPermission('system:menu:query')")
-    public R<MenuVO> getMenu(Long id) {
-        MenuDO menu = menuService.getMenu(id);
+    public R<MenuRespVO> getMenu(Long id) {
+        SystemMenus menu = menuService.getMenu(id);
         return success(MenuConvert.INSTANCE.convert(menu));
     }
 
