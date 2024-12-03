@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * @author EthanCao
- * @description spring-cloud-gateway-example
+ * @description spring-creed-agent
  * @date 11/4/24
  */
 // @Configuration

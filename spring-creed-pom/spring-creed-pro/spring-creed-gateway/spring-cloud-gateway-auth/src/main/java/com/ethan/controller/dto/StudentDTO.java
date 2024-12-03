@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author EthanCao
- * @description spring-cloud-gateway-example
+ * @description spring-creed-agent
  * @date 9/4/24
  */
 @Data

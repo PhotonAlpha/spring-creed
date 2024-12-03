@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author EthanCao
- * @description spring-cloud-gateway-example 读取 Request 请求参数
+ * @description spring-creed-agent 读取 Request 请求参数
  * @date 2/4/24
  */
 @Component
