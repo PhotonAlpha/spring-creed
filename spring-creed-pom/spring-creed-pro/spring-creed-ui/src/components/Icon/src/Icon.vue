@@ -83,6 +83,10 @@ const items = [
     icon: IconMdiCodeBlockBraces
   },
   {
+    name: 'mdi:lock-check',
+    icon: IconMdiLockCheck
+  },
+  {
     name: 'phone',
     icon: IconMdiCellphone
   },

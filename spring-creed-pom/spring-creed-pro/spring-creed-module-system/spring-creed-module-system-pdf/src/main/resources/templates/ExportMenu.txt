@@ -1,0 +1,6 @@
+DELETE FROM `creed_system_menus`;
+[#th:block th:each="menu : ${menus}"]
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('[(${menu.id})]','[(${menu.name})]', [(${menu.type})], [(${menu.sort})], [(${menu.parentId})], '[(${menu.path})]', '[(${menu.icon})]', '[(${menu.component})]', '[(${menu.componentName})]', [(${menu.status})], b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+[/th:block]
+

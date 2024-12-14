@@ -29,9 +29,9 @@
               class="!w-240px"
             />
           </el-form-item>
-          <el-form-item label="手机号码" prop="mobile">
+          <el-form-item label="手机号码" prop="phone">
             <el-input
-              v-model="queryParams.mobile"
+              v-model="queryParams.phone"
               placeholder="请输入手机号码"
               clearable
               @keyup.enter="handleQuery"
@@ -116,7 +116,7 @@
             prop="dept.name"
             :show-overflow-tooltip="true"
           />
-          <el-table-column label="手机号码" align="center" prop="mobile" width="120" />
+          <el-table-column label="手机号码" align="center" prop="phone" width="120" />
           <el-table-column label="状态" key="status">
             <template #default="scope">
               <el-switch
@@ -222,7 +222,7 @@ const queryParams = reactive({
   pageNo: 1,
   pageSize: 10,
   username: undefined,
-  mobile: undefined,
+  phone: undefined,
   status: undefined,
   deptId: undefined,
   createTime: []

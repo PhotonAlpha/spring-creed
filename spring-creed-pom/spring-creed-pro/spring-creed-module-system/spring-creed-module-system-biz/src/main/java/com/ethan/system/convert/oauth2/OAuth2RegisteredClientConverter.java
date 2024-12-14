@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
 import org.springframework.security.oauth2.server.authorization.jackson2.OAuth2AuthorizationServerJackson2Module;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -53,7 +54,7 @@ public class OAuth2RegisteredClientConverter implements AttributeConverter<Map<S
     public Map<String, Object> convertToEntityAttribute(String dbData) {
         log.info("trying to convertToEntityAttribute clazz:{} dbData:{}", typeReference.getType().getTypeName(), dbData);
         if (StringUtils.isBlank(dbData)) {
-            return null;
+            return Collections.emptyMap();
         }
         return objectMapper.readValue(dbData, typeReference);
     }

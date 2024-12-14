@@ -46,6 +46,6 @@ public interface SystemDeptsRepository extends JpaRepository<SystemDepts, Long>,
         );
     }
 
-    List<SystemDepts> findByParentId(Collection<Long> parentIds);
+    List<SystemDepts> findByParentIdIn(Collection<Long> parentIds);
 
 }

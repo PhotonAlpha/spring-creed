@@ -1,3 +1,11 @@
+## Spring Boot与JPA整合 优化
+
+1. cds
+2. 
+
+[参考文章](https://thorben-janssen.com/hibernate-features-with-spring-data-jpa/)
+
+## 注解含义
 - `@DynamicUpdate`
 
   - 对于更新，此实体是否应在使用动态sql生成时，仅在预处理sql语句中引用已更改的列。

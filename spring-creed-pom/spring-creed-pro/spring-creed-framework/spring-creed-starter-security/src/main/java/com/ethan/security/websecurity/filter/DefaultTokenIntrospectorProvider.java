@@ -18,7 +18,7 @@ import java.util.Optional;
  * @author EthanCao ethan.caoq@foxmail.com
  * @description spring-creed-pro
  * @date 7/19/24
- *
+ *  Oauth2 的token认证Introspector
  * 根据 {@link CreedSecurityProperties#getPermitAllUrls()} 如果headers中有一些无效token，直接跳过验证
  */
 @Slf4j
@@ -39,6 +39,10 @@ public class DefaultTokenIntrospectorProvider implements OpaqueTokenIntrospector
             log.warn("default bypass bearer token enabled. Please don't enable in PROD.");
             // bypass if the endpoint enabled
             return new OAuth2IntrospectionAuthenticatedPrincipal(Collections.singletonMap("GUEST", "NA"), Collections.singleton(new SimpleGrantedAuthority("AnonymousAccess")));
+        }
+        // 模拟 Login 功能，方便日常开发调试
+        if (Boolean.TRUE.equals(securityProperties.getMockEnable())) {
+            return new OAuth2IntrospectionAuthenticatedPrincipal("MockUser", Collections.singletonMap("sub", "MockUser"), Collections.singleton(new SimpleGrantedAuthority("MockAccess")));
         }
         return alternativeOpaqueTokenIntrospector.introspect(token);
     }

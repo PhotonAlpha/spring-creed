@@ -2,6 +2,8 @@ package com.ethan.system.dal.registration;
 
 import com.ethan.common.utils.json.JacksonUtils;
 import com.ethan.system.dal.entity.oauth2.CreedOAuth2Authorization;
+import com.ethan.system.dal.entity.permission.SystemUsers;
+import com.ethan.system.dal.jackson2.SystemUsersMixin;
 import com.ethan.system.dal.repository.oauth2.CreedOAuth2AuthorizationRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.Module;
@@ -56,6 +58,7 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
         List<Module> securityModules = SecurityJackson2Modules.getModules(classLoader);
         this.objectMapper.registerModules(securityModules);
         this.objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
+        this.objectMapper.addMixIn(SystemUsers.class, SystemUsersMixin.class);
     }
 
     @Override

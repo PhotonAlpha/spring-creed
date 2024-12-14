@@ -7,7 +7,7 @@
       :rules="formRules"
       label-width="160px"
     >
-      <el-form-item label="客户端编号" prop="secret">
+      <el-form-item label="客户端编号" prop="clientId">
         <el-input v-model="formData.clientId" placeholder="请输入客户端编号" />
       </el-form-item>
       <el-form-item label="客户端密钥" prop="secret">
@@ -39,6 +39,23 @@
       <el-form-item label="刷新令牌的有效期" prop="refreshTokenValiditySeconds">
         <el-input-number v-model="formData.refreshTokenValiditySeconds" placeholder="单位：秒" />
       </el-form-item>
+      <el-form-item label="授权方法" prop="authenticationMethods">
+        <el-select
+          v-model="formData.authenticationMethods"
+          filterable
+          multiple
+          placeholder="请输入授权方法"
+          style="width: 500px"
+        >
+          <el-option
+            v-for="(dict, idx) in listAuthenticationMehtods"
+            :key="idx"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
+
       <el-form-item label="授权类型" prop="authorizedGrantTypes">
         <el-select
           v-model="formData.authorizedGrantTypes"
@@ -48,8 +65,8 @@
           style="width: 500px"
         >
           <el-option
-            v-for="dict in getDictOptions(DICT_TYPE.SYSTEM_OAUTH2_GRANT_TYPE)"
-            :key="dict.value"
+            v-for="(dict, idx) in listGrantTypes"
+            :key="idx"
             :label="dict.label"
             :value="dict.value"
           />
@@ -144,7 +161,7 @@
   </Dialog>
 </template>
 <script lang="ts" setup>
-import { DICT_TYPE, getDictOptions, getIntDictOptions } from '@/utils/dict'
+import { DICT_TYPE, DictDataType, getDictOptions, getIntDictOptions } from '@/utils/dict'
 import { CommonStatusEnum } from '@/utils/constants'
 import * as ClientApi from '@/api/system/oauth2/client'
 
@@ -157,6 +174,8 @@ const dialogVisible = ref(false) // 弹窗的是否展示
 const dialogTitle = ref('') // 弹窗的标题
 const formLoading = ref(false) // 表单的加载中：1）修改时的数据加载；2）提交的按钮禁用
 const formType = ref('') // 表单的类型：create - 新增；update - 修改
+const listAuthenticationMehtods = ref<DictDataType[]>([])
+const listGrantTypes = ref<DictDataType[]>([])
 const formData = ref({
   id: undefined,
   clientId: undefined,
@@ -168,6 +187,7 @@ const formData = ref({
   accessTokenValiditySeconds: 30 * 60,
   refreshTokenValiditySeconds: 30 * 24 * 60,
   redirectUris: [],
+  authenticationMethods: [],
   authorizedGrantTypes: [],
   scopes: [],
   autoApproveScopes: [],
@@ -188,7 +208,8 @@ const formRules = reactive({
     { required: true, message: '刷新令牌的有效期不能为空', trigger: 'blur' }
   ],
   redirectUris: [{ required: true, message: '可重定向的 URI 地址不能为空', trigger: 'blur' }],
-  authorizedGrantTypes: [{ required: true, message: '授权类型不能为空', trigger: 'blur' }]
+  authorizedGrantTypes: [{ required: true, message: '授权类型不能为空', trigger: 'blur' }],
+  authenticationMethods: [{ required: true, message: '授权方法不能为空', trigger: 'blur' }]
 })
 const formRef = ref() // 表单 Ref
 
@@ -198,16 +219,23 @@ const open = async (type: string, id?: number) => {
   dialogTitle.value = t('action.' + type)
   formType.value = type
   resetForm()
-  // 修改时，设置数据
-  if (id) {
+
+  try {
     formLoading.value = true
-    try {
+    const data = await ClientApi.listAuthenticationMethods()
+    listAuthenticationMehtods.value = data
+    const data0 = await ClientApi.listGrantTypes()
+    listGrantTypes.value = data0
+    // 修改时，设置数据
+    if (id) {
+      formLoading.value = true
       formData.value = await ClientApi.getOAuth2Client(id)
-    } finally {
-      formLoading.value = false
     }
+  } finally {
+    formLoading.value = false
   }
 }
+
 defineExpose({ open }) // 提供 open 方法，用于打开弹窗
 
 /** 提交表单 */
@@ -249,6 +277,7 @@ const resetForm = () => {
     accessTokenValiditySeconds: 30 * 60,
     refreshTokenValiditySeconds: 30 * 24 * 60,
     redirectUris: [],
+    authenticationMethods: [],
     authorizedGrantTypes: [],
     scopes: [],
     autoApproveScopes: [],

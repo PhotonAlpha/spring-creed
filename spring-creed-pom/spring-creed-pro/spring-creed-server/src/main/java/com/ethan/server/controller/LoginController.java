@@ -15,6 +15,7 @@ import org.springframework.security.web.csrf.DefaultCsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.UUID;
@@ -34,4 +35,16 @@ public class LoginController {
         model.addAttribute(csrfToken.getParameterName(), csrfToken.getToken());
         return "base-login";
     }
+
+
+    /**
+     @Controller
+    public class IndexController {
+        // 仅匹配前端 处理刷新问题
+        // @RequestMapping({"/{path:[^\\\\.]*}"})
+        @RequestMapping({"/index", "/system/*"})
+        public String index() {
+            return "forward:/";
+        }
+    } */
 }

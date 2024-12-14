@@ -6,6 +6,7 @@ import org.mapstruct.Mapper;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * @author EthanCao ethan.caoq@foxmail.com
@@ -24,6 +25,9 @@ public interface BasicConvert {
         return SexEnum.findByValue(code);
     }
     default Integer map(SexEnum sex) {
+        if (Objects.isNull(sex)) {
+            sex = SexEnum.UNKNOWN;
+        }
         return sex.getData();
     }
 }

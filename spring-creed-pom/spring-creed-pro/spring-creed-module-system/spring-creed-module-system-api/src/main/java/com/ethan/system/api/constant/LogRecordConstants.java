@@ -27,6 +27,16 @@ public interface LogRecordConstants {
     String SYSTEM_ROLE_UPDATE_SUCCESS = "更新了角色【{{#role.name}}】: {_DIFF{#updateReqVO}}";
     String SYSTEM_ROLE_DELETE_SUB_TYPE = "删除角色";
     String SYSTEM_ROLE_DELETE_SUCCESS = "删除了角色【{{#role.name}}】";
+
+    // ======================= SYSTEM_AUTHORITY 权限 =======================
+
+    String SYSTEM_AUTHORITY_TYPE = "SYSTEM 权限";
+    String SYSTEM_AUTHORITY_CREATE_SUB_TYPE = "创建权限";
+    String SYSTEM_AUTHORITY_CREATE_SUCCESS = "创建了权限【{{#role.name}}】";
+    String SYSTEM_AUTHORITY_UPDATE_SUB_TYPE = "更新权限";
+    String SYSTEM_AUTHORITY_UPDATE_SUCCESS = "更新了权限【{{#role.name}}】: {_DIFF{#updateReqVO}}";
+    String SYSTEM_AUTHORITY_DELETE_SUB_TYPE = "删除权限";
+    String SYSTEM_AUTHORITY_DELETE_SUCCESS = "删除了权限【{{#role.name}}】";
     // ======================= SYSTEM_MENUS 菜单 =======================
 
     String SYSTEM_MENU_TYPE = "SYSTEM 菜单";

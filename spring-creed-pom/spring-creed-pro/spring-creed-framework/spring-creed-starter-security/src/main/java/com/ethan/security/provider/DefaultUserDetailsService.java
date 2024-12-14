@@ -4,6 +4,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.UserDetailsManager;
 
+@Deprecated
 public class DefaultUserDetailsService implements UserDetailsManager {
     // private final JdbcTemplate jdbcTemplate;
 

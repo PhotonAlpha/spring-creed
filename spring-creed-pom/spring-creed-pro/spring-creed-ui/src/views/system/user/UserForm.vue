@@ -28,8 +28,8 @@
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="手机号码" prop="mobile">
-            <el-input v-model="formData.mobile" maxlength="11" placeholder="请输入手机号码" />
+          <el-form-item label="手机号码" prop="phone">
+            <el-input v-model="formData.phone" maxlength="11" placeholder="请输入手机号码" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -115,7 +115,7 @@ const formType = ref('') // 表单的类型：create - 新增；update - 修改
 const formData = ref({
   nickname: '',
   deptId: '',
-  mobile: '',
+  phone: '',
   email: '',
   id: undefined,
   username: '',
@@ -137,7 +137,7 @@ const formRules = reactive({
       trigger: ['blur', 'change']
     }
   ],
-  mobile: [
+  phone: [
     {
       pattern: /^(?:(?:\+|00)86)?1(?:3[\d]|4[5-79]|5[0-35-9]|6[5-7]|7[0-8]|8[\d]|9[189])\d{8}$/,
       message: '请输入正确的手机号码',
@@ -202,7 +202,7 @@ const resetForm = () => {
   formData.value = {
     nickname: '',
     deptId: '',
-    mobile: '',
+    phone: '',
     email: '',
     id: undefined,
     username: '',

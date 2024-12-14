@@ -7,7 +7,7 @@
 
 package com.ethan.server;
 
-import com.ethan.security.oauth2.provider.JpaRegisteredClientRepository;
+import com.ethan.system.dal.registration.JpaRegisteredClientRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;

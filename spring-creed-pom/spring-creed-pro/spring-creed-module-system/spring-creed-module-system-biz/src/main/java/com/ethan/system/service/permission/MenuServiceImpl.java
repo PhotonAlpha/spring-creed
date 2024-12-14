@@ -206,7 +206,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    @Cacheable(value = RedisKeyConstants.ROLE, key = "#id",
+    @Cacheable(value = RedisKeyConstants.PERMISSION_MENU_ID_LIST, key = "#id",
             unless = "#result == null")
     public SystemMenus getMenuFromCache(Long id) {
         return getMenu(id);

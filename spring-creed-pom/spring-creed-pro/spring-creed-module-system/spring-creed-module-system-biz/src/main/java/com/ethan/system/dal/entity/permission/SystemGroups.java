@@ -1,6 +1,7 @@
 package com.ethan.system.dal.entity.permission;
 
 import com.ethan.common.pojo.BaseVersioningXDO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,9 +42,11 @@ public class SystemGroups extends BaseVersioningXDO {
     private String avatar;
     private Boolean groupNonLocked;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "groups")
     private List<SystemGroupUsers> groupUsers;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "groups")
     private List<SystemGroupRoles> groupRoles;
 

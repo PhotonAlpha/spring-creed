@@ -211,7 +211,8 @@ public class AuthorizationServerConfig {
 //                .oidc(oidc -> oidc.clientRegistrationEndpoint());// Enable OpenID Connect 1.0
                 .oidc(Customizer.withDefaults());// Enable OpenID Connect 1.0
         // BearerTokenAuthenticationFilter 此配置会添加这个Filter
-        http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::opaqueToken);
+        http
+                .oauth2ResourceServer(rs -> rs.opaqueToken(Customizer.withDefaults()));
 
         http
                 // Redirect to the login page when not authenticated from the

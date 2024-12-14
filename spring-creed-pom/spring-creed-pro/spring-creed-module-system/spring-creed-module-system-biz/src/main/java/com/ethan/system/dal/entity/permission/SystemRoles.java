@@ -4,6 +4,8 @@ import com.ethan.common.converter.SetJacksonConverter;
 import com.ethan.common.pojo.BaseVersioningXDO;
 import com.ethan.security.websecurity.constant.DataScopeEnum;
 import com.ethan.security.websecurity.constant.RoleTypeEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -83,15 +85,19 @@ public class SystemRoles extends BaseVersioningXDO {
     @Convert(converter = SetJacksonConverter.class)
     private Set<Long> dataScopeDeptIds;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "roles")
     private List<SystemGroupRoles> groupRoles;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "roles")
     private List<SystemUserRoles> userRoles;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "roles")
     private List<SystemRoleAuthorities> roleAuthorities;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "roles")
     private List<SystemMenuRoles> menuRoles;
 }

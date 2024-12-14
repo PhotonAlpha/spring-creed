@@ -1,6 +1,4 @@
 <template>
-  <doc-alert title="OAuth 2.0（SSO 单点登录)" url="https://doc.iocoder.cn/oauth2/" />
-
   <!-- 搜索 -->
   <ContentWrap>
     <el-form
@@ -52,7 +50,12 @@
       <el-table-column label="应用名" align="center" prop="name" />
       <el-table-column label="应用图标" align="center" prop="logo">
         <template #default="scope">
-          <img width="40px" height="40px" :src="scope.row.logo" />
+          <img
+            width="40px"
+            height="40px"
+            src="http://localhost/src/assets/profile/killua.jpg"
+            :id="scope.row"
+          />
         </template>
       </el-table-column>
       <el-table-column label="状态" align="center" prop="status">

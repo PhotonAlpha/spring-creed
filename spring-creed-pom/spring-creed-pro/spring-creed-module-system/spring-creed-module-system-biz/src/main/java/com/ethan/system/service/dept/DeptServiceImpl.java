@@ -15,9 +15,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -178,6 +180,7 @@ public class DeptServiceImpl implements DeptService {
 
     @Override
     public SystemDepts getDept(Long id) {
+        if (Objects.isNull(id)) return null;
         return deptsRepository.findById(id).orElse(null);
     }
 
@@ -222,7 +225,7 @@ public class DeptServiceImpl implements DeptService {
             return;
         }
         // 查询当前层，所有的子部门
-        List<SystemDepts> parentDept = deptsRepository.findByParentId(ids);
+        List<SystemDepts> parentDept = deptsRepository.findByParentIdIn(ids);
         // 1. 如果没有子部门，则结束遍历
         if (CollUtil.isEmpty(parentDept)) {
             return;

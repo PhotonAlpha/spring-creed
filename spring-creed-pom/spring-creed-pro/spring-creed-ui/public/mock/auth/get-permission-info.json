@@ -397,7 +397,24 @@
                       "children": null
                   },
                   {
-                      "name": "菜单管理",
+                    "name": "授权管理",
+                    "permission": "",
+                    "type": 2,
+                    "sort": 2,
+                    "parentId": 1,
+                    "path": "authority",
+                    "icon": "mdi:lock-check",
+                    "component": "system/authority/index",
+                    "status": 0,
+                    "visible": true,
+                    "keepAlive": true,
+                    "alwaysShow": null,
+                    "id": 101,
+                    "createTime": "2021-01-05T17:03:48.000+00:00",
+                    "children": null
+                },
+                  {
+                      "name": "navbar.menuManagement",
                       "permission": "",
                       "type": 2,
                       "sort": 3,
@@ -1894,7 +1911,7 @@
                       "children": null
                   },
                   {
-                      "name": "菜单管理",
+                      "name": "mp菜单管理",
                       "permission": "",
                       "type": 2,
                       "sort": 6,
