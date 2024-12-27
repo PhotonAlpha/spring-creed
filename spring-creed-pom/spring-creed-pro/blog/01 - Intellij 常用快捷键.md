@@ -83,7 +83,7 @@ https://gitee.com/bluelovers/jetbrains-agent
 | 转到符号... Go  to Symbol...                                 | Command⌘ + Shift⇧ + O                  | Ctrl + Shift + O |
 | 转到下一个错误或警告  Go to next error or warning            | F8                                     | F8               |
 | 转到上一个错误或警告  Go to previous error or warning        | Shift⇧ + F8                            | Shift + F8       |
-| **返回/前进 Go  back / forward**                             | `Control⌃ + -`/`Control⌃ + Shift⇧ + -` | Alt + ←/→        |
+| 🦋**返回/前进 Go  back / forward**🦋                           | `Control⌃ + -`/`Control⌃ + Shift⇧ + -` | Alt + ←/→        |
 | 切换选项卡移动焦点  Toggle Tab moves focus                   | Command⌘ + Shift⇧ + M                  | Ctrl + M         |
 | **Uppercase/Lowercase**                                      | Command⌘ + U/Shift⇧ + Command⌘ + U     |                  |
 |                                                              |                                        |                  |

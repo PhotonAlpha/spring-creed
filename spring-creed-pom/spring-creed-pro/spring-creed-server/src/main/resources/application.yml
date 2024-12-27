@@ -24,16 +24,17 @@ spring:
     url: jdbc:mysql://localhost:3306/ruoyi-vue-pro
     username: root
     password: root
+
   main:
     allow-circular-references: true
-    lazy-initialization: true
+#    lazy-initialization: true
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: none
-    properties:
-      hibernate:
-        generate_statistics: true
+#    properties:
+#      hibernate:
+#        generate_statistics: true
   data:
     web:
       pageable:

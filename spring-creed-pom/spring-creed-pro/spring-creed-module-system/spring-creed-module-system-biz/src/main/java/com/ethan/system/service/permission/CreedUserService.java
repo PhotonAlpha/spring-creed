@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
 import static com.ethan.common.utils.collection.CollUtils.convertMap;
 import static com.ethan.common.utils.collection.CollUtils.convertSet;
 
-@Service
+// @Service
 @Slf4j
 public class CreedUserService {
     @Resource

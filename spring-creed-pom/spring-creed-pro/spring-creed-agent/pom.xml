@@ -104,6 +104,11 @@
             <artifactId>commons-io</artifactId>
             <version>2.18.0</version>
         </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.17.1</version>
+        </dependency>
 
     </dependencies>
 
@@ -144,16 +149,18 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-                    <archive>
+                    <archive><!--自动添加META-INF/MANIFEST.MF -->
                         <index>true</index>
                         <manifest>
+                            <!-- 添加 mplementation-*和Specification-*配置项-->
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                             <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
                         </manifest>
                         <manifestEntries>
                             <Can-Redefine-Classes>true</Can-Redefine-Classes>
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>
-                            <Premain-Class>com.ethan.agent.RunTimeAgent</Premain-Class>
+                            <!--指定premain方法所在的类-->
+                            <Premain-Class>com.ethan.agent.PreMainAgent</Premain-Class>
                         </manifestEntries>
                     </archive>
                     <!--                    将spring-creed-gateway-agent-1.1.0-jar-with-dependencies.jar重命名-->

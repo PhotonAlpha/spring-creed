@@ -31,14 +31,17 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.jackson2.OAuth2AuthorizationServerJackson2Module;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Consumer;
 
 public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService {
@@ -115,7 +118,15 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
         entity.setPrincipalName(authorization.getPrincipalName());
         entity.setAuthorizationGrantType(authorization.getAuthorizationGrantType().getValue());
         entity.setAuthorizedScopes(StringUtils.collectionToDelimitedString(authorization.getAuthorizedScopes(), ","));
-        entity.setAttributes(writeMap(authorization.getAttributes()));
+        //add additional scopes to solve the device_verification second time authenticate issue
+        var authorizedScopes = authorization.getAuthorizedScopes();
+        Map<String, Object> attributes = authorization.getAttributes();
+        if (!CollectionUtils.isEmpty(authorizedScopes)) {
+            attributes = new HashMap<>(authorization.getAttributes());
+            attributes.put(OAuth2ParameterNames.SCOPE, new HashSet<>(authorizedScopes));
+        }
+        entity.setAttributes(writeMap(attributes));
+
         entity.setVersion(writeVersion(authorization.getAttributes()));
         entity.setState(authorization.getAttribute(OAuth2ParameterNames.STATE));
         OAuth2Authorization.Token<OAuth2AuthorizationCode> authorizationCode =

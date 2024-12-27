@@ -36,6 +36,10 @@ public class LoginController {
         return "base-login";
     }
 
+    @GetMapping("/oauth/active")
+    public String active(HttpServletRequest request, Model model) {
+        return "active";
+    }
 
     /**
      @Controller

@@ -1,18 +1,39 @@
-# spring-security-oauth2-authorization-server OAUTH2 认证解读
+# 探索spring-security-oauth2-authorization-server OAUTH2/OIDC
 
 ## Spring OAuth2 Filter注册流程
 
 ### Ⅰ.AuthorizationServerSettings 注册了以下api endpoint
 
-- authorizationEndpoint("/oauth2/authorize") `AUTHORIZATION_ENDPOINT`
+- authorizationEndpoint("/oauth2/authorize") `AUTHORIZATION_ENDPOINT` oauth2模式获取access token
+
+  当grant_type:authorization_code时，用于获取code，在通过oauth2/token 获取token.
+
+  ```txt
+  http://localhost:48080/oauth2/authorize?response_type=code&client_id=jwt-client&state=qazxswedcvfr&scope=message.read%20message.write&redirect_uri=http://127.0.0.1:8080/authorized&code_challenge=rrkfk3AwBUxd20J2RjBGvdI13L_P36On7t6JOMHPYg0&code_challenge_method=S256
+  ```
+
+  
+
 - deviceAuthorizationEndpoint("/oauth2/device_authorization") `DEVICE_AUTHORIZATION_ENDPOINT`
+
+  同上，区别是这里是通过设备获取code
+
+  
+
 - deviceVerificationEndpoint("/oauth2/device_verification") `DEVICE_VERIFICATION_ENDPOINT`
+
 - tokenEndpoint("/oauth2/token") `TOKEN_ENDPOINT`
+
 - jwkSetEndpoint("/oauth2/jwks") `JWK_SET_ENDPOINT` 
+
 - tokenRevocationEndpoint("/oauth2/revoke") `TOKEN_REVOCATION_ENDPOINT`  用于移除token
+
 - tokenIntrospectionEndpoint("/oauth2/introspect") `TOKEN_INTROSPECTION_ENDPOINT` 
+
 - oidcClientRegistrationEndpoint("/connect/register") `OIDC_CLIENT_REGISTRATION_ENDPOINT` 
+
 - oidcUserInfoEndpoint("/userinfo") `OIDC_USER_INFO_ENDPOINT` 
+
 - oidcLogoutEndpoint("/connect/logout") `OIDC_LOGOUT_ENDPOINT`  用于移除OIDC token
 
 
@@ -45,19 +66,38 @@ private Map<Class<? extends AbstractOAuth2Configurer>, AbstractOAuth2Configurer>
 
 > [!TIP]
 >
+> 上述所有`EndpointConfigurer#configure(HttpSecurity httpSecurity)`中，都会配置 addFilterAfter(XXXFilter, <Authenticate/Authorization>Filter.class)
+>
 > After `AuthorizationFilter`意味着是**后置的验证器**，在**认证成功之后**才会执行
 >
 > After `AbstractPreAuthenticatedProcessingFilter` 意味着是**前置的验证器**，在**认证之前**执行
 >
 > - **OAuth2ClientAuthenticationConfigurer:** After `AbstractPreAuthenticatedProcessingFilter`
->- **OAuth2AuthorizationServerMetadataEndpointConfigurer:** After `AbstractPreAuthenticatedProcessingFilter`
+> - **OAuth2AuthorizationServerMetadataEndpointConfigurer:** After `AbstractPreAuthenticatedProcessingFilter`
 > - **OAuth2AuthorizationEndpointConfigurer:**After `AbstractPreAuthenticatedProcessingFilter`
 > - **OAuth2TokenEndpointConfigurer** After `AuthorizationFilter`
 > - **OAuth2TokenIntrospectionEndpointConfigurer:**After `AuthorizationFilter`
 > - **OAuth2TokenRevocationEndpointConfigurer:**After `AuthorizationFilter`
 > - **OAuth2DeviceAuthorizationEndpointConfigurer:**After `AuthorizationFilter`
 > - **OAuth2DeviceVerificationEndpointConfigurer:** After `AbstractPreAuthenticatedProcessingFilter`
+>
+> ```java
+> @Bean
+> @Order(Ordered.HIGHEST_PRECEDENCE)
+> public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http, AuthorizationServerSettings authorizationServerSettings)
+>         throws Exception {
+>   	OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer.authorizationServer();//创建authorizationServer configuration
+>     http.securityMatcher(authorizationServerConfigurer.getEndpointsMatcher()) //想Spring security注册相应的filter
+>         .with(authorizationServerConfigurer, Customizer.withDefaults())
+>         .authorizeHttpRequests((authorize) ->
+>                 authorize.anyRequest().authenticated()
+>         );
+> }
 > 
+> ```
+>
+> 1. 上述配置`#authorizeHttpRequests()`会添加 `org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer`
+> 2. `AuthorizeHttpRequestsConfigurer#configure(H http)` 会添加 `org.springframework.security.web.access.intercept.AuthorizationFilter`
 
 > [!NOTE]
 >
@@ -65,6 +105,15 @@ private Map<Class<? extends AbstractOAuth2Configurer>, AbstractOAuth2Configurer>
 >
 > - `GET`请求，一般是传入 `Params` 参数
 > - `POST`请求，一般是使用 `x-www-form-urlencoded`作为body传入参数
+
+> [!IMPORTANT]
+>
+> Filter执行流程为
+>
+> 1. 先注册 **authenticationConverters**
+> 2. 在执行 **authenticationProviders**
+>
+> 因此在上述端口，都是按照注册的这两个转换器进行处理的
 
 
 
@@ -292,6 +341,14 @@ private Map<Class<? extends AbstractOAuth2Configurer>, AbstractOAuth2Configurer>
 
       the OAuth 2.0 Authorization Request used in the Authorization Code Grant.
 
+      OAuth2AuthorizationCodeRequestAuthenticationToken 验证器
+
+  2. **OAuth2AuthorizationConsentAuthenticationProvider** 
+  
+       the OAuth 2.0 Authorization Consent used in the Authorization Code Grant.
+
+      OAuth2DeviceAuthorizationConsentAuthenticationToken 验证器
+
      
 
      > [!NOTE]
@@ -307,17 +364,17 @@ private Map<Class<? extends AbstractOAuth2Configurer>, AbstractOAuth2Configurer>
      否则生成`OAuth2AuthorizationCode`,返回`OAuth2AuthorizationCodeRequestAuthenticationToken`
 
      
-
+  
   2. **OAuth2AuthorizationConsentAuthenticationProvider** 并返回 `OAuth2AuthorizationCodeRequestAuthenticationToken`
 
      the OAuth 2.0 Authorization Consent used in the Authorization Code Grant.
-
+  
      参考上述，当启用授权确认页面时，会使用此provider。用于确认并验证**scopes**。
-
+  
      > [!NOTE]
      >
      > 'openid' scope is auto-approved as it does not require consent
-
+  
      
 
 #### ⅳ. **OAuth2TokenEndpointConfigurer**
@@ -779,7 +836,7 @@ private Map<Class<? extends AbstractOAuth2Configurer>, AbstractOAuth2Configurer>
 >   new Base64StringKeyGenerator(Base64.getUrlEncoder().withoutPadding(), 96)
 >   ```
 
-1. AUTHORIZATION_CODE
+### ①. AUTHORIZATION_CODE
 
    **::code模式::**
 
@@ -875,14 +932,15 @@ private Map<Class<? extends AbstractOAuth2Configurer>, AbstractOAuth2Configurer>
            str += '=';
        }
        return atob(str);
-   }  
-   const msgUint8 = new TextEncoder().encode('msrz_wwpglVtouDbPUfPDiplSGDjvMhr9c9CzBpjJ2g');
+   }
+   console.log('randomString',randomString)
+   const msgUint8 = new TextEncoder().encode(randomString);
    const hashBuffer = await window.crypto.subtle.digest("SHA-256", msgUint8); 
    base64UrlEncode(btoa(String.fromCharCode.apply(null, new Uint8Array(hashBuffer))))
    
    example:
    raw: msrz_wwpglVtouDbPUfPDiplSGDjvMhr9c9CzBpjJ2g
-   sha256: rrkfk3AwBUxd20J2RjBGvdI13L_P36On7t6JOMHPYg0
+   code_challenge_sha256: rrkfk3AwBUxd20J2RjBGvdI13L_P36On7t6JOMHPYg0
        
    #2. 前端发起请求
    http://localhost:48080/oauth2/authorize?response_type=code&client_id=jwt-client&state=qazxswedcvfr&scope=message.read message.write&redirect_uri=http://127.0.0.1:8080/authorized&code_challenge=rrkfk3AwBUxd20J2RjBGvdI13L_P36On7t6JOMHPYg0&code_challenge_method=S256
@@ -922,77 +980,294 @@ private Map<Class<? extends AbstractOAuth2Configurer>, AbstractOAuth2Configurer>
 
    
 
-2. REFRESH_TOKEN
+### ②. REFRESH_TOKEN
 
-   ```shell
-   # refresh_token 发起请求，获取刷新的token
-   curl -X POST 'http://localhost:48080/oauth2/token' \
-   -H 'Content-Type: application/x-www-form-urlencoded' \
-   --data-urlencode 'grant_type=refresh_token' \
-   --data-urlencode 'refresh_token=ulN8mfCuiGBLL3rLWOa940v5JPIbXZ-zM5vMR0GX0eUdE3hvBCUDss6FdRyUuetu3bJxfNWC47wlT7W8pBHCfexU6gAJSTGvDJ5SwlvXaTBFNQQN5QtWCZErgcOhf_wU' \
-   --data-urlencode 'client_id=jwt-client' \
-   --data-urlencode 'client_secret=password'
-   ```
+```shell
+# refresh_token 发起请求，获取刷新的token
+curl -X POST 'http://localhost:48080/oauth2/token' \
+-H 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'grant_type=refresh_token' \
+--data-urlencode 'refresh_token=ulN8mfCuiGBLL3rLWOa940v5JPIbXZ-zM5vMR0GX0eUdE3hvBCUDss6FdRyUuetu3bJxfNWC47wlT7W8pBHCfexU6gAJSTGvDJ5SwlvXaTBFNQQN5QtWCZErgcOhf_wU' \
+--data-urlencode 'client_id=jwt-client' \
+--data-urlencode 'client_secret=password'
+```
 
-   ```json
-   {
-       "access_token": "eyJraWQiOiJjNTI3N2NmZC02YTQwLTQyMWYtYWViNi0yOGI2NWRiOGQ4MTAiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJldGhhbiIsImF1ZCI6Imp3dC1jbGllbnQiLCJuYmYiOjE3MjkyNDg2MjYsInNjb3BlIjpbIm1lc3NhZ2UucmVhZCIsIm1lc3NhZ2Uud3JpdGUiXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo0ODA4MCIsImV4cCI6MTcyOTMzNTAyNiwiaWF0IjoxNzI5MjQ4NjI2LCJ1dWlkIjoiYTUyYzg5N2MtNjAyOS00MjRhLWJjNzgtMDEwMGQyOTIwZDk2IiwianRpIjoiNDJlN2U5ZmEtYTJiMS00ZWNiLWFlOTYtMGQyNjcxNTVmMzgwIn0.fDgm2_L3qyHJCIMUc_Hzdvz6wxWUOO_ujnaONIiB42vPZ6oUd64ZixFAOdcoNFvqxei8A-lFk2r97CKomlYqwaXS7qE-x2ugYqw4szE9kyG0phFS012cGbvhIPFcMVtSIS29BIrsEhTOSfyrXBtH9tjLrpXJcIHz22Z863iRFFWvCPZnINUnnQGftsFIrQhF3EOqnKphCrzwOFJ-PB36QbHhIETbvJ9V06PP3GqaxXuwurcNvbLuXb5RYeMk4ZC2qOFYXLaBJyfHbxv0wZzqm9S_asmffbmDwB3mNf6FoHi5jlJolr_6Ws83eKRizdhb7ewjbQFOuUhFYZB61MVIww",
-       "refresh_token": "ulN8mfCuiGBLL3rLWOa940v5JPIbXZ-zM5vMR0GX0eUdE3hvBCUDss6FdRyUuetu3bJxfNWC47wlT7W8pBHCfexU6gAJSTGvDJ5SwlvXaTBFNQQN5QtWCZErgcOhf_wU",
-       "scope": "message.read message.write",
-       "token_type": "Bearer",
-       "expires_in": 86399
-   }
-   ```
+```json
+{
+    "access_token": "eyJraWQiOiJjNTI3N2NmZC02YTQwLTQyMWYtYWViNi0yOGI2NWRiOGQ4MTAiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJldGhhbiIsImF1ZCI6Imp3dC1jbGllbnQiLCJuYmYiOjE3MjkyNDg2MjYsInNjb3BlIjpbIm1lc3NhZ2UucmVhZCIsIm1lc3NhZ2Uud3JpdGUiXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo0ODA4MCIsImV4cCI6MTcyOTMzNTAyNiwiaWF0IjoxNzI5MjQ4NjI2LCJ1dWlkIjoiYTUyYzg5N2MtNjAyOS00MjRhLWJjNzgtMDEwMGQyOTIwZDk2IiwianRpIjoiNDJlN2U5ZmEtYTJiMS00ZWNiLWFlOTYtMGQyNjcxNTVmMzgwIn0.fDgm2_L3qyHJCIMUc_Hzdvz6wxWUOO_ujnaONIiB42vPZ6oUd64ZixFAOdcoNFvqxei8A-lFk2r97CKomlYqwaXS7qE-x2ugYqw4szE9kyG0phFS012cGbvhIPFcMVtSIS29BIrsEhTOSfyrXBtH9tjLrpXJcIHz22Z863iRFFWvCPZnINUnnQGftsFIrQhF3EOqnKphCrzwOFJ-PB36QbHhIETbvJ9V06PP3GqaxXuwurcNvbLuXb5RYeMk4ZC2qOFYXLaBJyfHbxv0wZzqm9S_asmffbmDwB3mNf6FoHi5jlJolr_6Ws83eKRizdhb7ewjbQFOuUhFYZB61MVIww",
+    "refresh_token": "ulN8mfCuiGBLL3rLWOa940v5JPIbXZ-zM5vMR0GX0eUdE3hvBCUDss6FdRyUuetu3bJxfNWC47wlT7W8pBHCfexU6gAJSTGvDJ5SwlvXaTBFNQQN5QtWCZErgcOhf_wU",
+    "scope": "message.read message.write",
+    "token_type": "Bearer",
+    "expires_in": 86399
+}
+```
 
-   
 
-3. CLIENT_CREDENTIALS 客户端认证
 
-   随机token生成方式
+### ③. CLIENT_CREDENTIALS 客户端认证
 
-   ```shell
-   curl -X POST 'http://localhost:48080/oauth2/token' \
-   -H 'Content-Type: application/x-www-form-urlencoded' \
-   --data-urlencode 'grant_type=client_credentials' --data-urlencode 'client_secret=password' --data-urlencode 'client_id=random-client'
-   ```
+随机token生成方式
 
-   ```json
-   {
-       "access_token": "TS2V838SKPQYpq8W0CTO-z9W6FwXQXa8xOqU-jop_4ywh8yB08ejS0lX0XB6mO3Iu5p2gxqYbDC6goSdLXGrkmG8fEMhutKgswXHcaNIhx9ESkctUiSRWVsMAERGj3cO",
-       "token_type": "Bearer",
-       "expires_in": 86399
-   }
-   ```
+```shell
+curl -X POST 'http://localhost:48080/oauth2/token' \
+-H 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'grant_type=client_credentials' --data-urlencode 'client_secret=password' --data-urlencode 'client_id=random-client'
+```
 
-   JWT token生成方式
+```json
+{
+    "access_token": "TS2V838SKPQYpq8W0CTO-z9W6FwXQXa8xOqU-jop_4ywh8yB08ejS0lX0XB6mO3Iu5p2gxqYbDC6goSdLXGrkmG8fEMhutKgswXHcaNIhx9ESkctUiSRWVsMAERGj3cO",
+    "token_type": "Bearer",
+    "expires_in": 86399
+}
+```
 
-   ```shell
-   curl -X POST 'http://localhost:48080/oauth2/token' \
-   -H 'Content-Type: application/x-www-form-urlencoded' \
-   --data-urlencode 'grant_type=client_credentials' \
-   --data-urlencode 'client_secret=password' \
-   --data-urlencode 'client_id=jwt-client'
-   ```
+JWT token生成方式
 
-   ```json
-   {
-       "access_token": "eyJraWQiOiIwM2NkMjJhOS0xNTUwLTQ1ZWUtOWI4Ni02Y2U2ZTYxOTZhMGIiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJqd3QtY2xpZW50IiwiYXVkIjoiand0LWNsaWVudCIsIm5iZiI6MTcyOTE0NjY3MiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo0ODA4MCIsImV4cCI6MTcyOTIzMzA3MiwiaWF0IjoxNzI5MTQ2NjcyLCJ1dWlkIjoiNDJiZDIwMWMtNDQ2NS00NTI2LTg1MDctYjA3ODMwMzZjMTc4IiwianRpIjoiN2FlNzViNmEtOGQ3OS00MWMzLWE3MWItM2JiOTVlZGQ1YTc1In0.OfwEDqxakpLIq7-yY7eS4e3p0BJyEHoxdAai1gOe3XfsAI55L6G2-YKGqK8C-5vNCYpTNvoHGDpe-ONEHNH800lLNeEc68iM11UCyfrzc34Lp7AqpHjptJs2XeqjqxdDhP778VZwVimmsZ2regiFNXV-Qqi42HW8y1FkQgUwVIR5WDQ7M9KQ5Glu475_A5_-mAndA9NzkhKcCmdclKz4zqA_oo3wQ-Qa8dyGn6lPV3sCs8HCDW6P4q8kYtlePydLEzNh-3Rf3FIg7JnUWmJKJr47Lbtay9oLTzq3eCUWQX3iCA-9olbvJnD2p2hT0uOQXzH5vnKrapJuuRvqrK4DoA",
-       "token_type": "Bearer",
-       "expires_in": 86399
-   }
-   ```
+```shell
+curl -X POST 'http://localhost:48080/oauth2/token' \
+-H 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'grant_type=client_credentials' \
+--data-urlencode 'client_secret=password' \
+--data-urlencode 'client_id=jwt-client'
+```
 
-   
+```json
+{
+    "access_token": "eyJraWQiOiIwM2NkMjJhOS0xNTUwLTQ1ZWUtOWI4Ni02Y2U2ZTYxOTZhMGIiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJqd3QtY2xpZW50IiwiYXVkIjoiand0LWNsaWVudCIsIm5iZiI6MTcyOTE0NjY3MiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo0ODA4MCIsImV4cCI6MTcyOTIzMzA3MiwiaWF0IjoxNzI5MTQ2NjcyLCJ1dWlkIjoiNDJiZDIwMWMtNDQ2NS00NTI2LTg1MDctYjA3ODMwMzZjMTc4IiwianRpIjoiN2FlNzViNmEtOGQ3OS00MWMzLWE3MWItM2JiOTVlZGQ1YTc1In0.OfwEDqxakpLIq7-yY7eS4e3p0BJyEHoxdAai1gOe3XfsAI55L6G2-YKGqK8C-5vNCYpTNvoHGDpe-ONEHNH800lLNeEc68iM11UCyfrzc34Lp7AqpHjptJs2XeqjqxdDhP778VZwVimmsZ2regiFNXV-Qqi42HW8y1FkQgUwVIR5WDQ7M9KQ5Glu475_A5_-mAndA9NzkhKcCmdclKz4zqA_oo3wQ-Qa8dyGn6lPV3sCs8HCDW6P4q8kYtlePydLEzNh-3Rf3FIg7JnUWmJKJr47Lbtay9oLTzq3eCUWQX3iCA-9olbvJnD2p2hT0uOQXzH5vnKrapJuuRvqrK4DoA",
+    "token_type": "Bearer",
+    "expires_in": 86399
+}
+```
 
-4. ~~PASSWORD~~(Deprecated 弃用)
 
-   > The latest OAuth 2.0 Security Best Current Practice disallows the use of the Resource Owner Password Credentials grant. 
 
-5. JWT_BEARER
+### ④. ~~PASSWORD~~(Deprecated 弃用)
 
-6. DEVICE_CODE
+> The latest OAuth 2.0 Security Best Current Practice disallows the use of the Resource Owner Password Credentials grant. 
 
-7. TOKEN_EXCHANGE
+### ⑤. JWT_BEARER(暂不支持)
+
+目前1.4.0 暂时不支持。[官方文档](https://docs.spring.io/spring-authorization-server/reference/core-model-components.html)
+
+> `authorizationGrantTypes`: The [authorization grant type(s)](https://datatracker.ietf.org/doc/html/rfc6749#section-1.3) that the client can use. The supported values are `authorization_code`, `client_credentials`, `refresh_token`, `urn:ietf:params:oauth:grant-type:device_code`, and `urn:ietf:params:oauth:grant-type:token-exchange`.
+
+但是可以自己实现：[官方文档](https://docs.spring.io/spring-authorization-server/reference/guides/how-to-ext-grant-type.html)
+
+```java
+public class CustomCodeGrantAuthenticationConverter implements AuthenticationConverter {
+
+	@Nullable
+	@Override
+	public Authentication convert(HttpServletRequest request) {
+		// grant_type (REQUIRED)
+		String grantType = request.getParameter(OAuth2ParameterNames.GRANT_TYPE);
+		if (!"urn:ietf:params:oauth:grant-type:custom_code".equals(grantType)) { 
+			return null;
+		}
+
+		Authentication clientPrincipal = SecurityContextHolder.getContext().getAuthentication();
+
+		MultiValueMap<String, String> parameters = getParameters(request);
+
+		// code (REQUIRED)
+		String code = parameters.getFirst(OAuth2ParameterNames.CODE); 
+		if (!StringUtils.hasText(code) ||
+				parameters.get(OAuth2ParameterNames.CODE).size() != 1) {
+			throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_REQUEST);
+		}
+
+		Map<String, Object> additionalParameters = new HashMap<>();
+		parameters.forEach((key, value) -> {
+			if (!key.equals(OAuth2ParameterNames.GRANT_TYPE) &&
+					!key.equals(OAuth2ParameterNames.CLIENT_ID) &&
+					!key.equals(OAuth2ParameterNames.CODE)) {
+				additionalParameters.put(key, value.get(0));
+			}
+		});
+
+		return new CustomCodeGrantAuthenticationToken(code, clientPrincipal, additionalParameters); 
+	}
+
+	private static MultiValueMap<String, String> getParameters(HttpServletRequest request) {
+		Map<String, String[]> parameterMap = request.getParameterMap();
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>(parameterMap.size());
+		parameterMap.forEach((key, values) -> {
+			if (values.length > 0) {
+				for (String value : values) {
+					parameters.add(key, value);
+				}
+			}
+		});
+		return parameters;
+	}
+
+}
+```
+
+Client 访问时调用org.springframework.security.oauth2.client.JwtBearerOAuth2AuthorizedClientProvider ，支持该访问模式
+
+### ⑥. DEVICE_CODE
+
+> Spring Authorization Server cannot provide this capability out-of-the-box as it would not adhere to the secure by default principle, since the token endpoint would be "open" allowing a client to obtain an access token simply by providing the `client_id` parameter only.
+>
+> Spring Authorization Server 无法提供开箱即用的功能，因为它不遵守默认安全原则，因为令牌端点将“开放”，允许客户端仅通过提供 client_id 参数即可获取访问令牌。
+>
+> https://github.com/spring-projects/spring-authorization-server/issues/1522
+>
+> https://github.com/spring-projects/spring-authorization-server/issues/1116#issuecomment-1468628303
+>
+> 但是下面vendors (at least Okta, Auth0, Azure)是支持的，因为目前只能实现自定义的支持实现
+>
+> - https://auth0.com/docs/get-started/authentication-and-authorization-flow/call-your-api-using-the-device-authorization-flow#receive-tokens
+> - https://developer.okta.com/docs/guides/device-authorization-grant/main/#request-access-id-and-refresh-tokens
+> - https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-device-code#successful-authentication-response
+
+因此代码执行顺序为
+
+认证需要给 client 配置 ClientAuthenticationMethod.NONE
+
+1. OAuth2ClientAuthenticationFilter
+
+   - 注册 endpoint`oauth2/device_authorization`
+
+   - DeviceClientAuthenticationConverter
+
+   - DeviceClientAuthenticationProvider 
+
+   - authenticationSuccessHandler#onAuthenticationSuccess
+
+     ```java
+     private void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+     			Authentication authentication) {
+     		SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+     		securityContext.setAuthentication(authentication);
+     		SecurityContextHolder.setContext(securityContext);
+     		if (this.logger.isDebugEnabled()) {
+     			this.logger.debug(LogMessage.format("Set SecurityContextHolder authentication to %s",
+     					authentication.getClass().getSimpleName()));
+     		}
+     	}
+     ```
+
+2. AuthorizationFilter
+
+3. OAuth2DeviceAuthorizationEndpointFilter
+
+   1. 免登录设备授权
+
+      ```shell
+      curl -X POST 'http://localhost:48080/oauth2/device_authorization' \
+          -H 'Content-Type: application/x-www-form-urlencoded' \
+          --data-urlencode 'scope=message.read message.write' \
+          --data-urlencode 'client_id=jwt-client'
+          
+      # 返回 device code
+      {
+          "user_code": "WGTD-MZJD",
+          "device_code": "1GHjjvHqq7lKlLm65KIDS_V-LGZxcGt3ra6tSlRe3FQVPwrAZKFvTip4HsoYOemDaXhQ2aCr4oP0CPB_EH7-CeiZ0POXAX3ssi3f45ocwTXtRxAMfKMYUQ_kpBzXohgt",
+          "verification_uri_complete": "http://localhost:48080/oauth2/device_verification?user_code=WGTD-MZJD",
+          "verification_uri": "http://localhost:48080/oauth2/device_verification",
+          "expires_in": 3600
+      }    
+      ```
+
+   2. 用户可以利用手机扫描，浏览器自动触发登录和验证user_code的流程
+
+      或者 浏览器访问http://localhost:48080/oauth2/device_verification?user_code=WGTD-MZJD 返回success
+
+   3. 获取token
+
+      ```shell
+      curl -X POST 'http://localhost:48080/oauth2/token' \
+          -H 'Content-Type: application/x-www-form-urlencoded' \
+          -H 'Cookie: JSESSIONID=6F06D745B9FAEE81A852E81BC4E0F1AD' \
+          --data-urlencode 'grant_type=urn:ietf:params:oauth:grant-type:device_code' \
+          --data-urlencode 'device_code=waicX19Rv5svw7haCr3tVXezIZu0z45-bVSvXFh2yRdEKWQk2blZmkSC_9MozcecK_H0WBkt_cMIAtf3AyrYqPaQNn4VxNB_vobcIM2zf1cIVngWWmOzUZeNhqqKswYn' \
+          --data-urlencode 'client_id=jwt-client'
+      
+      # 返回access token
+      {
+          "access_token": "eyJraWQiOiJyb290LWNyZWVkLW1hbGwiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJldGhhbiIsImF1ZCI6Imp3dC1jbGllbnQiLCJuYmYiOjE3MzUyNzAxMjksInNjb3BlIjpbIm1lc3NhZ2UucmVhZCIsIm1lc3NhZ2Uud3JpdGUiXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo0ODA4MCIsImV4cCI6MTczNTM1NjUyOSwiaWF0IjoxNzM1MjcwMTI5LCJ1dWlkIjoiNDRiZmU5NzktNDAzYi00ZmI3LWJjOTItNzFjZDk5NjNmM2I2IiwianRpIjoiMmU2ZjljZDktNjY1YS00M2IxLTg2ODEtYTNlMzA4MDEyZjJiIn0.WebQVRBoBVq8HfY2EIBXUbbC4XjuFewsWrqDwhTr03kFuFaJmJ99UPZQcF3HdSJ3g9msnNCrAt81A0qNzIS_HZf07FfwzKq5PRDdcSQvQJuodl2A-6qLatbxR0GVUTTaMhJN_3GxFlt-u1sJFdsakI3dULlv2zpY5_QZ_6kidZAmwdmiKIbsTMY6-bT1VfvLAUnzc0Z7s8DCxPZtrFLP_hhmjaCnchSmOYYZMdoSM01cJWu3k5qY9ou1fmX2SNRRH4HZERYF8PcSePTbtWegNmGKmIRj1ETa543QCwm4WI_l5Sclsf5Sf4FQumdIhXCR1U-ihKUxzl2axP0duW4OHg",
+          "refresh_token": "hnAmz9K8o4OWuRsO1NLmtjpQc1bC2CylZwb2oQFnPJ2b3_G1Z7EDgz0Z1Mn9_1DyHzATlqwV9V8g1DGqPVbnLPJQMPzaUst5cp1qnRRHn5O2bV3az_oGftIq5biAA8r6",
+          "scope": "message.read message.write",
+          "token_type": "Bearer",
+          "expires_in": 86399
+      }
+      ```
+
+
+### ⑦. TOKEN_EXCHANGE
+
+在 [RFC 8693](https://tools.ietf.org/html/rfc8693) 中引入的令牌交换是一种 OAuth 扩展，允许受信任的客户端将现有令牌交换为具有不同属性或范围的新令牌。此机制特别适用于服务、应用程序或最终用户通过预授权的令牌获得正常的 OAuth 访问令牌，而无需完成完整的 OAuth 流程。
+
+#### 与授权码流程的比较
+
+首先，让我们来看看 OAuth 授权码流程，它是获取访问令牌的最常见流程。
+
+![authorization_code_flow.png](./imgs/authorization_code_flow.png)
+
+这是令牌交换流程：
+
+![exchange_code_flow](./imgs/exchange_code_flow.png)
+
+主要区别在于，在授权码流程中，客户端应用程序将用户重定向到授权服务器以获取访问令牌。在令牌交换中，客户端应用程序可以与授权服务器交换令牌而无需涉及用户重定向。
+
+这是因为在授权码流程中，客户端应用程序**不被“信任”**，需要知道用户的凭证才能获得访问令牌。**在令牌交换中，客户端应用程序被信任**已经从用户那里获得了令牌，**授权服务器将验证该令牌并签发新令牌。**
+
+#### 令牌发行者和令牌交换服务
+
+在令牌交换流程中，“授权服务器”现在有两个参与者：
+
+1. 令牌发行者(subject_token)：向客户端应用程序颁发主题令牌。
+2. 令牌交换服务：验证主题令牌并向客户端应用程序颁发新令牌。
+
+令牌交换服务与授权码流程中的“授权服务器”相同，令牌发行者可以是第三方身份提供者，或从“授权服务器”拆分为专用服务。
+
+#### 何时使用令牌交换？
+
+令牌交换流程可以在无用户交互的情况下进行，这在以下场景中很有用：
+
+- **模拟：** 允许服务（例如，后台微服务）或管理员用户在不暴露完整用户凭据的情况下代表用户执行操作。
+- **自动化：** 允许受信任的服务自动执行操作，无需人工干预，或执行自动化测试。
+- **与其他 IdP 的集成：** 在不同的身份系统之间翻译令牌，以保持无缝的用户体验并有效管理权限，一个常见场景是将 SSO 令牌翻译为下游服务的令牌。
+- **迁移：** 将令牌从一个授权服务器迁移到另一个，例如，从遗留系统迁移到现代 OAuth/OIDC 兼容系统。
+
+#### 令牌交换请求
+
+客户端向授权服务器的令牌端点发送请求以交换现有令牌。这包括 `subject_token`（正在交换的令牌）以及可选的目标受众、范围和令牌类型。
+
+1. `grant_type`: 必须。此参数的值必须是 `urn:ietf:params:oauth:grant-type:token-exchange`，表示正在执行令牌交换。
+2. `subject_token`: 必须。用户的 PAT。
+3. `subject_token_type`: 必须。`subject_token` 参数中提供的安全令牌的类型。此参数的一个常见值是 `urn:ietf:params:oauth:token-type:access_token`，但可以根据正在交换的令牌而有所不同。
+4. `resource`: 可选。资源指示器，用于指定访问令牌的目标资源。
+5. `audience`: 可选。访问令牌的受众，指明令牌的预期接收者，如果未指定 `audience`，授权服务器可能会使用 `resource` 的值。
+6. `scope`: 可选。请求的范围。
+
+```shell
+curl -X POST 'http://localhost:48080/oauth2/token' \
+    -H 'Authorization: Basic and0LWNsaWVudDpwYXNzd29yZA==' \
+    -H 'Content-Type: application/x-www-form-urlencoded' \
+    -H 'Cookie: JSESSIONID=6F06D745B9FAEE81A852E81BC4E0F1AD' \
+    --data-urlencode 'grant_type=urn:ietf:params:oauth:grant-type:token-exchange' \
+    --data-urlencode 'audience=http://localhost:48080/admin-api/system/role/page' \
+    --data-urlencode 'resource=http://localhost:48080/admin-api/system/role/page' \
+    --data-urlencode 'scope=profile' \
+    --data-urlencode 'requested_token_type=urn:ietf:params:oauth:token-type:jwt' \
+    --data-urlencode 'subject_token=eyJraWQiOiJyb290LWNyZWVkLW1hbGwiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJldGhhbiIsImF1ZCI6Imp3dC1jbGllbnQiLCJuYmYiOjE3MzUyNzAxMjksInNjb3BlIjpbIm1lc3NhZ2UucmVhZCIsIm1lc3NhZ2Uud3JpdGUiXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo0ODA4MCIsImV4cCI6MTczNTM1NjUyOSwiaWF0IjoxNzM1MjcwMTI5LCJ1dWlkIjoiNDRiZmU5NzktNDAzYi00ZmI3LWJjOTItNzFjZDk5NjNmM2I2IiwianRpIjoiMmU2ZjljZDktNjY1YS00M2IxLTg2ODEtYTNlMzA4MDEyZjJiIn0.WebQVRBoBVq8HfY2EIBXUbbC4XjuFewsWrqDwhTr03kFuFaJmJ99UPZQcF3HdSJ3g9msnNCrAt81A0qNzIS_HZf07FfwzKq5PRDdcSQvQJuodl2A-6qLatbxR0GVUTTaMhJN_3GxFlt-u1sJFdsakI3dULlv2zpY5_QZ_6kidZAmwdmiKIbsTMY6-bT1VfvLAUnzc0Z7s8DCxPZtrFLP_hhmjaCnchSmOYYZMdoSM01cJWu3k5qY9ou1fmX2SNRRH4HZERYF8PcSePTbtWegNmGKmIRj1ETa543QCwm4WI_l5Sclsf5Sf4FQumdIhXCR1U-ihKUxzl2axP0duW4OHg' \
+    --data-urlencode 'subject_token_type=urn:ietf:params:oauth:token-type:jwt' \
+    --data-urlencode 'actor_token_type=urn:ietf:params:oauth:token-type:jwt' \
+    --data-urlencode 'actor_token=eyJraWQiOiJyb290LWNyZWVkLW1hbGwiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJldGhhbiIsImF1ZCI6Imp3dC1jbGllbnQiLCJuYmYiOjE3MzUyNzAxMjksInNjb3BlIjpbIm1lc3NhZ2UucmVhZCIsIm1lc3NhZ2Uud3JpdGUiXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo0ODA4MCIsImV4cCI6MTczNTM1NjUyOSwiaWF0IjoxNzM1MjcwMTI5LCJ1dWlkIjoiNDRiZmU5NzktNDAzYi00ZmI3LWJjOTItNzFjZDk5NjNmM2I2IiwianRpIjoiMmU2ZjljZDktNjY1YS00M2IxLTg2ODEtYTNlMzA4MDEyZjJiIn0.WebQVRBoBVq8HfY2EIBXUbbC4XjuFewsWrqDwhTr03kFuFaJmJ99UPZQcF3HdSJ3g9msnNCrAt81A0qNzIS_HZf07FfwzKq5PRDdcSQvQJuodl2A-6qLatbxR0GVUTTaMhJN_3GxFlt-u1sJFdsakI3dULlv2zpY5_QZ_6kidZAmwdmiKIbsTMY6-bT1VfvLAUnzc0Z7s8DCxPZtrFLP_hhmjaCnchSmOYYZMdoSM01cJWu3k5qY9ou1fmX2SNRRH4HZERYF8PcSePTbtWegNmGKmIRj1ETa543QCwm4WI_l5Sclsf5Sf4FQumdIhXCR1U-ihKUxzl2axP0duW4OHg'
+    
+# 返回response
+{
+    "access_token": "eyJraWQiOiJyb290LWNyZWVkLW1hbGwiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJldGhhbiIsImF1ZCI6Imp3dC1jbGllbnQiLCJuYmYiOjE3MzUyODI2NDMsImFjdCI6eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjQ4MDgwIiwic3ViIjoiZXRoYW4ifSwic2NvcGUiOlsicHJvZmlsZSJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjQ4MDgwIiwiZXhwIjoxNzM1MzY5MDQzLCJpYXQiOjE3MzUyODI2NDMsInV1aWQiOiI3ZWY2ZWVkNy0zZmQ4LTRhZWYtYWE2Ny05ZWRkMGFmNjQyNGMiLCJqdGkiOiI4NTUzMjYzMC1mZGI1LTRlZmItOGVjYi0yYjY4MTg0NDQ1OTQifQ.UIWViNCisF8TSd34D3kolBsOFm5YzndIx_EwV3cKNOMSKeQAkT6c6arDlMpkwg12rnuimVTpewQecfrRlB5SPRV4_uUMa2MGq62jpBnA68FSpfp4DpJzaqIzHnRAyUUZwlFdb8RYPqRFnOqkSef1NVXoCaR-LTAoT5dNE6ieiuSVDOkYLdmfV28PAB9VqdwG6RpMKxyIaq7CwJ4-Z4kAl7NsCr1zynN1OvPK3gkqOhOnL5DpaY4DWDop5kiBccC5fICMhPSOfGnbpHXYZUkaBM-YJOLRrB9yWH4ks0NqNjF3OVSJDxpMwVRyabJ8CeU6Bx2CAXa17KuYrq-2DVl4Iw",
+    "issued_token_type": "urn:ietf:params:oauth:token-type:jwt",
+    "scope": "profile",
+    "token_type": "Bearer",
+    "expires_in": 86399
+}
+```
 
 
 

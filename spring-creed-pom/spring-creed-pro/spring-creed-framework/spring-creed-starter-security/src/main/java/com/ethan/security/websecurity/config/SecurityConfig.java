@@ -20,6 +20,7 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
@@ -78,8 +79,9 @@ import java.util.stream.Stream;
  */
 @Configuration
 @EnableWebSecurity
-//启用验证权限的注解
+// 启用验证权限的注解
 @EnableMethodSecurity(securedEnabled = true)
+@Slf4j
 public class SecurityConfig {
     @Resource
     private ApplicationContext applicationContext;
@@ -117,11 +119,12 @@ public class SecurityConfig {
     // @Order(2)
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http)
             throws Exception {
+        log.info(">>defaultSecurityFilterChain initiated<<");
         // 获得 @PermitAll 带来的 URL 列表，免登录
         Multimap<HttpMethod, String> permitAllUrls = getPermitAllUrlsFromAnnotations();
 
         http
-                .cors(Customizer.withDefaults()) //开启跨域
+                .cors(Customizer.withDefaults()) // 开启跨域
                 .csrf(AbstractHttpConfigurer::disable) // CSRF 禁用，因为不使用 Session
 
                 .sessionManagement(mng -> mng.sessionCreationPolicy(SessionCreationPolicy.NEVER))
@@ -131,11 +134,11 @@ public class SecurityConfig {
                 .oauth2ResourceServer(oauth2 ->
                         oauth2
                                 //**对于resource app来讲，同一时间只能存在一种token兼容**
-                        /** 此处会添加 {@link org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter} */
+                                /** 此处会添加 {@link org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter} */
                                 .opaqueToken(Customizer.withDefaults())
-//                                .jwt(Customizer.withDefaults())// for id_token /userinfo endpoint. {@see https://docs.spring.io/spring-authorization-server/docs/current/reference/html/protocol-endpoints.html#oidc-client-registration-endpoint}
+                                //                                .jwt(Customizer.withDefaults())// for id_token /userinfo endpoint. {@see https://docs.spring.io/spring-authorization-server/docs/current/reference/html/protocol-endpoints.html#oidc-client-registration-endpoint}
 
-                        .authenticationEntryPoint(exceptionHandler())
+                                .authenticationEntryPoint(exceptionHandler())
                 )
 
                 // .oauth2ResourceServer(oauth2 ->
@@ -146,7 +149,7 @@ public class SecurityConfig {
 
 
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers(HttpMethod.GET, "/*.html", "/*/*.html", "/**.css", "/**.js", "/*/*.css", "/*/*.js", "/favicon.ico", "/css/**","/img/**","/fonts/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/*.html", "/*/*.html", "/**.css", "/**.js", "/*/*.css", "/*/*.js", "/favicon.ico", "/css/**", "/img/**", "/fonts/**").permitAll()
                         // .requestMatchers("/css/**", "/js/**", "/fonts/**", "/*.html", "/favicon.ico", "/*.css", "/*.js").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/actuator/**", "/webjars/**", "/resources/**", "/static/**").permitAll()
                         .requestMatchers(HttpMethod.GET, permitAllUrls.get(HttpMethod.GET).toArray(new String[0])).permitAll()
@@ -156,7 +159,6 @@ public class SecurityConfig {
                         .requestMatchers(securityProperties.getPermitAllUrls().toArray(new String[0])).permitAll()
                         .anyRequest().authenticated()
                 )
-
 
 
                 // Form login handles the redirect to the login page from the
@@ -222,7 +224,8 @@ public class SecurityConfig {
                     case POST -> result.putAll(HttpMethod.POST, urls);
                     case PUT -> result.putAll(HttpMethod.PUT, urls);
                     case DELETE -> result.putAll(HttpMethod.DELETE, urls);
-                    default -> {}
+                    default -> {
+                    }
                 }
             });
         }
