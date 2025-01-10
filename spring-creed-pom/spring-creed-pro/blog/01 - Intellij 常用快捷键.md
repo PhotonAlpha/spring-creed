@@ -16,21 +16,22 @@
 |UpperCase LowerCase | ` shift⇧ + command ⌘ + U ` | `Ctrl + Shift + U`|
 |**compile** | `command ⌘ + F9` | `Ctrl + F9/B` |
 |**complete... 结束代码行** | `command ⌘ + shift⇧ + Entry` | `Ctrl + Shift + Enter` |
-|**Surround With**👈 | `option ⌥ + command ⌘ + T` | `Ctrl + Alt + T` |
-|**Parameter Info** | `command ⌘ + P` | `Ctrl + P` |
-|**同时选中所有匹配 Refactor**👈 | `control^ + T` | `Ctrl + Alt + Shift + T` |
+|🦋**异常捕获 Surround With**🦋 | `option ⌥ + command ⌘ + T` | `Ctrl + Alt + T` |
+|🦋**Parameter Info**🦋 | `command ⌘ + P` | `Ctrl + P` |
+|🦋**重构 Refactor**🦋 | `control^ + T` | `Ctrl + Alt + Shift + T` |
 |**小灯泡 Show Intention Actions** | `option ⌥ + ⏎` | `Alt + Enter`|
 |**自动应用变量 Introduce Variable** | `option ⌥ + command ⌘ + V` | `Ctrl + Alt + V`|
-|**实现类 Implementation(s)** | `option ⌥ + command ⌘ + B` | `Ctrl + Alt + B`|
-|**Generate** | `command ⌘ + N` | `Alt + Insert` |
+|🦋**实现类 Implementation(s)**🦋 | `option ⌥ + command ⌘ + B` | `Ctrl + Alt + B`|
+|🦋**去接口 Go to Super Method**🦋 | `command ⌘ + U` | |
+|🦋**Generate**🦋 | `command ⌘ + N` | `Alt + Insert` |
 |**Move Caret to Code Block End** |`option ⌥ + command ⌘ + ]`| `Ctrl + ]` |
 |**Move Caret to Code Block Start** |`option ⌥ + command ⌘ + [`| `Ctrl + [`|
 |Add Rectangular Selection on Mouse Drag 鼠标多行选中 |`control^ + option ⌥ + command ⌘ + button1`|`Shift + Ctrl + Alt + button1`|
 |Find Next / Move to Next Occurrence |`command ⌘ + G`||
 |Find Previous / Move to Previous Occurrence |`command ⌘ + shift⇧ + G`||
-|**Select All Occurrences** |`control^ + command ⌘ + G`|`Shift + Ctrl + Alt + J`|
-|**Add Selection for Next Occurrence** |`control^ + G`|`Alt + J`|
-|**Unselect Occurrence** |`control⌃ + shift⇧ + G`|`Shift + Alt + J`|
+|🦋**同时选中所有匹配 Select All Occurrences**🦋 |`control^ + command ⌘ + G`|`Shift + Ctrl + Alt + J`|
+|🦋**选中匹配 Add Selection for Next Occurrence**🦋 |`control^ + G`|`Alt + J`|
+|🦋**撤回选中匹配 Unselect Occurrence**🦋 |`control⌃ + shift⇧ + G`|`Shift + Alt + J`|
 |**Find in Path...** |`command ⌘  + shift⇧ + F`||
 |redo | `shift⇧ + command ⌘ + Z` | `Ctrl + Shift + Z`|
 |undo | `command ⌘ + Z` | `Ctrl + Z`|

@@ -231,3 +231,33 @@ spring:
        lazy-initialization: true
 ```
 通过排查发现 缺少了 ConfigApi，添加 `@ConditionalOnMissingBean` 使用默认的bean, 解决问题！
+
+## 错误描述:Caused by: org.springframework.beans.factory.BeanNotOfRequiredTypeException: Bean named '****' is expected to be of type '****' but was actually of type 'com.sun.proxy.$Proxy**'的两种解决方法
+
+一次偶然情况下遇到两次这样的问题,两次用下述不同的方法解决的.
+
+这个错误的原因是spring aop代理混用的问题,如果想要了解什么是Spring aop代理与为什么会混乱,自己去百度吧,我还是直奔主题哈,相信大家解决问题心切.
+
+原因： **在java中默认使用的动态代理是JDK proxy基于接口的代理， 如果你报错上述信息，极有可能是你注入的时候，注入到了类上面**，如下:
+
+public class TestA implements BaseTest
+
+即testA类继承了BaseTest，但是如果你在自动注入到了类上，如下:
+
+@Autowired
+TestA testA；
+
+就可能出现上述问题！ 可以修改为
+
+@Autowired
+BaseTest testA；
+
+这种，基于接口的注入，应该可以解决；
+
+如果还是不行的话，就用下述中的方案解决，不过相当于修改了 代理方式，其实也影响不大.
+
+```yaml
+spring:
+  aop:
+    proxy-target-class: true
+```

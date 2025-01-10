@@ -9,3 +9,5 @@ java_pid*/**
 *.iml
 *.DS_Store
 *.log
+spring-creed-pom/spring-creed-pro/blog/workshop
+**/logs
