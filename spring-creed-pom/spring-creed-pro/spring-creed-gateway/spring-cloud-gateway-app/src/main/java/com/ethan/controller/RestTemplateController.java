@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author EthanCao
- * @description spring-cloud-gateway-example
+ * @description spring-creed-agent
  * @date 27/3/24
  */
 @RestController

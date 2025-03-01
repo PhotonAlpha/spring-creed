@@ -1,4 +1,4 @@
-
+尝试将完整的api 请求链整合成单个service
 - [x] 创建webflux API
 - [x] 整合Spring security，实现API认证
 - [ ] 请求数据缓存

@@ -17,6 +17,7 @@
         <module>spring-creed-gateway</module>
         <module>spring-creed-example</module>
         <module>spring-creed-module-infra</module>
+        <module>spring-creed-agent</module>
     </modules>
     <packaging>pom</packaging>
 

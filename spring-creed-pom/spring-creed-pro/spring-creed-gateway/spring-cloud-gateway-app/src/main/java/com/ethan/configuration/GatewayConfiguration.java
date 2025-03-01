@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @author EthanCao
- * @description spring-cloud-gateway-example
+ * @description spring-creed-agent
  * @date 1/4/24
  */
 @Configuration
