@@ -15,7 +15,7 @@ import java.util.Map;
  * 监测 Spring boot 启动时间
  * 通过 BeanPostProcessor 原理，在前置处理时记录下当前时间，在后置处理时，用当前时间减去前置处理时间，就能知道每个 Bean 的初始化耗时。
  */
-@Component
+// @Component
 public class TimeCostBeanPostProcessor implements BeanPostProcessor {
     private Map<String, Long> costMap = Maps.newConcurrentMap();
     @Override

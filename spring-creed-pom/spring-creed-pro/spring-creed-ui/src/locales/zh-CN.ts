@@ -450,6 +450,7 @@ export default {
     anchor: '锚点',
     systemManagement: '系统管理',
     tenantManagement: '租户管理',
+    authManagement: '授权管理-TODO',
     menuManagement: '菜单管理',
     tenantList: '租户列表',
     tenantPackages: '租户套餐',

@@ -1,5 +1,7 @@
 package com.ethan.security.oauth2.config;
 
+import com.ethan.security.oauth2.authentication.DeviceClientAuthenticationProvider;
+import com.ethan.security.oauth2.web.authentication.DeviceClientAuthenticationConverter;
 import com.ethan.security.provider.UnAuthExceptionHandler;
 import com.ethan.security.websecurity.filter.LoginTokenAuthenticationFilter;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -10,6 +12,7 @@ import com.nimbusds.jose.proc.SecurityContext;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +29,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
+import org.springframework.security.oauth2.jwt.JwsHeader;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.authorization.InMemoryOAuth2AuthorizationConsentService;
@@ -72,6 +76,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -83,6 +88,7 @@ import java.util.UUID;
 @Configuration
 // @Import(OAuth2AuthorizationServerConfiguration.class)
 @EnableWebSecurity
+@Slf4j
 public class AuthorizationServerConfig {
     @Resource
     private LoginTokenAuthenticationFilter loginTokenAuthenticationFilter;
@@ -90,136 +96,161 @@ public class AuthorizationServerConfig {
     private UnAuthExceptionHandler exceptionHandler;
 
     /**
-     *    {@link HttpSecurity#performBuild()}会绑定 requestMatcher 和 List<Filter> sortedFilters, 生成 {@link FilterChainProxy.filterChains}
-     *
-     *
+     * {@link HttpSecurity#performBuild()}会绑定 requestMatcher 和 List<Filter> sortedFilters, 生成 {@link FilterChainProxy.filterChains}
+     * <p>
+     * <p>
      * 下面来看看这边的配置
      * {@link OAuth2AuthorizationServerConfiguration#}
      * {@link OAuth2AuthorizationServerConfigurer#init(HttpSecurity)}
-     *      中 this.configurers.values()会注册endpoint
-     *
-     *      ↓然后下面代码会进行注册↓
-     *      		List<RequestMatcher> requestMatchers = new ArrayList<>();
-     * 		this.configurers.values().forEach(configurer -> {
-     * 			configurer.init(httpSecurity);
-     * 			requestMatchers.add(configurer.getRequestMatcher());
-     *                });
-     * 		requestMatchers.add(new AntPathRequestMatcher(
-     * 				authorizationServerSettings.getJwkSetEndpoint(), HttpMethod.GET.name()));
-     * 		this.endpointsMatcher = new OrRequestMatcher(requestMatchers);
-     *
-     *  1. client credentials {@link OAuth2TokenEndpointConfigurer#createDefaultAuthenticationProviders(HttpSecurity)}
-     *      OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator = OAuth2ConfigurerUtils.getTokenGenerator(httpSecurity); 会尝试从JWK中获取Bean {@link org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2ConfigurerUtils#getJwtEncoder(HttpSecurity)} -> {@link NimbusJwtEncoder}
-     *
-     *  2. authorization_code
-     *     a. 生成code
-     *          // http://localhost:8081/oauth2/authorize?client_id=messaging-client&redirect_uri=http://127.0.0.1:8080/authorized&response_type=code&scope=message.read message.write
-     *       {@link OAuth2AuthorizationEndpointFilter} 初始化的时候注入
-     *       		this.authenticationConverter = new DelegatingAuthenticationConverter(
-     * 				Arrays.asList(
-     * 						new OAuth2AuthorizationCodeRequestAuthenticationConverter(),
-     * 						new OAuth2AuthorizationConsentAuthenticationConverter()));
-     *       i. 首先转换 Authentication authorizationGrantAuthentication = this.authenticationConverter.convert(request);
-     *          - {@link OAuth2AuthorizationCodeRequestAuthenticationConverter} -> {@link OAuth2AuthorizationCodeRequestAuthenticationToken}
-     *          - {@link OAuth2AuthorizationConsentAuthenticationConverter}
-     *       ii. this.authenticationManager.authenticate(authorizationGrantAuthentication) which is {@link ProviderManager}, 每个provider都会匹配Token类型
-     *          - {@link AnonymousAuthenticationProvider}
-     *          - {@link JwtClientAssertionAuthenticationProvider}
-     *          - {@link ClientSecretAuthenticationProvider}
-     *          - {@link PublicClientAuthenticationProvider}
-     *          - {@link OAuth2AuthorizationCodeRequestAuthenticationProvider} ->
-     *              1. {@link OAuth2AuthorizationCodeRequestAuthenticationValidator#accept(OAuth2AuthorizationCodeRequestAuthenticationContext)}
-     *              2. // code_challenge (REQUIRED for public clients) - RFC 7636 (PKCE)
-     *              3. isPrincipalAuthenticated(principal) ==> The request is valid - ensure the resource owner is authenticated
-     *                 因为此时 authorizationCodeRequestAuthentication.getPrincipal() 还是 annoynous,所以会退出
-     *                 Authentication principal = SecurityContextHolder.getContext().getAuthentication();
- *  		                if (principal == null) {
- *			                principal = ANONYMOUS_AUTHENTICATION;
-     *                }
-     *
-     *              4. requireAuthorizationConsent(registeredClient, authorizationRequest, currentAuthorizationConsent) 会检查是否有OAuth2AuthorizationConsentAuthenticationToken，
-     *                 如果没有会返回 OAuth2AuthorizationConsentAuthenticationToken 并且{@link OAuth2AuthorizationEndpointFilter#sendAuthorizationConsent())}跳转到consent页面进行确认
-     *
-     *                 - Consent按钮的作用
-     *                      会调用 /oauth2/authorize === client_id=messaging-client&state=27beO1YP7pANBTHjkts92Xyh_ZQvRF-TC2BrKHDeaes%3D&scope=message.read&scope=message.write
-     *                      i.通过 {@link OAuth2AuthorizationConsentAuthenticationConverter} 生成 OAuth2AuthorizationConsentAuthenticationToken
-     *                      ii. 通过匹配OAuth2AuthorizationConsentAuthenticationToken 进入 {@link OAuth2AuthorizationConsentAuthenticationProvider}
-     *                          其中 this.authorizationConsentService.save(authorizationConsent) 会存入consent
-     *                          然后通过 {@link OAuth2AuthorizationConsentAuthenticationProvider} 存入数据，生成code
-     *                          最后通过 {@link OAuth2AuthorizationEndpointFilter#setAuthenticationSuccessHandler(AuthenticationSuccessHandler)}转发url
-     *
-     *          - {@link OAuth2AuthorizationConsentAuthenticationProvider}
-     *          - {@link OAuth2AuthorizationCodeAuthenticationProvider}
-     *          - {@link OAuth2RefreshTokenAuthenticationProvider}
-     *          - {@link OAuth2ClientCredentialsAuthenticationProvider}
-     *          - {@link OAuth2TokenIntrospectionAuthenticationProvider}
-     *          - {@link OAuth2TokenRevocationAuthenticationProvider}
-     *          - {@link OidcUserInfoAuthenticationProvider}
-     *          - {@link JwtAuthenticationProvider}
-     *
-     *      iii. {@link OAuth2AuthorizationEndpointFilter#sendAuthorizationResponse}
-     *
-     *           并没有设置 securityContext.setAuthentication(authentication); 未登录则会转发到login
-     *     b. 请求access_token
-     *         // http://localhost:8081/oauth2/token
-     *
-     *         // x-www-form-urlencoded
-     *         // grant_type:authorization_code
-     *         // code:kVUvIpnNM50oxve4a7Gs3jZgkTEP291-utCt4NULxyy82aMRjgGs6rPZ3XEizrs18LYxprNbCw7XVxZCmzAOCojmTm3ZVqDLsbBOv7g-1fPqOVCq0KQVDZZ79vJqklMv
-     *         // redirect_uri:http://127.0.0.1:8080/authorized
-     *
-     *       {@link OAuth2ClientAuthenticationFilter}
-     *       i. 首先转换 Authentication authorizationGrantAuthentication = this.authenticationConverter.convert(request);， list注册在 {@link #registeredClientRepository}
-     *          - {@link JwtClientAssertionAuthenticationConverter}
-     *          - {@link ClientSecretBasicAuthenticationConverter}
-     *          - {@link ClientSecretPostAuthenticationConverter}
-     *          - {@link PublicClientAuthenticationConverter}
-     *         获取 OAuth2ClientAuthenticationToken
-     *
-     *       ii. this.authenticationManager.authenticate(authorizationGrantAuthentication) which is {@link ProviderManager}
-     *          - {@link AnonymousAuthenticationProvider}
-     *          - {@link JwtClientAssertionAuthenticationProvider}
-     *          - {@link ClientSecretAuthenticationProvider}
-     *          - {@link PublicClientAuthenticationProvider}
-     *          - {@link OAuth2AuthorizationCodeRequestAuthenticationProvider}
-     *          - {@link OAuth2AuthorizationConsentAuthenticationProvider}
-     *          - {@link OAuth2AuthorizationCodeAuthenticationProvider}
-     *              // 此处可以 检查 获取token -> authorization_code_value -> "metadata.token.invalidated":true(检查code是否被使用)
-     *
-     *
-     *          - {@link OAuth2RefreshTokenAuthenticationProvider}
-     *          - {@link OAuth2ClientCredentialsAuthenticationProvider}
-     *          - {@link OAuth2TokenIntrospectionAuthenticationProvider}
-     *          - {@link OAuth2TokenRevocationAuthenticationProvider}
-     *          - {@link OidcUserInfoAuthenticationProvider}
-     *          - {@link JwtAuthenticationProvider}
-     *      iii. this.authenticationSuccessHandler.onAuthenticationSuccess(request, response, authenticationResult); 会设置全局login authentication
-     *             其中 AuthenticationSuccessHandler authenticationSuccessHandler = (request, response, authentication) -> onAuthenticationSuccess(request, response, authentication); = this::onAuthenticationSuccess
-     *
-     *
-     *
-     *  bearer token 验证
+     * 中 this.configurers.values()会注册endpoint
+     * <p>
+     * ↓然后下面代码会进行注册↓
+     * List<RequestMatcher> requestMatchers = new ArrayList<>();
+     * this.configurers.values().forEach(configurer -> {
+     * configurer.init(httpSecurity);
+     * requestMatchers.add(configurer.getRequestMatcher());
+     * });
+     * requestMatchers.add(new AntPathRequestMatcher(
+     * authorizationServerSettings.getJwkSetEndpoint(), HttpMethod.GET.name()));
+     * this.endpointsMatcher = new OrRequestMatcher(requestMatchers);
+     * <p>
+     * 1. client credentials {@link OAuth2TokenEndpointConfigurer#createDefaultAuthenticationProviders(HttpSecurity)}
+     * OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator = OAuth2ConfigurerUtils.getTokenGenerator(httpSecurity); 会尝试从JWK中获取Bean {@link org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2ConfigurerUtils#getJwtEncoder(HttpSecurity)} -> {@link NimbusJwtEncoder}
+     * <p>
+     * 2. authorization_code
+     * a. 生成code
+     * // http://localhost:8081/oauth2/authorize?client_id=messaging-client&redirect_uri=http://127.0.0.1:8080/authorized&response_type=code&scope=message.read message.write
+     * {@link OAuth2AuthorizationEndpointFilter} 初始化的时候注入
+     * this.authenticationConverter = new DelegatingAuthenticationConverter(
+     * Arrays.asList(
+     * new OAuth2AuthorizationCodeRequestAuthenticationConverter(),
+     * new OAuth2AuthorizationConsentAuthenticationConverter()));
+     * i. 首先转换 Authentication authorizationGrantAuthentication = this.authenticationConverter.convert(request);
+     * - {@link OAuth2AuthorizationCodeRequestAuthenticationConverter} -> {@link OAuth2AuthorizationCodeRequestAuthenticationToken}
+     * - {@link OAuth2AuthorizationConsentAuthenticationConverter}
+     * ii. this.authenticationManager.authenticate(authorizationGrantAuthentication) which is {@link ProviderManager}, 每个provider都会匹配Token类型
+     * - {@link AnonymousAuthenticationProvider}
+     * - {@link JwtClientAssertionAuthenticationProvider}
+     * - {@link ClientSecretAuthenticationProvider}
+     * - {@link PublicClientAuthenticationProvider}
+     * - {@link OAuth2AuthorizationCodeRequestAuthenticationProvider} ->
+     * 1. {@link OAuth2AuthorizationCodeRequestAuthenticationValidator#accept(OAuth2AuthorizationCodeRequestAuthenticationContext)}
+     * 2. // code_challenge (REQUIRED for public clients) - RFC 7636 (PKCE)
+     * 3. isPrincipalAuthenticated(principal) ==> The request is valid - ensure the resource owner is authenticated
+     * 因为此时 authorizationCodeRequestAuthentication.getPrincipal() 还是 annoynous,所以会退出
+     * Authentication principal = SecurityContextHolder.getContext().getAuthentication();
+     * if (principal == null) {
+     * principal = ANONYMOUS_AUTHENTICATION;
+     * }
+     * <p>
+     * 4. requireAuthorizationConsent(registeredClient, authorizationRequest, currentAuthorizationConsent) 会检查是否有OAuth2AuthorizationConsentAuthenticationToken，
+     * 如果没有会返回 OAuth2AuthorizationConsentAuthenticationToken 并且{@link OAuth2AuthorizationEndpointFilter#sendAuthorizationConsent())}跳转到consent页面进行确认
+     * <p>
+     * - Consent按钮的作用
+     * 会调用 /oauth2/authorize === client_id=messaging-client&state=27beO1YP7pANBTHjkts92Xyh_ZQvRF-TC2BrKHDeaes%3D&scope=message.read&scope=message.write
+     * i.通过 {@link OAuth2AuthorizationConsentAuthenticationConverter} 生成 OAuth2AuthorizationConsentAuthenticationToken
+     * ii. 通过匹配OAuth2AuthorizationConsentAuthenticationToken 进入 {@link OAuth2AuthorizationConsentAuthenticationProvider}
+     * 其中 this.authorizationConsentService.save(authorizationConsent) 会存入consent
+     * 然后通过 {@link OAuth2AuthorizationConsentAuthenticationProvider} 存入数据，生成code
+     * 最后通过 {@link OAuth2AuthorizationEndpointFilter#setAuthenticationSuccessHandler(AuthenticationSuccessHandler)}转发url
+     * <p>
+     * - {@link OAuth2AuthorizationConsentAuthenticationProvider}
+     * - {@link OAuth2AuthorizationCodeAuthenticationProvider}
+     * - {@link OAuth2RefreshTokenAuthenticationProvider}
+     * - {@link OAuth2ClientCredentialsAuthenticationProvider}
+     * - {@link OAuth2TokenIntrospectionAuthenticationProvider}
+     * - {@link OAuth2TokenRevocationAuthenticationProvider}
+     * - {@link OidcUserInfoAuthenticationProvider}
+     * - {@link JwtAuthenticationProvider}
+     * <p>
+     * iii. {@link OAuth2AuthorizationEndpointFilter#sendAuthorizationResponse}
+     * <p>
+     * 并没有设置 securityContext.setAuthentication(authentication); 未登录则会转发到login
+     * b. 请求access_token
+     * // http://localhost:8081/oauth2/token
+     * <p>
+     * // x-www-form-urlencoded
+     * // grant_type:authorization_code
+     * // code:kVUvIpnNM50oxve4a7Gs3jZgkTEP291-utCt4NULxyy82aMRjgGs6rPZ3XEizrs18LYxprNbCw7XVxZCmzAOCojmTm3ZVqDLsbBOv7g-1fPqOVCq0KQVDZZ79vJqklMv
+     * // redirect_uri:http://127.0.0.1:8080/authorized
+     * <p>
+     * {@link OAuth2ClientAuthenticationFilter}
+     * i. 首先转换 Authentication authorizationGrantAuthentication = this.authenticationConverter.convert(request);， list注册在 {@link #registeredClientRepository}
+     * - {@link JwtClientAssertionAuthenticationConverter}
+     * - {@link ClientSecretBasicAuthenticationConverter}
+     * - {@link ClientSecretPostAuthenticationConverter}
+     * - {@link PublicClientAuthenticationConverter}
+     * 获取 OAuth2ClientAuthenticationToken
+     * <p>
+     * ii. this.authenticationManager.authenticate(authorizationGrantAuthentication) which is {@link ProviderManager}
+     * - {@link AnonymousAuthenticationProvider}
+     * - {@link JwtClientAssertionAuthenticationProvider}
+     * - {@link ClientSecretAuthenticationProvider}
+     * - {@link PublicClientAuthenticationProvider}
+     * - {@link OAuth2AuthorizationCodeRequestAuthenticationProvider}
+     * - {@link OAuth2AuthorizationConsentAuthenticationProvider}
+     * - {@link OAuth2AuthorizationCodeAuthenticationProvider}
+     * // 此处可以 检查 获取token -> authorization_code_value -> "metadata.token.invalidated":true(检查code是否被使用)
+     * <p>
+     * <p>
+     * - {@link OAuth2RefreshTokenAuthenticationProvider}
+     * - {@link OAuth2ClientCredentialsAuthenticationProvider}
+     * - {@link OAuth2TokenIntrospectionAuthenticationProvider}
+     * - {@link OAuth2TokenRevocationAuthenticationProvider}
+     * - {@link OidcUserInfoAuthenticationProvider}
+     * - {@link JwtAuthenticationProvider}
+     * iii. this.authenticationSuccessHandler.onAuthenticationSuccess(request, response, authenticationResult); 会设置全局login authentication
+     * 其中 AuthenticationSuccessHandler authenticationSuccessHandler = (request, response, authentication) -> onAuthenticationSuccess(request, response, authentication); = this::onAuthenticationSuccess
+     * <p>
+     * <p>
+     * <p>
+     * bearer token 验证
      * {@link  OAuth2ClientAuthenticationFilter}
      * {@link  BearerTokenAuthenticationFilter}
      */
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
-    public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
+    public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http, AuthorizationServerSettings authorizationServerSettings)
             throws Exception {
-        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+        log.info(">>authorizationServerSecurityFilterChain initiated<<");
+        /* OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http); */
+        // ⬇️⬇️⬇️⬇️⬇️⬇️
+        OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer.authorizationServer();
+        http.securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
+            .with(authorizationServerConfigurer, Customizer.withDefaults())
+            .authorizeHttpRequests((authorize) ->
+                    authorize.anyRequest().authenticated()
+            );
+
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-//                .oidc(oidc -> oidc.clientRegistrationEndpoint());// Enable OpenID Connect 1.0
+                // issue see: https://github.com/spring-projects/spring-authorization-server/issues/1116
+                .deviceAuthorizationEndpoint(Customizer.withDefaults())
+                .deviceVerificationEndpoint(endpoint -> endpoint.deviceVerificationResponseHandler(
+                        new SimpleUrlAuthenticationSuccessHandler("/oauth/active?success")
+                ))
+                .clientAuthentication(clientAuthentication -> clientAuthentication
+                        .authenticationConverter(
+                                new DeviceClientAuthenticationConverter(authorizationServerSettings.getDeviceAuthorizationEndpoint())
+                        )
+                        .authenticationProvider(
+                                new DeviceClientAuthenticationProvider(registeredClientRepository())
+                        ))
+                //                .oidc(oidc -> oidc.clientRegistrationEndpoint());// Enable OpenID Connect 1.0
                 .oidc(Customizer.withDefaults());// Enable OpenID Connect 1.0
         // BearerTokenAuthenticationFilter 此配置会添加这个Filter
         http
-                .oauth2ResourceServer(rs -> rs.opaqueToken(Customizer.withDefaults()));
+                // .oauth2ResourceServer(rs -> rs.opaqueToken(Customizer.withDefaults()));
+                .oauth2ResourceServer(rs ->
+                                rs.jwt(Customizer.withDefaults())
+                        // rs.opaqueToken(Customizer.withDefaults())
+                );
 
         http
                 // Redirect to the login page when not authenticated from the
                 // authorization endpoint
                 .exceptionHandling((exceptions) -> exceptions
-                        .authenticationEntryPoint(
-                                new LoginUrlAuthenticationEntryPoint("/oauth/index"))
+                                .authenticationEntryPoint(
+                                        new LoginUrlAuthenticationEntryPoint("/oauth/index"))
                         // .authenticationEntryPoint(exceptionHandler)
                         // .accessDeniedHandler(exceptionHandler)
                         // .exceptionHandling()
@@ -227,7 +258,7 @@ public class AuthorizationServerConfig {
                         // .authenticationEntryPoint(exceptionHandler())
                 )
                 // oauth2Login 用于三方登陆
-//                .oauth2Login(oauth2login -> oauth2login.)
+                //                .oauth2Login(oauth2login -> oauth2login.)
 
                 /*.formLogin(form ->
                         form.loginPage("/oauth/index")
@@ -240,21 +271,15 @@ public class AuthorizationServerConfig {
 
                 // Accept access tokens for User Info and/or Client Registration
                 .addFilterAfter(loginTokenAuthenticationFilter, AnonymousAuthenticationFilter.class)
-                // .addFilterBefore(loginTokenSupportFilter(), BearerTokenAuthenticationFilter.class)
-                // .oauth2ResourceServer(OAuth2ResourceServerConfigurer::opaqueToken)
-                // .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-                // add api validation by token
-                // .securityMatcher(additionalRequestMatcher)
+        // .addFilterBefore(loginTokenSupportFilter(), BearerTokenAuthenticationFilter.class)
+        // .oauth2ResourceServer(OAuth2ResourceServerConfigurer::opaqueToken)
+        // .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+        // add api validation by token
+        // .securityMatcher(additionalRequestMatcher)
 
-        // .authorizeHttpRequests((authorizeRequests) -> {
-        //     authorizeRequests
-        //             .requestMatchers("/api/**")
-        //             .authenticated()
-        //             .anyRequest().authenticated()
-        //     // .and()
-        //     // .securityMatchers((matchers) -> matchers.requestMatchers("/api/**"))
-        //     ;
-        // })
+        // .authorizeHttpRequests(authorizeRequests ->
+        //     authorizeRequests.anyRequest().authenticated()
+        // )
 
 
         // .oauth2ResourceServer(oauth2 -> {
@@ -264,51 +289,51 @@ public class AuthorizationServerConfig {
         return http.build();
 
         /** 备份添加额外api验证
-        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-        OAuth2AuthorizationServerConfigurer serverConfigurer = http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-                // .authorizationConsentService()
-                .oidc(Customizer.withDefaults());// Enable OpenID Connect 1.0
+         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+         OAuth2AuthorizationServerConfigurer serverConfigurer = http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
+         // .authorizationConsentService()
+         .oidc(Customizer.withDefaults());// Enable OpenID Connect 1.0
 
-        RequestMatcher endpointsMatcher = serverConfigurer.getEndpointsMatcher();
-        RequestMatcher additionalRequestMatcher = new OrRequestMatcher(new AntPathRequestMatcher("/api/**"), endpointsMatcher);
+         RequestMatcher endpointsMatcher = serverConfigurer.getEndpointsMatcher();
+         RequestMatcher additionalRequestMatcher = new OrRequestMatcher(new AntPathRequestMatcher("/api/**"), endpointsMatcher);
 
-        // DefaultBearerTokenResolver resolver = new DefaultBearerTokenResolver();
-        // resolver.setAllowFormEncodedBodyParameter(true);
+         // DefaultBearerTokenResolver resolver = new DefaultBearerTokenResolver();
+         // resolver.setAllowFormEncodedBodyParameter(true);
 
-        http
-                // Redirect to the login page when not authenticated from the
-                // authorization endpoint
-                .exceptionHandling((exceptions) -> exceptions
-                        .authenticationEntryPoint(
-                                new LoginUrlAuthenticationEntryPoint("/login"))
-                )
+         http
+         // Redirect to the login page when not authenticated from the
+         // authorization endpoint
+         .exceptionHandling((exceptions) -> exceptions
+         .authenticationEntryPoint(
+         new LoginUrlAuthenticationEntryPoint("/login"))
+         )
 
-                // Accept access tokens for User Info and/or Client Registration
-                .addFilterAfter(loginTokenAuthenticationFilter, AnonymousAuthenticationFilter.class)
-                // .oauth2ResourceServer(OAuth2ResourceServerConfigurer::opaqueToken)
-                // .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-                // add api validation by token
-                .securityMatcher(additionalRequestMatcher)
+         // Accept access tokens for User Info and/or Client Registration
+         .addFilterAfter(loginTokenAuthenticationFilter, AnonymousAuthenticationFilter.class)
+         // .oauth2ResourceServer(OAuth2ResourceServerConfigurer::opaqueToken)
+         // .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+         // add api validation by token
+         .securityMatcher(additionalRequestMatcher)
 
-                // .authorizeHttpRequests((authorizeRequests) -> {
-                //     authorizeRequests
-                //             .requestMatchers("/api/**")
-                //             .authenticated()
-                //             .anyRequest().authenticated()
-                //     // .and()
-                //     // .securityMatchers((matchers) -> matchers.requestMatchers("/api/**"))
-                //     ;
-                // })
-
-
-                // .oauth2ResourceServer(oauth2 -> {
-                //     oauth2.jwt()
-                // })
-
-        ;
+         // .authorizeHttpRequests((authorizeRequests) -> {
+         //     authorizeRequests
+         //             .requestMatchers("/api/**")
+         //             .authenticated()
+         //             .anyRequest().authenticated()
+         //     // .and()
+         //     // .securityMatchers((matchers) -> matchers.requestMatchers("/api/**"))
+         //     ;
+         // })
 
 
-        return http.build(); */
+         // .oauth2ResourceServer(oauth2 -> {
+         //     oauth2.jwt()
+         // })
+
+         ;
+
+
+         return http.build(); */
     }
 
 /*     @Bean
@@ -323,6 +348,7 @@ public class AuthorizationServerConfig {
         securityContext.setAuthentication(authentication);
         SecurityContextHolder.setContext(securityContext);
     }
+
     @Bean
     @ConditionalOnMissingBean
     public RegisteredClientRepository registeredClientRepository() {
@@ -364,7 +390,8 @@ public class AuthorizationServerConfig {
     /**
      * ClientAuthenticationMethod.CLIENT_SECRET_BASIC ==> {@link ClientSecretBasicAuthenticationConverter}
      * ClientAuthenticationMethod.CLIENT_SECRET_POST ==> {@link ClientSecretPostAuthenticationConverter}
-     *  -> {@link OAuth2AuthorizationCodeAuthenticationProvider}
+     * -> {@link OAuth2AuthorizationCodeAuthenticationProvider}
+     *
      * @param jdbcTemplate
      * @return
      */
@@ -408,18 +435,19 @@ public class AuthorizationServerConfig {
         JWKSet jwkSet = new JWKSet(rsaKey);
         return new ImmutableJWKSet<>(jwkSet);
     }
+
     private static KeyPair generateRsaKey() {
         KeyPair keyPair;
         try {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
             keyPairGenerator.initialize(2048);
             keyPair = keyPairGenerator.generateKeyPair();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new IllegalStateException(ex);
         }
         return keyPair;
     }
+
     @Bean
     public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
         return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
@@ -427,10 +455,11 @@ public class AuthorizationServerConfig {
 
     @Bean
     public OAuth2TokenCustomizer<JwtEncodingContext> buildCustomizer() {
-        OAuth2TokenCustomizer<JwtEncodingContext> customizer = (context) -> {
+        OAuth2TokenCustomizer<JwtEncodingContext> customizer = context -> {
             if (OAuth2TokenType.ACCESS_TOKEN.equals(context.getTokenType())) {
                 context.getClaims().claim("uuid", UUID.randomUUID().toString());
             }
+            context.getJwsHeader().keyId("root-creed-mall");
         };
         return customizer;
     }
@@ -440,6 +469,7 @@ public class AuthorizationServerConfig {
     public OAuth2AuthorizationService authorizationService() {
         return new InMemoryOAuth2AuthorizationService();
     }
+
     @Bean
     @ConditionalOnMissingBean
     public OAuth2AuthorizationConsentService authorizationConsentService() {

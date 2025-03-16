@@ -58,7 +58,8 @@ public class LoginTokenAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
         OAuth2Authorization authorizedClient = null;
-        if (Boolean.TRUE.equals(securityProperties.getMockEnable())) {
+        Authentication contextAuthentication = SecurityFrameworkUtils.getAuthentication();
+        if (Boolean.TRUE.equals(securityProperties.getMockEnable()) && contextAuthentication instanceof BearerTokenAuthentication) {
             BearerTokenAuthentication authentication = (BearerTokenAuthentication) SecurityFrameworkUtils.getAuthentication();
             assert authentication != null;
             authorizedClient = OAuth2Authorization.withRegisteredClient(

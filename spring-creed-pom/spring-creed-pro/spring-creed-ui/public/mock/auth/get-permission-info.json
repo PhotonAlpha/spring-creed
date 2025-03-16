@@ -397,7 +397,7 @@
                       "children": null
                   },
                   {
-                    "name": "授权管理",
+                    "name": "navbar.authManagement",
                     "permission": "",
                     "type": 2,
                     "sort": 2,

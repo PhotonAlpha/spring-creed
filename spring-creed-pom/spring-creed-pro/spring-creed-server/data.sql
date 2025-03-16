@@ -1,0 +1,1532 @@
+DELETE FROM `creed_system_menus`;
+
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1','系统管理', 1, 10, 0, '/system', 'ep:tools', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2','基础设施', 1, 20, 0, '/infra', 'ep:monitor', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('5','OA 示例', 1, 40, 1185, 'oa', 'fa:road', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('100','用户管理', 2, 1, 1, 'user', 'ep:avatar', 'system/user/index', 'SystemUser', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('101','角色管理', 2, 2, 1, 'role', 'ep:user', 'system/role/index', 'SystemRole', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('102','菜单管理X', 2, 3, 1, 'menu', 'ep:menu', 'system/menu/index', 'SystemMenu', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('103','部门管理', 2, 4, 1, 'dept', 'fa:address-card', 'system/dept/index', 'SystemDept', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('104','岗位管理', 2, 5, 1, 'post', 'fa:address-book-o', 'system/post/index', 'SystemPost', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('105','字典管理', 2, 6, 1, 'dict', 'ep:collection', 'system/dict/index', 'SystemDictType', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('106','配置管理', 2, 6, 2, 'config', 'fa:connectdevelop', 'infra/config/index', 'InfraConfig', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('107','通知公告', 2, 8, 1, 'notice', 'ep:message-box', 'system/notice/index', 'SystemNotice', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('108','审计日志', 1, 9, 1, 'log', 'ep:document-copy', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('109','令牌管理', 2, 2, 1261, 'token', 'fa:key', 'system/oauth2/token/index', 'SystemTokenClient', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('110','定时任务', 2, 7, 2, 'job', 'fa-solid:tasks', 'infra/job/index', 'InfraJob', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('111','MySQL 监控', 2, 9, 2, 'druid', 'fa-solid:box', 'infra/druid/index', 'InfraDruid', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('112','Java 监控', 2, 11, 2, 'admin-server', 'ep:coffee-cup', 'infra/server/index', 'InfraAdminServer', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('113','Redis 监控', 2, 10, 2, 'redis', 'fa:reddit-square', 'infra/redis/index', 'InfraRedis', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('114','表单构建', 2, 2, 2, 'build', 'fa:wpforms', 'infra/build/index', 'InfraBuild', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('115','代码生成', 2, 1, 2, 'codegen', 'ep:document-copy', 'infra/codegen/index', 'InfraCodegen', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('116','API 接口文档', 2, 3, 2, 'swagger', 'fa:fighter-jet', 'infra/swagger/index', 'InfraSwagger', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('500','操作日志', 2, 1, 108, 'operate-log', 'ep:position', 'system/operatelog/index', 'SystemOperateLog', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('501','登录日志', 2, 2, 108, 'login-log', 'ep:promotion', 'system/loginlog/index', 'SystemLoginLog', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1001','用户查询', 3, 1, 100, '', '#', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1002','用户新增', 3, 2, 100, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1003','用户修改', 3, 3, 100, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1004','用户删除', 3, 4, 100, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1005','用户导出', 3, 5, 100, '', '#', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1006','用户导入', 3, 6, 100, '', '#', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1007','重置密码', 3, 7, 100, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1008','角色查询', 3, 1, 101, '', '#', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1009','角色新增', 3, 2, 101, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1010','角色修改', 3, 3, 101, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1011','角色删除', 3, 4, 101, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1012','角色导出', 3, 5, 101, '', '#', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1013','菜单查询', 3, 1, 102, '', '#', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1014','菜单新增', 3, 2, 102, '', '#', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1015','菜单修改', 3, 3, 102, '', '#', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1016','菜单删除', 3, 4, 102, '', '#', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1017','部门查询', 3, 1, 103, '', '#', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1018','部门新增', 3, 2, 103, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1019','部门修改', 3, 3, 103, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1020','部门删除', 3, 4, 103, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1021','岗位查询', 3, 1, 104, '', '#', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1022','岗位新增', 3, 2, 104, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1023','岗位修改', 3, 3, 104, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1024','岗位删除', 3, 4, 104, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1025','岗位导出', 3, 5, 104, '', '#', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1026','字典查询', 3, 1, 105, '#', '#', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1027','字典新增', 3, 2, 105, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1028','字典修改', 3, 3, 105, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1029','字典删除', 3, 4, 105, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1030','字典导出', 3, 5, 105, '#', '#', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1031','配置查询', 3, 1, 106, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1032','配置新增', 3, 2, 106, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1033','配置修改', 3, 3, 106, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1034','配置删除', 3, 4, 106, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1035','配置导出', 3, 5, 106, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1036','公告查询', 3, 1, 107, '#', '#', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1037','公告新增', 3, 2, 107, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1038','公告修改', 3, 3, 107, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1039','公告删除', 3, 4, 107, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1040','操作查询', 3, 1, 500, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1042','日志导出', 3, 2, 500, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1043','登录查询', 3, 1, 501, '#', '#', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1045','日志导出', 3, 3, 501, '#', '#', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1046','令牌列表', 3, 1, 109, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1048','令牌删除', 3, 2, 109, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1050','任务新增', 3, 2, 110, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1051','任务修改', 3, 3, 110, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1052','任务删除', 3, 4, 110, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1053','状态修改', 3, 5, 110, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1054','任务导出', 3, 7, 110, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1056','生成修改', 3, 2, 115, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1057','生成删除', 3, 3, 115, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1058','导入代码', 3, 2, 115, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1059','预览代码', 3, 4, 115, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1060','生成代码', 3, 5, 115, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1063','设置角色菜单权限', 3, 6, 101, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1064','设置角色数据权限', 3, 7, 101, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1065','设置用户角色', 3, 8, 101, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1066','获得 Redis 监控信息', 3, 1, 113, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1067','获得 Redis Key 列表', 3, 2, 113, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1070','代码生成案例', 1, 1, 2, 'demo', 'ep:aim', 'infra/testDemo/index', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1075','任务触发', 3, 8, 110, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1076','数据库文档', 2, 4, 2, 'db-doc', 'fa:table', 'infra/dbDoc/index', 'InfraDBDoc', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1077','监控平台', 2, 13, 2, 'skywalking', 'fa:eye', 'infra/skywalking/index', 'InfraSkyWalking', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1078','访问日志', 2, 1, 1083, 'api-access-log', 'ep:place', 'infra/apiAccessLog/index', 'InfraApiAccessLog', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1082','日志导出', 3, 2, 1078, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1083','API 日志', 2, 8, 2, 'log', 'fa:tasks', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1084','错误日志', 2, 2, 1083, 'api-error-log', 'ep:warning-filled', 'infra/apiErrorLog/index', 'InfraApiErrorLog', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1085','日志处理', 3, 2, 1084, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1086','日志导出', 3, 3, 1084, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1087','任务查询', 3, 1, 110, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1088','日志查询', 3, 1, 1078, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1089','日志查询', 3, 1, 1084, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1090','文件列表', 2, 5, 1243, 'file', 'ep:upload-filled', 'infra/file/index', 'InfraFile', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1091','文件查询', 3, 1, 1090, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1092','文件删除', 3, 4, 1090, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1093','短信管理', 1, 11, 1, 'sms', 'ep:message', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1094','短信渠道', 2, 0, 1093, 'sms-channel', 'fa:stack-exchange', 'system/sms/channel/index', 'SystemSmsChannel', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1095','短信渠道查询', 3, 1, 1094, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1096','短信渠道创建', 3, 2, 1094, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1097','短信渠道更新', 3, 3, 1094, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1098','短信渠道删除', 3, 4, 1094, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1100','短信模板', 2, 1, 1093, 'sms-template', 'ep:connection', 'system/sms/template/index', 'SystemSmsTemplate', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1101','短信模板查询', 3, 1, 1100, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1102','短信模板创建', 3, 2, 1100, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1103','短信模板更新', 3, 3, 1100, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1104','短信模板删除', 3, 4, 1100, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1105','短信模板导出', 3, 5, 1100, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1106','发送测试短信', 3, 6, 1100, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1107','短信日志', 2, 2, 1093, 'sms-log', 'fa:edit', 'system/sms/log/index', 'SystemSmsLog', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1108','短信日志查询', 3, 1, 1107, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1109','短信日志导出', 3, 5, 1107, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1110','错误码管理', 2, 12, 1, 'error-code', 'fa:bomb', 'system/errorCode/index', 'SystemErrorCode', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1111','错误码查询', 3, 1, 1110, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1112','错误码创建', 3, 2, 1110, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1113','错误码更新', 3, 3, 1110, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1114','错误码删除', 3, 4, 1110, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1115','错误码导出', 3, 5, 1110, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1117','支付管理', 1, 30, 0, '/pay', 'ep:money', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1118','请假查询', 2, 0, 5, 'leave', 'fa:leanpub', 'bpm/oa/leave/index', 'BpmOALeave', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1119','请假申请查询', 3, 1, 1118, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1120','请假申请创建', 3, 2, 1118, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1126','应用信息', 2, 1, 1117, 'app', 'fa:apple', 'pay/app/index', 'PayApp', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1127','支付应用信息查询', 3, 1, 1126, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1128','支付应用信息创建', 3, 2, 1126, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1129','支付应用信息更新', 3, 3, 1126, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1130','支付应用信息删除', 3, 4, 1126, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1132','秘钥解析', 3, 6, 1129, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1133','支付商户信息查询', 3, 1, 1132, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1134','支付商户信息创建', 3, 2, 1132, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1135','支付商户信息更新', 3, 3, 1132, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1136','支付商户信息删除', 3, 4, 1132, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1137','支付商户信息导出', 3, 5, 1132, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1138','租户列表', 2, 0, 1224, 'list', 'ep:house', 'system/tenant/index', 'SystemTenant', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1139','租户查询', 3, 1, 1138, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1140','租户创建', 3, 2, 1138, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1141','租户更新', 3, 3, 1138, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1142','租户删除', 3, 4, 1138, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1143','租户导出', 3, 5, 1138, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1150','秘钥解析', 3, 6, 1129, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1161','退款订单', 2, 3, 1117, 'refund', 'fa:registered', 'pay/refund/index', 'PayRefund', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1162','退款订单查询', 3, 1, 1161, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1163','退款订单创建', 3, 2, 1161, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1164','退款订单更新', 3, 3, 1161, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1165','退款订单删除', 3, 4, 1161, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1166','退款订单导出', 3, 5, 1161, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1173','支付订单', 2, 2, 1117, 'order', 'fa:cc-paypal', 'pay/order/index', 'PayOrder', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1174','支付订单查询', 3, 1, 1173, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1175','支付订单创建', 3, 2, 1173, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1176','支付订单更新', 3, 3, 1173, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1177','支付订单删除', 3, 4, 1173, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1178','支付订单导出', 3, 5, 1173, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1185','工作流程', 1, 50, 0, '/bpm', 'fa:medium', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1186','流程管理', 1, 10, 1185, 'manager', 'fa:dedent', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1187','流程表单', 2, 0, 1186, 'form', 'fa:hdd-o', 'bpm/form/index', 'BpmForm', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1188','表单查询', 3, 1, 1187, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1189','表单创建', 3, 2, 1187, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1190','表单更新', 3, 3, 1187, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1191','表单删除', 3, 4, 1187, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1192','表单导出', 3, 5, 1187, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1193','流程模型', 2, 5, 1186, 'model', 'fa-solid:project-diagram', 'bpm/model/index', 'BpmModel', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1194','模型查询', 3, 1, 1193, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1195','模型创建', 3, 2, 1193, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1196','模型导入', 3, 3, 1193, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1197','模型更新', 3, 4, 1193, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1198','模型删除', 3, 5, 1193, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1199','模型发布', 3, 6, 1193, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1200','任务管理', 2, 20, 1185, 'task', 'fa:tasks', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1201','我的流程', 2, 0, 1200, 'my', 'fa-solid:book', 'bpm/processInstance/index', 'BpmProcessInstance', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1202','流程实例的查询', 3, 1, 1201, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1207','待办任务', 2, 10, 1200, 'todo', 'fa:slack', 'bpm/task/todo/index', 'BpmTodoTask', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1208','已办任务', 2, 20, 1200, 'done', 'fa:delicious', 'bpm/task/done/index', 'BpmDoneTask', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1209','用户分组', 2, 2, 1186, 'user-group', 'fa:user-secret', 'bpm/group/index', 'BpmUserGroup', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1210','用户组查询', 3, 1, 1209, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1211','用户组创建', 3, 2, 1209, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1212','用户组更新', 3, 3, 1209, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1213','用户组删除', 3, 4, 1209, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1215','流程定义查询', 3, 10, 1193, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1216','流程任务分配规则查询', 3, 20, 1193, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1217','流程任务分配规则创建', 3, 21, 1193, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1218','流程任务分配规则更新', 3, 22, 1193, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1219','流程实例的创建', 3, 2, 1201, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1220','流程实例的取消', 3, 3, 1201, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1221','流程任务的查询', 3, 1, 1207, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1222','流程任务的更新', 3, 2, 1207, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1224','租户管理', 2, 0, 1, 'tenant', 'fa-solid:house-user', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1225','租户套餐', 2, 0, 1224, 'package', 'fa:bars', 'system/tenantPackage/index', 'SystemTenantPackage', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1226','租户套餐查询', 3, 1, 1225, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1227','租户套餐创建', 3, 2, 1225, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1228','租户套餐更新', 3, 3, 1225, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1229','租户套餐删除', 3, 4, 1225, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1237','文件配置', 2, 0, 1243, 'file-config', 'fa-solid:file-signature', 'infra/fileConfig/index', 'InfraFileConfig', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1238','文件配置查询', 3, 1, 1237, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1239','文件配置创建', 3, 2, 1237, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1240','文件配置更新', 3, 3, 1237, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1241','文件配置删除', 3, 4, 1237, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1242','文件配置导出', 3, 5, 1237, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1243','文件管理', 2, 5, 2, 'file', 'ep:files', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1247','敏感词管理', 2, 13, 1, 'sensitive-word', 'fa:intersex', 'system/sensitiveWord/index', 'SystemSensitiveWord', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1248','敏感词查询', 3, 1, 1247, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1249','敏感词创建', 3, 2, 1247, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1250','敏感词更新', 3, 3, 1247, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1251','敏感词删除', 3, 4, 1247, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1252','敏感词导出', 3, 5, 1247, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1254','作者动态', 1, 0, 0, 'https://www.iocoder.cn', 'ep:avatar', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1255','数据源配置', 2, 1, 2, 'data-source-config', 'ep:data-analysis', 'infra/dataSourceConfig/index', 'InfraDataSourceConfig', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1256','数据源配置查询', 3, 1, 1255, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1257','数据源配置创建', 3, 2, 1255, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1258','数据源配置更新', 3, 3, 1255, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1259','数据源配置删除', 3, 4, 1255, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1260','数据源配置导出', 3, 5, 1255, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1261','OAuth 2.0', 2, 10, 1, 'oauth2', 'fa:dashcube', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1263','应用管理', 2, 0, 1261, 'oauth2/application', 'fa:hdd-o', 'system/oauth2/client/index', 'SystemOAuth2Client', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1264','客户端查询', 3, 1, 1263, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1265','客户端创建', 3, 2, 1263, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1266','客户端更新', 3, 3, 1263, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1267','客户端删除', 3, 4, 1263, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1281','报表管理', 2, 40, 0, '/report', 'ep:pie-chart', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('1282','报表设计器', 2, 1, 1281, 'jimu-report', 'ep:trend-charts', 'report/jmreport/index', 'GoView', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2000','商品中心', 1, 60, 2362, 'product', 'fa:product-hunt', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2002','商品分类', 2, 2, 2000, 'category', 'ep:cellphone', 'mall/product/category/index', 'ProductCategory', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2003','分类查询', 3, 1, 2002, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2004','分类创建', 3, 2, 2002, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2005','分类更新', 3, 3, 2002, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2006','分类删除', 3, 4, 2002, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2008','商品品牌', 2, 3, 2000, 'brand', 'ep:chicken', 'mall/product/brand/index', 'ProductBrand', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2009','品牌查询', 3, 1, 2008, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2010','品牌创建', 3, 2, 2008, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2011','品牌更新', 3, 3, 2008, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2012','品牌删除', 3, 4, 2008, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2014','商品列表', 2, 1, 2000, 'spu', 'ep:apple', 'mall/product/spu/index', 'ProductSpu', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2015','商品查询', 3, 1, 2014, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2016','商品创建', 3, 2, 2014, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2017','商品更新', 3, 3, 2014, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2018','商品删除', 3, 4, 2014, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2019','商品属性', 2, 4, 2000, 'property', 'ep:cold-drink', 'mall/product/property/index', 'ProductProperty', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2020','规格查询', 3, 1, 2019, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2021','规格创建', 3, 2, 2019, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2022','规格更新', 3, 3, 2019, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2023','规格删除', 3, 4, 2019, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2025','Banner', 2, 100, 2387, 'banner', 'fa:bandcamp', 'mall/promotion/banner/index', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2026','Banner查询', 3, 1, 2025, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2027','Banner创建', 3, 2, 2025, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2028','Banner更新', 3, 3, 2025, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2029','Banner删除', 3, 4, 2025, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2030','营销中心', 1, 70, 2362, 'promotion', 'ep:present', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2032','优惠劵列表', 2, 1, 2365, 'template', 'ep:discount', 'mall/promotion/coupon/template/index', 'PromotionCouponTemplate', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2033','优惠劵模板查询', 3, 1, 2032, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2034','优惠劵模板创建', 3, 2, 2032, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2035','优惠劵模板更新', 3, 3, 2032, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2036','优惠劵模板删除', 3, 4, 2032, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2038','领取记录', 2, 2, 2365, 'list', 'ep:collection-tag', 'mall/promotion/coupon/index', 'PromotionCoupon', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2039','优惠劵查询', 3, 1, 2038, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2040','优惠劵删除', 3, 4, 2038, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2041','满减送', 2, 10, 2390, 'reward-activity', 'ep:goblet-square-full', 'mall/promotion/rewardActivity/index', 'PromotionRewardActivity', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2042','满减送活动查询', 3, 1, 2041, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2043','满减送活动创建', 3, 2, 2041, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2044','满减送活动更新', 3, 3, 2041, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2045','满减送活动删除', 3, 4, 2041, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2046','满减送活动关闭', 3, 5, 2041, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2047','限时折扣', 2, 7, 2390, 'discount-activity', 'ep:timer', 'mall/promotion/discountActivity/index', 'PromotionDiscountActivity', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2048','限时折扣活动查询', 3, 1, 2047, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2049','限时折扣活动创建', 3, 2, 2047, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2050','限时折扣活动更新', 3, 3, 2047, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2051','限时折扣活动删除', 3, 4, 2047, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2052','限时折扣活动关闭', 3, 5, 2047, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2059','秒杀商品', 2, 2, 2209, 'activity', 'ep:basketball', 'mall/promotion/seckill/activity/index', 'PromotionSeckillActivity', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2060','秒杀活动查询', 3, 1, 2059, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2061','秒杀活动创建', 3, 2, 2059, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2062','秒杀活动更新', 3, 3, 2059, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2063','秒杀活动删除', 3, 4, 2059, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2066','秒杀时段', 2, 1, 2209, 'config', 'ep:baseball', 'mall/promotion/seckill/config/index', 'PromotionSeckillConfig', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2067','秒杀时段查询', 3, 1, 2066, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2068','秒杀时段创建', 3, 2, 2066, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2069','秒杀时段更新', 3, 3, 2066, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2070','秒杀时段删除', 3, 4, 2066, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2072','订单中心', 1, 65, 2362, 'trade', 'ep:eleme', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2073','售后退款', 2, 2, 2072, 'after-sale', 'ep:refrigerator', 'mall/trade/afterSale/index', 'TradeAfterSale', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2074','售后查询', 3, 1, 2073, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2075','秒杀活动关闭', 3, 5, 2059, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2076','订单列表', 2, 1, 2072, 'order', 'ep:list', 'mall/trade/order/index', 'TradeOrder', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2083','地区管理', 2, 14, 1, 'area', 'fa:map-marker', 'system/area/index', 'SystemArea', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2084','公众号管理', 1, 100, 0, '/mp', 'ep:compass', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2085','账号管理', 2, 1, 2084, 'account', 'fa:user', 'mp/account/index', 'MpAccount', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2086','新增账号', 3, 1, 2085, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2087','修改账号', 3, 2, 2085, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2088','查询账号', 3, 0, 2085, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2089','删除账号', 3, 3, 2085, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2090','生成二维码', 3, 4, 2085, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2091','清空 API 配额', 3, 5, 2085, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2092','数据统计', 2, 2, 2084, 'statistics', 'ep:trend-charts', 'mp/statistics/index', 'MpStatistics', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2093','标签管理', 2, 3, 2084, 'tag', 'ep:collection-tag', 'mp/tag/index', 'MpTag', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2094','查询标签', 3, 0, 2093, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2095','新增标签', 3, 1, 2093, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2096','修改标签', 3, 2, 2093, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2097','删除标签', 3, 3, 2093, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2098','同步标签', 3, 4, 2093, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2099','粉丝管理', 2, 4, 2084, 'user', 'fa:user-secret', 'mp/user/index', 'MpUser', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2100','查询粉丝', 3, 0, 2099, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2101','修改粉丝', 3, 1, 2099, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2102','同步粉丝', 3, 2, 2099, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2103','消息管理', 2, 5, 2084, 'message', 'ep:message', 'mp/message/index', 'MpMessage', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2104','图文发表记录', 2, 10, 2084, 'free-publish', 'ep:edit-pen', 'mp/freePublish/index', 'MpFreePublish', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2105','查询发布列表', 3, 1, 2104, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2106','发布草稿', 3, 2, 2104, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2107','删除发布记录', 3, 3, 2104, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2108','图文草稿箱', 2, 9, 2084, 'draft', 'ep:edit', 'mp/draft/index', 'MpDraft', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2109','新建草稿', 3, 1, 2108, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2110','修改草稿', 3, 2, 2108, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2111','查询草稿', 3, 0, 2108, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2112','删除草稿', 3, 3, 2108, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2113','素材管理', 2, 8, 2084, 'material', 'ep:basketball', 'mp/material/index', 'MpMaterial', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2114','上传临时素材', 3, 1, 2113, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2115','上传永久素材', 3, 2, 2113, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2116','删除素材', 3, 3, 2113, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2117','上传图文图片', 3, 4, 2113, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2118','查询素材', 3, 5, 2113, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2119','菜单管理', 2, 6, 2084, 'menu', 'ep:menu', 'mp/menu/index', 'MpMenu', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2120','自动回复', 2, 7, 2084, 'auto-reply', 'fa-solid:republican', 'mp/autoReply/index', 'MpAutoReply', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2121','查询回复', 3, 0, 2120, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2122','新增回复', 3, 1, 2120, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2123','修改回复', 3, 2, 2120, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2124','删除回复', 3, 3, 2120, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2125','查询菜单', 3, 0, 2119, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2126','保存菜单', 3, 1, 2119, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2127','删除菜单', 3, 2, 2119, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2128','查询消息', 3, 0, 2103, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2129','发送消息', 3, 1, 2103, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2130','邮箱管理', 2, 11, 1, 'mail', 'fa-solid:mail-bulk', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2131','邮箱账号', 2, 0, 2130, 'mail-account', 'fa:universal-access', 'system/mail/account/index', 'SystemMailAccount', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2132','账号查询', 3, 1, 2131, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2133','账号创建', 3, 2, 2131, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2134','账号更新', 3, 3, 2131, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2135','账号删除', 3, 4, 2131, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2136','邮件模版', 2, 0, 2130, 'mail-template', 'fa:tag', 'system/mail/template/index', 'SystemMailTemplate', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2137','模版查询', 3, 1, 2136, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2138','模版创建', 3, 2, 2136, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2139','模版更新', 3, 3, 2136, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2140','模版删除', 3, 4, 2136, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2141','邮件记录', 2, 0, 2130, 'mail-log', 'fa:edit', 'system/mail/log/index', 'SystemMailLog', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2142','日志查询', 3, 1, 2141, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2143','发送测试邮件', 3, 5, 2136, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2144','站内信管理', 1, 11, 1, 'notify', 'ep:message-box', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2145','模板管理', 2, 0, 2144, 'notify-template', 'fa:archive', 'system/notify/template/index', 'SystemNotifyTemplate', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2146','站内信模板查询', 3, 1, 2145, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2147','站内信模板创建', 3, 2, 2145, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2148','站内信模板更新', 3, 3, 2145, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2149','站内信模板删除', 3, 4, 2145, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2150','发送测试站内信', 3, 5, 2145, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2151','消息记录', 2, 0, 2144, 'notify-message', 'fa:edit', 'system/notify/message/index', 'SystemNotifyMessage', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2152','站内信消息查询', 3, 1, 2151, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2153','大屏设计器', 2, 2, 1281, 'go-view', 'fa:area-chart', 'report/goview/index', 'JimuReport', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2154','创建项目', 3, 1, 2153, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2155','更新项目', 3, 2, 2153, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2156','查询项目', 3, 0, 2153, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2157','使用 SQL 查询数据', 3, 3, 2153, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2158','使用 HTTP 查询数据', 3, 4, 2153, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2159','Boot 开发文档', 1, 1, 0, 'https://doc.iocoder.cn/', 'ep:document', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2160','Cloud 开发文档', 1, 2, 0, 'https://cloud.iocoder.cn', 'ep:document-copy', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2161','接入示例', 1, 99, 1117, 'demo', 'fa-solid:dragon', 'pay/demo/index', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2162','商品导出', 3, 5, 2014, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2164','配送管理', 1, 3, 2072, 'delivery', 'ep:shopping-cart', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2165','快递发货', 1, 0, 2164, 'express', 'ep:bicycle', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2166','门店自提', 1, 1, 2164, 'pick-up-store', 'ep:add-location', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2167','快递公司', 2, 0, 2165, 'express', 'ep:compass', 'mall/trade/delivery/express/index', 'Express', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2168','快递公司查询', 3, 1, 2167, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2169','快递公司创建', 3, 2, 2167, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2170','快递公司更新', 3, 3, 2167, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2171','快递公司删除', 3, 4, 2167, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2172','快递公司导出', 3, 5, 2167, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2173','运费模版', 2, 1, 2165, 'express-template', 'ep:coordinate', 'mall/trade/delivery/expressTemplate/index', 'ExpressTemplate', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2174','快递运费模板查询', 3, 1, 2173, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2175','快递运费模板创建', 3, 2, 2173, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2176','快递运费模板更新', 3, 3, 2173, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2177','快递运费模板删除', 3, 4, 2173, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2178','快递运费模板导出', 3, 5, 2173, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2179','门店管理', 2, 1, 2166, 'pick-up-store', 'ep:basketball', 'mall/trade/delivery/pickUpStore/index', 'PickUpStore', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2180','自提门店查询', 3, 1, 2179, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2181','自提门店创建', 3, 2, 2179, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2182','自提门店更新', 3, 3, 2179, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2183','自提门店删除', 3, 4, 2179, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2184','自提门店导出', 3, 5, 2179, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2209','秒杀活动', 2, 3, 2030, 'seckill', 'ep:place', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2262','会员中心', 1, 55, 0, '/member', 'ep:bicycle', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2275','会员配置', 2, 0, 2262, 'config', 'fa:archive', 'member/config/index', 'MemberConfig', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2276','积分设置查询', 3, 1, 2275, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2277','积分设置创建', 3, 2, 2275, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2281','签到配置', 2, 2, 2300, 'config', 'ep:calendar', 'member/signin/config/index', 'SignInConfig', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2282','积分签到规则查询', 3, 1, 2281, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2283','积分签到规则创建', 3, 2, 2281, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2284','积分签到规则更新', 3, 3, 2281, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2285','积分签到规则删除', 3, 4, 2281, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2287','会员积分', 2, 10, 2262, 'record', 'fa:asterisk', 'member/point/record/index', 'PointRecord', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2288','用户积分记录查询', 3, 1, 2287, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2293','签到记录', 2, 3, 2300, 'record', 'ep:chicken', 'member/signin/record/index', 'SignInRecord', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2294','用户签到积分查询', 3, 1, 2293, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2297','用户签到积分删除', 3, 4, 2293, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2300','会员签到', 1, 11, 2262, 'signin', 'ep:alarm-clock', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2301','回调通知', 2, 5, 1117, 'notify', 'ep:mute-notification', 'pay/notify/index', 'PayNotify', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2302','支付通知查询', 3, 1, 2301, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2303','拼团活动', 2, 3, 2030, 'combination', 'fa:group', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2304','拼团商品', 2, 1, 2303, 'acitivity', 'ep:apple', 'mall/promotion/combination/activity/index', 'PromotionCombinationActivity', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2305','拼团活动查询', 3, 1, 2304, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2306','拼团活动创建', 3, 2, 2304, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2307','拼团活动更新', 3, 3, 2304, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2308','拼团活动删除', 3, 4, 2304, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2309','拼团活动关闭', 3, 5, 2304, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2310','砍价活动', 2, 4, 2030, 'bargain', 'ep:box', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2311','砍价商品', 2, 1, 2310, 'activity', 'ep:burger', 'mall/promotion/bargain/activity/index', 'PromotionBargainActivity', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2312','砍价活动查询', 3, 1, 2311, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2313','砍价活动创建', 3, 2, 2311, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2314','砍价活动更新', 3, 3, 2311, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2315','砍价活动删除', 3, 4, 2311, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2316','砍价活动关闭', 3, 5, 2311, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2317','会员管理', 2, 0, 2262, 'user', 'ep:avatar', 'member/user/index', 'MemberUser', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2318','会员用户查询', 3, 1, 2317, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2319','会员用户更新', 3, 3, 2317, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2320','会员标签', 2, 1, 2262, 'tag', 'ep:collection-tag', 'member/tag/index', 'MemberTag', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2321','会员标签查询', 3, 1, 2320, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2322','会员标签创建', 3, 2, 2320, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2323','会员标签更新', 3, 3, 2320, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2324','会员标签删除', 3, 4, 2320, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2325','会员等级', 2, 2, 2262, 'level', 'fa:level-up', 'member/level/index', 'MemberLevel', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2326','会员等级查询', 3, 1, 2325, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2327','会员等级创建', 3, 2, 2325, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2328','会员等级更新', 3, 3, 2325, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2329','会员等级删除', 3, 4, 2325, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2330','会员分组', 2, 3, 2262, 'group', 'fa:group', 'member/group/index', 'MemberGroup', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2331','用户分组查询', 3, 1, 2330, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2332','用户分组创建', 3, 2, 2330, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2333','用户分组更新', 3, 3, 2330, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2334','用户分组删除', 3, 4, 2330, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2335','用户等级修改', 3, 5, 2317, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2336','商品评论', 2, 5, 2000, 'comment', 'ep:comment', 'mall/product/comment/index', 'ProductComment', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2337','评论查询', 3, 1, 2336, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2338','添加自评', 3, 2, 2336, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2339','商家回复', 3, 3, 2336, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2340','显隐评论', 3, 4, 2336, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2341','优惠劵发送', 3, 2, 2038, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2342','交易配置', 2, 0, 2072, 'config', 'ep:setting', 'mall/trade/config/index', 'TradeConfig', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2343','交易中心配置查询', 3, 1, 2342, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2344','交易中心配置保存', 3, 2, 2342, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2345','分销管理', 1, 4, 2072, 'brokerage', 'fa-solid:project-diagram', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2346','分销用户', 2, 0, 2345, 'brokerage-user', 'fa-solid:user-tie', 'mall/trade/brokerage/user/index', 'TradeBrokerageUser', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2347','分销用户查询', 3, 1, 2346, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2348','分销用户推广人查询', 3, 2, 2346, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2349','分销用户推广订单查询', 3, 3, 2346, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2350','分销用户修改推广资格', 3, 4, 2346, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2351','分销用户修改推广员', 3, 5, 2346, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2352','分销用户清除推广员', 3, 6, 2346, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2353','佣金记录', 2, 1, 2345, 'brokerage-record', 'fa:money', 'mall/trade/brokerage/record/index', 'TradeBrokerageRecord', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2354','佣金记录查询', 3, 1, 2353, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2355','佣金提现', 2, 2, 2345, 'brokerage-withdraw', 'fa:credit-card', 'mall/trade/brokerage/withdraw/index', 'TradeBrokerageWithdraw', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2356','佣金提现查询', 3, 1, 2355, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2357','佣金提现审核', 3, 2, 2355, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2358','统计中心', 1, 75, 2362, 'statistics', 'ep:data-line', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2359','交易统计', 2, 4, 2358, 'trade', 'fa-solid:credit-card', 'mall/statistics/trade/index', 'TradeStatistics', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2360','交易统计查询', 3, 1, 2359, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2361','交易统计导出', 3, 2, 2359, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2362','商城系统', 1, 59, 0, '/mall', 'ep:shop', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2363','用户积分修改', 3, 6, 2317, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2364','用户余额修改', 3, 7, 2317, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2365','优惠劵', 1, 2, 2030, 'coupon', 'fa-solid:disease', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2366','砍价记录', 2, 2, 2310, 'record', 'ep:list', 'mall/promotion/bargain/record/index', 'PromotionBargainRecord', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2367','砍价记录查询', 3, 1, 2366, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2368','助力记录查询', 3, 2, 2366, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2369','拼团记录', 2, 2, 2303, 'record', 'ep:avatar', 'mall/promotion/combination/record/index.vue', 'PromotionCombinationRecord', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2374','会员统计', 2, 2, 2358, 'member', 'ep:avatar', 'mall/statistics/member/index', 'MemberStatistics', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2375','会员统计查询', 3, 1, 2374, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2376','订单核销', 3, 10, 2076, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2377','文章分类', 2, 0, 2387, 'article/category', 'fa:certificate', 'mall/promotion/article/category/index', 'ArticleCategory', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2378','分类查询', 3, 1, 2377, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2379','分类创建', 3, 2, 2377, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2380','分类更新', 3, 3, 2377, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2381','分类删除', 3, 4, 2377, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2382','文章列表', 2, 2, 2387, 'article', 'ep:connection', 'mall/promotion/article/index', 'Article', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2383','文章管理查询', 3, 1, 2382, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2384','文章管理创建', 3, 2, 2382, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2385','文章管理更新', 3, 3, 2382, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2386','文章管理删除', 3, 4, 2382, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2387','内容管理', 1, 1, 2030, 'content', 'ep:collection', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2388','商城首页', 2, 1, 2362, 'home', 'ep:home-filled', 'mall/home/index', 'MallHome', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2389','核销订单', 2, 2, 2166, 'pick-up-order', 'ep:list', 'mall/trade/delivery/pickUpOrder/index', 'PickUpOrder', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2390','优惠活动', 1, 99, 2030, 'youhui', 'ep:aim', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2391','客户管理', 2, 10, 2397, 'customer', 'fa:address-book-o', 'crm/customer/index', 'CrmCustomer', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2392','客户查询', 3, 1, 2391, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2393','客户创建', 3, 2, 2391, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2394','客户更新', 3, 3, 2391, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2395','客户删除', 3, 4, 2391, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2396','客户导出', 3, 5, 2391, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2397','CRM 系统', 1, 200, 0, '/crm', 'ep:avatar', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2398','合同管理', 2, 50, 2397, 'contract', 'ep:notebook', 'crm/contract/index', 'CrmContract', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2399','合同查询', 3, 1, 2398, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2400','合同创建', 3, 2, 2398, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2401','合同更新', 3, 3, 2398, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2402','合同删除', 3, 4, 2398, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2403','合同导出', 3, 5, 2398, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2404','线索管理', 2, 8, 2397, 'clue', 'fa:pagelines', 'crm/clue/index', 'CrmClue', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2405','线索查询', 3, 1, 2404, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2406','线索创建', 3, 2, 2404, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2407','线索更新', 3, 3, 2404, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2408','线索删除', 3, 4, 2404, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2409','线索导出', 3, 5, 2404, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2410','商机管理', 2, 40, 2397, 'business', 'fa:bus', 'crm/business/index', 'CrmBusiness', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2411','商机查询', 3, 1, 2410, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2412','商机创建', 3, 2, 2410, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2413','商机更新', 3, 3, 2410, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2414','商机删除', 3, 4, 2410, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2415','商机导出', 3, 5, 2410, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2416','联系人管理', 2, 20, 2397, 'contact', 'fa:address-book-o', 'crm/contact/index', 'CrmContact', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2417','联系人查询', 3, 1, 2416, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2418','联系人创建', 3, 2, 2416, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2419','联系人更新', 3, 3, 2416, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2420','联系人删除', 3, 4, 2416, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2421','联系人导出', 3, 5, 2416, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2422','回款管理', 2, 60, 2397, 'receivable', 'ep:money', 'crm/receivable/index', 'CrmReceivable', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2423','回款管理查询', 3, 1, 2422, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2424','回款管理创建', 3, 2, 2422, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2425','回款管理更新', 3, 3, 2422, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2426','回款管理删除', 3, 4, 2422, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2427','回款管理导出', 3, 5, 2422, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2428','回款计划', 2, 61, 2397, 'receivable-plan', 'fa:money', 'crm/receivable/plan/index', 'CrmReceivablePlan', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2429','回款计划查询', 3, 1, 2428, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2430','回款计划创建', 3, 2, 2428, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2431','回款计划更新', 3, 3, 2428, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2432','回款计划删除', 3, 4, 2428, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2433','回款计划导出', 3, 5, 2428, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2435','商城装修', 2, 20, 2030, 'diy-template', 'fa6-solid:brush', 'mall/promotion/diy/template/index', 'DiyTemplate', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2436','装修模板', 2, 1, 2435, 'diy-template', 'fa6-solid:brush', 'mall/promotion/diy/template/index', 'DiyTemplate', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2437','装修模板查询', 3, 1, 2436, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2438','装修模板创建', 3, 2, 2436, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2439','装修模板更新', 3, 3, 2436, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2440','装修模板删除', 3, 4, 2436, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2441','装修模板使用', 3, 5, 2436, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2442','装修页面', 2, 2, 2435, 'diy-page', 'foundation:page-edit', 'mall/promotion/diy/page/index', 'DiyPage', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2443','装修页面查询', 3, 1, 2442, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2444','装修页面创建', 3, 2, 2442, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2445','装修页面更新', 3, 3, 2442, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2446','装修页面删除', 3, 4, 2442, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2447','三方登录', 1, 10, 1, 'social', 'fa:rocket', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2448','三方应用', 2, 1, 2447, 'client', 'ep:set-up', 'views/system/social/client/index.vue', 'SocialClient', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2449','三方应用查询', 3, 1, 2448, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2450','三方应用创建', 3, 2, 2448, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2451','三方应用更新', 3, 3, 2448, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2452','三方应用删除', 3, 4, 2448, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2453','三方用户', 2, 2, 2447, 'user', 'ep:avatar', 'system/social/user/index.vue', 'SocialUser', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2472','主子表（内嵌）', 2, 12, 1070, 'demo03-inner', 'fa:power-off', 'infra/demo/demo03/inner/index', 'Demo03StudentInner', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2478','单表（增删改查）', 2, 1, 1070, 'demo01-contact', 'ep:bicycle', 'infra/demo/demo01/index', 'Demo01Contact', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2479','示例联系人查询', 3, 1, 2478, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2480','示例联系人创建', 3, 2, 2478, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2481','示例联系人更新', 3, 3, 2478, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2482','示例联系人删除', 3, 4, 2478, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2483','示例联系人导出', 3, 5, 2478, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2484','树表（增删改查）', 2, 2, 1070, 'demo02-category', 'fa:tree', 'infra/demo/demo02/index', 'Demo02Category', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2485','示例分类查询', 3, 1, 2484, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2486','示例分类创建', 3, 2, 2484, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2487','示例分类更新', 3, 3, 2484, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2488','示例分类删除', 3, 4, 2484, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2489','示例分类导出', 3, 5, 2484, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2490','主子表（标准）', 2, 10, 1070, 'demo03-normal', 'fa:battery-3', 'infra/demo/demo03/normal/index', 'Demo03StudentNormal', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2491','学生查询', 3, 1, 2490, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2492','学生创建', 3, 2, 2490, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2493','学生更新', 3, 3, 2490, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2494','学生删除', 3, 4, 2490, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2495','学生导出', 3, 5, 2490, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2497','主子表（ERP）', 2, 11, 1070, 'demo03-erp', 'ep:calendar', 'infra/demo/demo03/erp/index', 'Demo03StudentERP', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2516','客户公海配置', 2, 0, 2524, 'customer-pool-config', 'ep:data-analysis', 'crm/customer/poolConfig/index', 'CrmCustomerPoolConfig', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2517','客户公海配置保存', 3, 1, 2516, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2518','客户限制配置', 2, 1, 2524, 'customer-limit-config', 'ep:avatar', 'crm/customer/limitConfig/index', 'CrmCustomerLimitConfig', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2519','客户限制配置查询', 3, 1, 2518, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2520','客户限制配置创建', 3, 2, 2518, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2521','客户限制配置更新', 3, 3, 2518, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2522','客户限制配置删除', 3, 4, 2518, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2523','客户限制配置导出', 3, 5, 2518, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2524','系统配置', 1, 999, 2397, 'config', 'ep:connection', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2525','WebSocket 测试', 2, 7, 2, 'websocket', 'ep:connection', 'infra/webSocket/index', 'InfraWebSocket', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2526','产品管理', 2, 80, 2397, 'product', 'fa:product-hunt', 'crm/product/index', 'CrmProduct', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2527','产品查询', 3, 1, 2526, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2528','产品创建', 3, 2, 2526, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2529','产品更新', 3, 3, 2526, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2530','产品删除', 3, 4, 2526, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2531','产品导出', 3, 5, 2526, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2532','产品分类配置', 2, 3, 2524, 'product/category', 'fa-solid:window-restore', 'crm/product/category/index', 'CrmProductCategory', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2533','产品分类查询', 3, 1, 2532, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2534','产品分类创建', 3, 2, 2532, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2535','产品分类更新', 3, 3, 2532, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2536','产品分类删除', 3, 4, 2532, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2537','UReport2 报表', 2, 3, 1281, 'ureport-data', 'fa:line-chart', 'report/ureport/index', 'UReportData', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2538','Ureport2报表查询', 3, 1, 2537, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2539','Ureport2报表创建', 3, 2, 2537, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2540','Ureport2报表更新', 3, 3, 2537, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2541','Ureport2报表删除', 3, 4, 2537, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2542','Ureport2报表导出', 3, 5, 2537, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2543','关联商机', 3, 10, 2416, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2544','取关商机', 3, 11, 2416, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2545','商品统计', 2, 3, 2358, 'product', 'fa:product-hunt', 'mall/statistics/product/index', 'ProductStatistics', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2546','客户公海', 2, 30, 2397, 'customer/pool', 'fa-solid:swimming-pool', 'crm/customer/pool/index', 'CrmCustomerPool', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2547','订单查询', 3, 1, 2076, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2548','订单更新', 3, 2, 2076, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2549','支付&退款案例', 2, 1, 2161, 'order', 'fa:paypal', 'pay/demo/order/index', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2550','转账案例', 2, 2, 2161, 'transfer', 'fa:transgender-alt', 'pay/demo/transfer/index', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2551','钱包管理', 1, 4, 1117, 'wallet', 'ep:wallet', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2552','充值套餐', 2, 2, 2551, 'wallet-recharge-package', 'fa:leaf', 'pay/wallet/rechargePackage/index', 'WalletRechargePackage', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2553','钱包充值套餐查询', 3, 1, 2552, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2554','钱包充值套餐创建', 3, 2, 2552, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2555','钱包充值套餐更新', 3, 3, 2552, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2556','钱包充值套餐删除', 3, 4, 2552, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2557','钱包余额', 2, 1, 2551, 'wallet-balance', 'fa:leaf', 'pay/wallet/balance/index', 'WalletBalance', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2558','钱包余额查询', 3, 1, 2557, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2559','转账订单', 2, 3, 1117, 'transfer', 'ep:credit-card', 'pay/transfer/index', 'PayTransfer', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2560','数据统计', 1, 200, 2397, 'statistics', 'ep:data-line', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2561','排行榜', 2, 1, 2560, 'ranking', 'fa:area-chart', 'crm/statistics/rank/index', 'CrmStatisticsRank', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2562','客户导入', 3, 6, 2391, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2563','ERP 系统', 1, 300, 0, '/erp', 'fa-solid:store', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2564','产品管理', 1, 40, 2563, 'product', 'fa:product-hunt', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2565','产品信息', 2, 0, 2564, 'product', 'fa-solid:apple-alt', 'erp/product/product/index', 'ErpProduct', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2566','产品查询', 3, 1, 2565, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2567','产品创建', 3, 2, 2565, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2568','产品更新', 3, 3, 2565, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2569','产品删除', 3, 4, 2565, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2570','产品导出', 3, 5, 2565, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2571','产品分类', 2, 1, 2564, 'product-category', 'fa:certificate', 'erp/product/category/index', 'ErpProductCategory', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2572','分类查询', 3, 1, 2571, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2573','分类创建', 3, 2, 2571, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2574','分类更新', 3, 3, 2571, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2575','分类删除', 3, 4, 2571, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2576','分类导出', 3, 5, 2571, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2577','产品单位', 2, 2, 2564, 'unit', 'ep:opportunity', 'erp/product/unit/index', 'ErpProductUnit', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2578','单位查询', 3, 1, 2577, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2579','单位创建', 3, 2, 2577, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2580','单位更新', 3, 3, 2577, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2581','单位删除', 3, 4, 2577, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2582','单位导出', 3, 5, 2577, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2583','库存管理', 1, 30, 2563, 'stock', 'fa:window-restore', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2584','仓库信息', 2, 0, 2583, 'warehouse', 'ep:house', 'erp/stock/warehouse/index', 'ErpWarehouse', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2585','仓库查询', 3, 1, 2584, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2586','仓库创建', 3, 2, 2584, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2587','仓库更新', 3, 3, 2584, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2588','仓库删除', 3, 4, 2584, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2589','仓库导出', 3, 5, 2584, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2590','产品库存', 2, 1, 2583, 'stock', 'ep:coffee', 'erp/stock/stock/index', 'ErpStock', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2591','库存查询', 3, 1, 2590, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2592','库存导出', 3, 5, 2590, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2593','出入库明细', 2, 2, 2583, 'record', 'fa-solid:blog', 'erp/stock/record/index', 'ErpStockRecord', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2594','库存明细查询', 3, 1, 2593, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2595','库存明细导出', 3, 5, 2593, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2596','其它入库', 2, 3, 2583, 'in', 'ep:zoom-in', 'erp/stock/in/index', 'ErpStockIn', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2597','其它入库单查询', 3, 1, 2596, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2598','其它入库单创建', 3, 2, 2596, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2599','其它入库单更新', 3, 3, 2596, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2600','其它入库单删除', 3, 4, 2596, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2601','其它入库单导出', 3, 5, 2596, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2602','采购管理', 1, 10, 2563, 'purchase', 'fa:buysellads', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2603','供应商信息', 2, 4, 2602, 'supplier', 'fa:superpowers', 'erp/purchase/supplier/index', 'ErpSupplier', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2604','供应商查询', 3, 1, 2603, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2605','供应商创建', 3, 2, 2603, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2606','供应商更新', 3, 3, 2603, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2607','供应商删除', 3, 4, 2603, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2608','供应商导出', 3, 5, 2603, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2609','其它入库单审批', 3, 6, 2596, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2610','其它出库', 2, 4, 2583, 'out', 'ep:zoom-out', 'erp/stock/out/index', 'ErpStockOut', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2611','其它出库单查询', 3, 1, 2610, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2612','其它出库单创建', 3, 2, 2610, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2613','其它出库单更新', 3, 3, 2610, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2614','其它出库单删除', 3, 4, 2610, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2615','其它出库单导出', 3, 5, 2610, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2616','其它出库单审批', 3, 6, 2610, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2617','销售管理', 1, 20, 2563, 'sale', 'fa:sellsy', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2618','客户信息', 2, 4, 2617, 'customer', 'ep:avatar', 'erp/sale/customer/index', 'ErpCustomer', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2619','客户查询', 3, 1, 2618, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2620','客户创建', 3, 2, 2618, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2621','客户更新', 3, 3, 2618, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2622','客户删除', 3, 4, 2618, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2623','客户导出', 3, 5, 2618, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2624','库存调拨', 2, 5, 2583, 'move', 'ep:folder-remove', 'erp/stock/move/index', 'ErpStockMove', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2625','库存调度单查询', 3, 1, 2624, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2626','库存调度单创建', 3, 2, 2624, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2627','库存调度单更新', 3, 3, 2624, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2628','库存调度单删除', 3, 4, 2624, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2629','库存调度单导出', 3, 5, 2624, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2630','库存调度单审批', 3, 6, 2624, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2631','库存盘点', 2, 6, 2583, 'check', 'ep:circle-check-filled', 'erp/stock/check/index', 'ErpStockCheck', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2632','库存盘点单查询', 3, 1, 2631, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2633','库存盘点单创建', 3, 2, 2631, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2634','库存盘点单更新', 3, 3, 2631, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2635','库存盘点单删除', 3, 4, 2631, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2636','库存盘点单导出', 3, 5, 2631, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2637','库存盘点单审批', 3, 6, 2631, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2638','销售订单', 2, 1, 2617, 'order', 'fa:first-order', 'erp/sale/order/index', 'ErpSaleOrder', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2639','销售订单查询', 3, 1, 2638, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2640','销售订单创建', 3, 2, 2638, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2641','销售订单更新', 3, 3, 2638, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2642','销售订单删除', 3, 4, 2638, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2643','销售订单导出', 3, 5, 2638, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2644','销售订单审批', 3, 6, 2638, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2645','财务管理', 1, 50, 2563, 'finance', 'ep:money', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2646','结算账户', 2, 10, 2645, 'account', 'fa:universal-access', 'erp/finance/account/index', 'ErpAccount', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2647','结算账户查询', 3, 1, 2646, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2648','结算账户创建', 3, 2, 2646, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2649','结算账户更新', 3, 3, 2646, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2650','结算账户删除', 3, 4, 2646, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2651','结算账户导出', 3, 5, 2646, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2652','销售出库', 2, 2, 2617, 'out', 'ep:sold-out', 'erp/sale/out/index', 'ErpSaleOut', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2653','销售出库查询', 3, 1, 2652, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2654','销售出库创建', 3, 2, 2652, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2655','销售出库更新', 3, 3, 2652, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2656','销售出库删除', 3, 4, 2652, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2657','销售出库导出', 3, 5, 2652, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2658','销售出库审批', 3, 6, 2652, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2659','销售退货', 2, 3, 2617, 'return', 'fa-solid:bone', 'erp/sale/return/index', 'ErpSaleReturn', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2660','销售退货查询', 3, 1, 2659, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2661','销售退货创建', 3, 2, 2659, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2662','销售退货更新', 3, 3, 2659, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2663','销售退货删除', 3, 4, 2659, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2664','销售退货导出', 3, 5, 2659, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2665','销售退货审批', 3, 6, 2659, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2666','采购订单', 2, 1, 2602, 'order', 'fa-solid:border-all', 'erp/purchase/order/index', 'ErpPurchaseOrder', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2667','采购订单查询', 3, 1, 2666, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2668','采购订单创建', 3, 2, 2666, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2669','采购订单更新', 3, 3, 2666, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2670','采购订单删除', 3, 4, 2666, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2671','采购订单导出', 3, 5, 2666, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2672','采购订单审批', 3, 6, 2666, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2673','采购入库', 2, 2, 2602, 'in', 'fa-solid:gopuram', 'erp/purchase/in/index', 'ErpPurchaseIn', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2674','采购入库查询', 3, 1, 2673, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2675','采购入库创建', 3, 2, 2673, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2676','采购入库更新', 3, 3, 2673, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2677','采购入库删除', 3, 4, 2673, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2678','采购入库导出', 3, 5, 2673, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2679','采购入库审批', 3, 6, 2673, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2680','采购退货', 2, 3, 2602, 'return', 'ep:minus', 'erp/purchase/return/index', 'ErpPurchaseReturn', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2681','采购退货查询', 3, 1, 2680, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2682','采购退货创建', 3, 2, 2680, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2683','采购退货更新', 3, 3, 2680, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2684','采购退货删除', 3, 4, 2680, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2685','采购退货导出', 3, 5, 2680, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2686','采购退货审批', 3, 6, 2680, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2687','付款单', 2, 1, 2645, 'payment', 'ep:caret-right', 'erp/finance/payment/index', 'ErpFinancePayment', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2688','付款单查询', 3, 1, 2687, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2689','付款单创建', 3, 2, 2687, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2690','付款单更新', 3, 3, 2687, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2691','付款单删除', 3, 4, 2687, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2692','付款单导出', 3, 5, 2687, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2693','付款单审批', 3, 6, 2687, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2694','收款单', 2, 2, 2645, 'receipt', 'ep:expand', 'erp/finance/receipt/index', 'ErpFinanceReceipt', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2695','收款单查询', 3, 1, 2694, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2696','收款单创建', 3, 2, 2694, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2697','收款单更新', 3, 3, 2694, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2698','收款单删除', 3, 4, 2694, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2699','收款单导出', 3, 5, 2694, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2700','收款单审批', 3, 6, 2694, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2701','待办事项', 2, 0, 2397, 'backlog', 'fa-solid:tasks', 'crm/backlog/index', 'CrmBacklog', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2702','ERP 首页', 2, 0, 2563, 'home', 'ep:home-filled', 'erp/home/index.vue', 'ErpHome', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2703','商机状态配置', 2, 4, 2524, 'business-status', 'fa-solid:charging-station', 'crm/business/status/index', 'CrmBusinessStatus', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2704','商机状态查询', 3, 1, 2703, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2705','商机状态创建', 3, 2, 2703, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2706','商机状态更新', 3, 3, 2703, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2707','商机状态删除', 3, 4, 2703, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2708','合同配置', 2, 5, 2524, 'contract-config', 'ep:connection', 'crm/contract/config/index', 'CrmContractConfig', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2709','客户公海配置查询', 3, 2, 2516, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2710','合同配置更新', 3, 1, 2708, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+INSERT INTO `creed_system_menus` (`id`,`name`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `enabled`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
+    VALUES ('2711','合同配置查询', 3, 2, 2708, '', '', '', '', 0, b'1', b'1', b'1', 'admin', '2021-01-05 17:03:48', '1', '2024-02-29 01:04:23', b'0');
+
+

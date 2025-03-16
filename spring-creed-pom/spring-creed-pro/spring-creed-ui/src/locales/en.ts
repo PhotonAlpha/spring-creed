@@ -457,6 +457,7 @@ export default {
     anchor: 'Anchor',
     systemManagement: 'System Management',
     tenantManagement: 'Tenant Management',
+    authManagement: 'Auth Management-TODO',
     menuManagement: 'Menu Management',
     tenantList: 'Tenant List',
     tenantPackages: 'Tenant Packages',
