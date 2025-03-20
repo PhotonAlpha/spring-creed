@@ -3,6 +3,8 @@ package com.ethan.agent.adaptor;
 import net.bytebuddy.implementation.bind.annotation.Origin;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import net.bytebuddy.implementation.bind.annotation.SuperCall;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
@@ -14,6 +16,7 @@ import java.util.concurrent.Callable;
  * @date 19/11/24
  */
 public class TimeInterceptor {
+    public static final Logger log = LoggerFactory.getLogger(TimeInterceptor.class);
     /**
      * 进行方法拦截, 注意这里可以对所有修饰符的修饰的方法（包含private的方法）进行拦截
      *
@@ -24,16 +27,14 @@ public class TimeInterceptor {
     @RuntimeType
     public static Object intercept(@Origin Method method, @SuperCall Callable<?> callable) throws Exception {
         long start = System.currentTimeMillis();
-        System.out.println("agent test: before method invoke! Method name: " + method.getName());
+        log.info("@.@[Time statistic: before method name:{} invoke!]@.@", method.getName());
         try {
             return callable.call();
         } catch (Exception e) {
-            // 进行异常信息上报
-            System.out.println("方法执行发生异常" + e.getMessage());
+            log.info("@.@[<<TimeInterceptor>>{}]@.@", e.getMessage());
             throw e;
         } finally {
-            System.out.println("agent test: after method invoke! Method name: " + method.getName());
-            System.out.println(method + ": took " + (System.currentTimeMillis() - start) + " millisecond");
+            log.info("@.@[Time statistic: after method name:{} invoke!:::took {} millisecond.]@.@", method.getName(), (System.currentTimeMillis() - start));
         }
     }
 }

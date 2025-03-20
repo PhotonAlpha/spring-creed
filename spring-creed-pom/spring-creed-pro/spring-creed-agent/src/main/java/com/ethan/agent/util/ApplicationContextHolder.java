@@ -1,9 +1,11 @@
 package com.ethan.agent.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+@Slf4j
 public class ApplicationContextHolder implements ApplicationContextAware {
     private static ApplicationContext applicationContext;
 
@@ -27,5 +29,15 @@ public class ApplicationContextHolder implements ApplicationContextAware {
     }
     public static <T> T getBean(String qualifier, Class<T> clazz) {
         return applicationContext.getBean(qualifier, clazz);
+    }
+
+    public static boolean checkDriver() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            return true;
+        } catch (ClassNotFoundException e) {
+            log.error("@.@[no com.mysql.cj.jdbc.Driver!]@.@");
+        }
+        return false;
     }
 }

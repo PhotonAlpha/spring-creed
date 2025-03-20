@@ -14,7 +14,7 @@ logging:
         stat: DEBUG
 spring:
   profiles:
-    active: redis,shardingsphere
+    active: redis,shardingsphere,jpa
   application:
     name: spring-creed-server
   datasource:
@@ -47,6 +47,12 @@ spring:
     encoding: UTF-8
     fallback-to-system-locale: true
     cache-duration: 1s
+
+  servlet:
+    multipart:
+#      location: ${ms.app.home.dir}/tmp
+      max-file-size: 10MB
+      file-size-threshold: 10MB
 #logging:
 #  level:
 #    org:

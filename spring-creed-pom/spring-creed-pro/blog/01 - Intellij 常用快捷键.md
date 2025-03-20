@@ -53,14 +53,15 @@ def hello():
 
 - **CamelCase**
 - **GsonFormatPlus**
-- **Json Helper**
+- **Json Helper**(去格式化/格式化json)
 - **Mapstruct Support**
 - **Maven Helper**
-- **POJO to Json**
-- **RestfulTool**
+- **POJO to Json**(对象转json)
+- **~~RestfulTool~~**(最新版已经内置 ⇧+⌘+\\)
 - **Sonarlint**
 - **VisualVM Launcher**
 - Json Parser(optional)
+- **JPA Buddy**(Ultimate 专属，可以快速生成getter interface)
 
 
 idea gradle 在控制台输出中文乱码解决方式
@@ -68,6 +69,43 @@ help->Edit Custom VM Options 追加 `-Dfile.encoding=UTF-8`
 
 激活
 https://gitee.com/bluelovers/jetbrains-agent
+
+## 关于利用全局搜索正则表达式实现快速替换的方法
+
+实现全局搜索，并且替换的例子
+
+```yaml
+# 搜索并且删除 protocol: https
+my-cluster:
+	protocol: https
+-->	
+my-cluster:
+
+#使用正则表达式
+(?<name>.*-cluster:)
+  protocol: https
+ 
+#将表达式的内容给予组名 name --> 
+#使用$1表示第一个组名，并且替换
+$1
+
+lb-cluster:
+  - instanceId: (?<clu1>.*)
+    host: (?<host1>.*)
+    port: (?<port1>.*)
+    secure: (?<sec1>.*)
+
+
+lb-cluster:
+  - instanceId: ${clu1}
+    host: ${host1}
+    port: ${port1}
+    secure: ${sec1}        
+```
+
+
+
+
 
 
 
@@ -125,3 +163,81 @@ the actual key combination, ascii code
 21 00 00 00, for Page_Up
 00 00 00 00, for no key
 ff 00 00 00, for NONE!  (Set this value if you don't need the hot key)
+
+
+
+# Less命令
+
+less 与 more 类似，less 可以随意浏览文件，支持翻页和搜索，支持向上翻页和向下翻页。
+
+```shell
+less [参数] 文件 
+```
+
+**参数说明**：
+
+- -b <缓冲区大小> 设置缓冲区的大小
+
+- -e 当文件显示结束后，自动离开
+
+- -f 强迫打开特殊文件，例如外围设备代号、目录和二进制文件
+
+- -g 只标志最后搜索的关键词
+
+- -i 忽略搜索时的大小写
+
+- **-m 显示类似more命令的百分比**
+
+- -N 显示每行的行号
+
+- -o <文件名> 将less 输出的内容在指定文件中保存起来
+
+- -Q 不使用警告音
+
+- -s 显示连续空行为一行
+
+- -S 行过长时间将超出部分舍弃
+
+- -x <数字> 将"tab"键显示为规定的数字空格
+
+- **/字符串：向下搜索"字符串"的功能**
+
+- **?字符串：向上搜索"字符串"的功能**
+
+- **n：重复前一个搜索（与 / 或 ? 有关）**
+
+- **N：反向重复前一个搜索（与 / 或 ? 有关）**
+
+- **b 向上翻一页**
+
+- **d 向后翻半页**
+
+- **G - 移动到最后一行**
+
+- **g - 移动到第一行**
+
+- **q / ZZ - 退出 less 命令**
+
+- 👉 **可以按大写 F，就会有类似 tail -f 的效果，读取写入文件的最新内容， 按 ctrl+C 停止。**
+
+- 👉**可以按 v 进入编辑模型， shift+ZZ 保存退出到 less 查看模式。**
+
+- 👉**可以按 :e 查看下一个文件， 用 :n 和 :p 来回切换。**
+
+- h 显示帮助界面
+
+- **Q 退出less 命令**
+
+- u 向前滚动半页
+
+- y 向前滚动一行
+
+- 空格键 滚动一页
+
+- 回车键 滚动一行
+
+- [pagedown]： 向下翻动一页
+
+- [pageup]： 向上翻动一页
+
+  

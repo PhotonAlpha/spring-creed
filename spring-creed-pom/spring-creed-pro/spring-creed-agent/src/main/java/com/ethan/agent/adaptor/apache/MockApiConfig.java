@@ -2,9 +2,8 @@ package com.ethan.agent.adaptor.apache;
 
 import lombok.Data;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author EthanCao
@@ -13,6 +12,14 @@ import java.util.Map;
  */
 @Data
 public class MockApiConfig {
-    private Map<String, Map<String, List<MockMatrixConfig>>> apis = new HashMap<>();
-    private Map<String, String> contextPath = new HashMap<>();
+    private ServerDetails server = new ServerDetails();
+    private List<String> apis = Collections.emptyList();
+    private List<String> excludeApis = Collections.emptyList();
+
+    @Data
+    public static class ServerDetails {
+        private Boolean enabled = false;
+        private Boolean mockApiEnabled = false;
+        private String url = "http://localhost:3000";
+    }
 }

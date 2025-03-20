@@ -15,7 +15,7 @@ public class TestControllerInterceptor {
     @Advice.OnMethodExit // 在方法返回时执行
     public static void intercept(@Advice.Origin String methodName, @Advice.Return(readOnly = false, typing = Assigner.Typing.DYNAMIC) Object returned) {
         String versionStr = "version11";
-        log.info("OnMethodExit JWTVerifierAdvice Name:{} hello world【{}]", methodName, versionStr);
+        log.info("@.@[OnMethodExit JWTVerifierAdvice Name:{} hello world【{}]]@.@", methodName, versionStr);
         returned = "hello world【" + versionStr + "]";
     }
 }

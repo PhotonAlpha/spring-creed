@@ -141,7 +141,7 @@ public class SegmentIDGenImpl implements IDGen {
             log.warn("update cache from db exception", e);
         } finally {
             sw.stop();
-            log.info("{}", sw.prettyPrint(TimeUnit.MICROSECONDS));
+            log.info("{}", sw.prettyPrint(TimeUnit.MILLISECONDS));
         }
     }
 
@@ -213,7 +213,7 @@ public class SegmentIDGenImpl implements IDGen {
         segment.setMax(leafAlloc.getMaxId());
         segment.setStep(buffer.getStep());
         sw.stop();
-        log.info("{}", sw.prettyPrint(TimeUnit.MICROSECONDS));
+        log.info("{}", sw.prettyPrint(TimeUnit.MILLISECONDS));
     }
 
     public Result getIdFromSegmentBuffer(final SegmentBuffer buffer) {

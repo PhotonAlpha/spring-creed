@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Schema(name = "管理后台 - 访问令牌 Response VO")
@@ -32,9 +33,9 @@ public class OAuth2AccessTokenRespVO {
     private String clientId;
 
     @Schema(name = "创建时间", required = true)
-    private Date createTime;
+    private LocalDateTime createTime;
 
     @Schema(name = "过期时间", required = true)
-    private Date expiresTime;
+    private LocalDateTime expiresTime;
 
 }

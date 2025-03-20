@@ -1,5 +1,6 @@
 package com.ethan.agent.adaptor;
 
+import com.ethan.agent.factory.CreedBuddyAgentBeanDefinitionRegistryPostProcessor;
 import com.ethan.agent.factory.CreedBuddyAgentBeanFactoryPostProcessor;
 import com.ethan.agent.factory.CreedBuddyAgentBeanPostProcessor;
 import com.ethan.agent.util.ApplicationContextHolder;
@@ -16,15 +17,20 @@ import org.springframework.context.ConfigurableApplicationContext;
  */
 public class ApplicationContextAdvice {
     public static final Logger log = LoggerFactory.getLogger(ApplicationContextAdvice.class);
+    public static long start;
     @Advice.OnMethodEnter // 在方法返回时执行
-    public static void intercept(@Advice.This Object applicationContext) {
-        // log.info("ApplicationContextAdvice:{}", applicationContext.getClass().getName());
+    public static void intercept(@Advice.This Object applicationContext, @Advice.Origin String methodName) {
+        log.info("@.@[Time statistic: before method name:{} invoke! applicationContext:{}]@.@", methodName, applicationContext instanceof ConfigurableApplicationContext);
+        start = System.currentTimeMillis();
         if (applicationContext instanceof ConfigurableApplicationContext context) {
             ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
+            //AbstractApplicationContext#refresh() 在prepareBeanFactory(beanFactory); 注册BeanDefinitionRegistryPostProcessor
+            context.addBeanFactoryPostProcessor(new CreedBuddyAgentBeanDefinitionRegistryPostProcessor());
+
             beanFactory.registerSingleton("creedBuddyAgentBeanPostProcessor", new CreedBuddyAgentBeanPostProcessor(context));
             beanFactory.registerSingleton("creedBuddyAgentBeanFactoryPostProcessor", new CreedBuddyAgentBeanFactoryPostProcessor(context));
             beanFactory.registerSingleton("applicationContextHolder", new ApplicationContextHolder(context));
-            log.info("creedBuddyAgentBeanPostProcessor registered!");
+            log.info("@.@[creedBuddyAgentBeanPostProcessor registered!]@.@");
         }
     }
 }

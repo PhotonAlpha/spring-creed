@@ -10,8 +10,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class OAuth2AccessTokenPageReqVO extends PageParam {
 
-    @Schema(name = "用户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "666")
-    private Long userId;
+    @Schema(name = "用户名", requiredMode = Schema.RequiredMode.REQUIRED, example = "666")
+    private String userName;
 
     @Schema(name = "用户类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "2", description = "参见 UserTypeEnum 枚举")
     private Integer userType;

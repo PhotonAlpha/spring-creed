@@ -3,6 +3,7 @@ package com.ethan.agent.transformer;
 import com.ethan.agent.adaptor.database.DataSourceInterceptor;
 import com.ethan.agent.exception.CreedBuddyException;
 import com.ethan.agent.factory.AbstractDevBuddyTransformer;
+import com.ethan.agent.util.ApplicationContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.description.NamedElement;
 import net.bytebuddy.description.type.TypeDescription;
@@ -26,8 +27,12 @@ public class DataSourceTransformer extends AbstractDevBuddyTransformer<NamedElem
 
     @Override
     public DynamicType.Builder<?> transform(DynamicType.Builder<?> builder, TypeDescription typeDescription, ClassLoader classLoader, JavaModule module, ProtectionDomain protectionDomain) {
-        log.debug("::DataSourceTransformer:{}", typeDescription);
+        log.debug("@.@[::DataSourceTransformer:{}]@.@", typeDescription);
         try {
+            var checkDriver = ApplicationContextHolder.checkDriver();
+            if (!checkDriver) {
+                return builder;
+            }
             var elementMatcher = ElementMatchers.returns(Class.forName("javax.sql.DataSource"));
             return builder
                     .method(elementMatcher)

@@ -24,7 +24,7 @@ public class ReConstructInterceptor {
     public static final Logger log = LoggerFactory.getLogger(ReConstructInterceptor.class);
 
     public static PrivateProxyFactory apiProxyFactoryIntercept(@Origin Method method) {
-        log.info("replacing with Creed Buddy PrivateProxyFactory methodName:{}", method.getName());
+        log.info("@.@[replacing with Creed Buddy PrivateProxyFactory methodName:{}]@.@", method.getName());
         //如果存在一个类，构造方法是私有的，如何去创建一个新的类来代理呢？
         // 1. 创建一个subclass
         // 2. StubMethod.INSTANCE 表示该方法不执行任何逻辑
@@ -41,10 +41,10 @@ public class ReConstructInterceptor {
         try {
             Constructor<?> constructor = loadedClass.getDeclaredConstructor();
             constructor.setAccessible(true);
-            log.info("constructor inject successful");
+            log.info("@.@[constructor inject successful]@.@");
             return (PrivateProxyFactory) constructor.newInstance();
         } catch (Exception e) {
-            log.error("Exception", e);
+            log.error("@.@[Exception]@.@", e);
             throw new CreedBuddyException(e);
         }
     }

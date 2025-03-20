@@ -261,3 +261,9 @@ spring:
   aop:
     proxy-target-class: true
 ```
+
+# tmp folder issue
+
+- https://stackoverflow.com/questions/50523407/the-temporary-upload-location-tmp-tomcat-4296537502689403143-5000-work-tomcat/50523578
+- https://javaee.github.io/tutorial/servlets011.html
+- https://github.com/spring-projects/spring-boot/issues/9073

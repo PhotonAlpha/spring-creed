@@ -34,6 +34,13 @@ public class PreMainAgent {
                  ▀▀▀▀▀▀▀▀▀▀▀ ▀         ▀ ▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀        ▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀       ▀     \s
                 (v1.0.0) For JDK21
                 """);
+        System.setProperty("spring.main.allow-bean-definition-overriding", "true");
+        System.setProperty("logging.config", "");
+        System.setProperty("logging.dir", "./logs");
+        System.setProperty("logging.file.name", "./logs/${logging.instance:${spring.application.name:GEBNGCUSG01}}.log");
+        System.setProperty("logging.pattern.console", "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}) %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n");
+        System.setProperty("logging.logback.rollingpolicy.file-name-pattern", "${LOG_FILE}.%d{yyyy-MM-dd}.%i.log");
+        System.setProperty("logging.logback.rollingpolicy.max-file-size", "30MB");
         // -- ASM增强
         inst.addTransformer(new PropertyResourceTransformerEnhance());
         inst.addTransformer(new PropertyValueTransformerEnhance());
@@ -44,7 +51,7 @@ public class PreMainAgent {
         var register = TransformFactory.getRegister();
         AgentBuilder.Identified.Extendable agentBuilder = null;
         for (Map.Entry<ElementMatcher, AgentBuilder.Transformer> entry : register.entrySet()) {
-            // log.info("register matcher:{}", entry.getKey());
+            // log.info("@.@[register matcher:{}]@.@", entry.getKey());
             if (Objects.isNull(agentBuilder)) {
                 agentBuilder = defaultBuilder.type(entry.getKey())
                         .transform(entry.getValue());
