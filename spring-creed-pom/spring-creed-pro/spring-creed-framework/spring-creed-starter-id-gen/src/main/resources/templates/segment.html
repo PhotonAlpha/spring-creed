@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Leaf</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>name</th>
+        <th>init</th>
+        <th>next</th>
+        <th>pos</th>
+        <th>value0</th>
+        <th>max0</th>
+        <th>step0</th>
+        <th>value1</th>
+        <th>max1</th>
+        <th>step1</th>
+
+    </tr>
+    </thead>
+    <tbody th:if="${data}">
+        <tr th:each="entry: ${data}">
+            <td th:text="${entry.key}"></td>
+            <td th:text="${entry.value.initOk ? 'true': 'false'}"></td>
+            <td th:text="${entry.value.nextReady ? 'true': 'false'}"></td>
+            <td th:text="${entry.value.pos}"></td>
+            <td th:text="${entry.value.value0}"></td>
+            <td th:text="${entry.value.max0}"></td>
+            <td th:text="${entry.value.step0}"></td>
+            <td th:text="${entry.value.value1}"></td>
+            <td th:text="${entry.value.max1}"></td>
+            <td th:text="${entry.value.step1}"></td>
+        </tr>
+    <tbody>
+</table>
+</body>
+</html>

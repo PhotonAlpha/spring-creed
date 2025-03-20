@@ -11,10 +11,8 @@
 
     <packaging>pom</packaging>
     <modules>
-        <module>spring-creed-gateway-agent</module>
         <module>spring-cloud-gateway-app</module>
         <module>spring-cloud-gateway-auth</module>
-        <module>spring-cloud-gateway-auth-server</module>
     </modules>
 
     <artifactId>spring-creed-gateway</artifactId>

@@ -66,7 +66,8 @@ public class PdfController {
 
         // Locale locale = new Locale("zh", "TC");
         // 注意区别大小写， 在linux中 messages_zh_CN.properties country 不能是小写，否则无法识别。
-        Locale locale = new Locale("zh", "CN");
+        // Locale locale = new Locale("zh", "CN");
+        Locale locale = new Locale("en");
         new SessionLocaleResolver().setLocale(request, null, locale);
 
         if (StringUtils.equalsIgnoreCase("cover_index", tmpName)) {
@@ -84,7 +85,7 @@ public class PdfController {
         mode.addAttribute("company", company);
 
 
-        generatePdf(locale);
+        // generatePdf(locale);
         return tmpName;
     }
 

@@ -53,7 +53,7 @@ public class LoginTokenAuthenticationFilter extends OncePerRequestFilter {
                 .orElse(Collections.emptyList())
                 .stream().anyMatch(str -> new AntPathRequestMatcher(str).matches(request));
         if (StringUtils.isBlank(token) || matched) {
-            log.warn("Did not process request since did not find bearer token or by pass already");
+            log.debug("Did not process request since did not find bearer token or by pass already");
             chain.doFilter(request, response);
             return;
         }

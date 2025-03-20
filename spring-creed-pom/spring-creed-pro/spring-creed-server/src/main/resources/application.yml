@@ -41,6 +41,7 @@ spring:
         one-indexed-parameters: true
   thymeleaf:
     enabled: true
+    cache: false
   messages:
     basename: i18n/messages
     encoding: UTF-8
@@ -92,3 +93,14 @@ creed:
 #      - /admin-api/**
     mock-enable: true
 
+
+leaf:
+  name: com.ethan.leaf.test
+  console:
+    enable: true
+  segment:
+    enable: true
+  snowflake:
+    worker-id:
+      default: 1
+    enable: true
