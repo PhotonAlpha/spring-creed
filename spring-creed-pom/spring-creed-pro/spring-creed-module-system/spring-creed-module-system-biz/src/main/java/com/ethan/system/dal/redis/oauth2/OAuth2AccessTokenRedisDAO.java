@@ -2,7 +2,7 @@ package com.ethan.system.dal.redis.oauth2;
 
 import com.ethan.common.utils.collection.CollUtils;
 import com.ethan.common.utils.json.JacksonUtils;
-import com.ethan.system.dal.entity.oauth2.client.CreedOAuth2AuthorizedClient;
+import com.ethan.system.dal.entity.oauth2.CreedOAuth2Authorization;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -13,7 +13,7 @@ import java.util.Map;
 import static com.ethan.system.dal.redis.core.RedisKeyConstants.OAUTH2_ACCESS_TOKEN;
 
 /**
- * {@link CreedOAuth2AuthorizedClient} 的 RedisDAO
+ * {@link CreedOAuth2Authorization} 的 RedisDAO
  *
  * 
  */
@@ -23,12 +23,12 @@ public class OAuth2AccessTokenRedisDAO {
     /* @Resource
     private StringRedisTemplate stringRedisTemplate;
  */
-    public CreedOAuth2AuthorizedClient get(String accessToken) {
+    public CreedOAuth2Authorization get(String accessToken) {
         String redisKey = formatKey(accessToken);
-        return JacksonUtils.parseObject(stringRedisTemplate.get(redisKey), CreedOAuth2AuthorizedClient.class);
+        return JacksonUtils.parseObject(stringRedisTemplate.get(redisKey), CreedOAuth2Authorization.class);
     }
 
-    public void set(CreedOAuth2AuthorizedClient accessTokenDO) {
+    public void set(CreedOAuth2Authorization accessTokenDO) {
         String redisKey = formatKey(accessTokenDO.getAccessTokenValue());
         // 清理多余字段，避免缓存
         // accessTokenDO.setUpda(null).setUpdateTime(null).setCreateTime(null).setCreator(null).setEnabled(null);

@@ -18,8 +18,11 @@ import com.ethan.system.controller.admin.auth.vo.AuthSmsSendReqVO;
 import com.ethan.system.controller.admin.auth.vo.AuthSocialLoginReqVO;
 import com.ethan.system.controller.admin.social.dto.SocialUserBindReqDTO;
 import com.ethan.system.convert.auth.AuthConvert;
-import com.ethan.system.dal.entity.oauth2.client.CreedOAuth2AuthorizedClient;
+import com.ethan.system.dal.entity.oauth2.CreedOAuth2Authorization;
 import com.ethan.system.dal.entity.permission.SystemUsers;
+import com.ethan.system.dal.jackson2.SystemUsersMixin;
+import com.ethan.system.dal.registration.JpaOAuth2AuthorizationService;
+import com.ethan.system.dal.repository.oauth2.CreedOAuth2AuthorizationRepository;
 import com.ethan.system.service.captcha.CaptchaService;
 import com.ethan.system.service.logger.LoginLogService;
 import com.ethan.system.service.member.MemberService;
@@ -27,15 +30,28 @@ import com.ethan.system.service.oauth2.OAuth2TokenService;
 import com.ethan.system.service.sms.SmsCodeService;
 import com.ethan.system.service.social.SocialUserService;
 import com.ethan.system.service.user.AdminUserService;
+import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.annotations.VisibleForTesting;
+import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import jakarta.validation.Validator;
+import lombok.Getter;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.jackson2.SecurityJackson2Modules;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.jackson2.OAuth2AuthorizationServerJackson2Module;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import static com.ethan.common.exception.util.ServiceExceptionUtil.exception;
@@ -73,8 +89,16 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Resource
     private SmsCodeService smsCodeService;
-
-
+    @Getter
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    @PostConstruct
+    public void init() {
+        ClassLoader classLoader = JpaOAuth2AuthorizationService.class.getClassLoader();
+        List<Module> securityModules = SecurityJackson2Modules.getModules(classLoader);
+        this.objectMapper.registerModules(securityModules);
+        this.objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
+        this.objectMapper.addMixIn(SystemUsers.class, SystemUsersMixin.class);
+    }
 
 
     @Override
@@ -225,7 +249,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Override
     public AuthLoginRespVO refreshToken(String refreshToken) {
-        CreedOAuth2AuthorizedClient accessTokenDO = oauth2TokenService.refreshAccessToken(refreshToken, OAuth2ClientConstants.CLIENT_ID_DEFAULT);
+        CreedOAuth2Authorization accessTokenDO = oauth2TokenService.refreshAccessToken(refreshToken, OAuth2ClientConstants.CLIENT_ID_DEFAULT);
         return AuthConvert.INSTANCE.convert(accessTokenDO);
     }
 
@@ -233,21 +257,32 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         // 插入登陆日志
         createLoginLog(userId, username, logType, LoginResultEnum.SUCCESS);
         // 创建访问令牌
-        CreedOAuth2AuthorizedClient accessTokenClient = oauth2TokenService.createAccessToken(userId + "", getUserType().getValue(),
+        CreedOAuth2Authorization accessTokenClient = oauth2TokenService.createAccessToken(userId + "", getUserType().getValue(),
                 OAuth2ClientConstants.CLIENT_ID_DEFAULT, null);
         // 构建返回结果
         return AuthConvert.INSTANCE.convert(accessTokenClient);
     }
 
     @Override
+    @SneakyThrows
     public void logout(String token, Integer logType) {
         // 删除访问令牌
-        CreedOAuth2AuthorizedClient accessTokenDO = oauth2TokenService.removeAccessToken(token);
+        CreedOAuth2Authorization accessTokenDO = oauth2TokenService.removeAccessToken(token);
         if (accessTokenDO == null) {
             return;
         }
-        // 删除成功，则记录登出日志
-        createLogoutLog(accessTokenDO.getUserId(), accessTokenDO.getUserType(), logType);
+        // 删除成功，则记录登出日志 TODO
+        Map<String, Object> attributes = objectMapper.readValue(accessTokenDO.getAttributes(), Map.class);
+        if (attributes.get("java.security.Principal") instanceof UsernamePasswordAuthenticationToken token) {
+            if (token.getPrincipal() instanceof SystemUsers su) {
+                createLogoutLog(su.getUsername(), 1, logType);
+            } else {
+                log.warn("SystemUsers not found");
+            }
+        } else {
+            log.warn("principal is not authenticated");
+        }
+
     }
 
     private void createLogoutLog(String userId, Integer userType, Integer logType) {

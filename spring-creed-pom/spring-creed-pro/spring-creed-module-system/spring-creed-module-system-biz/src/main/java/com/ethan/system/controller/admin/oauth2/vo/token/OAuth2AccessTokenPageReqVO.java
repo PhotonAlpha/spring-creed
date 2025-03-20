@@ -5,6 +5,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
+
 @Schema(name = "管理后台 - 访问令牌分页 Request VO")
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -18,5 +20,8 @@ public class OAuth2AccessTokenPageReqVO extends PageParam {
 
     @Schema(name = "客户端编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "2")
     private String clientId;
+    /*当clientId不为空的时候，模糊匹配获取列表，并更新到此处*/
+    @Schema(name = "客户端编号", hidden = true)
+    private List<String> clientIds;
 
 }

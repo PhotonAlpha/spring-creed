@@ -1,11 +1,17 @@
 package com.ethan.system.dal.entity.oauth2;
 
+import com.ethan.system.dal.entity.permission.SystemGroups;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.persistence.Version;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,12 +23,16 @@ import static jakarta.persistence.FetchType.LAZY;
 @Entity
 @Table(name = "creed_oauth2_authorization")
 @Data
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "registeredClient")
 public class CreedOAuth2Authorization {
     @Id
     @Column
     private String id;
     private String registeredClientId;
+
+    @Transient
+    private String clientId;
+
     private String principalName;
     private String authorizationGrantType;
     @Column(length = 1000)

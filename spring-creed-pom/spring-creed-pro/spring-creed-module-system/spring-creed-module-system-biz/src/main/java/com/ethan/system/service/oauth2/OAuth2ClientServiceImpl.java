@@ -26,11 +26,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
 
 import static com.ethan.common.exception.util.ServiceExceptionUtil.exception;
+import static com.ethan.system.config.OAuth2CacheManagerConfiguration.OAUTH2_CACHE_MANAGER;
 import static com.ethan.system.constant.ErrorCodeConstants.OAUTH2_CLIENT_AUTHORIZED_GRANT_TYPE_NOT_EXISTS;
 import static com.ethan.system.constant.ErrorCodeConstants.OAUTH2_CLIENT_CLIENT_SECRET_ERROR;
 import static com.ethan.system.constant.ErrorCodeConstants.OAUTH2_CLIENT_DISABLE;
@@ -122,9 +124,22 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
     }
 
     @Override
+    @Cacheable(cacheNames = RedisKeyConstants.OAUTH_CLIENT, key = "#id",
+            unless = "#result == null", cacheManager = OAUTH2_CACHE_MANAGER)
+    public CreedOAuth2RegisteredClient getOAuth2ClientFromCacheById(String id) {
+        log.info("hit getOAuth2ClientFromCacheById:{}", id);
+        return oauth2ClientRepository.findById(id).orElse(null);
+    }
+
+    @Override
     public PageResult<CreedOAuth2RegisteredClient> getOAuth2ClientPage(OAuth2ClientPageReqVO pageReqVO) {
-        Page<CreedOAuth2RegisteredClient> page = oauth2ClientRepository.findAll(PageRequest.of(pageReqVO.getPageNo(), pageReqVO.getPageSize()));
+        Page<CreedOAuth2RegisteredClient> page = oauth2ClientRepository.findByCondition(pageReqVO, PageRequest.of(pageReqVO.getPageNo(), pageReqVO.getPageSize()));
         return new PageResult<>(page.getContent(), page.getTotalElements());
+    }
+
+    @Override
+    public List<CreedOAuth2RegisteredClient> findAllOAuth2Client(OAuth2ClientPageReqVO pageReqVO) {
+        return oauth2ClientRepository.findByAllCondition(pageReqVO);
     }
 
     @Override
@@ -162,7 +177,7 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
 
     @Override
     @Cacheable(cacheNames = RedisKeyConstants.OAUTH_CLIENT, key = "#clientId",
-            unless = "#result == null")
+            unless = "#result == null", cacheManager = OAUTH2_CACHE_MANAGER)
     public CreedOAuth2RegisteredClient getOAuth2ClientFromCache(String clientId) {
         return oauth2ClientRepository.findByClientId(clientId).orElse(null);
     }
