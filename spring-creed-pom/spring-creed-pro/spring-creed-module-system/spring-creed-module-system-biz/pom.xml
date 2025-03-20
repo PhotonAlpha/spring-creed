@@ -34,6 +34,10 @@
             <groupId>com.ethan</groupId>
             <artifactId>spring-creed-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.ethan</groupId>
+            <artifactId>spring-creed-starter-id-gen</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.ethan</groupId>

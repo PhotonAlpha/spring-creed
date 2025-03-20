@@ -6,12 +6,19 @@ import com.ethan.common.exception.enums.ResponseCodeEnum;
 import com.ethan.common.pojo.PageResult;
 import com.ethan.common.utils.date.DateUtils;
 import com.ethan.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenPageReqVO;
+import com.ethan.system.dal.entity.oauth2.CreedOAuth2Authorization;
+import com.ethan.system.dal.entity.oauth2.CreedOAuth2AuthorizationVO;
 import com.ethan.system.dal.entity.oauth2.CreedOAuth2RegisteredClient;
 import com.ethan.system.dal.entity.oauth2.client.CreedOAuth2AuthorizedClient;
 import com.ethan.system.dal.redis.oauth2.OAuth2AccessTokenRedisDAO;
+import com.ethan.system.dal.repository.JpaSpecificationHelper;
+import com.ethan.system.dal.repository.oauth2.CreedOAuth2AuthorizationRepository;
 import com.ethan.system.dal.repository.oauth2.client.CreedOAuth2AuthorizedClientRepository;
 import jakarta.annotation.Resource;
+import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Selection;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -42,12 +49,15 @@ import static com.ethan.common.exception.util.ServiceExceptionUtil.exception0;
 @Service
 public class OAuth2TokenServiceImpl implements OAuth2TokenService {
 
-    // @Resource
-    // private OAuth2AccessTokenRepository oauth2AccessTokenRepository;
+    @Resource
+    private CreedOAuth2AuthorizationRepository oAuth2AuthorizationRepository;
     // @Resource
     // private OAuth2RefreshTokenRepository oauth2RefreshTokenRepository;
-    @Resource
+    @Resource//TODO
+    @Deprecated(forRemoval = true)
     private CreedOAuth2AuthorizedClientRepository authorizedClientRepository;
+    @Resource
+    private JpaSpecificationHelper jpaSpecificationHelper;
 
     @Resource
     private OAuth2AccessTokenRedisDAO oauth2AccessTokenRedisDAO;
@@ -219,12 +229,34 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     }
 
     @Override
-    public PageResult<CreedOAuth2AuthorizedClient> getAccessTokenPage(OAuth2AccessTokenPageReqVO reqVO) {
-        Page<CreedOAuth2AuthorizedClient> page = authorizedClientRepository.findAll(getAccessTokenPageSpecification(reqVO), PageRequest.of(reqVO.getPageNo(), reqVO.getPageSize()));
-        return new PageResult<>(page.getContent(), page.getTotalElements());
+    public PageResult<CreedOAuth2AuthorizationVO> getAccessTokenPage(OAuth2AccessTokenPageReqVO reqVO) {
+        Specification<CreedOAuth2AuthorizationVO> creedOAuth2AuthorizationSpecification = (Specification<CreedOAuth2AuthorizationVO>) (root, query, cb) -> {
+            CriteriaQuery<CreedOAuth2AuthorizationVO> newQuery = cb.createQuery(CreedOAuth2AuthorizationVO.class);
+            Root<CreedOAuth2Authorization> authRoot = newQuery.from(CreedOAuth2Authorization.class);
+            Root<CreedOAuth2RegisteredClient> clientRoot = newQuery.from(CreedOAuth2RegisteredClient.class);
+            Predicate joinCondition = cb.equal(authRoot.get("registeredClientId"), clientRoot.get("id"));
+            List<Predicate> predicateList = new ArrayList<>();
+            predicateList.add(joinCondition);
+            if (StringUtils.isNotBlank(reqVO.getUserName())) {
+                // 本处都转为小写，进行模糊匹配
+                predicateList.add(cb.like(authRoot.get("principalName"), "%" + reqVO.getUserName() + "%"));
+            }
+            if (StringUtils.isNotBlank(reqVO.getClientId())) {
+                predicateList.add(cb.equal(clientRoot.get("clientId"), reqVO.getClientId()));
+            }
+            query.orderBy(cb.desc(authRoot.get("id")));
+            Selection<CreedOAuth2AuthorizationVO> registeredClientId = cb.construct(CreedOAuth2AuthorizationVO.class, authRoot.get("registeredClientId"));
+            newQuery.select(registeredClientId);
+            newQuery.where(predicateList.toArray(new Predicate[0]));
+            return null;
+        };
+
+        List<CreedOAuth2AuthorizationVO> result = jpaSpecificationHelper.findAll();
+        // Page<CreedOAuth2AuthorizedClient> page = authorizedClientRepository.findAll(getAccessTokenPageSpecification(reqVO), PageRequest.of(reqVO.getPageNo(), reqVO.getPageSize()));
+        return new PageResult<>(result, 10L);
     }
 
-    private static Specification<CreedOAuth2AuthorizedClient> getAccessTokenPageSpecification(OAuth2AccessTokenPageReqVO reqVO) {
+    /* private static Specification<CreedOAuth2AuthorizedClient> getAccessTokenPageSpecification(OAuth2AccessTokenPageReqVO reqVO) {
         return (Specification<CreedOAuth2AuthorizedClient>) (root, query, cb) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (Objects.nonNull(reqVO.getUserId())) {
@@ -243,5 +275,5 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
             query.orderBy(cb.desc(root.get("id")));
             return cb.and(predicateList.toArray(new Predicate[0]));
         };
-    }
+    } */
 }

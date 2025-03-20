@@ -2,9 +2,12 @@ package com.ethan.system.controller.admin.oauth2;
 
 import com.ethan.common.common.R;
 import com.ethan.common.pojo.PageResult;
+import com.ethan.system.api.oauth2.dto.OAuth2AccessTokenCheckRespDTO;
 import com.ethan.system.constant.logger.LoginLogTypeEnum;
 import com.ethan.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenPageReqVO;
 import com.ethan.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenRespVO;
+import com.ethan.system.convert.auth.OAuth2TokenConvert;
+import com.ethan.system.dal.entity.oauth2.CreedOAuth2AuthorizationVO;
 import com.ethan.system.dal.entity.oauth2.client.CreedOAuth2AuthorizedClient;
 import com.ethan.system.service.auth.AdminAuthService;
 import com.ethan.system.service.oauth2.OAuth2TokenService;
@@ -35,10 +38,10 @@ public class OAuth2TokenController {
 
     @GetMapping("/page")
     @Schema(name = "获得访问令牌分页", description = "只返回有效期内的")
-    @PreAuthorize("@ss.hasPermission('system:oauth2-token:page')")
-    public R<PageResult<OAuth2AccessTokenRespVO>> getAccessTokenPage(@Valid OAuth2AccessTokenPageReqVO reqVO) {
-        PageResult<CreedOAuth2AuthorizedClient> pageResult = oauth2TokenService.getAccessTokenPage(reqVO);
-        return null;//success(OAuth2TokenConvert.INSTANCE.convert(pageResult));
+    // @PreAuthorize("@ss.hasPermission('system:oauth2-token:page')")
+    public R<PageResult<OAuth2AccessTokenCheckRespDTO>> getAccessTokenPage(@Valid OAuth2AccessTokenPageReqVO reqVO) {
+        PageResult<CreedOAuth2AuthorizationVO> pageResult = oauth2TokenService.getAccessTokenPage(reqVO);
+        return success(OAuth2TokenConvert.INSTANCE.convert0(pageResult));
     }
 
     @DeleteMapping("/delete")

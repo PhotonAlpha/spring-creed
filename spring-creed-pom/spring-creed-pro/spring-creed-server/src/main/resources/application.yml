@@ -14,7 +14,7 @@ logging:
         stat: DEBUG
 spring:
   profiles:
-    active: redis,shardingsphere
+    active: redis,shardingsphere,jpa
   application:
     name: spring-creed-server
   datasource:
@@ -41,11 +41,18 @@ spring:
         one-indexed-parameters: true
   thymeleaf:
     enabled: true
+    cache: false
   messages:
     basename: i18n/messages
     encoding: UTF-8
     fallback-to-system-locale: true
     cache-duration: 1s
+
+  servlet:
+    multipart:
+#      location: ${ms.app.home.dir}/tmp
+      max-file-size: 10MB
+      file-size-threshold: 10MB
 #logging:
 #  level:
 #    org:
@@ -92,3 +99,14 @@ creed:
 #      - /admin-api/**
     mock-enable: true
 
+
+leaf:
+  name: com.ethan.leaf.test
+  console:
+    enable: true
+  segment:
+    enable: true
+  snowflake:
+    worker-id:
+      default: 1
+    enable: true

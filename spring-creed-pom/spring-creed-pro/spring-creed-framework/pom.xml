@@ -20,6 +20,7 @@
         <module>spring-creed-starter-monitor</module>
         <module>spring-creed-starter-reactive</module>
         <module>spring-creed-starter-job</module>
+        <module>spring-creed-starter-id-gen</module>
     </modules>
 
     <groupId>com.ethan</groupId>

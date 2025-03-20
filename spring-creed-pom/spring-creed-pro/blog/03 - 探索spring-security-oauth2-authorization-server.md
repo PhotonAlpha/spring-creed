@@ -943,7 +943,7 @@ private Map<Class<? extends AbstractOAuth2Configurer>, AbstractOAuth2Configurer>
    code_challenge_sha256: rrkfk3AwBUxd20J2RjBGvdI13L_P36On7t6JOMHPYg0
        
    #2. 前端发起请求
-   http://localhost:48080/oauth2/authorize?response_type=code&client_id=jwt-client&state=qazxswedcvfr&scope=message.read message.write&redirect_uri=http://127.0.0.1:8080/authorized&code_challenge=rrkfk3AwBUxd20J2RjBGvdI13L_P36On7t6JOMHPYg0&code_challenge_method=S256
+   http://localhost:48080/oauth2/authorize?response_type=code&client_id=jwt-client&state=qazxswedcvfr&scope=message.read message.write openid&redirect_uri=http://127.0.0.1:8080/authorized&code_challenge=rrkfk3AwBUxd20J2RjBGvdI13L_P36On7t6JOMHPYg0&code_challenge_method=S256
    
    #3. 如果需要确认为true["settings.client.require-authorization-consent": true], 进入确认页面，提交如下确认请求。
    curl 'http://localhost:48080/oauth2/authorize' \
@@ -970,9 +970,10 @@ private Map<Class<? extends AbstractOAuth2Configurer>, AbstractOAuth2Configurer>
    ```json
    //6. 返回token
    {
-       "access_token": "eyJraWQiOiIwM2NkMjJhOS0xNTUwLTQ1ZWUtOWI4Ni02Y2U2ZTYxOTZhMGIiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJldGhhbiIsImF1ZCI6Imp3dC1jbGllbnQiLCJuYmYiOjE3MjkxNTc5MzIsInNjb3BlIjpbIm1lc3NhZ2UucmVhZCIsIm1lc3NhZ2Uud3JpdGUiXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo0ODA4MCIsImV4cCI6MTcyOTI0NDMzMiwiaWF0IjoxNzI5MTU3OTMyLCJ1dWlkIjoiMDU5ZTA2NmEtODc2Yy00ZDU3LThkMjctNzIxMGU3ZWFmOWNiIiwianRpIjoiZTVhYzhhZmItZjMzMC00YzUzLTg2MzktOTljZDU1MTAxNTdmIn0.BcUiG8sMl4nF2FTdVHLcKSQmCVWXx-Gyv_Xbdf5OzMzEa2rSX8En_vKY3iUDw2TuRWrUDSzIeJCfRV8EptbMQvJgCWbSxuhMr2muKFrWuQJo7nPbQO_Fayz_MGV7bJqIWvGQYC6C28p1cAxeQBtXau8pegUiv9l8le4zcRDO7swgIQN0SHV5yR_TrnLr-J8lMq-qKDfEGb25w0pLsc4A6tWgNiCuJ38rDyFP3N1WGs_9xcGt5CDLc_8uHqoWIJk5_5DNJdfdd04Z04UeKzTbNcgOVCaeuK0MUZWYO2BhIFXAtvIeLDNQPgbgwh9Laqlbu6NUQID4NnEmHhgqTjoRJg",
-       "refresh_token": "ulN8mfCuiGBLL3rLWOa940v5JPIbXZ-zM5vMR0GX0eUdE3hvBCUDss6FdRyUuetu3bJxfNWC47wlT7W8pBHCfexU6gAJSTGvDJ5SwlvXaTBFNQQN5QtWCZErgcOhf_wU",
-       "scope": "message.read message.write",
+       "access_token": "eyJraWQiOiJyb290LWNyZWVkLW1hbGwiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJldGhhbiIsImF1ZCI6Imp3dC1jbGllbnQiLCJuYmYiOjE3MzU3OTk0NTUsInNjb3BlIjpbIm9wZW5pZCIsIm1lc3NhZ2UucmVhZCIsIm1lc3NhZ2Uud3JpdGUiXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo0ODA4MCIsImV4cCI6MTczNTg4NTg1NSwiaWF0IjoxNzM1Nzk5NDU1LCJ1dWlkIjoiNmZlNjA3OWItMzg3Zi00NWY0LThlYTQtYmVlYmE4Mzc3ZTM4IiwianRpIjoiNTQxNTYwZWMtNzhjMy00MDM1LTg4ZmUtZDkwYWQ5YmEyOGY2In0.aT_YJlXmVhGhOMHn6Rih3VE3EzoTz8X1H7eFuozES9Ey-HWA-g7wCPvxaTg14tEvjvJ_xR_9fi-PB44_kcoWNqIHjNTYCbJ6CfVLrTamowbHCSsw-LVlYbY6FLMZPHv5PkzycscirdvvXwomcsX26Sn7Bu1xJ9GBXqk33XStok3ITQG7CNYQTt7JdFEYmZXzuyb-yoklpIPrFjCxpfHxF74MDZEBSdbGBJdfsYuzu1LZn4TbAs6-_9Ru_634fij80aQxL3TiJzqThzyayktflqBUr7bRgiP6J8kAfeNRjPtO35KnuHo_ChTXxFdoDAC2o1R2Cle7IAgNduzSnJwIOQ",
+       "refresh_token": "8AxUZx2r-XH812zWn5cqOU6SW-N5z1Lr6yyX9EU911lP5-U23U9Ba08ERgoaDsx_NqGkGnSRM5S3e3YkANU9HEB3ug3Po-DUtAmUm5aN_uuVT7qkAyDfUQsbfwGMrcMo",
+       "scope": "openid message.read message.write",
+       "id_token": "eyJraWQiOiJyb290LWNyZWVkLW1hbGwiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJldGhhbiIsImF1ZCI6Imp3dC1jbGllbnQiLCJhenAiOiJqd3QtY2xpZW50IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo0ODA4MCIsImV4cCI6MTczNTgwMTI1NSwiaWF0IjoxNzM1Nzk5NDU1LCJqdGkiOiJkYjViNTJlNi1iM2NiLTQwMTctOGY0NC1iMWExNGNkOWZlMmMifQ.r6Tl3veZsijw5TMnDWb5rAeNYwQQYV10TfVP5llPsNG08R3doKVMW5YPaEgFNiG_EErdieODAZcqE1PikYz2O8apsRWA9AylNtH3Oqb5mdr3g1avdkldCiFYSRYzMSWzDumXvGHXuaQppay3_lElCgJyukQN-Uj_uOXnUkF7Fexfagsr3AjOpaYopwMlNFIjgw2KlaPm3Kk0EtIDibn1KR1jb1IEWJXh8OurAxgou1eLuHuYcPP73XvNvFCX0S-clBnpfooQYnLamCA2saMqagdqb2-EcPAe2B_cYpLe3M9H4SWPMsGuW1VrQXuE90Z36TbWrSfiOpKWdA2VJAU2qg",
        "token_type": "Bearer",
        "expires_in": 86399
    }

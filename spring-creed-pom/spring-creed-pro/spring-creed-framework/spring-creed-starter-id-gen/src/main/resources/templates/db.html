@@ -1,0 +1,34 @@
+<!--/* @thymesVar id="items" type="java.util.List<com.ethan.identity.core.segment.dal.entity.SystemLeafAlloc>"*/-->
+<!--/* @thymesVar id="item" type="com.ethan.identity.core.segment.dal.entity.SystemLeafAlloc" */-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Leaf</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<table class="table table-hover" >
+    <thead>
+    <tr>
+        <th>tag</th>
+        <th>max</th>
+        <th>step</th>
+        <th>update</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:if="${items}">
+        <tr th:each="item : ${items}">
+            <td th:text="${item.bizTag}"></td>
+            <td th:text="${item.maxId}"></td>
+            <td th:text="${item.step}"></td>
+            <td th:text="${#temporals.format(item.updateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        </tr>
+        <tr>
+        </tr>
+    </th:block>
+    <tbody>
+</table>
+</body>
+</html>

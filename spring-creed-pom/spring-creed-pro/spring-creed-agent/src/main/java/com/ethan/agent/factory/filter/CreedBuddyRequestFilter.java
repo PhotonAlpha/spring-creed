@@ -23,7 +23,7 @@ import java.util.List;
 public class CreedBuddyRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        log.info("CreedBuddyRequestFilter calling");
+        log.info("@.@[CreedBuddyRequestFilter calling]@.@");
         try {
             //add mock SecurityContextHolder
             SecurityContextHolder.getContext().setAuthentication(genericUsernamePasswordAuthenticationToken());

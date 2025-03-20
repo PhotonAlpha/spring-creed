@@ -14,7 +14,6 @@ import net.bytebuddy.utility.JavaModule;
 import java.security.ProtectionDomain;
 
 /**
- * for global ccs
  * @author EthanCao
  * @description spring-creed-agent
  * @date 19/11/24
@@ -30,7 +29,7 @@ public class HttpClientTransformer extends AbstractDevBuddyTransformer<NamedElem
 
     @Override
     public DynamicType.Builder<?> transform(DynamicType.Builder<?> builder, TypeDescription typeDescription, ClassLoader classLoader, JavaModule module, ProtectionDomain protectionDomain) {
-        log.debug("::typeDescription:{}", typeDescription);
+        log.debug("@.@[::typeDescription:{}]@.@", typeDescription);
         try {
             var elementMatcher = ElementMatchers.returns(Class.forName("org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory"))
                     .or(ElementMatchers.returns(Class.forName("javax.net.ssl.SSLContext")));

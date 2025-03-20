@@ -197,6 +197,11 @@
                 <artifactId>spring-creed-common</artifactId>
                 <version>${spring-creed-boot.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.ethan</groupId>
+                <artifactId>spring-creed-starter-id-gen</artifactId>
+                <version>${spring-creed-boot.version}</version>
+            </dependency>
 
 <!--            <dependency>-->
 <!--                <groupId>org.mariadb.jdbc</groupId>-->

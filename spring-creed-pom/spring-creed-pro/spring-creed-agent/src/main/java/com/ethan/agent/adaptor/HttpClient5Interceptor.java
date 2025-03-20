@@ -21,7 +21,7 @@ public class HttpClient5Interceptor {
     public static final Logger log = LoggerFactory.getLogger(HttpClient5Interceptor.class);
 
     public static SSLContext intercept(@Origin Method method) {
-        log.info("replacing with Creed Buddy SSLContext OnMethodEnter methodName:{}", method.getName());
+        log.info("@.@[replacing with Creed Buddy SSLContext OnMethodEnter methodName:{}]@.@", method.getName());
         try {
             return SSLContexts.custom()
                     .build();
@@ -30,7 +30,7 @@ public class HttpClient5Interceptor {
         }
     }
     public static SSLConnectionSocketFactory interceptConnection(@Origin Method method) {
-        log.info("replacing with Creed Buddy SSLConnectionSocketFactory OnMethodEnter methodName:{}", method.getName());
+        log.info("@.@[replacing with Creed Buddy SSLConnectionSocketFactory OnMethodEnter methodName:{}]@.@", method.getName());
         return connectionSocketFactory(method);
     }
 

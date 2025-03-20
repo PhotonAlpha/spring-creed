@@ -1,6 +1,7 @@
 package com.ethan.system.dal.registration;
 
 import com.ethan.common.utils.json.JacksonUtils;
+import com.ethan.identity.utils.IDGenerator;
 import com.ethan.system.dal.entity.oauth2.CreedOAuth2Authorization;
 import com.ethan.system.dal.entity.permission.SystemUsers;
 import com.ethan.system.dal.jackson2.SystemUsersMixin;
@@ -42,11 +43,14 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService {
     private static final Logger log = LoggerFactory.getLogger(JpaOAuth2AuthorizationService.class);
     private static final String VERSION = "version";
+    public static final String DEFAULT_KEY = "creed-mall";
+    private String idGenerator;
     private final CreedOAuth2AuthorizationRepository authorizationRepository;
     private final RegisteredClientRepository registeredClientRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -62,6 +66,7 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
         this.objectMapper.registerModules(securityModules);
         this.objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
         this.objectMapper.addMixIn(SystemUsers.class, SystemUsersMixin.class);
+        idGenerator = DEFAULT_KEY;
     }
 
     @Override
@@ -71,6 +76,16 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
         log.info("going to save with id:{} token:{}", authorization.getId(), JacksonUtils.toJsonString(authorization.getAccessToken()));
         // check is the final token generated, if is, remove the consent records.
         this.authorizationRepository.save(toEntity(authorization));
+    }
+
+    private boolean isUUID(String id) {
+        try {
+            id = org.apache.commons.lang3.StringUtils.defaultString(id, "");
+            UUID.fromString(id);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
@@ -113,7 +128,11 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
 
     private CreedOAuth2Authorization toEntity(OAuth2Authorization authorization) {
         CreedOAuth2Authorization entity = new CreedOAuth2Authorization();
-        entity.setId(authorization.getId());
+        if (isUUID(authorization.getId())) {
+            entity.setId(org.apache.commons.lang3.StringUtils.defaultString(IDGenerator.getSnowflakeId(idGenerator), authorization.getId()));
+        } else {
+            entity.setId(authorization.getId());
+        }
         entity.setRegisteredClientId(authorization.getRegisteredClientId());
         entity.setPrincipalName(authorization.getPrincipalName());
         entity.setAuthorizationGrantType(authorization.getAuthorizationGrantType().getValue());
@@ -337,5 +356,8 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
         return builder.build();
     }
 
+    public void setIdGenerator(String idGenerator) {
+        this.idGenerator = idGenerator;
+    }
 
 }

@@ -2,6 +2,7 @@ package com.ethan.system.service.oauth2;
 
 import com.ethan.common.pojo.PageResult;
 import com.ethan.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenPageReqVO;
+import com.ethan.system.dal.entity.oauth2.CreedOAuth2AuthorizationVO;
 import com.ethan.system.dal.entity.oauth2.client.CreedOAuth2AuthorizedClient;
 
 import java.util.List;
@@ -75,6 +76,6 @@ public interface OAuth2TokenService {
      * @param reqVO 请求
      * @return 访问令牌分页
      */
-    PageResult<CreedOAuth2AuthorizedClient> getAccessTokenPage(OAuth2AccessTokenPageReqVO reqVO);
+    PageResult<CreedOAuth2AuthorizationVO> getAccessTokenPage(OAuth2AccessTokenPageReqVO reqVO);
 
 }

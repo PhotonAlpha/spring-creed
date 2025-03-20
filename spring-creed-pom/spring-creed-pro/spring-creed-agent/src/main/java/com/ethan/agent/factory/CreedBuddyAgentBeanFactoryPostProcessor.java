@@ -1,7 +1,9 @@
 package com.ethan.agent.factory;
 
 import com.ethan.agent.factory.filter.CreedBuddyRequestFilter;
+import com.ethan.agent.factory.filter.RouteRegisterEndpointFilter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
@@ -12,6 +14,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.Ordered;
 import org.springframework.util.CollectionUtils;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -34,34 +37,23 @@ public class CreedBuddyAgentBeanFactoryPostProcessor implements BeanFactoryPostP
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        System.setProperty("spring.main.allow-bean-definition-overriding", "true");
-        System.setProperty("logging.config", "");
-        System.setProperty("logging.file.name", "./logs/${logging.instance:${spring.application.name:GEBNGCUSG01}}.log");
-
         if (Objects.isNull(beanFactory.getParentBeanFactory())) {
-            String[] beanDefinitionNames = beanFactory.getBeanDefinitionNames();
-            //项目启动之前 初始化某些特定的bean
-            registerBeanDefinition(beanDefinitionNames, beanFactory);
+            //项目启动之前 BeanDefinitionRegistryPostProcessor已经注册了某些bean,这里需要强制取消注册
+            deRegisterBeanDefinition(beanFactory);
 
             //检查初始化的时候根容器，跳过下面的bean检查
             return;
         }
-        // log.info("调用UserFactoryPostProcessor的postProcessBeanFactory方法");
-        // 修改 filter ,跳过验证
-        try {
-            String[] beanDefinitionNames = beanFactory.getBeanDefinitionNames();
 
-            if (beanDefinitionNames != null && beanDefinitionNames.length > 0) {
-                var tokenFilter = Stream.of(beanDefinitionNames)
-                        .filter(name -> name.endsWith("TokenFilter")).toList();
-                for (String filterName : tokenFilter) {
-                    BeanDefinition tokeFilterBeanDefinition = beanFactory.getBeanDefinition(filterName);
-                    tokeFilterBeanDefinition.setBeanClassName(CreedBuddyRequestFilter.class.getName());
-                }
-            }
-        } catch (BeansException e) {
-            // skip handle
-        }
+        /* 在BeanFactoryPostProcessor 注册自定义filter*/
+        // check is camel project
+       /*  if ( beanFactory instanceof BeanDefinitionRegistry) {
+            BeanDefinitionRegistry registry = (BeanDefinitionRegistry) beanFactory;
+            BeanDefinition definition = BeanDefinitionBuilder
+                    .genericBeanDefinition(RouteRegisterEndpointFilter.class)
+                    .getBeanDefinition();
+            registry.registerBeanDefinition("routeRegisterEndpointFilter", definition);
+        } */
     }
 
     @Override
@@ -70,23 +62,23 @@ public class CreedBuddyAgentBeanFactoryPostProcessor implements BeanFactoryPostP
     }
 
     public static final Map<String, String> CONDITION_BEAN_ADAPTOR = Map.of();
-    public void registerBeanDefinition(String[] beanDefinitionNames, ConfigurableListableBeanFactory beanFactory) {
-        for (Map.Entry<String, String> entry : CONDITION_BEAN_ADAPTOR.entrySet()) {
-            var beanDefinition = Stream.of(beanDefinitionNames)
-                    .filter(name -> name.endsWith(entry.getKey())).toList();
-            if (CollectionUtils.isEmpty(beanDefinition)) {
-                try {
-                    if (beanFactory instanceof BeanDefinitionRegistry registry) {
-                        Class<?> paramConfigClazz = Class.forName(entry.getValue());
-                        var definition = BeanDefinitionBuilder.genericBeanDefinition(paramConfigClazz).getBeanDefinition();
-                        registry.registerBeanDefinition(entry.getKey(), definition);
-                        log.debug("registerBeanDefinition:{}", definition);
-                    }
-                } catch (ClassNotFoundException e) {
-                    // ignore , if not MS, this class not existing
-                    log.warn("{} not exist", entry.getValue());
+    public void deRegisterBeanDefinition(ConfigurableListableBeanFactory beanFactory) {
+        log.info("@.@[deRegisterBeanDefinition]@.@");
+        String[] beanDefinitionNames = beanFactory.getBeanDefinitionNames();
+        /* for (String beanDefinitionName : beanDefinitionNames) {
+            log.debug("@.@[beanDefinitionName:{}]@.@", beanDefinitionName);
+        } */
+        for (Map.Entry<String, String> entry : CreedBuddyAgentBeanDefinitionRegistryPostProcessor.CONDITION_BEAN_ADAPTOR.entrySet()) {
+            // 检测是否存在 BeanDefinition, 删除该bean的初始化
+            // beanFactory.getB
+            List<String> beanDefinition = Stream.of(beanDefinitionNames)
+                    .filter(name -> StringUtils.equalsIgnoreCase(name, entry.getKey())).toList();
+            log.debug("@.@[checking beanDefinition:{}]@.@", beanDefinition);
+            if (!CollectionUtils.isEmpty(beanDefinition) && beanFactory instanceof BeanDefinitionRegistry registry) {
+                log.info("@.@[existing beanDefinition:{}]@.@", beanDefinition);
+                for (String name : beanDefinition) {
+                    registry.removeBeanDefinition(name);
                 }
-
             }
         }
     }

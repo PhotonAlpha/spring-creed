@@ -41,26 +41,26 @@ public class CreedBuddyAgentBeanPostProcessor implements BeanPostProcessor {
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        // log.debug("postProcessBeforeInitialization beanName:{}", beanName);
+        // log.debug("@.@[postProcessBeforeInitialization beanName:{}]@.@", beanName);
 
         if (bean instanceof DataSource ds) {
-            log.info("replacing with Creed Buddy DataSource On Bean:{}", beanName);
+            log.info("@.@[replacing with Creed Buddy DataSource On Bean:{}]@.@", beanName);
             DataSourceProperties dataSourceProperties = null;
             try {
                 dataSourceProperties = applicationContext.getBean(DataSourceProperties.class);
             } catch (BeansException e) {
                 // ignore
-                log.warn("DataSourceProperties not found");
+                log.warn("@.@[DataSourceProperties not found]@.@");
             }
             if (Objects.isNull(dataSourceProperties)) {
                 // trying to load from application.yml
                 dataSourceProperties = resolveProperties();
             }
             if (Objects.isNull(dataSourceProperties)) {
-                log.warn("empty DataSource loaded!");
+                log.warn("@.@[empty DataSource loaded!]@.@");
                 return DataSourceBuilder.create().build();
             }
-            log.info("replacing with Creed Buddy JDBC url:{}", dataSourceProperties.getUrl());
+            log.info("@.@[replacing with Creed Buddy JDBC url:{}]@.@", dataSourceProperties.getUrl());
 
             return DataSourceBuilder.create()
                     .driverClassName(dataSourceProperties.getDriverClassName())
@@ -80,7 +80,7 @@ public class CreedBuddyAgentBeanPostProcessor implements BeanPostProcessor {
             Resource resource = defaultResourceLoader.getResource("classpath:/application.yml");
             if (!resource.exists()) {
                 //skip
-                log.warn("classpath:/application.yml not found");
+                log.warn("@.@[classpath:/application.yml not found]@.@");
                 return null;
             }
             PropertySource<?> propertySource = yamlPropertySourceLoader.load("dev env", resource).get(0);
@@ -88,7 +88,7 @@ public class CreedBuddyAgentBeanPostProcessor implements BeanPostProcessor {
 
             return binder.bind("spring.datasource", Bindable.of(DataSourceProperties.class)).orElse(null);
         } catch (IOException e) {
-            log.error("IOException", e);
+            log.error("@.@[IOException]@.@", e);
         }
         return null;
     }

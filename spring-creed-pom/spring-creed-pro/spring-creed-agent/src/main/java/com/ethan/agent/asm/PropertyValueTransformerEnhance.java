@@ -27,9 +27,9 @@ public class PropertyValueTransformerEnhance implements ClassFileTransformer, Op
         // 只保留我们需要增强的类
         if (StringUtils.startsWith(className, "com/ethan")
                 && StringUtils.endsWithAny(className, "Config", "Configuration")) {
-            log.debug("PropertyValueTransformerEnhance className:{}", className);
+            log.trace("@.@[PropertyValueTransformerEnhance className:{}]@.@", className);
             ClassReader cr = new ClassReader(classfileBuffer);
-            ClassWriter cw = new ClassWriter(cr, ClassWriter.COMPUTE_MAXS);
+            ClassWriter cw = new ClassWriter(cr, 0);
             var cv = new ModifyClassVisitor(ASM9, cw);
             cr.accept(cv, 0);
             return cw.toByteArray();
@@ -45,7 +45,7 @@ public class PropertyValueTransformerEnhance implements ClassFileTransformer, Op
 
         @Override
         public void visit(String name, Object value) {
-            log.debug("ModifyAnnotationVisitor name:" + name + " value:" + value + " fieldDescriptor:" + fieldDescriptor);
+            log.trace("@.@[ModifyAnnotationVisitor name:" + name + " value:" + value + " fieldDescriptor:]@.@" + fieldDescriptor);
             if (value instanceof String) {
                 String val = (String) value;
                 // 若存在"${spring.application.name}",将其替换为${spring.application.name:}
@@ -53,12 +53,12 @@ public class PropertyValueTransformerEnhance implements ClassFileTransformer, Op
                     String modifiedValue;
                     if ("Z".equals(fieldDescriptor)) {
                         modifiedValue = val.replace("}", ":false}");
-                    }else if("Ljava/lang/Integer;".equals(fieldDescriptor)){
+                    } else if ("Ljava/lang/Integer;".equals(fieldDescriptor) || "I".equals(fieldDescriptor)) {
                         modifiedValue = val.replace("}", ":10}");
                     } else {
                         modifiedValue = val.replace("}", ":}");
                     }
-                    log.debug("ModifyAnnotationVisitor value from:{} to:{}", value, modifiedValue);
+                    log.debug("@.@[ModifyAnnotationVisitor value from:{} to:{}]@.@", value, modifiedValue);
                     super.visit(name, modifiedValue);
                     return;
                 }
@@ -69,7 +69,7 @@ public class PropertyValueTransformerEnhance implements ClassFileTransformer, Op
 
         @Override
         public void visitEnd() {
-            log.debug("ModifyAnnotationVisitor visitEnd");
+            log.trace("@.@[ModifyAnnotationVisitor visitEnd]@.@");
             super.visitEnd();
         }
     }
@@ -86,7 +86,7 @@ public class PropertyValueTransformerEnhance implements ClassFileTransformer, Op
         public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
 
             if ("Lorg/springframework/beans/factory/annotation/Value;".equals(descriptor)) {
-                log.debug("PropertyValueTransformerEnhance visitAnnotation descriptor:{}", descriptor);
+                log.trace("@.@[PropertyValueTransformerEnhance visitAnnotation descriptor:{}]@.@", descriptor);
                 return new ModifyAnnotationVisitor(Opcodes.ASM9, super.visitAnnotation(descriptor, visible), fieldDescriptor);
             }
             return super.visitAnnotation(descriptor, visible);
@@ -116,11 +116,10 @@ public class PropertyValueTransformerEnhance implements ClassFileTransformer, Op
          */
         @Override
         public FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
-            log.debug("PropertyValueTransformerEnhance visitField name:{}", name);
+            log.trace("@.@[PropertyValueTransformerEnhance visitField name:{}]@.@", name);
             FieldVisitor fv = super.visitField(access, name, descriptor, signature, value);
             return new ModifyFieldVisitor(Opcodes.ASM9, fv, descriptor);
         }
     }
-
 
 }

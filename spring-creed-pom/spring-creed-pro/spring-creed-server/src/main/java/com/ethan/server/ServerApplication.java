@@ -13,14 +13,16 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         // "com.ethan.security.websecurity.repository",
         "com.ethan.framework.operatelog.repository",
         "com.ethan.framework.logger.core",
-        "com.ethan.system.dal.repository"
+        "com.ethan.system.dal.repository",
+        "com.ethan.identity.core.segment.dal.repository"
 })
 @EntityScan(basePackages = {
         // "com.ethan.security.oauth2.entity",
         // "com.ethan.security.websecurity.entity",
         "com.ethan.framework.operatelog.entity",
         "com.ethan.framework.logger.core.entity",
-        "com.ethan.system.dal.entity"
+        "com.ethan.system.dal.entity",
+        "com.ethan.identity.core.segment.dal.entity"
 })
 @EnableCaching
 public class ServerApplication {

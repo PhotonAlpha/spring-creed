@@ -29,7 +29,7 @@ public class RestTemplateTransformer extends AbstractDevBuddyTransformer<NamedEl
 
     @Override
     public DynamicType.Builder<?> transform(DynamicType.Builder<?> builder, TypeDescription typeDescription, ClassLoader classLoader, JavaModule module, ProtectionDomain protectionDomain) {
-        // log.info("::typeDescription:{}", typeDescription);
+        // log.info("@.@[::typeDescription:{}]@.@", typeDescription);
         try {
             return builder
                     .method(ElementMatchers.returns(Class.forName("org.springframework.web.client.RestTemplate")))

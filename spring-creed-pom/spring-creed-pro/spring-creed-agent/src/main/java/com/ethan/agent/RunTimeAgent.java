@@ -42,18 +42,26 @@ public class RunTimeAgent {
                  ▀▀▀▀▀▀▀▀▀▀▀ ▀         ▀ ▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀        ▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀       ▀     \s
                 (v1.0.0) For JDK21 RunTime
                 """);
+        System.setProperty("spring.main.allow-bean-definition-overriding", "true");
+        System.setProperty("logging.config", "");
+        System.setProperty("logging.dir", "./logs");
+        System.setProperty("logging.file.name", "./logs/${logging.instance:${spring.application.name:GEBNGCUSG01}}.log");
+        System.setProperty("logging.pattern.console", "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}) %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n");
+        System.setProperty("logging.logback.rollingpolicy.file-name-pattern", "${LOG_FILE}.%d{yyyy-MM-dd}.%i.log");
+        System.setProperty("logging.logback.rollingpolicy.max-file-size", "30MB");
+
         // ref:https://github.com/raphw/byte-buddy/issues/1164
         // https://stackoverflow.com/questions/72078883/class-retransformation-with-bytebuddy-agent
         // > Normally, when retransforming, the Advice API is better suited for transformation. It supports most features of the delegation API but works slightly different.
-        log.info("agentArgs{}", agentArgs);
-        log.info("::resettableClassFileTransformer::{}", Objects.nonNull(resettableClassFileTransformer));
-        log.info("previousInstrumentation:{}", previousInstrumentation);
+        log.info("@.@[agentArgs{}]@.@", agentArgs);
+        log.info("@.@[::resettableClassFileTransformer::{}]@.@", Objects.nonNull(resettableClassFileTransformer));
+        log.info("@.@[previousInstrumentation:{}]@.@", previousInstrumentation);
         if (Objects.nonNull(resettableClassFileTransformer)) {
-            log.info("resetting......{}", resettableClassFileTransformer.toString());
+            log.info("@.@[resetting......{}]@.@", resettableClassFileTransformer.toString());
             resettableClassFileTransformer.reset(previousInstrumentation, AgentBuilder.RedefinitionStrategy.RETRANSFORMATION);
         }
         if ("exit".equals(agentArgs)) {
-            log.info("exit......{}", resettableClassFileTransformer.toString());
+            log.info("@.@[exit......{}]@.@", resettableClassFileTransformer.toString());
             resettableClassFileTransformer = null;
             previousInstrumentation = null;
             return;
@@ -83,9 +91,9 @@ public class RunTimeAgent {
                 .installOn(inst);
 
 
-        log.info(">>>>>>>>>>>>>>>>>>>>> INITIALIZED AGENT{}", resettableClassFileTransformer.toString());
+        log.info("@.@[>>>>>>>>>>>>>>>>>>>>> INITIALIZED AGENT{}]@.@", resettableClassFileTransformer.toString());
         previousInstrumentation = inst;
-        log.info("current Instrumentation::{}" , inst);
+        log.info("@.@[current Instrumentation::{}]@.@" , inst);
     }
 
 
@@ -94,14 +102,14 @@ public class RunTimeAgent {
         public static final StopWatch STOP_WATCH = new StopWatch("MonitorRequestResponseInterceptor");
         @Advice.OnMethodEnter
         public static void enter(@Advice.This Object controller, @Advice.Origin String methodName, @Advice.AllArguments Object[] allArguments) {
-            log.info("::Monitor OnMethodEnter Name:{} allArguments:{}", methodName, allArguments);
+            log.info("@.@[::Monitor OnMethodEnter Name:{} allArguments:{}]@.@", methodName, allArguments);
             STOP_WATCH.start();
         }
         @Advice.OnMethodExit // 在方法返回时执行
         public static void exit(@Advice.Origin String methodName, @Advice.Return Object returned) {
-            log.info("::Monitor OnMethodExit Name:{} returned:{}", methodName, returned);
+            log.info("@.@[::Monitor OnMethodExit Name:{} returned:{}]@.@", methodName, returned);
             STOP_WATCH.stop();
-            log.info("methodName:{} cost:{}", methodName, STOP_WATCH.getTotalTimeMillis());
+            log.info("@.@[methodName:{} cost:{}]@.@", methodName, STOP_WATCH.getTotalTimeMillis());
         }
     }
 
@@ -109,14 +117,14 @@ public class RunTimeAgent {
         @Override
         public void onDiscovery(String typeName, ClassLoader classLoader, JavaModule module, boolean loaded) {
             if (typeName.startsWith("org.example")) {
-                log.info("onDiscovery:{} {} {} {}", typeName, classLoader, module, loaded);
+                log.info("@.@[onDiscovery:{} {} {} {}]@.@", typeName, classLoader, module, loaded);
             }
         }
 
         @Override
         public void onTransformation(TypeDescription typeDescription, ClassLoader classLoader, JavaModule module, boolean loaded, DynamicType dynamicType) {
             if (typeDescription.getName().contains("org.example")) {
-                log.info("onTransformation:{}-{}-{}-{}-{}", typeDescription.getName(), classLoader, module, loaded, dynamicType);
+                log.info("@.@[onTransformation:{}-{}-{}-{}-{}]@.@", typeDescription.getName(), classLoader, module, loaded, dynamicType);
                 /* try {
                     dynamicType.saveIn(new File("/Users/venojk/Documents/bytebuddy/%s".formatted(LocalDateTime.now().format(DateTimeFormatter.ofPattern("uuuu-MM-dd-HH-mm-ss")))));
                 } catch (IOException e) {
@@ -124,7 +132,7 @@ public class RunTimeAgent {
                 } */
                 Map<TypeDescription, byte[]> allTypes = dynamicType.getAllTypes();
                 for (Map.Entry<TypeDescription, byte[]> entry : allTypes.entrySet()) {
-                    log.info("key:{}-{}-{} ", entry.getKey().getName(), entry.getKey().getCanonicalName(), entry.getKey().getClassFileVersion());
+                    log.info("@.@[key:{}-{}-{} ]@.@", entry.getKey().getName(), entry.getKey().getCanonicalName(), entry.getKey().getClassFileVersion());
                 }
             }
         }
@@ -132,19 +140,19 @@ public class RunTimeAgent {
         @Override
         public void onIgnored(TypeDescription typeDescription, ClassLoader classLoader, JavaModule module, boolean loaded) {
             if (typeDescription.getName().contains("org.example")) {
-                log.info("onIgnored:{}", typeDescription.getName());
+                log.info("@.@[onIgnored:{}]@.@", typeDescription.getName());
             }
         }
 
         @Override
         public void onError(String typeName, ClassLoader classLoader, JavaModule module, boolean loaded, Throwable throwable) {
-            log.info("onError:{}", typeName, throwable);
+            log.info("@.@[onError:{}]@.@", typeName, throwable);
         }
 
         @Override
         public void onComplete(String typeName, ClassLoader classLoader, JavaModule module, boolean loaded) {
             if (typeName.startsWith("org.example")) {
-                log.info("onComplete:{}", typeName);
+                log.info("@.@[onComplete:{}]@.@", typeName);
             }
         }
     }
