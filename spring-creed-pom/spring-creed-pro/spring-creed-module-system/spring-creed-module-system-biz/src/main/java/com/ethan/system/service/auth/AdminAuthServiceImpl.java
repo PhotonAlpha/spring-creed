@@ -41,6 +41,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -271,11 +272,11 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         if (accessTokenDO == null) {
             return;
         }
-        // 删除成功，则记录登出日志 TODO
+        // 删除成功，则记录登出日志
         Map<String, Object> attributes = objectMapper.readValue(accessTokenDO.getAttributes(), Map.class);
-        if (attributes.get("java.security.Principal") instanceof UsernamePasswordAuthenticationToken token) {
-            if (token.getPrincipal() instanceof SystemUsers su) {
-                createLogoutLog(su.getUsername(), 1, logType);
+        if (attributes.get("java.security.Principal") instanceof AbstractAuthenticationToken authenticationToken) {
+            if (authenticationToken.getPrincipal() instanceof SystemUsers su) {
+                createLogoutLog(su.getId() + "", 1, logType);
             } else {
                 log.warn("SystemUsers not found");
             }
@@ -284,18 +285,19 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         }
 
     }
-
-    private void createLogoutLog(String userId, Integer userType, Integer logType) {
+    @VisibleForTesting
+    protected void createLogoutLog(String userId, Integer userType, Integer logType) {
         LoginLogCreateReqDTO reqDTO = new LoginLogCreateReqDTO();
         reqDTO.setLogType(logType);
         reqDTO.setTraceId(TracerUtils.getTraceId());
         reqDTO.setUserId(userId);
         reqDTO.setUserType(userType);
-        if (ObjectUtil.equal(getUserType().getValue(), userType)) {
-            reqDTO.setUsername(getUsername(userId));
-        } else {
-            reqDTO.setUsername(memberService.getMemberUserMobile(Long.parseLong(userId)));
-        }
+        reqDTO.setUsername(getUsername(userId));
+        // if (ObjectUtil.equal(getUserType().getValue(), userType)) {
+        //     reqDTO.setUsername(getUsername(userId));
+        // } else {
+        //     reqDTO.setUsername(memberService.getMemberUserMobile(Long.parseLong(userId)));
+        // }
         reqDTO.setUserAgent(ServletUtils.getUserAgent());
         reqDTO.setUserIp(ServletUtils.getClientIP());
         reqDTO.setResult(LoginResultEnum.SUCCESS.getResult());

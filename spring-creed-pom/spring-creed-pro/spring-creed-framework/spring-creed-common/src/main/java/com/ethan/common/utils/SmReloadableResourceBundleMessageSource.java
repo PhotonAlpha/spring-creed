@@ -2,9 +2,12 @@ package com.ethan.common.utils;
 
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.Locale;
 import java.util.Properties;
 
 /**
@@ -40,5 +43,20 @@ public class SmReloadableResourceBundleMessageSource extends ReloadableResourceB
         } catch (IOException ignored) {
         }
         return new PropertiesHolder(properties, lastModified);
+    }
+    // 如果从数据库获取，下面三个重写的方法是比较重要的
+    @Override
+    protected MessageFormat resolveCode(String code, Locale locale) {
+        return super.resolveCode(code, locale);
+    }
+
+    @Override
+    public void setResourceLoader(ResourceLoader resourceLoader) {
+        super.setResourceLoader(resourceLoader);
+    }
+
+    @Override
+    protected String resolveCodeWithoutArguments(String code, Locale locale) {
+        return super.resolveCodeWithoutArguments(code, locale);
     }
 }

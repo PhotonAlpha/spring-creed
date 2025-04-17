@@ -62,6 +62,7 @@ def hello():
 - **VisualVM Launcher**
 - Json Parser(optional)
 - **JPA Buddy**(Ultimate 专属，可以快速生成getter interface)
+- **JSON Schema Generator** (https://plugins.jetbrains.com/plugin/22597-json-schema-generator)
 
 
 idea gradle 在控制台输出中文乱码解决方式

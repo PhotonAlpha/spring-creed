@@ -1,0 +1,30 @@
+{
+  "code": "code_1af7a7c4e6b7",
+  "name": "name_8829441c9599",
+  "password": "password_529900b1b6df",
+  "email": "email_c0ef7355a413",
+  "sex": "sex_6dd875ec820b",
+  "phone": "",
+  "profile": {
+    "avatar": "https://xxxx.jpg",
+    "accountName": "journey",
+    "accountInfo": {
+      "realNameAuthentication": {
+        "name": "xxx"
+      }
+    },
+    "addressManagement": {
+      "tags": [
+        "家",
+        "公司",
+        "学校"
+      ],
+      "customTags": [
+        "乌托邦"
+      ],
+      "address": [
+
+      ]
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "code": "code_1af7a7c4e6b7",
+  "name": "name_8829441c9599",
+  "password": "password_529900b1b6df",
+  "email": "email_c0ef7355a413",
+  "sex": "sex_6dd875ec820b",
+  "phone": "",
+  "profile": {
+    "avatar": "https://xxxx.jpg",
+    "accountName": "journey",
+    "nickName": "journey",
+    "accountInfo": {
+      "realNameAuthentication": {
+        "name": "xxx",
+        "identityNo": "32xx"
+      }
+    },
+    "addressManagement": {
+      "tags": [
+        "家",
+        "公司",
+        "学校"
+      ],
+      "customTags": [
+        "乌托邦"
+      ],
+      "address": [
+        {
+          "consignee": "xxx",
+          "contactCountryCode": "+86",
+          "contactNo": "130",
+          "location": "上海汉庭酒店",
+          "addressDetail": "6栋620号",
+          "default": true,
+          "tag": "家"
+        }
+      ]
+    }
+  }
+}

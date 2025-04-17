@@ -38,6 +38,7 @@
         <spring-security-oauth2-authorization-server.version>1.4.0</spring-security-oauth2-authorization-server.version>
         <bizlog-sdk.version>3.0.6</bizlog-sdk.version>
         <easyexcel.verion>3.3.4</easyexcel.verion>
+        <json-schema-validator.version>1.5.5</json-schema-validator.version>
     </properties>
 
     <dependencyManagement>
@@ -262,6 +263,12 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>easyexcel</artifactId>
                 <version>${easyexcel.verion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.networknt</groupId>
+                <artifactId>json-schema-validator</artifactId>
+                <version>${json-schema-validator.version}</version>
             </dependency>
 
         </dependencies>
