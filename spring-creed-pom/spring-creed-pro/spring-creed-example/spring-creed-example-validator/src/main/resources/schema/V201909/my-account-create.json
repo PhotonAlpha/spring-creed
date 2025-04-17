@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "title": "My Account Info Create",
+  "$id": "https://www.example.org/",
+  "$ref": "my-account-basic.json#/$defs/myAccountInfo"
+}

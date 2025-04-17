@@ -1,6 +1,7 @@
 package com.ethan.example.jpa;
 
 
+import com.ethan.example.JpaExampleApplication;
 import com.ethan.example.jpa.constant.RoleTypeEnum;
 import com.ethan.example.jpa.dal.permission.SystemAuthorities;
 import com.ethan.example.jpa.dal.permission.SystemGroupRoles;
@@ -25,7 +26,6 @@ import com.ethan.example.jpa.repository.permission.SystemUsersRepository;
 import jakarta.annotation.Resource;
 import jakarta.persistence.criteria.Predicate;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.domain.Specification;
@@ -38,10 +38,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

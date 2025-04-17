@@ -16,6 +16,7 @@ import org.springframework.validation.Validator;
  * @email: ethan.caoq@foxmail.com
  * @date: 4/6/2023 12:02 PM
  */
+@Deprecated(forRemoval = true)
 public abstract class BaseValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {

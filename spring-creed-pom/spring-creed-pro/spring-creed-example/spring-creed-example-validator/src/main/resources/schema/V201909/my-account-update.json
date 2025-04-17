@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "title": "My Account Info Update",
+  "$id": "https://www.example.org/",
+  "allOf": [
+    {
+      "$ref": "my-account-basic.json#/$defs/myAccountInfo"
+    },
+    {
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  ]
+}

@@ -3,7 +3,7 @@ spring:
     #    driver-class-name: org.mariadb.jdbc.Driver
     #    url: jdbc:mariadb://localhost:3306/ruoyi-vue-pro
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/creed-mall-pro
+    url: jdbc:mysql://localhost:3306/ruoyi-vue-pro
     username: root
     password: root
   main:
@@ -20,7 +20,8 @@ spring:
 logging:
   level:
     org.hibernate.orm.jdbc.bind: trace
-
+    org.springframework.jdbc.core.StatementCreatorUtils: TRACE
+    org.springframework.jdbc.core.JdbcTemplate: DEBUG
 management:
   endpoints:
     web:

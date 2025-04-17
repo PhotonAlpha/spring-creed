@@ -10,5 +10,6 @@ package com.ethan.framework.validator.groups;
 /**
  * verifier for referenceNum
  */
+@Deprecated(forRemoval = true)
 public interface ReferenceNumGroup {
 }
