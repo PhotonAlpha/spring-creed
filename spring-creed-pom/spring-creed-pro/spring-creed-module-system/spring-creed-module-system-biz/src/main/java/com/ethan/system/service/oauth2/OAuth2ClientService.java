@@ -7,6 +7,7 @@ import com.ethan.system.dal.entity.oauth2.CreedOAuth2RegisteredClient;
 import jakarta.validation.Valid;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * OAuth2.0 Client Service 接口
@@ -45,6 +46,7 @@ public interface OAuth2ClientService {
      * @return OAuth2 客户端
      */
     CreedOAuth2RegisteredClient getOAuth2Client(String id);
+    CreedOAuth2RegisteredClient getOAuth2ClientFromCacheById(String id);
 
     /**
      * 获得 OAuth2 客户端，从缓存中
@@ -61,6 +63,7 @@ public interface OAuth2ClientService {
      * @return OAuth2 客户端分页
      */
     PageResult<CreedOAuth2RegisteredClient> getOAuth2ClientPage(OAuth2ClientPageReqVO pageReqVO);
+    List<CreedOAuth2RegisteredClient> findAllOAuth2Client(OAuth2ClientPageReqVO pageReqVO);
 
     /**
      * 从缓存中，校验客户端是否合法

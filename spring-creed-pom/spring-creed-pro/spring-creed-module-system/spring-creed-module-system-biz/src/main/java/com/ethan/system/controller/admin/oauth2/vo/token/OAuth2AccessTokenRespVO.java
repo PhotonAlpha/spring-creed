@@ -15,7 +15,7 @@ import java.util.Date;
 public class OAuth2AccessTokenRespVO {
 
     @Schema(name = "编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    private Long id;
+    private String id;
 
     @Schema(name = "访问令牌", requiredMode = Schema.RequiredMode.REQUIRED, example = "tudou")
     private String accessToken;
@@ -25,6 +25,7 @@ public class OAuth2AccessTokenRespVO {
 
     @Schema(name = "用户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "666")
     private Long userId;
+    private String userName;
 
     @Schema(name = "用户类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "2", description = "参见 UserTypeEnum 枚举")
     private Integer userType;

@@ -6,7 +6,6 @@ import cn.hutool.core.util.StrUtil;
 import com.ethan.common.constant.UserTypeEnum;
 import com.ethan.system.constant.ErrorCodeConstants;
 import com.ethan.system.dal.entity.oauth2.CreedOAuth2Authorization;
-import com.ethan.system.dal.entity.oauth2.client.CreedOAuth2AuthorizedClient;
 import com.ethan.system.dal.entity.permission.SystemUsers;
 import com.ethan.system.service.auth.AdminAuthService;
 import jakarta.annotation.Resource;
@@ -32,7 +31,7 @@ public class OAuth2GrantServiceImpl implements OAuth2GrantService {
     private AdminAuthService adminAuthService;
 
     @Override
-    public CreedOAuth2AuthorizedClient grantImplicit(Long userId, Integer userType,
+    public CreedOAuth2Authorization grantImplicit(Long userId, Integer userType,
                                                      String clientId, List<String> scopes) {
         return oauth2TokenService.createAccessToken(userId + "", userType, clientId, scopes);
     }
@@ -46,7 +45,7 @@ public class OAuth2GrantServiceImpl implements OAuth2GrantService {
     }
 
     @Override
-    public CreedOAuth2AuthorizedClient grantAuthorizationCodeForAccessToken(String clientId, String code,
+    public CreedOAuth2Authorization grantAuthorizationCodeForAccessToken(String clientId, String code,
                                                                             String redirectUri, String state) {
         CreedOAuth2Authorization codeDO = oauth2CodeService.consumeAuthorizationCode(code);
         Assert.notNull(codeDO, "授权码不能为空"); // 防御性编程
@@ -71,7 +70,7 @@ public class OAuth2GrantServiceImpl implements OAuth2GrantService {
     }
 
     @Override
-    public CreedOAuth2AuthorizedClient grantPassword(String username, String password, String clientId, List<String> scopes) {
+    public CreedOAuth2Authorization grantPassword(String username, String password, String clientId, List<String> scopes) {
         // 使用账号 + 密码进行登录
         SystemUsers user = adminAuthService.authenticate(username, password);
         Assert.notNull(user, "用户不能为空！"); // 防御性编程
@@ -81,12 +80,12 @@ public class OAuth2GrantServiceImpl implements OAuth2GrantService {
     }
 
     @Override
-    public CreedOAuth2AuthorizedClient grantRefreshToken(String refreshToken, String clientId) {
+    public CreedOAuth2Authorization grantRefreshToken(String refreshToken, String clientId) {
         return oauth2TokenService.refreshAccessToken(refreshToken, clientId);
     }
 
     @Override
-    public CreedOAuth2AuthorizedClient grantClientCredentials(String clientId, List<String> scopes) {
+    public CreedOAuth2Authorization grantClientCredentials(String clientId, List<String> scopes) {
         // TODO 芋艿：项目中使用 OAuth2 解决的是三方应用的授权，内部的 SSO 等问题，所以暂时不考虑 client_credentials 这个场景
         throw new UnsupportedOperationException("暂时不支持 client_credentials 授权模式");
     }
@@ -94,8 +93,8 @@ public class OAuth2GrantServiceImpl implements OAuth2GrantService {
     @Override
     public boolean revokeToken(String clientId, String accessToken) {
         // 先查询，保证 clientId 时匹配的
-        CreedOAuth2AuthorizedClient accessTokenDO = oauth2TokenService.getAccessToken(accessToken);
-        if (accessTokenDO == null || ObjectUtil.notEqual(clientId, accessTokenDO.getClientRegistrationId())) {
+        CreedOAuth2Authorization accessTokenDO = oauth2TokenService.getAccessToken(accessToken);
+        if (accessTokenDO == null || ObjectUtil.notEqual(clientId, accessTokenDO.getRegisteredClientId())) {
             return false;
         }
         // 再删除

@@ -11,6 +11,7 @@ import com.ethan.system.controller.admin.permission.vo.menu.MenuRespVO;
 import com.ethan.system.controller.admin.sms.dto.code.SmsCodeSendReqDTO;
 import com.ethan.system.controller.admin.sms.dto.code.SmsCodeUseReqDTO;
 import com.ethan.system.controller.admin.social.dto.SocialUserBindReqDTO;
+import com.ethan.system.dal.entity.oauth2.CreedOAuth2Authorization;
 import com.ethan.system.dal.entity.oauth2.client.CreedOAuth2AuthorizedClient;
 import com.ethan.system.dal.entity.permission.MenuDO;
 import com.ethan.system.dal.entity.permission.SystemMenus;
@@ -35,11 +36,11 @@ public interface AuthConvert {
 
     AuthConvert INSTANCE = Mappers.getMapper(AuthConvert.class);
 
-    @Mapping(source = "userId", target = "userId")
+    // @Mapping(source = "userId", target = "userId")
     @Mapping(source = "accessTokenValue", target = "accessToken")
     @Mapping(source = "refreshTokenValue", target = "refreshToken")
     @Mapping(source = "accessTokenExpiresAt", target = "expiresTime")
-    AuthLoginRespVO convert(CreedOAuth2AuthorizedClient bean);
+    AuthLoginRespVO convert(CreedOAuth2Authorization bean);
 
     default LocalDateTime fromInstant(Instant instant) {
         return instant == null ? null : LocalDateTime.ofInstant(instant, ZoneId.systemDefault());

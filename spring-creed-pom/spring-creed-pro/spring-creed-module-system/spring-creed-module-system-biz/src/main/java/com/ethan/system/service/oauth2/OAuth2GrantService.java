@@ -1,7 +1,8 @@
 package com.ethan.system.service.oauth2;
 
 
-import com.ethan.system.dal.entity.oauth2.client.CreedOAuth2AuthorizedClient;
+
+import com.ethan.system.dal.entity.oauth2.CreedOAuth2Authorization;
 
 import java.util.List;
 
@@ -30,8 +31,8 @@ public interface OAuth2GrantService {
      * @param scopes 授权范围
      * @return 访问令牌
      */
-    CreedOAuth2AuthorizedClient grantImplicit(Long userId, Integer userType,
-                                              String clientId, List<String> scopes);
+    CreedOAuth2Authorization grantImplicit(Long userId, Integer userType,
+                                           String clientId, List<String> scopes);
 
     /**
      * 授权码模式，第一阶段，获得 code 授权码
@@ -61,7 +62,7 @@ public interface OAuth2GrantService {
      * @param state 状态
      * @return 访问令牌
      */
-    CreedOAuth2AuthorizedClient grantAuthorizationCodeForAccessToken(String clientId, String code,
+    CreedOAuth2Authorization grantAuthorizationCodeForAccessToken(String clientId, String code,
                                                                      String redirectUri, String state);
 
     /**
@@ -75,7 +76,7 @@ public interface OAuth2GrantService {
      * @param scopes 授权范围
      * @return 访问令牌
      */
-    CreedOAuth2AuthorizedClient grantPassword(String username, String password,
+    CreedOAuth2Authorization grantPassword(String username, String password,
                                       String clientId, List<String> scopes);
 
     /**
@@ -87,7 +88,7 @@ public interface OAuth2GrantService {
      * @param clientId 客户端编号
      * @return 访问令牌
      */
-    CreedOAuth2AuthorizedClient grantRefreshToken(String refreshToken, String clientId);
+    CreedOAuth2Authorization grantRefreshToken(String refreshToken, String clientId);
 
     /**
      * 客户端模式
@@ -98,7 +99,7 @@ public interface OAuth2GrantService {
      * @param scopes 授权范围
      * @return 访问令牌
      */
-    CreedOAuth2AuthorizedClient grantClientCredentials(String clientId, List<String> scopes);
+    CreedOAuth2Authorization grantClientCredentials(String clientId, List<String> scopes);
 
     /**
      * 移除访问令牌

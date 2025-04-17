@@ -1,28 +1,18 @@
 package com.ethan.system.service.oauth2;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.ethan.common.constant.UserTypeEnum;
 import com.ethan.common.exception.enums.ResponseCodeEnum;
 import com.ethan.common.pojo.PageResult;
 import com.ethan.common.utils.date.DateUtils;
 import com.ethan.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenPageReqVO;
+import com.ethan.system.convert.oauth2.OAuth2RegisteredClientConvert;
 import com.ethan.system.dal.entity.oauth2.CreedOAuth2Authorization;
-import com.ethan.system.dal.entity.oauth2.CreedOAuth2AuthorizationVO;
 import com.ethan.system.dal.entity.oauth2.CreedOAuth2RegisteredClient;
-import com.ethan.system.dal.entity.oauth2.client.CreedOAuth2AuthorizedClient;
 import com.ethan.system.dal.redis.oauth2.OAuth2AccessTokenRedisDAO;
-import com.ethan.system.dal.repository.JpaSpecificationHelper;
 import com.ethan.system.dal.repository.oauth2.CreedOAuth2AuthorizationRepository;
-import com.ethan.system.dal.repository.oauth2.client.CreedOAuth2AuthorizedClientRepository;
 import jakarta.annotation.Resource;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
-import jakarta.persistence.criteria.Selection;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
@@ -33,31 +23,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import static com.ethan.common.exception.util.ServiceExceptionUtil.exception0;
 
 /**
  * OAuth2.0 Token Service 实现类
- *
- * 
  */
 @Service
 public class OAuth2TokenServiceImpl implements OAuth2TokenService {
 
     @Resource
-    private CreedOAuth2AuthorizationRepository oAuth2AuthorizationRepository;
+    private CreedOAuth2AuthorizationRepository auth2AuthorizationRepository;
     // @Resource
     // private OAuth2RefreshTokenRepository oauth2RefreshTokenRepository;
-    @Resource//TODO
-    @Deprecated(forRemoval = true)
-    private CreedOAuth2AuthorizedClientRepository authorizedClientRepository;
     @Resource
-    private JpaSpecificationHelper jpaSpecificationHelper;
+    private CreedOAuth2AuthorizationRepository authorizedClientRepository;
 
     @Resource
     private OAuth2AccessTokenRedisDAO oauth2AccessTokenRedisDAO;
@@ -72,7 +56,7 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
 
     @Override
     @Transactional
-    public CreedOAuth2AuthorizedClient createAccessToken(String userId, Integer userType, String clientId, List<String> scopes) {
+    public CreedOAuth2Authorization createAccessToken(String userId, Integer userType, String clientId, List<String> scopes) {
         CreedOAuth2RegisteredClient registeredClient = oauth2ClientService.validOAuthClientFromCache(clientId);
         // 创建刷新令牌
         OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId("okta")
@@ -87,7 +71,7 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
         return createOAuth2AccessToken(authorize, registeredClient);
     }
 
-    private CreedOAuth2AuthorizedClient createOAuth2AccessToken(OAuth2AuthorizedClient authorize, CreedOAuth2RegisteredClient registeredClient) {
+    private CreedOAuth2Authorization createOAuth2AccessToken(OAuth2AuthorizedClient authorize, CreedOAuth2RegisteredClient registeredClient) {
         OAuth2AccessToken accessToken = authorize.getAccessToken();
         OAuth2RefreshToken refreshToken = authorize.getRefreshToken();
         String refreshTokenVal = Optional.ofNullable(refreshToken).map(AbstractOAuth2Token::getTokenValue).orElse("");
@@ -97,38 +81,39 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
 
 /*         Duration timeToLive = TokenSettings.withSettings(registeredClient.getClientSettings()).build()
                 .getAccessTokenTimeToLive(); */
-        Optional<CreedOAuth2AuthorizedClient> authorizedClientOptional = authorizedClientRepository.findByAccessTokenValue(accessToken.getTokenValue());
-        CreedOAuth2AuthorizedClient accessTokenDO;
+        Optional<CreedOAuth2Authorization> authorizedClientOptional = authorizedClientRepository.findByAccessTokenValue(accessToken.getTokenValue());
+        CreedOAuth2Authorization accessTokenDO;
         if (authorizedClientOptional.isEmpty()) {
-            accessTokenDO = new CreedOAuth2AuthorizedClient()
-                    .setUserId(authorize.getPrincipalName())
-                    .setUserType(UserTypeEnum.ADMIN.getValue())
-                    .setClientRegistrationId(registeredClient.getClientId())
-                    .setPrincipalName(authorize.getPrincipalName())
-                    .setAccessTokenType(accessToken.getTokenType().getValue())
-                    .setAccessTokenValue(accessToken.getTokenValue())
-                    .setAccessTokenScopes(registeredClient.getScopes())
-                    .setAccessTokenIssuedAt(accessToken.getIssuedAt())
-                    .setAccessTokenExpiresAt(accessToken.getExpiresAt())
-                    .setRefreshTokenValue(refreshTokenVal)
-                    .setRefreshTokenIssuedAt(issueTimeVal)
-                    .setRefreshTokenExpiresAt(expiresTimeVal)
-                    .setCreatedAt(Instant.now());
+            //TODO
+            accessTokenDO = new CreedOAuth2Authorization();
+                    // .setUserId(authorize.getPrincipalName())
+                    // .setUserType(UserTypeEnum.ADMIN.getValue())
+                    // .setClientRegistrationId(registeredClient.getClientId())
+                    // .setPrincipalName(authorize.getPrincipalName())
+                    // .setAccessTokenType(accessToken.getTokenType().getValue())
+                    // .setAccessTokenValue(accessToken.getTokenValue())
+                    // .setAccessTokenScopes(registeredClient.getScopes())
+                    // .setAccessTokenIssuedAt(accessToken.getIssuedAt())
+                    // .setAccessTokenExpiresAt(accessToken.getExpiresAt())
+                    // .setRefreshTokenValue(refreshTokenVal)
+                    // .setRefreshTokenIssuedAt(issueTimeVal)
+                    // .setRefreshTokenExpiresAt(expiresTimeVal)
+                    // .setCreatedAt(Instant.now());
         } else {
-            CreedOAuth2AuthorizedClient creedOAuth2AuthorizedClient = authorizedClientOptional.get();
-            creedOAuth2AuthorizedClient
-                    .setUserId(authorize.getPrincipalName())
-                    .setUserType(UserTypeEnum.ADMIN.getValue())
-                    .setClientRegistrationId(registeredClient.getClientId())
-                    .setPrincipalName(authorize.getPrincipalName())
-                    .setAccessTokenType(accessToken.getTokenType().getValue())
-                    .setAccessTokenValue(accessToken.getTokenValue())
-                    .setAccessTokenScopes(registeredClient.getScopes())
-                    .setAccessTokenIssuedAt(accessToken.getIssuedAt())
-                    .setAccessTokenExpiresAt(accessToken.getExpiresAt())
-                    .setRefreshTokenValue(refreshTokenVal)
-                    .setRefreshTokenIssuedAt(issueTimeVal)
-                    .setRefreshTokenExpiresAt(expiresTimeVal);
+            CreedOAuth2Authorization creedOAuth2AuthorizedClient = authorizedClientOptional.get();
+            // creedOAuth2AuthorizedClient
+            //         .setUserId(authorize.getPrincipalName())
+            //         .setUserType(UserTypeEnum.ADMIN.getValue())
+            //         .setClientRegistrationId(registeredClient.getClientId())
+            //         .setPrincipalName(authorize.getPrincipalName())
+            //         .setAccessTokenType(accessToken.getTokenType().getValue())
+            //         .setAccessTokenValue(accessToken.getTokenValue())
+            //         .setAccessTokenScopes(registeredClient.getScopes())
+            //         .setAccessTokenIssuedAt(accessToken.getIssuedAt())
+            //         .setAccessTokenExpiresAt(accessToken.getExpiresAt())
+            //         .setRefreshTokenValue(refreshTokenVal)
+            //         .setRefreshTokenIssuedAt(issueTimeVal)
+            //         .setRefreshTokenExpiresAt(expiresTimeVal);
             accessTokenDO = creedOAuth2AuthorizedClient;
         }
 
@@ -149,13 +134,13 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     }
 
     @Override
-    public CreedOAuth2AuthorizedClient refreshAccessToken(String refreshToken, String clientId) {
+    public CreedOAuth2Authorization refreshAccessToken(String refreshToken, String clientId) {
         // 查询访问令牌
-        Optional<CreedOAuth2AuthorizedClient> refreshTokenOptional = authorizedClientRepository.findByRefreshTokenValue(refreshToken);
+        Optional<CreedOAuth2Authorization> refreshTokenOptional = authorizedClientRepository.findByRefreshTokenValue(refreshToken);
         if (refreshTokenOptional.isEmpty()) {
             throw exception0(ResponseCodeEnum.BAD_REQUEST.getCode(), "无效的刷新令牌");
         }
-        String clientRegistrationId = refreshTokenOptional.map(CreedOAuth2AuthorizedClient::getClientRegistrationId).orElse(StringUtils.EMPTY);
+        String clientRegistrationId = refreshTokenOptional.map(CreedOAuth2Authorization::getRegisteredClientId).orElse(StringUtils.EMPTY);
 
         // 校验 Client 匹配
         CreedOAuth2RegisteredClient clientDO = oauth2ClientService.validOAuthClientFromCache(clientId);
@@ -166,8 +151,8 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
         // 移除相关的访问令牌
         // List<OAuth2AccessTokenDO> accessTokenDOs = oauth2AccessTokenRepository.findByRefreshToken(refreshToken);
         // if (CollUtil.isNotEmpty(accessTokenDOs)) {
-            // oauth2AccessTokenRepository.deleteAllById(convertSet(accessTokenDOs, OAuth2AccessTokenDO::getId));
-            oauth2AccessTokenRedisDAO.delete(refreshToken);
+        // oauth2AccessTokenRepository.deleteAllById(convertSet(accessTokenDOs, OAuth2AccessTokenDO::getId));
+        oauth2AccessTokenRedisDAO.delete(refreshToken);
         // }
 
         // 已过期的情况下，删除刷新令牌 TODO 需要确认
@@ -186,15 +171,15 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     }
 
     @Override
-    public CreedOAuth2AuthorizedClient getAccessToken(String accessToken) {
+    public CreedOAuth2Authorization getAccessToken(String accessToken) {
         // 优先从 Redis 中获取
-        CreedOAuth2AuthorizedClient accessTokenDO = oauth2AccessTokenRedisDAO.get(accessToken);
+        CreedOAuth2Authorization accessTokenDO = oauth2AccessTokenRedisDAO.get(accessToken);
         if (accessTokenDO != null) {
             return accessTokenDO;
         }
 
         // 获取不到，从 MySQL 中获取
-        Optional<CreedOAuth2AuthorizedClient> accessTokenOptional = authorizedClientRepository.findByAccessTokenValue(accessToken);
+        Optional<CreedOAuth2Authorization> accessTokenOptional = authorizedClientRepository.findByAccessTokenValue(accessToken);
         // 如果在 MySQL 存在，则往 Redis 中写入
         if (accessTokenOptional.isPresent() && !DateUtils.isExpired(accessTokenOptional.get().getAccessTokenExpiresAt())) {
             oauth2AccessTokenRedisDAO.set(accessTokenDO);
@@ -203,8 +188,8 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     }
 
     @Override
-    public CreedOAuth2AuthorizedClient checkAccessToken(String accessToken) {
-        CreedOAuth2AuthorizedClient accessTokenDO = getAccessToken(accessToken);
+    public CreedOAuth2Authorization checkAccessToken(String accessToken) {
+        CreedOAuth2Authorization accessTokenDO = getAccessToken(accessToken);
         if (accessTokenDO == null) {
             throw exception0(ResponseCodeEnum.UNAUTHORIZED.getCode(), "访问令牌不存在");
         }
@@ -215,13 +200,13 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     }
 
     @Override
-    public CreedOAuth2AuthorizedClient removeAccessToken(String accessToken) {
+    public CreedOAuth2Authorization removeAccessToken(String accessToken) {
         // 删除访问令牌
-        Optional<CreedOAuth2AuthorizedClient> accessTokenOptional = authorizedClientRepository.findByAccessTokenValue(accessToken);
+        Optional<CreedOAuth2Authorization> accessTokenOptional = auth2AuthorizationRepository.findByAccessTokenValue(accessToken);
         if (accessTokenOptional.isEmpty()) {
             return null;
         }
-        authorizedClientRepository.deleteById(accessTokenOptional.get().getId());
+        auth2AuthorizationRepository.deleteById(accessTokenOptional.get().getId());
         oauth2AccessTokenRedisDAO.delete(accessToken);
         // 删除刷新令牌
         // oauth2RefreshTokenRepository.deleteByRefreshToken(accessTokenDO.getRefreshToken());
@@ -229,51 +214,24 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     }
 
     @Override
-    public PageResult<CreedOAuth2AuthorizationVO> getAccessTokenPage(OAuth2AccessTokenPageReqVO reqVO) {
-        Specification<CreedOAuth2AuthorizationVO> creedOAuth2AuthorizationSpecification = (Specification<CreedOAuth2AuthorizationVO>) (root, query, cb) -> {
-            CriteriaQuery<CreedOAuth2AuthorizationVO> newQuery = cb.createQuery(CreedOAuth2AuthorizationVO.class);
-            Root<CreedOAuth2Authorization> authRoot = newQuery.from(CreedOAuth2Authorization.class);
-            Root<CreedOAuth2RegisteredClient> clientRoot = newQuery.from(CreedOAuth2RegisteredClient.class);
-            Predicate joinCondition = cb.equal(authRoot.get("registeredClientId"), clientRoot.get("id"));
-            List<Predicate> predicateList = new ArrayList<>();
-            predicateList.add(joinCondition);
-            if (StringUtils.isNotBlank(reqVO.getUserName())) {
-                // 本处都转为小写，进行模糊匹配
-                predicateList.add(cb.like(authRoot.get("principalName"), "%" + reqVO.getUserName() + "%"));
-            }
-            if (StringUtils.isNotBlank(reqVO.getClientId())) {
-                predicateList.add(cb.equal(clientRoot.get("clientId"), reqVO.getClientId()));
-            }
-            query.orderBy(cb.desc(authRoot.get("id")));
-            Selection<CreedOAuth2AuthorizationVO> registeredClientId = cb.construct(CreedOAuth2AuthorizationVO.class, authRoot.get("registeredClientId"));
-            newQuery.select(registeredClientId);
-            newQuery.where(predicateList.toArray(new Predicate[0]));
-            return null;
-        };
+    public PageResult<CreedOAuth2Authorization> getAccessTokenPage(OAuth2AccessTokenPageReqVO reqVO) {
+        if (StringUtils.isNotBlank(reqVO.getClientId())) {
+            reqVO.setClientIds(
+                    oauth2ClientService.findAllOAuth2Client(OAuth2RegisteredClientConvert.INSTANCE.convert(reqVO.getClientId()))
+                            .stream().map(CreedOAuth2RegisteredClient::getId).distinct().toList()
+            );
+        }
 
-        List<CreedOAuth2AuthorizationVO> result = jpaSpecificationHelper.findAll();
-        // Page<CreedOAuth2AuthorizedClient> page = authorizedClientRepository.findAll(getAccessTokenPageSpecification(reqVO), PageRequest.of(reqVO.getPageNo(), reqVO.getPageSize()));
-        return new PageResult<>(result, 10L);
+        Page<CreedOAuth2Authorization> result = auth2AuthorizationRepository.findByCondition(reqVO);
+        List<CreedOAuth2Authorization> content = result.getContent();
+        Consumer<CreedOAuth2Authorization> clientIdTranslate = auth -> {
+            Optional.ofNullable(oauth2ClientService.getOAuth2ClientFromCacheById(auth.getRegisteredClientId()))
+                    .map(CreedOAuth2RegisteredClient::getClientId)
+                    .ifPresent(auth::setClientId);
+        };
+        content.forEach(clientIdTranslate);
+        return new PageResult<>(content, result.getTotalElements());
     }
 
-    /* private static Specification<CreedOAuth2AuthorizedClient> getAccessTokenPageSpecification(OAuth2AccessTokenPageReqVO reqVO) {
-        return (Specification<CreedOAuth2AuthorizedClient>) (root, query, cb) -> {
-            List<Predicate> predicateList = new ArrayList<>();
-            if (Objects.nonNull(reqVO.getUserId())) {
-                predicateList.add(cb.equal(root.get("user_id"), reqVO.getUserId()));
-            }
-            if (Objects.nonNull(reqVO.getUserType())) {
-                predicateList.add(cb.equal(root.get("user_type"), reqVO.getUserType()));
-            }
-            if (StringUtils.isNotBlank(reqVO.getClientId())) {
-                predicateList.add(cb.like(root.get("client_id"),
-                        "%" + reqVO.getClientId() + "%"));
-            }
-            if (StringUtils.isNotBlank(reqVO.getClientId())) {
-                predicateList.add(cb.greaterThan(root.get("expires_time"), new Date()));
-            }
-            query.orderBy(cb.desc(root.get("id")));
-            return cb.and(predicateList.toArray(new Predicate[0]));
-        };
-    } */
+
 }

@@ -342,3 +342,12 @@ messages_zh.properties
 在开发时可以将不带业务含义的格式校验注解放到 Bean 的类定义之上，将带业务逻辑的校验放到 Bean 的类定义的外面。
 
 区别是放在类定义中的注解能够自动运行，而放到类外面则需要明确标出@Validated注解时才会运行。
+
+
+
+
+
+## 实现方式三：
+
+结合Json-schema实现校验
+参考：com.ethan.framework.validator.context.JsonSchemaValidator

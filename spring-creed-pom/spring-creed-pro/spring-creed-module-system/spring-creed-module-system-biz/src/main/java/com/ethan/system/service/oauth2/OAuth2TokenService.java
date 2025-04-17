@@ -2,8 +2,7 @@ package com.ethan.system.service.oauth2;
 
 import com.ethan.common.pojo.PageResult;
 import com.ethan.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenPageReqVO;
-import com.ethan.system.dal.entity.oauth2.CreedOAuth2AuthorizationVO;
-import com.ethan.system.dal.entity.oauth2.client.CreedOAuth2AuthorizedClient;
+import com.ethan.system.dal.entity.oauth2.CreedOAuth2Authorization;
 
 import java.util.List;
 
@@ -28,7 +27,7 @@ public interface OAuth2TokenService {
      * @param scopes 授权范围
      * @return 访问令牌的信息
      */
-    CreedOAuth2AuthorizedClient createAccessToken(String userId, Integer userType, String clientId, List<String> scopes);
+    CreedOAuth2Authorization createAccessToken(String userId, Integer userType, String clientId, List<String> scopes);
 
     /**
      * 刷新访问令牌
@@ -39,7 +38,7 @@ public interface OAuth2TokenService {
      * @param clientId 客户端编号
      * @return 访问令牌的信息
      */
-    CreedOAuth2AuthorizedClient refreshAccessToken(String refreshToken, String clientId);
+    CreedOAuth2Authorization refreshAccessToken(String refreshToken, String clientId);
 
     /**
      * 获得访问令牌
@@ -49,7 +48,7 @@ public interface OAuth2TokenService {
      * @param accessToken 访问令牌
      * @return 访问令牌的信息
      */
-    CreedOAuth2AuthorizedClient getAccessToken(String accessToken);
+    CreedOAuth2Authorization getAccessToken(String accessToken);
 
     /**
      * 校验访问令牌
@@ -57,7 +56,7 @@ public interface OAuth2TokenService {
      * @param accessToken 访问令牌
      * @return 访问令牌的信息
      */
-    CreedOAuth2AuthorizedClient checkAccessToken(String accessToken);
+    CreedOAuth2Authorization checkAccessToken(String accessToken);
 
     /**
      * 移除访问令牌
@@ -68,7 +67,7 @@ public interface OAuth2TokenService {
      * @param accessToken 刷新令牌
      * @return 访问令牌的信息
      */
-    CreedOAuth2AuthorizedClient removeAccessToken(String accessToken);
+    CreedOAuth2Authorization removeAccessToken(String accessToken);
 
     /**
      * 获得访问令牌分页
@@ -76,6 +75,6 @@ public interface OAuth2TokenService {
      * @param reqVO 请求
      * @return 访问令牌分页
      */
-    PageResult<CreedOAuth2AuthorizationVO> getAccessTokenPage(OAuth2AccessTokenPageReqVO reqVO);
+    PageResult<CreedOAuth2Authorization> getAccessTokenPage(OAuth2AccessTokenPageReqVO reqVO);
 
 }

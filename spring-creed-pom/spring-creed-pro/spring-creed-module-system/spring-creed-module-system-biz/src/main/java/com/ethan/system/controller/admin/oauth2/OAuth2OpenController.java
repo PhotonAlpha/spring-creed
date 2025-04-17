@@ -13,6 +13,7 @@ import com.ethan.system.constant.oauth2.OAuth2GrantTypeEnum;
 import com.ethan.system.controller.admin.oauth2.vo.open.OAuth2OpenAccessTokenRespVO;
 import com.ethan.system.controller.admin.oauth2.vo.open.OAuth2OpenCheckTokenRespVO;
 import com.ethan.system.convert.oauth2.OAuth2OpenConvert;
+import com.ethan.system.dal.entity.oauth2.CreedOAuth2Authorization;
 import com.ethan.system.dal.entity.oauth2.CreedOAuth2RegisteredClient;
 import com.ethan.system.dal.entity.oauth2.client.CreedOAuth2AuthorizedClient;
 import com.ethan.system.service.oauth2.OAuth2ApproveService;
@@ -125,7 +126,7 @@ public class OAuth2OpenController {
                 grantType, scopes, redirectUri);
 
         // 根据授权模式，获取访问令牌
-        CreedOAuth2AuthorizedClient accessTokenDO;
+        CreedOAuth2Authorization accessTokenDO;
         switch (grantTypeEnum) {
             case AUTHORIZATION_CODE:
                 accessTokenDO = oauth2GrantService.grantAuthorizationCodeForAccessToken(client.getClientId(), code, redirectUri, state);
@@ -178,7 +179,7 @@ public class OAuth2OpenController {
                 null, null, null);
 
         // 校验令牌
-        CreedOAuth2AuthorizedClient accessTokenDO = oauth2TokenService.checkAccessToken(token);
+        CreedOAuth2Authorization accessTokenDO = oauth2TokenService.checkAccessToken(token);
         Assert.notNull(accessTokenDO, "访问令牌不能为空"); // 防御性检查
         return success(OAuth2OpenConvert.INSTANCE.convert2(accessTokenDO));
     }
@@ -275,7 +276,7 @@ public class OAuth2OpenController {
     private String getImplicitGrantRedirect(Long userId, CreedOAuth2RegisteredClient client,
                                             List<String> scopes, String redirectUri, String state) {
         // 1. 创建 access token 访问令牌
-        CreedOAuth2AuthorizedClient accessTokenDO = oauth2GrantService.grantImplicit(userId, getUserType(), client.getClientId(), scopes);
+        CreedOAuth2Authorization accessTokenDO = oauth2GrantService.grantImplicit(userId, getUserType(), client.getClientId(), scopes);
         Assert.notNull(accessTokenDO, "访问令牌不能为空"); // 防御性检查
         // 2. 拼接重定向的 URL
         // noinspection unchecked

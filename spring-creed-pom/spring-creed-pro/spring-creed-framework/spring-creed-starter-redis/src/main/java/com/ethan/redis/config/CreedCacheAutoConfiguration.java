@@ -4,6 +4,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.CacheKeyPrefix;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
@@ -48,6 +49,7 @@ public class CreedCacheAutoConfiguration {
         return config;
     } */
     @Bean
+    @Primary
     public CacheManager cacheManager(RedisTemplate<String, Object> template) {
         RedisCacheConfiguration configuration = RedisCacheConfiguration.defaultCacheConfig()
                 // 设置key为string

@@ -1,22 +1,23 @@
 package com.ethan.system.dal.repository.oauth2;
 
 
-import com.ethan.common.common.R;
+import com.ethan.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenPageReqVO;
 import com.ethan.system.dal.entity.oauth2.CreedOAuth2Authorization;
-import com.ethan.system.dal.entity.oauth2.CreedOAuth2AuthorizationVO;
+import jakarta.persistence.criteria.Predicate;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 
 @Repository
 public interface CreedOAuth2AuthorizationRepository extends JpaRepository<CreedOAuth2Authorization, String>, JpaSpecificationExecutor<CreedOAuth2Authorization> {
@@ -24,12 +25,15 @@ public interface CreedOAuth2AuthorizationRepository extends JpaRepository<CreedO
     Optional<CreedOAuth2Authorization> findByState(String s);
 
     Optional<CreedOAuth2Authorization> findByAuthorizationCodeValue(String authorizationCode);
+
     Optional<CreedOAuth2Authorization> findByAccessTokenValue(String accessToken);
 
     Optional<CreedOAuth2Authorization> findByRefreshTokenValue(String refreshToken);
 
     Optional<CreedOAuth2Authorization> findByOidcIdTokenValue(String idToken);
+
     Optional<CreedOAuth2Authorization> findByUserCodeValue(String userCode);
+
     Optional<CreedOAuth2Authorization> findByDeviceCodeValue(String deviceCode);
 
     @Query("select a from CreedOAuth2Authorization a where a.state = :token" +
@@ -44,7 +48,33 @@ public interface CreedOAuth2AuthorizationRepository extends JpaRepository<CreedO
 
     Optional<CreedOAuth2Authorization> findByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName);
 
-    Page<CreedOAuth2AuthorizationVO> findBy(Specification<CreedOAuth2AuthorizationVO> specification, Function<FluentQuery.FetchableFluentQuery<CreedOAuth2AuthorizationVO>, CreedOAuth2AuthorizationVO> queryFunction, Pageable pageable);
+    /**
+     * 需求 1. join 2. 带条件查询 3. 分页查询
+     *
+     * @param reqVO
+     * @return
+     */
+    default Page<CreedOAuth2Authorization> findByCondition(OAuth2AccessTokenPageReqVO reqVO) {
+        Specification<CreedOAuth2Authorization> creedOAuth2AuthorizationSpecification = (Specification<CreedOAuth2Authorization>) (root, query, cb) -> {
+
+            List<Predicate> predicateList = new ArrayList<>();
+            if (StringUtils.isNotBlank(reqVO.getClientId()) && CollectionUtils.isNotEmpty(reqVO.getClientIds())) {
+                predicateList.add(root.get("registeredClientId").in(reqVO.getClientIds()));
+            }
+            if (StringUtils.isNotBlank(reqVO.getUserName())) {
+                // 本处都转为小写，进行模糊匹配
+                predicateList.add(cb.like(cb.lower(root.get("principalName")), "%" + StringUtils.lowerCase(reqVO.getUserName()) + "%"));
+            }
+            query.orderBy(cb.desc(root.get("id")));
+            // root.fetch("registeredClient");
+
+            return cb.and(predicateList.toArray(new Predicate[0]));
+        };
+        return findAll(creedOAuth2AuthorizationSpecification, PageRequest.of(reqVO.getPageNo(), reqVO.getPageSize()));
+    }
+
+
+
 
 
     /* default List<CreedOAuth2AuthorizationVO> findByCondition(OAuth2AccessTokenPageReqVO reqVO) {
@@ -68,7 +98,7 @@ public interface CreedOAuth2AuthorizationRepository extends JpaRepository<CreedO
             newQuery.where(predicateList.toArray(new Predicate[0]));
             return null;
         };
-        // return findAll();
+        return findAll();
+    */
 
-    } */
 }

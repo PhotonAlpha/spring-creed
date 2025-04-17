@@ -38,6 +38,11 @@
             <version>13.0</version>
             <scope>compile</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.networknt</groupId>
+            <artifactId>json-schema-validator</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

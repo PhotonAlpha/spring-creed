@@ -60,7 +60,7 @@
 - `@MappedSuperclass`
 
   	It is used to group some common properties used by all entities, 
-
+	
   	like `id`, or some auditing information like `createdAt` and `createdBy`.
 
 - `@JoinColumn`
@@ -118,32 +118,31 @@
       如果你要删除一个实体，但是它有外键无法删除，你就需要这个级联权限了。它会撤销所有相关的外键关联。
 
     **一般情况下，不需要级联操作，手动操作即可。 即不要配置此选项。**[ref](https://stackoverflow.com/questions/29172313/spring-data-repository-does-not-delete-manytoone-entity?rq=4)
-     
-
+    
   - fetch： fetch 表示该属性的加载读取策略 (默认值为 EAGER)
-
+  
     - EAGER 主动抓取
     - LAZY 延迟加载,只有用到该属性时才会去加载
-
+  
   - optional： 默认为true，关联字段是否为空
-
+  
     如果为false，则常与@JoinColumn一起使用
-
+  
   - mappedBy： 指定关联关系，该参数只用于关联关系被拥有方
-
+  
     只用于双向关联`@OneToOne`,`@OneToMany`,@ManyToMany。而`@ManyToOne`中没有
     `@OneToOne(mappedBy = “xxx”)`
-
+  
     表示xxx所对应的类为关系被拥有方，而关联的另一方为关系拥有方
-
+  
     - 关系拥有方：对应拥有外键的数据库表
     - 关系被拥有方：对应主键被子表引用为外键的数据库表
-
+  
   - orphanRemoval:默认值为false
-
+  
     判断是否自动删除与关系拥有方不存在联系的关系被拥有方(关系被拥有方的一个主键在关系拥有方中未被引用，
     当jpa执行更新操作时，是否删除数据库中此主键所对应的一条记录，若为true则删除)
-
+  
 - `@Enumerated`
 
   当实体类中有枚举类型的属性时，默认情况下自动生成的数据库表中对应的字段类型是枚举的索引值，是数字类型的，若希望数据库中存储的是枚举对应的String类型，在属性上加入`@Enumerated(EnumType.STRING)`注解即可。
@@ -191,3 +190,20 @@
   1. 回调函数都是和 EntityManager.flush 或 EntityManager.commit 在同⼀个线程⾥⾯执⾏的，只不过调⽤⽅法有先后之分，都是同步调⽤，所以当任何⼀个回调⽅法⾥⾯发⽣异常，都会触发事务进⾏回滚，⽽不会触发事务提交。
   2. Callbacks 注解可以放在实体⾥⾯，可以放在 super-class ⾥⾯，也可以定义在 entity 的 listener ⾥⾯，但需要注意的是：放在实体（或者 super-class）⾥⾯的⽅法，签名格式为void methodName()，即没有参数，⽅法⾥⾯操作的是 this 对象⾃⼰；放在实体的 EntityListener ⾥⾯的⽅法签名格式为 void methodName(Object)，也就是⽅法可以有参数，参数是代表⽤来接收回调⽅法的实体。
   3. 使上述注解⽣效的回调⽅法可以是 public、private、protected、friendly 类型的，但是不能是 static 和 finnal 类型的⽅法。
+
+
+
+
+
+# EntityGraph实体图
+
+解决N+1问题
+
+https://juejin.cn/post/6869650227268157454
+
+
+
+# JPA 使用思考
+
+1. JPA的思想就是基于 @OneToMany @ManyToOne 
+2. 如果在不使用的情况下，只能手动做value转换了
