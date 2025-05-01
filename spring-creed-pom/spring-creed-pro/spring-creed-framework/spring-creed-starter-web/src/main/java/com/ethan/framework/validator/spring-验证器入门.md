@@ -351,3 +351,7 @@ messages_zh.properties
 
 结合Json-schema实现校验
 参考：com.ethan.framework.validator.context.JsonSchemaValidator
+
+在线工具
+- https://www.jsonschemavalidator.net/
+- https://transform.tools/json-to-json-schema

@@ -1,5 +1,6 @@
 package com.ethan.validator.controller;
 
+import com.ethan.validator.context.CreedIdValidator;
 import com.ethan.validator.controller.vo.MyAccountDetailsVO;
 import com.ethan.validator.context.JsonSchemaValidated;
 import com.ethan.validator.repository.ArtisanDao;
@@ -37,7 +38,7 @@ public class ArtisanController {
     // PUT
     @SneakyThrows
     @PutMapping
-    public MyAccountDetailsVO updateUser(@JsonSchemaValidated(schemaUri = "my-account-update") @RequestBody MyAccountDetailsVO artisan) {
+    public MyAccountDetailsVO updateUser(@JsonSchemaValidated(schemaUri = "my-account-update", constraints = CreedIdValidator.class) @RequestBody MyAccountDetailsVO artisan) {
         MyAccountDetailsVO editUser = artisanDao.save(artisan);
         log.info("update artisan is {}", editUser);
         return editUser;

@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "title": "My Account Info Basic Information",
+  "$defs": {
+    "realNameAuthentication": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "identityNo": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "name",
+        "identityNo"
+      ],
+      "errorMessage": {
+        "type": "{0} is required",
+        "minLength": "The string {0} is less than the minimum length of {1}"
+      }
+    },
+    "addressManagement": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "customTags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "address": {
+          "$ref": "#/$defs/addressDetails"
+        }
+      },
+      "required": [
+        "tags",
+        "customTags",
+        "address"
+      ]
+    },
+    "addressDetails": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "consignee": {
+            "type": "string"
+          },
+          "contactCountryCode": {
+            "type": "string"
+          },
+          "contactNo": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "addressDetail": {
+            "type": "string"
+          },
+          "default": {
+            "type": "boolean"
+          },
+          "tag": {
+            "type": "string",
+            "minLength": 1
+
+          }
+        },
+        "required": [
+          "consignee",
+          "contactCountryCode",
+          "contactNo",
+          "location",
+          "addressDetail",
+          "default",
+          "tag"
+        ],
+        "errorMessage": {
+          "type": "should be an object",
+          "minLength": "tab不为空",
+          "required": {
+            "tag": "{0}:  is required"
+          }
+        }
+      }
+    },
+    "profile": {
+      "type": "object",
+      "properties": {
+        "avatar": {
+          "type": "string",
+          "minLength": 1
+        },
+        "accountName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "nickName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "accountInfo": {
+          "type": "object",
+          "properties": {
+            "realNameAuthentication": {
+              "$ref": "#/$defs/realNameAuthentication"
+            }
+          },
+          "required": [
+            "realNameAuthentication"
+          ]
+        },
+        "addressManagement": {
+          "$ref": "#/$defs/addressManagement"
+        }
+      },
+      "required": [
+        "avatar",
+        "accountName",
+        "nickName",
+        "accountInfo",
+        "addressManagement"
+      ]
+    },
+    "myAccountInfo": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "sex": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "profile": {
+          "$ref": "#/$defs/profile"
+        }
+      },
+      "required": [
+        "code",
+        "name",
+        "password",
+        "email",
+        "sex",
+        "phone",
+        "profile"
+      ]
+    }
+  }
+}

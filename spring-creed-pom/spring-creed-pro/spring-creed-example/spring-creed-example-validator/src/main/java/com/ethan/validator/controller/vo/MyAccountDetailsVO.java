@@ -7,6 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * @author EthanCao ethan.caoq@foxmail.com
  * @description spring-creed-pro
@@ -15,8 +18,10 @@ import org.hibernate.validator.constraints.Length;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MyAccountDetailsVO {
+public class MyAccountDetailsVO implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = 4722565630055279004L;
     private String id;
 
 

@@ -1,8 +1,10 @@
 package com.ethan.validator.context;
 
 import jakarta.validation.Constraint;
+import jakarta.validation.ConstraintValidator;
 import jakarta.validation.Payload;
 
+import java.io.Serializable;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -26,4 +28,6 @@ public @interface JsonSchemaValidated {
     String schemaUri() default "";
 
     Class<? extends Payload>[] payload() default {};
+
+    Class<? extends AbstractBusinessValidator<?>>[] constraints() default {};
 }

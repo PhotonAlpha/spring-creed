@@ -14,6 +14,17 @@ import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 
+/**
+ * https://thelogiclooms.medium.com/how-to-get-ideal-thread-pool-size-9b2c0bb74906
+ * Number of threads = Number of Available Cores * (1 + Wait time / Service time)
+ *      - Wait time: Time spent waiting for IO-bound tasks to complete.
+ *      - Service time: Time spent processing tasks.
+ *      - Blocking coefficient: Wait time / Service time.
+ *   core-size = 88    Number of Available Cores(8) * (1 + Wait time(500ms) / Service time(50ms))
+ *   max-pool-size = coreSize * (2 ~ 4)
+ *   queue-capacity = maxSize * (2 ~10)
+ *
+ */
 @Configuration
 @EnableAsync
 public class ThreadPoolConfig {
@@ -41,6 +52,7 @@ public class ThreadPoolConfig {
                 return super.submit(ContextSnapshot.captureAll().wrap(task));
             }
         };
+
         taskExecutor.setCorePoolSize(80);
         taskExecutor.setMaxPoolSize(160);
         taskExecutor.setQueueCapacity(80);

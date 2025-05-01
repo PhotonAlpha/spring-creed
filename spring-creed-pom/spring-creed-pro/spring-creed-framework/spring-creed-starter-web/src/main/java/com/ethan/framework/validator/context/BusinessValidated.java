@@ -17,15 +17,12 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.TYPE})
-@Constraint(validatedBy = JsonSchemaValidator.class)
-public @interface JsonSchemaValidated {
-    String message() default "no schema detected";
+@Constraint(validatedBy = {})
+public @interface BusinessValidated {
+    String message() default "BusinessValidated not enabled";
 
     Class<?>[] groups() default {};
 
-    String schemaUri() default "";
-
     Class<? extends Payload>[] payload() default {};
 
-    Class<? extends AbstractBusinessValidator<?>>[] constraints() default {};
 }
