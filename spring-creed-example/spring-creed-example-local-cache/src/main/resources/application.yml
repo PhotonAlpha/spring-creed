@@ -6,7 +6,17 @@ server:
       max-queue-capacity: 5
     accesslog:
       enabled: true
-#    basedir: ./workspace/sourcecode/ethan-space/spring-creed
+      directory: ../logs
+      class-name: org.apache.catalina.valves.AccessLogValve
+      buffered: false
+      suffix: .log
+      rotate: true
+      max-days: 15
+      encoding: UTF-8
+      file-date-format: -yyyy-MM-dd
+      request-attributes-enabled: true
+#      pattern: "%{yyyy-MM-dd HH:mm:ss.SSS}t %h %r %s %b [%{ms}T ms] [%{x-b3-traceid}i,%{x-b3-spanid}i]"
+      pattern: "%{yyyy-MM-dd HH:mm:ss.SSS}t %h %r %s %b [%F ms] [%{x-b3-traceid}i,%{x-b3-spanid}i]"
 
 logging:
   file:

@@ -47,6 +47,15 @@ public class ArtisanClientTest {
     void testCache() throws InterruptedException {
         ExecutorService originalExecutorService = Executors.newFixedThreadPool(100);
         // environment setup
+        Tracer tracer = Tracing.newBuilder().build().tracer();
+        ArrayList<BaggageField> list = new ArrayList<>();
+        list.add(CORRELATION_FIELD);
+        TraceContext ctx = TraceContext.newBuilder()
+                .addExtra(BaggageFields.newFactory(list,2).create())
+                .traceId(17).spanId(17).build();
+        Span span = tracer.toSpan(ctx);
+        tracer.withSpanInScope(span);
+        MDC.put("traceId", UUID.randomUUID().toString());
         ExecutorService executorService = ContextExecutorService.wrap(originalExecutorService, ContextSnapshotFactory.builder().build()::captureAll);
 
         for (int i = 0; i < 10; i++) {

@@ -13,14 +13,3 @@ server:
     enabled-protocols: TLSv1.2,TLSv1.3
     protocol: TLS
 
-
-spring:
-  profiles:
-    active: groupa
-    group:
-      "groupa":
-        - validation
-        - global-config
-      "validation":
-        - validation2
-        - global-config2

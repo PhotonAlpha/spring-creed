@@ -1,5 +1,10 @@
 package com.ethan.example.config.logging;
 
+import io.micrometer.context.ContextExecutorService;
+import io.micrometer.context.ContextSnapshot;
+import io.micrometer.context.ContextSnapshotFactory;
+import io.micrometer.tracing.Tracer;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,11 +36,13 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class ThreadPoolConfig {
 
     public static final String TASK_EXECUTOR = "taskExecutor";
-
+    @Resource
+    Tracer tracer;
     @Bean
     public TaskDecorator taskDecorator() {
-        return new ContextPropagatingTaskDecorator();
-        // return new CompositeTaskDecorator(Arrays.asList( new MDCTaskDecorator())); 也可以自己实现，这边使用框架解决
+        // return new ContextPropagatingTaskDecorator();
+        return new CompositeTaskDecorator(Arrays.asList( new SpanTaskDecorator(tracer),
+                new ContextPropagatingTaskDecorator())); //也可以自己实现，这边使用框架解决
     }
 
     @Bean(name = TASK_EXECUTOR)
@@ -51,6 +58,9 @@ public class ThreadPoolConfig {
         taskExecutor.setAwaitTerminationSeconds(60);
         taskExecutor.setTaskDecorator(taskDecorator());
         taskExecutor.initialize();
+        // ContextSnapshot.captureAll()
+        // ContextExecutorService.wrap()
+        // ContextExecutorService.wrap(taskExecutor, ContextSnapshotFactory.builder().build()::captureAll)
         return taskExecutor;
     }
 }

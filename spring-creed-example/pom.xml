@@ -23,6 +23,8 @@
         <module>spring-creed-elasticsearch</module>
         <module>spring-creed-example-local-cache</module>
         <module>spring-creed-cloud-config-server</module>
+        <module>spring-creed-cloud-config-client</module>
+        <module>spring-creed-ai-pom</module>
     </modules>
 
     <properties>

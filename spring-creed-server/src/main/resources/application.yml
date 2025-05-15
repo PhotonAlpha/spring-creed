@@ -75,6 +75,9 @@ management:
     web:
       exposure:
         include: "*"
+  health:
+    defaults:
+      enabled: true
 
 
 #spring:

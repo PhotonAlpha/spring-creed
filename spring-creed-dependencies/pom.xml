@@ -12,13 +12,15 @@
 
     <properties>
         <spring-creed-dependencies.version>1.0.0</spring-creed-dependencies.version>
+
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <spring.boot.version>3.3.0</spring.boot.version>
-        <spring-cloud-dependencies.version>2023.0.2</spring-cloud-dependencies.version>
+        <spring.boot.version>3.4.5</spring.boot.version>
+        <spring-cloud-dependencies.version>2024.0.1</spring-cloud-dependencies.version>
         <spring-cloud-gateway-webflux.version>4.1.4</spring-cloud-gateway-webflux.version>
+        <spring-ai.version>1.0.0-M8</spring-ai.version>
 
         <mapstruct.version>1.5.3.Final</mapstruct.version>
         <guava.version>31.1-jre</guava.version>
@@ -27,18 +29,20 @@
         <commons-io.version>2.11.0</commons-io.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <spring-creed-boot.version>1.1.0</spring-creed-boot.version>
-        <springdoc-openapi.version>2.3.0</springdoc-openapi.version>
+        <springdoc-openapi.version>2.8.6</springdoc-openapi.version>
         <tika-core.version>2.7.0</tika-core.version>
         <hutool-bom.version>5.8.12</hutool-bom.version>
         <redisson.version>3.25.0</redisson.version>
         <skywalking.version>8.14.0</skywalking.version>
-        <micrometer.version>1.0.3</micrometer.version>
+        <micrometer.version>1.5.0-M3</micrometer.version>
         <shardingsphere.version>5.2.1</shardingsphere.version>
         <commons-text.version>1.10.0</commons-text.version>
         <spring-security-oauth2-authorization-server.version>1.4.0</spring-security-oauth2-authorization-server.version>
         <bizlog-sdk.version>3.0.6</bizlog-sdk.version>
         <easyexcel.verion>3.3.4</easyexcel.verion>
         <json-schema-validator.version>1.5.5</json-schema-validator.version>
+        <httpclient5.version>5.4.3</httpclient5.version>
+        <resilience4j-spring-boot3.version>2.3.0</resilience4j-spring-boot3.version>
     </properties>
 
     <dependencyManagement>
@@ -56,6 +60,14 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud-dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-bom</artifactId>
+                <version>${spring-ai.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -142,7 +154,7 @@
             <dependency>
                 <groupId>org.apache.httpcomponents.client5</groupId>
                 <artifactId>httpclient5</artifactId>
-                <version>5.2.1</version>
+                <version>${httpclient5.version}</version>
             </dependency>
 
 
@@ -282,7 +294,27 @@
                 <version>3.2.0</version>
             </dependency>
 
+
+            <!-- resilience4j-spring-boot3 -->
+            <dependency>
+                <groupId>io.github.resilience4j</groupId>
+                <artifactId>resilience4j-spring-boot3</artifactId>
+                <version>${resilience4j-spring-boot3.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
+
+
+    <repositories>
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+    </repositories>
 
 </project>

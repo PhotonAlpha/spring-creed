@@ -63,6 +63,7 @@ def hello():
 - Json Parser(optional)
 - **JPA Buddy**(Ultimate 专属，可以快速生成getter interface)
 - **JSON Schema Generator** (https://plugins.jetbrains.com/plugin/22597-json-schema-generator)
+- plantuml4idea ([一个画时序图的插件](https://plantuml.com/zh-dark/sequence-diagram#0b2e57c3d4eafdda))
 
 
 idea gradle 在控制台输出中文乱码解决方式
