@@ -1,5 +1,235 @@
 # 探索spring-security-oauth2-authorization-server OAUTH2/OIDC
 
+## 首先简单看一下Spring boot的Filter原理
+
+1. ### 项目启动首先**容器（tomcat/jboss）**会创建一个FilterChain，
+
+   ```java
+   #基于tomcat会启用如下的FilterChain
+   org.apache.catalina.core.ApplicationFilterChain#internalDoFilter(ServletRequest request, ServletResponse response)
+   ```
+
+   此处的Filter是全局的
+
+   Spring MVC 内置 Filter：
+   针对一些通用的场景，Spring MVC 内置了一些 Filter，下面看常用的有哪些。
+
+   - **CharacterEncodingFilter**：用于设置请求体、响应体字符集的过滤器，使用这个过滤器可以统一字符编码，避免出现乱码现象。
+   - **CorsFilter**：这是用来处理跨域的过滤器，请求到达这个过滤器时，会根据配置添加跨域相关的响应头。
+   - **FormContentFilter**：对于请求方法为PUT、PATCH、DELETE，内容类型为表单application/x-www-form-urlencoded的请求，请求体中的参数无法通过 ServletRequest#getParameter 方法读取，这个过滤器对请求已经包装，以便可以通过 #getParameter 方法读取参数。
+
+   ### Spring 中常用的的 Filter 配置
+
+   1. **Spring Bean 配置**
+      除了普通 Spring MVC 环境下的配置，Spring Boot 环境中，Spring Boot 1.4 及之后版本下还可以直接将 Filter 注册为 Bean，Filter Bean 将应用到所有的请求中。示例代码如下。
+
+      ```java
+      @Component
+      @Ordered(0)//用于控制在FilterChain中的顺序
+      public class CorsFilter implements Filter {
+          @Override
+          public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+              chain.doFilter(request, response);
+          }
+      }
+      ```
+
+   2. **FilterRegistrationBean 配置**
+      FilterRegistrationBean 同样是 Spring Boot 1.4 版本提出的一个新类型，这个类允许指定过滤的请求路径，将这个类配置为 Bean 即可。示例代码如下。
+
+      ```java
+      @Configuration
+      public class MvcConfig {
+      
+          @Bean
+          public FilterRegistrationBean<CorsFilter> filterRegistrationBean() {
+              FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter());
+              bean.addUrlPatterns("/*");
+              bean.addInitParameter("allowedMethods", "GET,POST");
+            	bean.setOrder(order);//通过setOrder控制在FilterChain中的顺序
+              return bean;
+          }
+      }
+      ```
+
+2. ### Spring Security的原理
+
+   Spring Security的原理就是基于上述的FilterChain中注入一个SecurityFilterChain，本质上是一个Filter，集合所有Spring Security相关的Filter于FilterChain中。
+
+   ```java
+   org.springframework.security.web.ObservationFilterChainDecorator#doFilter(ServletRequest request, ServletResponse response)
+     ⬇️⬇️⬇️
+   org.springframework.security.web.ObservationFilterChainDecorator.VirtualFilterChain#doFilter(ServletRequest request, ServletResponse response)
+   ```
+
+   > [!IMPORTANT]
+   >
+   > **注意**当往`SecurityFilterChain`添加`Filter`的时候，该`Filter`不可使用`@Bean`修饰，**否则会被执行两次**。原因看上述**1.**的原理。
+   >
+   > 即使添加也没关系，Spring的 **`OncePerRequestFilter`**会通过`boolean hasAlreadyFilteredAttribute = request.getAttribute(alreadyFilteredAttributeName) != null;`检查是否被执行过，从而跳过该Filter再次被执行。**前提是custom filter是继承自OncePerRequestFilter**
+   >
+   > ```java
+   > @Bean //不需要添加
+   > public LoginTokenAuthenticationFilter loginTokenAuthenticationFilter() {
+   >     return new LoginTokenAuthenticationFilter();
+   > }
+   > @Bean
+   > public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) {
+   >     http
+   >       .addFilterAfter(loginTokenAuthenticationFilter(), AnonymousAuthenticationFilter.class);
+   > }
+   > 
+   > ```
+   >
+   > `源码：org.springframework.web.filter.OncePerRequestFilter#doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)`
+   >
+   > 参考代码
+   >
+   > ```java
+   > 		@Bean
+   > 		public LoginTokenAuthenticationFilter loginTokenAuthenticationFilter() {
+   >         return new LoginTokenAuthenticationFilter();
+   >     }
+   >     @Bean
+   >     // @Order(2)
+   >     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http)
+   >             throws Exception {
+   >         Multimap<HttpMethod, String> permitAllUrls = getPermitAllUrlsFromAnnotations();
+   >         http
+   >                 .cors(Customizer.withDefaults()) // 开启跨域
+   >                 .csrf(AbstractHttpConfigurer::disable) // CSRF 禁用，因为不使用 Session
+   >                 .sessionManagement(mng -> mng.sessionCreationPolicy(SessionCreationPolicy.NEVER))
+   >                 .addFilterAfter(loginTokenAuthenticationFilter(), AnonymousAuthenticationFilter.class)
+   >                 .oauth2ResourceServer(oauth2 ->
+   >                         oauth2
+   >                         .opaqueToken(Customizer.withDefaults())
+   >                         .authenticationEntryPoint(exceptionHandler())
+   >                 )
+   >                 .authorizeHttpRequests((authorize) -> authorize
+   >                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/actuator/**", "/webjars/**", "/resources/**", "/static/**").permitAll()
+   >                         .requestMatchers(securityProperties.getPermitAllUrls().toArray(new String[0])).permitAll()
+   >                         .anyRequest().authenticated()
+   >                 )
+   >                 .exceptionHandling(eh ->
+   >                         eh.accessDeniedHandler(exceptionHandler())
+   >                                 .authenticationEntryPoint(exceptionHandler())
+   >                 )
+   >                 .formLogin(form ->
+   >                         form.loginPage("/oauth/index")
+   >                                 .loginProcessingUrl("/oauth/login")
+   >                                 .failureUrl("/oauth/index?error")
+   >                                 .defaultSuccessUrl("/user/info")
+   >                                 .permitAll()
+   >                 )
+   >                 .logout(LogoutConfigurer::permitAll)
+   >                 .httpBasic(Customizer.withDefaults());
+   >         return http.build();
+   >     }
+   > ```
+   >
+
+   ### ❤️❤️❤️❤️Spring Security内置FilterChain认证流程♥️♥️♥️♥️
+
+   进过一系列的Filter，最终会进入**AuthorizationFilter**验证`Authentication`是否合法
+
+   ```java
+   AuthorizationResult result = this.authorizationManager.authorize(this::getAuthentication, request);
+   // this.authorizationManager = ObservationAuthorizationManager
+   public AuthorizationDecision check(Supplier<Authentication> authentication, T object) {
+     AuthorizationDecision decision = this.delegate.check(wrapped, object);
+   }
+   // this.delegate = RequestMatcherDelegatingAuthorizationManager 
+   //关键代码
+   public final class RequestMatcherDelegatingAuthorizationManager implements AuthorizationManager<HttpServletRequest> {
+   	@Override
+   	public AuthorizationDecision check(Supplier<Authentication> authentication, HttpServletRequest request) {
+   		if (this.logger.isTraceEnabled()) {
+   			this.logger.trace(LogMessage.format("Authorizing %s", requestLine(request)));
+   		}
+   		for (RequestMatcherEntry<AuthorizationManager<RequestAuthorizationContext>> mapping : this.mappings) {
+   
+   			RequestMatcher matcher = mapping.getRequestMatcher();
+   			MatchResult matchResult = matcher.matcher(request);
+   			if (matchResult.isMatch()) {
+   				AuthorizationManager<RequestAuthorizationContext> manager = mapping.getEntry();
+   				if (this.logger.isTraceEnabled()) {
+   					this.logger.trace(
+   							LogMessage.format("Checking authorization on %s using %s", requestLine(request), manager));
+   				}
+   				return manager.check(authentication,
+   						new RequestAuthorizationContext(request, matchResult.getVariables()));
+   			}
+   		}
+   		if (this.logger.isTraceEnabled()) {
+   			this.logger.trace(LogMessage.of(() -> "Denying request since did not find matching RequestMatcher"));
+   		}
+   		return DENY;
+   	}
+   }
+   // 1.首先check配置URL  permitAll()的endpoint，如果配置，则直接返回AuthorizationDecision(true)
+   // ("/actuator/health", AuthorizeHttpRequestsConfigurer#AuthorizationManager<RequestAuthorizationContext> permitAllAuthorizationManager = (a, o) -> new AuthorizationDecision(true))
+   
+   // 2.如果验证都不通过，开始检查Authentication，并且不是AnonymousAuthenticationToken的
+   // ("any request",AuthenticatedAuthorizationManager#AbstractAuthorizationStrategy authorizationStrategy#AuthenticationTrustResolver )
+   public final class AuthenticatedAuthorizationManager<T> implements AuthorizationManager<T> {
+     public AuthorizationDecision check(Supplier<Authentication> authentication, T object) {
+         boolean granted = this.authorizationStrategy.isGranted(authentication.get());
+         return new AuthorizationDecision(granted);
+   	}
+   }
+   // this.authorizationStrategy = ⬇️
+   public interface AuthenticationTrustResolver {
+   	default boolean isAuthenticated(Authentication authentication) {
+   		return authentication != null && authentication.isAuthenticated() && !isAnonymous(authentication);
+   	}
+   }
+   ```
+
+3. ### Spring OAuth2 Authorization Server的原理
+
+   Spring OAuth2 Authorization Server的原理就是基于上述的FilterChain中注入另一个SecurityFilterChain。
+
+   ```java
+   @Bean
+   @Order(Ordered.HIGHEST_PRECEDENCE)
+   public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http, AuthorizationServerSettings authorizationServerSettings)
+           throws Exception {
+       OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer.authorizationServer();
+       http.securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
+           .with(authorizationServerConfigurer, Customizer.withDefaults())
+           .authorizeHttpRequests((authorize) ->
+                   authorize.anyRequest().authenticated()
+           );
+   
+       http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
+               // issue see: https://github.com/spring-projects/spring-authorization-server/issues/1116
+               .deviceAuthorizationEndpoint(Customizer.withDefaults())
+               .deviceVerificationEndpoint(endpoint -> endpoint.deviceVerificationResponseHandler(
+                       new SimpleUrlAuthenticationSuccessHandler("/oauth/active?success")
+               ))
+               .clientAuthentication(clientAuthentication -> clientAuthentication
+                       .authenticationConverter(
+                               new DeviceClientAuthenticationConverter(authorizationServerSettings.getDeviceAuthorizationEndpoint())
+                       )
+                       .authenticationProvider(
+                               new DeviceClientAuthenticationProvider(registeredClientRepository())
+                       ))
+               .oidc(Customizer.withDefaults());
+       http
+               .oauth2ResourceServer(rs ->
+                               rs.jwt(Customizer.withDefaults())
+               );
+       http.exceptionHandling((exceptions) -> exceptions
+                               .authenticationEntryPoint(
+                                       new LoginUrlAuthenticationEntryPoint("/oauth/index"))
+               .addFilterAfter(loginTokenAuthenticationFilter, AnonymousAuthenticationFilter.class);
+       return http.build();
+   
+   }
+   ```
+
+   
+
 ## Spring OAuth2 Filter注册流程
 
 ### Ⅰ.AuthorizationServerSettings 注册了以下api endpoint
@@ -1536,9 +1766,13 @@ $ curl -O https://www.example.com/foo/bar.html
 
 如果服务器报告请求的页面已移动到其他位置（用location:header和3xx 响应代码），此选项将使curl在新位置上重新执行请求。
 
+### --cacert/--cert/--key
 
-
-
+```shell
+curl --cacert ./creed-mall-ca.crt --cert ./creed-mall-client.crt --key ./creed-mall-client.key -X POST 'https://localhost:8080/buziVa/artisan' \
+-H 'Content-Type: application/json' \
+-d '{"code":"code_1af7a7c4e6b7","name":"name_8829441c9599","password":"password_529900b1b6df","email":"email_c0ef7355a413","sex":"sex_6dd875ec820b","phone":"","profile":{"avatar":"https://xxxx.jpg","accountName":"journey","nickName":"journey","accountInfo":{"realNameAuthentication":{}},"addressManagement":{"tags":["家","公司","学校"],"customTags":["乌托邦"],"address":[]}}}'
+```
 
 
 

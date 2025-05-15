@@ -9,6 +9,7 @@ package com.ethan.monitor.config;
 
 import io.micrometer.context.ContextExecutorService;
 import io.micrometer.context.ContextSnapshot;
+import io.micrometer.context.ContextSnapshotFactory;
 import jakarta.annotation.Resource;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
@@ -24,13 +25,13 @@ public class AsyncConfig implements AsyncConfigurer, WebMvcConfigurer {
     private ThreadPoolTaskExecutor taskExecutor;
     @Override
     public Executor getAsyncExecutor() {
-        return ContextExecutorService.wrap(taskExecutor.getThreadPoolExecutor(), ContextSnapshot::captureAll);
+        return ContextExecutorService.wrap(taskExecutor.getThreadPoolExecutor(), ContextSnapshotFactory.builder().build()::captureAll);
     }
 
 
 
     @Override
     public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
-        configurer.setTaskExecutor(new SimpleAsyncTaskExecutor(r -> new Thread(ContextSnapshot.captureAll().wrap(r))));
+        configurer.setTaskExecutor(new SimpleAsyncTaskExecutor(r -> new Thread(ContextSnapshotFactory.builder().build().captureAll().wrap(r))));
     }
 }

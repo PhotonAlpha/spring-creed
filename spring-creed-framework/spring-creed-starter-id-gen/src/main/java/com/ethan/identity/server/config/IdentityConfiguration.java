@@ -10,6 +10,7 @@ import com.ethan.identity.server.service.SegmentService;
 import com.ethan.identity.server.service.SnowflakeService;
 import jakarta.servlet.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -33,8 +34,8 @@ import java.util.Arrays;
 public class IdentityConfiguration {
     @Bean
     @ConditionalOnProperty(prefix = "leaf.console", value = "enable", havingValue = "true")
-    public FilterRegistrationBean<IdGenerateConsoleFilter> idGenerateConsoleFilterBean(@Autowired(required = false) SegmentService segmentService, @Autowired(required = false) SnowflakeService snowflakeService, ViewResolver viewResolver) {
-        var idGenerateConsoleFilter = new IdGenerateConsoleFilter(segmentService, snowflakeService, viewResolver);
+    public FilterRegistrationBean<IdGenerateConsoleFilter> idGenerateConsoleFilterBean(@Autowired(required = false) SegmentService segmentService, @Autowired(required = false) SnowflakeService snowflakeService,@Qualifier("thymeleafViewResolver") ViewResolver defaultViewResolver) {
+        var idGenerateConsoleFilter = new IdGenerateConsoleFilter(segmentService, snowflakeService, defaultViewResolver);
         FilterRegistrationBean<IdGenerateConsoleFilter> beanFactory = new FilterRegistrationBean<>(idGenerateConsoleFilter);
         beanFactory.setOrder(WebFilterOrderEnum.CORS_FILTER + 1);
         beanFactory.setEnabled(true);

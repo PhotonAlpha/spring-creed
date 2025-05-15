@@ -241,3 +241,30 @@ less [参数] 文件
 
 - [pageup]： 向上翻动一页
 
+
+
+# du -sh file_path占用磁盘空间大小
+
+**Explanation**
+
+- `du` (**d**isc **u**sage) command estimates file_path space usage
+
+- The options `-sh` are (from `man du`):
+
+  ```
+    -s, --summarize
+           display only a total for each argument
+  
+    -h, --human-readable
+           print sizes in human readable format (e.g., 1K 234M 2G)
+  
+  #查看当前文件夹下所有文件大小
+  du -sh */
+  ```
+  
+  To check more than one directory and see the total, use `du -sch`:
+  
+  ```
+    -c, --total
+           produce a grand total
+  ```

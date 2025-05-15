@@ -4,6 +4,8 @@ import io.micrometer.context.ContextExecutorService;
 import io.micrometer.context.ContextSnapshot;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.TaskDecorator;
+import org.springframework.core.task.support.ContextPropagatingTaskDecorator;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
@@ -61,8 +63,16 @@ public class ThreadPoolConfig {
         taskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         taskExecutor.setWaitForTasksToCompleteOnShutdown(true);
         taskExecutor.setAwaitTerminationSeconds(60);
+        taskExecutor.setTaskDecorator(taskDecorator());
         taskExecutor.initialize();
         return taskExecutor;
+    }
+
+
+    @Bean
+    public TaskDecorator taskDecorator() {
+        return new ContextPropagatingTaskDecorator();
+        // return new CompositeTaskDecorator(Arrays.asList( new MDCTaskDecorator())); 也可以自己实现，这边使用框架解决
     }
 
 }

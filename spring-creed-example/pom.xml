@@ -17,10 +17,12 @@
         <module>spring-creed-example-validator</module>
         <module>spring-creed-example-ssl</module>
         <module>spring-creed-batch</module>
-        <module>spring-creed-cache</module>
+        <module>spring-creed-distribute-cache</module>
         <module>spring-creed-distributed-session</module>
         <module>spring-creed-dubbo-component</module>
         <module>spring-creed-elasticsearch</module>
+        <module>spring-creed-example-local-cache</module>
+        <module>spring-creed-cloud-config-server</module>
     </modules>
 
     <properties>
@@ -28,5 +30,37 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

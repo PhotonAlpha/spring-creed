@@ -45,8 +45,10 @@ public class LoginTokenAuthenticationFilter extends OncePerRequestFilter {
     private OAuth2AuthorizationService authorizationService;
     @Resource
     private CreedSecurityProperties securityProperties;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+        log.info("::under LoginTokenAuthenticationFilter::");
         DefaultBearerTokenResolver defaultBearerTokenResolver = new DefaultBearerTokenResolver();
         String token = defaultBearerTokenResolver.resolve(request);
         boolean matched = Optional.ofNullable(securityProperties).map(CreedSecurityProperties::getPermitAllUrls)

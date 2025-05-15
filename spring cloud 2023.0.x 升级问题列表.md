@@ -30,6 +30,8 @@
 > https://spring.io/guides/gs/spring-cloud-loadbalancer
 > https://docs.spring.io/spring-cloud-commons/docs/current/reference/html/#simplediscoveryclient
 > 
+> TODO 需要验证 ThreadPool：https://stackoverflow.com/questions/78020101/spring-boot-3-upgrade-executor-context-propagation-sleuth-to-micrometer-tracing
+> 
 > 4. @LoadBalancerClient or @LoadBalancerClients 添加@Configuration 导致异常
 >
 >       The classes you pass as @LoadBalancerClient or @LoadBalancerClients configuration arguments should either not be annotated with @Configuration or be outside component scan scope.

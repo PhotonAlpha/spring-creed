@@ -9,7 +9,7 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>spring-creed-cache</artifactId>
+    <artifactId>spring-creed-distribute-cache</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>

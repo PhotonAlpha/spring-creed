@@ -96,7 +96,7 @@ public class SecurityConfig {
     }
 
 
-    @Bean
+    // @Bean
     public LoginTokenAuthenticationFilter loginTokenAuthenticationFilter() {
         return new LoginTokenAuthenticationFilter();
     }
