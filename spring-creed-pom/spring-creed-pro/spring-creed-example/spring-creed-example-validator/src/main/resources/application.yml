@@ -6,3 +6,6 @@
 
 json-schema-validator:
   cache: false
+logging:
+  level:
+    root: debug

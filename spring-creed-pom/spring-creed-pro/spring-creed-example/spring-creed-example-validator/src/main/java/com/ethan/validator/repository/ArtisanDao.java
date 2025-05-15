@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 /**
  * @author EthanCao ethan.caoq@foxmail.com
@@ -96,5 +97,14 @@ public class ArtisanDao {
         user.setId((NumberUtils.toLong(maxId) + 1) + "");
         MAPPING.add(user);
         return user;
+    }
+
+    public List<MyAccountDetailsVO> list(MyAccountDetailsVO user) {
+        var queryName = user.getName();
+        var queryCode = user.getCode();
+        Predicate<MyAccountDetailsVO> namePredicate = dtl -> StringUtils.isBlank(dtl.getName()) || StringUtils.containsIgnoreCase(dtl.getName(), queryName);
+        Predicate<MyAccountDetailsVO> codePredicate = dtl -> StringUtils.isBlank(dtl.getCode()) ||  StringUtils.containsIgnoreCase(dtl.getCode(), queryCode);
+
+        return MAPPING.stream().filter(namePredicate.or(codePredicate)).toList();
     }
 }
