@@ -1,0 +1,3 @@
+[#th:block th:each="extra : ${dataProperties}"]
+INSERT INTO properties (CREATED_ON, APPLICATION, PROFILE, LABEL, PROP_KEY, VALUE) VALUES (now(), '[(${extra.application})]', '[(${extra.profile})]', '[(${extra.label})]', '[(${extra.propertyKey})]', '[(${extra.propertyValue})]');
+[/th:block]

@@ -3,6 +3,7 @@ package com.creed.handler;
 import com.creed.dto.Employee;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.ItemWriteListener;
+import org.springframework.batch.item.Chunk;
 
 import java.util.List;
 
@@ -14,17 +15,17 @@ import java.util.List;
 @Slf4j
 public class EmployeeWriterListener implements ItemWriteListener<Employee> {
     @Override
-    public void beforeWrite(List<? extends Employee> list) {
+    public void beforeWrite(Chunk<? extends Employee> list) {
         log.info("EmployeeWriterListener beforeWrite:{}", list);
     }
 
     @Override
-    public void afterWrite(List<? extends Employee> list) {
+    public void afterWrite(Chunk<? extends Employee> list) {
         log.info("EmployeeWriterListener afterWrite:{}", list);
     }
 
     @Override
-    public void onWriteError(Exception e, List<? extends Employee> list) {
+    public void onWriteError(Exception e, Chunk<? extends Employee> list) {
         log.info("EmployeeWriterListener onWriteError:{} exception:{}", list, e);
     }
 }

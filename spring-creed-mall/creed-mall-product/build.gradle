@@ -1,5 +1,0 @@
-dependencies {
-    implementation project(":spring-creed-mall:creed-mall-common")
-
-    implementation 'com.aliyun.oss:aliyun-sdk-oss:3.8.0'
-}

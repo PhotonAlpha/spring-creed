@@ -1,4 +1,0 @@
-dependencies {
-    implementation 'org.beanio:beanio:2.1.0'
-    implementation 'org.springframework.boot:spring-boot-starter-batch'
-}

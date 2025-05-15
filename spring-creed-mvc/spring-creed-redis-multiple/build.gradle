@@ -1,6 +1,0 @@
-dependencies {
-    implementation "org.springframework.boot:spring-boot-starter-data-redis"
-    implementation 'io.lettuce:lettuce-core'
-
-    implementation project(":spring-creed-mvc:spring-creed-context")
-}

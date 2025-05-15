@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: spring-cloud-config-client
+  profiles:
+    group:
+      "prod":
+        - proddb
+        - prodmq
+        - prodredis
+      "local":
+        - dev
+        - devdb
+        - devmq
+        - devjdbc
+        - debuglogin
+    active: local
+
+  config:
+    import: optional:configserver:http://localhost:8888
+  cloud:
+    config:
+      label: latest

@@ -1,0 +1,43 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: spring-cloud-config-server
+  profiles:
+    active: jdbc #重要
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/config-server
+    username: root
+    password: root
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+
+  cloud:
+    config:
+      server:
+        jdbc:
+          sql: "SELECT `PROP_KEY`, `VALUE` from `PROPERTIES` where `APPLICATION`=? and `PROFILE`=? and `LABEL`=?"
+          order: 1
+          sql-without-profile: "SELECT `PROP_KEY`, `VALUE` from `PROPERTIES` where `APPLICATION`=? and `LABEL`=? and `PROFILE` is null "
+
+management:
+  health:
+    defaults:
+      enabled: false
+    ping:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+#  health:
+#    defaults:
+#      enabled: false
+#    ping:
+encrypt:
+  key-store:
+    alias:
+#      enabled: true
