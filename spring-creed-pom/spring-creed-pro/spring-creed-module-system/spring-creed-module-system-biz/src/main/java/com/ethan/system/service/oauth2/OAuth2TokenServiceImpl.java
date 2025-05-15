@@ -8,11 +8,14 @@ import com.ethan.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenPageRe
 import com.ethan.system.convert.oauth2.OAuth2RegisteredClientConvert;
 import com.ethan.system.dal.entity.oauth2.CreedOAuth2Authorization;
 import com.ethan.system.dal.entity.oauth2.CreedOAuth2RegisteredClient;
+import com.ethan.system.dal.entity.oauth2.graph.CreedOAuth2AuthorizationVO;
 import com.ethan.system.dal.redis.oauth2.OAuth2AccessTokenRedisDAO;
 import com.ethan.system.dal.repository.oauth2.CreedOAuth2AuthorizationRepository;
+import com.ethan.system.dal.repository.oauth2.graph.OAuth2AuthorizationGraphRepository;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
@@ -38,6 +41,8 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
 
     @Resource
     private CreedOAuth2AuthorizationRepository auth2AuthorizationRepository;
+    @Resource
+    private OAuth2AuthorizationGraphRepository auth2AuthorizationGraphRepository;
     // @Resource
     // private OAuth2RefreshTokenRepository oauth2RefreshTokenRepository;
     @Resource
@@ -214,23 +219,9 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     }
 
     @Override
-    public PageResult<CreedOAuth2Authorization> getAccessTokenPage(OAuth2AccessTokenPageReqVO reqVO) {
-        if (StringUtils.isNotBlank(reqVO.getClientId())) {
-            reqVO.setClientIds(
-                    oauth2ClientService.findAllOAuth2Client(OAuth2RegisteredClientConvert.INSTANCE.convert(reqVO.getClientId()))
-                            .stream().map(CreedOAuth2RegisteredClient::getId).distinct().toList()
-            );
-        }
-
-        Page<CreedOAuth2Authorization> result = auth2AuthorizationRepository.findByCondition(reqVO);
-        List<CreedOAuth2Authorization> content = result.getContent();
-        Consumer<CreedOAuth2Authorization> clientIdTranslate = auth -> {
-            Optional.ofNullable(oauth2ClientService.getOAuth2ClientFromCacheById(auth.getRegisteredClientId()))
-                    .map(CreedOAuth2RegisteredClient::getClientId)
-                    .ifPresent(auth::setClientId);
-        };
-        content.forEach(clientIdTranslate);
-        return new PageResult<>(content, result.getTotalElements());
+    public PageResult<CreedOAuth2AuthorizationVO> getAccessTokenPage(OAuth2AccessTokenPageReqVO reqVO) {
+        Page<CreedOAuth2AuthorizationVO> result = auth2AuthorizationGraphRepository.findByCondition(reqVO, PageRequest.of(reqVO.getPageNo(), reqVO.getPageSize()));
+        return new PageResult<>(result.getContent(), result.getTotalElements());
     }
 
 

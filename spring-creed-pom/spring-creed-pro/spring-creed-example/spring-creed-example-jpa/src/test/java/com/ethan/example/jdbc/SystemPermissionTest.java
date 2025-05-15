@@ -61,6 +61,7 @@ public class SystemPermissionTest {
         //
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withIgnorePaths("id")
+                .withIgnorePaths("clientId")
                 .withStringMatcher(ExampleMatcher.StringMatcher.DEFAULT);
 
 

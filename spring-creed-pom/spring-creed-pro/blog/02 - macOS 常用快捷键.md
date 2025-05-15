@@ -152,13 +152,13 @@ macOS 上有几个常用的修饰键： **Command（或 Cmd）⌘**、**Option�
 
 2. download dependencies: `mvn install  *-Dmaven.wagon.http.ssl.insecure=true* -Dmaven.test.skip=true`
 
-   `mvn -Dmaven.wagon.http.ssl.insecure=true -DskipTests -Dmaven.test.skip=true -s /Users/venojk/.m2/settings-ufw\ 2.xml  clean package`
+   `mvn -Dmaven.wagon.http.ssl.insecure=true -DskipTests -Dmaven.test.skip=true -s /Users/xxx/.m2/settings.xml  clean package`
 
    
 
 3. download sourcecode : `mvn dependency:sources -DdownloadSources=true -Dmaven.wagon.http.ssl.insecure=true`
 
-   `mvn -Dmaven.wagon.http.ssl.insecure=true -s /Users/venojk/.m2/settings-ufw\ 2.xml  dependency:sources -DdownloadSources=true -Dmaven.wagon.http.ssl.insecure=true`
+   `mvn -Dmaven.wagon.http.ssl.insecure=true -s /Users/xxx/.m2/settings.xml  dependency:sources -DdownloadSources=true -Dmaven.wagon.http.ssl.insecure=true`
 
 4. check port in use: `netstat -tln | grep 8080`
 
@@ -201,6 +201,32 @@ macOS 上有几个常用的修饰键： **Command（或 Cmd）⌘**、**Option�
     scp /source-path/to/xxx.sh user@host-or-ip:/target-path/to/
     ```
 
+13. Mac命令脚本，执行
+
+    ```shell
+    #!/bin/bash
+    PW=my-pass
+    /usr/bin/expect -c "
+    # https://stackoverflow.com/questions/66011820/expect-script-inside-bash-and-resize-of-terminal
+    trap {
+     set rows [stty rows]
+     set cols [stty columns]
+     stty rows \$rows columns \$cols < \$spawn_out(slave,name)
+    } WINCH
+    spawn ssh <username>@<my-host>
+    expect \"password\"
+    send \"$PW\r\"
+    expect {
+        -re {[$>#] $} {
+            send \"cd /tmp/ \r\"
+            send \"pwd\r\"
+            send \"bash \r\"
+        }
+    }
+    interact
+    "
+    ```
+    
     
 
 # 参考资料

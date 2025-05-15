@@ -38,7 +38,7 @@
 |move statement up down代码移动 | `shift⇧ + command ⌘ + ↑ or ↓` | `Ctrl + Shift + up or down`|
 |duplicate entire lines复制代码 | `command ⌘ + D` | `Ctrl + D`|
 |Move Caret Word | `option ⌥ + ←/→` | `Ctrl + ←/→` |
-|**跳转到行** | `command ⌘ + L` | `Ctrl + G` |
+|go to line**跳转到行** | `command ⌘ + L` | `Ctrl + G` |
 |翻译 | `control ⌃ + command ⌘ + U` ||
 |删除行 | `command(⌘)+ del ⌦` | `Ctrl + Y`|
 |main 方法 | ` psvm `||
@@ -241,4 +241,4 @@ less [参数] 文件
 
 - [pageup]： 向上翻动一页
 
-  
+

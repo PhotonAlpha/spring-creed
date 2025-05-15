@@ -60,7 +60,7 @@
 - `@MappedSuperclass`
 
   	It is used to group some common properties used by all entities, 
-	
+		
   	like `id`, or some auditing information like `createdAt` and `createdBy`.
 
 - `@JoinColumn`
@@ -197,9 +197,16 @@
 
 # EntityGraph实体图
 
-解决N+1问题
+解决N+1问题 使用`@NamedEntityGraph`或者`FetchableFluentQuery`
 
-https://juejin.cn/post/6869650227268157454
+使用JpaSpecification API 可以实现动态查询。其中`<S extends T, R> R findBy(Specification<T> spec, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction);`可以实现相同的效果。
+
+
+
+参考：
+
+- https://juejin.cn/post/6869650227268157454
+- https://github.com/spring-projects/spring-data-jpa/issues/2113
 
 
 

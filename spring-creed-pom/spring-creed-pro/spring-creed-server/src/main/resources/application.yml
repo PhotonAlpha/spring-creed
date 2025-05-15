@@ -6,12 +6,12 @@ server:
 logging:
   level:
     root: info
-    org:
-      redisson:
-        command:
-          RedisExecutor: info
-      hibernate:
-        stat: DEBUG
+    org.redisson.command.RedisExecutor: info
+    org.hibernate.stat: DEBUG
+    org.hibernate.orm.results: INFO
+    org.hibernate.orm.jdbc.bind: trace
+    org.springframework.jdbc.core.StatementCreatorUtils: TRACE
+    org.springframework.jdbc.core.JdbcTemplate: DEBUG
 spring:
   profiles:
     active: redis,shardingsphere,jpa

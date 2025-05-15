@@ -355,6 +355,12 @@ openssl x509 -noout -modulus -in domain.crt | openssl md5
 
 #### PEM 格式 vs DER 格式
 
+> [!TIP]
+>
+> ***PEM格式*：*PEM*（Privacy Enhanced Mail）是一种常见的证书*格式*，它使用*Base64*编码的ASCII文本表示证书。**
+>
+> **DER - Distinguished Encoding Rules,打开看是二进制格式,不可读.**
+
 The DER format is typically used with Java.
 
 - **PEM 格式转成 DER 格式**

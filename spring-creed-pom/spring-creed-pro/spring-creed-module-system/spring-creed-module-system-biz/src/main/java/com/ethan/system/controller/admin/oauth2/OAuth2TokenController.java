@@ -7,6 +7,7 @@ import com.ethan.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenPageRe
 import com.ethan.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenRespVO;
 import com.ethan.system.convert.auth.OAuth2TokenConvert;
 import com.ethan.system.dal.entity.oauth2.CreedOAuth2Authorization;
+import com.ethan.system.dal.entity.oauth2.graph.CreedOAuth2AuthorizationVO;
 import com.ethan.system.service.auth.AdminAuthService;
 import com.ethan.system.service.oauth2.OAuth2TokenService;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -38,7 +39,7 @@ public class OAuth2TokenController {
     @Schema(name = "获得访问令牌分页", description = "只返回有效期内的")
     // @PreAuthorize("@ss.hasPermission('system:oauth2-token:page')")
     public R<PageResult<OAuth2AccessTokenRespVO>> getAccessTokenPage(@Valid OAuth2AccessTokenPageReqVO reqVO) {
-        PageResult<CreedOAuth2Authorization> pageResult = oauth2TokenService.getAccessTokenPage(reqVO);
+        PageResult<CreedOAuth2AuthorizationVO> pageResult = oauth2TokenService.getAccessTokenPage(reqVO);
         return success(OAuth2TokenConvert.INSTANCE.convert0(pageResult));
     }
 
