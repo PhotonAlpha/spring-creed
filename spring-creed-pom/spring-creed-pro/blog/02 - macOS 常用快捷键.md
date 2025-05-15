@@ -226,8 +226,20 @@ macOS 上有几个常用的修饰键： **Command（或 Cmd）⌘**、**Option�
     interact
     "
     ```
-    
-    
+
+
+
+
+# MacBook 生产工具列表
+
+- **draw.io**
+- **Fork**
+- **Keka** 解压缩工具
+- **Maccy** 复制粘贴历史记录，类似于windows的 win+v
+- **Typora** Markdown视图工具
+- **Visual** Studio Code
+-  KeyStore Explorer  SSL查看工具
+-  apache-jmeter-5.6.3 压测工具
 
 # 参考资料
 

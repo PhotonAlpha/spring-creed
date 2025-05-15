@@ -65,13 +65,13 @@ spring:
 > 6. lombok code coverage issue
 > 
 >         use @lombok.XXX instead of importing import lombok.Getter;
-> 
+>        
 >         It really solve the problem。
-> 
+>        
 >         but ，after my test,
-> 
+>        
 >         upgrade the lombok to org.projectlombok:lombok:1.18.26+
-> 
+>        
 >         the problem alse can be solved.
 > 
 >    https://stackoverflow.com/questions/65412697/addlombokgeneratedannotation-on-lombok-config-doesnt-ignore-lombok-annotations
@@ -267,3 +267,22 @@ spring:
 - https://stackoverflow.com/questions/50523407/the-temporary-upload-location-tmp-tomcat-4296537502689403143-5000-work-tomcat/50523578
 - https://javaee.github.io/tutorial/servlets011.html
 - https://github.com/spring-projects/spring-boot/issues/9073
+
+
+
+
+
+### 
+
+# ruoyi-vue-pro 使用记录
+
+https://blog.csdn.net/qq_41146650/article/details/138668579
+
+antRain 提供了所有sql
+
+脚本： https://greasyfork.org/zh-CN/scripts/481001-yudao
+
+破解弹框： https://www.zhihu.com/question/577119224
+https://github.com/talkpoin/ruoyi-spring-boot-all
+
+https://www.mjga.cc/
