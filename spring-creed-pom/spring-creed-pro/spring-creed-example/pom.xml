@@ -14,6 +14,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>spring-creed-example-jpa</module>
+        <module>spring-creed-example-validator</module>
+        <module>spring-creed-example-ssl</module>
     </modules>
 
     <properties>
