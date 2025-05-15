@@ -64,7 +64,7 @@ public class PropertySourcesTranslateTest {
         var ymlString = yamlMapper.writeValueAsString(jsonNode);
         // 转换为 YAML 文件
         // yamlMapper.writeValue(new File(
-        //         "/Users/venojk/Desktop/workspace/sourcecode/ethan-space/spring-creed/spring-creed-example/spring-creed-cloud-config-server/src/main/resources/templates/application.yml"),
+        //         "/Users/spring-creed-cloud-config-server/src/main/resources/templates/application.yml"),
         //         jsonNode);
         System.out.println("======ymlString======");
         System.out.println(ymlString);
