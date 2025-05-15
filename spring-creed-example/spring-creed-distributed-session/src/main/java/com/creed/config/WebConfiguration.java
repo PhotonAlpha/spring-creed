@@ -1,10 +1,10 @@
 package com.creed.config;
 
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.WebApplicationInitializer;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 
 @Component
 public class WebConfiguration implements WebApplicationInitializer {

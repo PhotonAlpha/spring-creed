@@ -1,7 +1,0 @@
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation "org.springframework.boot:spring-boot-starter-web"
-    implementation 'org.webjars:jquery:2.2.1'
-    implementation 'org.webjars:materializecss:0.99.0'
-    implementation 'org.webjars:material-design-icons:3.0.1'
-}

@@ -1,9 +1,9 @@
 package com.ethan.cache.dao;
 
+import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
-import javax.annotation.Resource;
 
 public abstract class AbstractBaseRedisDao<K, V> {
   @Resource(name = "redisTemplate")

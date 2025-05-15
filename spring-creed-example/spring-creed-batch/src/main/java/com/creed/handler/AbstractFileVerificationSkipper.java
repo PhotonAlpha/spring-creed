@@ -26,7 +26,7 @@ import java.time.format.DateTimeFormatter;
 public class AbstractFileVerificationSkipper implements SkipPolicy {
     public static final DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss");
     @Override
-    public boolean shouldSkip(Throwable t, int skipCount) throws SkipLimitExceededException {
+    public boolean shouldSkip(Throwable t, long skipCount) throws SkipLimitExceededException {
         if (t instanceof InvalidRecordException) {
             InvalidRecordException recordException = (InvalidRecordException) t;
             String originalText = recordException.getRecordContext().getRecordText() + System.lineSeparator();

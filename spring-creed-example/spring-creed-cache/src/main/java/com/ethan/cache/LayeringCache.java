@@ -5,7 +5,7 @@ import com.ethan.cache.constants.ChannelTopicEnum;
 import com.ethan.cache.listener.RedisPublisher;
 import com.ethan.cache.model.RedisCacheBean;
 import com.ethan.cache.redis.CustomizedRedisCache;
-import com.ethan.context.utils.InstanceUtils;
+import com.ethan.common.utils.json.JacksonUtils;
 import org.slf4j.Logger;
 import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.cache.support.AbstractValueAdaptingCache;
@@ -65,10 +65,10 @@ public class LayeringCache extends AbstractValueAdaptingCache {
   private RedisCacheConfiguration getRedisCacheConfigurationWithTtl(long seconds, String prefix) {
     RedisSerializationContext.SerializationPair<String> keySerializer = RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer());
     RedisSerializationContext.SerializationPair<Object> valueSerializer =
-        RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer(InstanceUtils.getMapperInstance()));
+        RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer(JacksonUtils.objectMapper()));
 
     return RedisCacheConfiguration.defaultCacheConfig()
-        .prefixKeysWith(prefix)
+        .prefixCacheNameWith(prefix)
         .entryTtl(Duration.ofSeconds(seconds))
         .serializeKeysWith(keySerializer)
         .serializeValuesWith(valueSerializer);

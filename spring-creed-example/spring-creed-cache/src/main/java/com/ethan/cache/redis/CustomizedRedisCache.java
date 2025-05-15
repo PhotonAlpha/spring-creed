@@ -2,8 +2,7 @@ package com.ethan.cache.redis;
 
 import com.ethan.cache.model.RedisCacheBean;
 import com.ethan.cache.redis.lock.RedisLock;
-import com.ethan.context.utils.SpringContextUtils;
-import com.ethan.context.utils.ThreadTaskUtils;
+import com.ethan.common.utils.ApplicationContextHolder;
 import org.slf4j.Logger;
 import org.springframework.data.redis.cache.RedisCache;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -44,7 +43,7 @@ public class CustomizedRedisCache extends RedisCache {
 
 
   private CacheSupport getCacheSupport() {
-    return SpringContextUtils.getBean(CacheSupport.class);
+    return ApplicationContextHolder.getBean(CacheSupport.class);
   }
 
   public CustomizedRedisCache(String name, RedisCacheWriter cacheWriter, RedisCacheConfiguration cacheConfig,
@@ -149,25 +148,27 @@ public class CustomizedRedisCache extends RedisCache {
    */
   private void forceRefresh(String cacheKeyStr) {
     // Start as few threads as possible, because the thread pool is limited
-    ThreadTaskUtils.run(() -> {
-      // add a distribute lock, only one request to refresh cache
-      RedisLock redisLock = new RedisLock((RedisTemplate<String, Object>) redisOperations, cacheKeyStr + "_lock");
-      try {
-        if (redisLock.lock()) {
-          // 获取锁之后再判断一下过期时间，看是否需要加载数据
-          // After acquiring the lock, determine the expiration time to see if data needs to be loaded
-          Long ttl = CustomizedRedisCache.this.redisOperations.getExpire(cacheKeyStr);
-          if (null != ttl && ttl <= CustomizedRedisCache.this.preloadTime) {
-            // reload data by poxy
-            CustomizedRedisCache.this.getCacheSupport().refreshCacheByKey(CustomizedRedisCache.super.getName(), cacheKeyStr);
+    new Thread(
+      () -> {
+        // add a distribute lock, only one request to refresh cache
+        RedisLock redisLock = new RedisLock((RedisTemplate<String, Object>) redisOperations, cacheKeyStr + "_lock");
+        try {
+          if (redisLock.lock()) {
+            // 获取锁之后再判断一下过期时间，看是否需要加载数据
+            // After acquiring the lock, determine the expiration time to see if data needs to be loaded
+            Long ttl = CustomizedRedisCache.this.redisOperations.getExpire(cacheKeyStr);
+            if (null != ttl && ttl <= CustomizedRedisCache.this.preloadTime) {
+              // reload data by poxy
+              CustomizedRedisCache.this.getCacheSupport().refreshCacheByKey(CustomizedRedisCache.super.getName(), cacheKeyStr);
+            }
           }
+        } catch (Exception e) {
+          log.info(e.getMessage(), e);
+        } finally {
+          redisLock.unlock();
         }
-      } catch (Exception e) {
-        log.info(e.getMessage(), e);
-      } finally {
-        redisLock.unlock();
       }
-    });
+    ).start();
   }
 
   /**

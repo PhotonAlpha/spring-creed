@@ -1,7 +1,7 @@
 package com.ethan.cache.config;
 
 import com.ethan.cache.LayeringCacheManager;
-import com.ethan.context.utils.InstanceUtils;
+import com.ethan.common.utils.json.JacksonUtils;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.cache.interceptor.SimpleKeyGenerator;
@@ -25,7 +25,7 @@ public class LayeringCacheConfig {
   public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory connectionFactory) {
     StringRedisTemplate template = new StringRedisTemplate(connectionFactory);
     template.setKeySerializer(new StringRedisSerializer());
-    template.setValueSerializer(new GenericJackson2JsonRedisSerializer(InstanceUtils.getMapperInstance()));
+    template.setValueSerializer(new GenericJackson2JsonRedisSerializer(JacksonUtils.objectMapper()));
     template.afterPropertiesSet();
     return template;
   }
@@ -35,7 +35,7 @@ public class LayeringCacheConfig {
     RedisTemplate template = new RedisTemplate<String, Object>();
     template.setConnectionFactory(connectionFactory);
     template.setKeySerializer(new StringRedisSerializer());
-    template.setValueSerializer(new GenericJackson2JsonRedisSerializer(InstanceUtils.getMapperInstance()));
+    template.setValueSerializer(new GenericJackson2JsonRedisSerializer(JacksonUtils.objectMapper()));
     template.afterPropertiesSet();
     return template;
   }

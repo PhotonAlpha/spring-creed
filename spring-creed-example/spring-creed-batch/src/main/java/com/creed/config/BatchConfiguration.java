@@ -1,34 +1,39 @@
 package com.creed.config;
 
 import com.creed.constant.IStream;
+import com.creed.dto.Employee;
 import com.creed.handler.AbstractFileVerificationSkipper;
 import com.creed.handler.ArchiveTasklet;
 import com.creed.handler.EmployeeProcess;
 import com.creed.handler.EmployeeProcessListener;
 import com.creed.handler.EmployeeWriter;
 import com.creed.handler.EmployeeWriterListener;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.beanio.StreamFactory;
-import org.beanio.spring.BeanIOFlatFileItemReader;
-import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.ItemProcessListener;
 import org.springframework.batch.core.ItemWriteListener;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
-import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.core.step.skip.SkipPolicy;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.MultiResourceItemReader;
+import org.springframework.batch.item.file.ResourceAwareItemReaderItemStream;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import java.io.IOException;
 
@@ -41,18 +46,13 @@ import java.io.IOException;
 @Configuration
 @EnableBatchProcessing
 public class BatchConfiguration {
-    private StepBuilderFactory stepBuilderFactory;
 
-    private JobBuilderFactory jobBuilderFactory;
+    private final JobRepository jobRepository;
+    private final PlatformTransactionManager policyTransactionManager;
 
-    @Autowired
-    public void setStepBuilderFactory(StepBuilderFactory stepBuilderFactory) {
-        this.stepBuilderFactory = stepBuilderFactory;
-    }
-
-    @Autowired
-    public void setJobBuilderFactory(JobBuilderFactory jobBuilderFactory) {
-        this.jobBuilderFactory = jobBuilderFactory;
+    public BatchConfiguration(JobRepository jobRepository, PlatformTransactionManager policyTransactionManager) {
+        this.jobRepository = jobRepository;
+        this.policyTransactionManager = policyTransactionManager;
     }
 
     @Bean
@@ -65,7 +65,8 @@ public class BatchConfiguration {
     @Bean
     public Job myFirstJob() {
         log.info("...myFirstJob...");
-        return jobBuilderFactory.get("myFirstJob")
+        var builder = new JobBuilder("myFirstJob", jobRepository);
+        return builder
                 .incrementer(new RunIdIncrementer())
                 // .start(myFirstStep())
 
@@ -78,7 +79,7 @@ public class BatchConfiguration {
 
     @Bean
     public Step myFirstStep() {
-        return stepBuilderFactory.get("myFirstStep").chunk(500)
+        return new StepBuilder("myFirstStep", jobRepository).<Object, Employee>chunk(500, policyTransactionManager)
                 .reader(multiResourceItemReader())
                 .faultTolerant().skipPolicy(skipPolicy())
                 .processor(itemProcessor())
@@ -92,16 +93,31 @@ public class BatchConfiguration {
     private ArchiveTasklet archiveTasklet;
     @Bean
     public Step archiveTasklet() {
-        return stepBuilderFactory.get("archiveTasklet")
-                .tasklet(archiveTasklet)
+        return new StepBuilder("archiveTasklet", jobRepository)
+                .tasklet(archiveTasklet, policyTransactionManager)
                 .build();
     }
 
-    public BeanIOFlatFileItemReader<Object> beanReader(IStream iStream) {
-        BeanIOFlatFileItemReader<Object> itemReader = new BeanIOFlatFileItemReader<>();
-        itemReader.setStreamFactory(streamFactory());
-        itemReader.setStreamName(iStream.streamName());
-        return itemReader;
+    /**
+     * TODO
+     * public BeanIOFlatFileItemReader<Object> beanReader(IStream iStream) {
+     * BeanIOFlatFileItemReader<Object> itemReader = new BeanIOFlatFileItemReader<>();
+     * itemReader.setStreamFactory(streamFactory());
+     * itemReader.setStreamName(iStream.streamName());
+     * return itemReader;
+     * }
+     */
+    @SneakyThrows
+    private ResourceAwareItemReaderItemStream<?> beanReader(IStream iStream, @Value("#{jobParameters['inputFilePath']}") String inputFilePath) {
+        var resources = new PathMatchingResourcePatternResolver().getResources("file:" + inputFilePath + "/*.csv");
+        MultiResourceItemReader<Object> reader = new MultiResourceItemReader<>();
+        reader.setResources(resources);
+
+        FlatFileItemReader<Object> flatFileItemReader = new FlatFileItemReader<>();
+        flatFileItemReader.setName("CEW-CSV-Reader");
+        flatFileItemReader.setLinesToSkip(1);
+        // flatFileItemReader.setLineMapper(lineMapper());
+        return flatFileItemReader;
     }
     @Bean
     public ItemReader<Object> multiResourceItemReader() {
@@ -115,9 +131,11 @@ public class BatchConfiguration {
         log.info("resources size:{}", resources.length);
         MultiResourceItemReader<Object> itemReader = new MultiResourceItemReader<>();
         itemReader.setResources(resources);
-        itemReader.setDelegate(beanReader(IStream.defaultStream()));
+        itemReader.setDelegate(beanReader(IStream.defaultStream(), "test"));
         return itemReader;
     }
+
+
 
     @Bean
     public SkipPolicy skipPolicy() {

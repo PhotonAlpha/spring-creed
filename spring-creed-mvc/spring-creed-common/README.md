@@ -1,5 +1,0 @@
-# Open API是一个标准，它的主要作用是描述REST API，既可以作为文档给开发者阅读，又可以让机器根据这个文档自动生成客户端代码等
-SpringDoc是一款可以结合SpringBoot使用的API文档生成工具，基于OpenAPI 3，目前在Github上已有1.7K+Star，更新发版还是挺勤快的，是一款更好用的Swagger库！值得一提的是SpringDoc不仅支持Spring WebMvc项目，还可以支持Spring WebFlux项目，甚至Spring Rest和Spring Native项目，总之非常强大。
-
-# 总结
-在SpringFox的Swagger库好久不出新版的情况下，迁移到SpringDoc确实是一个更好的选择。今天体验了一把SpringDoc，确实很好用，和之前熟悉的用法差不多，学习成本极低。而且SpringDoc能支持WebFlux之类的项目，功能也更加强大，使用SpringFox有点卡手的朋友可以迁移到它试试！

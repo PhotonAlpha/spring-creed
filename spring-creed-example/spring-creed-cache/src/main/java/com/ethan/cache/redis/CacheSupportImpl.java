@@ -2,8 +2,8 @@ package com.ethan.cache.redis;
 
 import com.ethan.cache.LayeringCache;
 import com.ethan.cache.redis.expression.CacheOperationExpressionEvaluator;
-import com.ethan.context.utils.ReflectionUtils;
-import com.ethan.context.utils.SpringContextUtils;
+import com.ethan.common.utils.ApplicationContextHolder;
+import com.ethan.common.utils.ReflectionUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.springframework.aop.framework.AopProxyUtils;
@@ -191,7 +191,7 @@ public class CacheSupportImpl implements CacheSupport {
       args = invocation.getArguments().toArray();
     }
     // 通过先获取Spring的代理对象，在根据这个对象获取真实的实例对象
-    Object target = ReflectionUtils.getTarget(SpringContextUtils.getBean(Class.forName(invocation.getTargetBean())));
+    Object target = ReflectionUtils.getTarget(ApplicationContextHolder.getBean(Class.forName(invocation.getTargetBean())));
 
     final MethodInvoker invoker = new MethodInvoker();
     invoker.setTargetObject(target);
