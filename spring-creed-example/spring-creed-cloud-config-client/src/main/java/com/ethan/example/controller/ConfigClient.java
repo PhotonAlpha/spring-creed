@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 public class ConfigClient {
-    @Value("${URL_A}")
+    @Value("${URL_A:}")
     private String urlA;
     @Resource
     ConfigurableEnvironment environment;

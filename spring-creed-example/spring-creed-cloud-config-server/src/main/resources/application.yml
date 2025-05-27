@@ -37,7 +37,7 @@ management:
 #    defaults:
 #      enabled: false
 #    ping:
-encrypt:
-  key-store:
-    alias:
-#      enabled: true
+#encrypt:
+#  salt: deadbeef
+#  key-store:
+#    secret:

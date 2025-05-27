@@ -85,6 +85,8 @@ public class SystemAuthorizationServerConfig {
                     .keyID(keyId2)
                     .build();
             JWKSet jwkSet = new JWKSet(Arrays.asList(rsaKey, rsaKey2));
+
+            // jwkSet.getKeyByKeyId("a").toRSAKey().toPrivateKey()
             return new ImmutableJWKSet<>(jwkSet);
         } catch (Exception e) {
             throw new ServerException(e);
