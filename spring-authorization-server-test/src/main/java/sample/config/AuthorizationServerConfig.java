@@ -95,6 +95,7 @@ public class AuthorizationServerConfig {
 	public JWKSource<SecurityContext> jwkSource() {
 		RSAKey rsaKey = Jwks.generateRsa();
 		JWKSet jwkSet = new JWKSet(rsaKey);
+		// jwkSet.getKeyByKeyId("root-creed-mall").toRSAKey()
 		return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
 	}
 

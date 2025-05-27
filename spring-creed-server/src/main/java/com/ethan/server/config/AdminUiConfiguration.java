@@ -22,14 +22,14 @@ public class AdminUiConfiguration implements WebMvcConfigurer {
                 // 本质上，等价于 nginx 在处理不到 Vue 的请求地址时，try_files 到 index.html 地址
                 // 想要彻底理解，可以调试 ResourceHttpRequestHandler 的 resolveResourceLocations 方法，前端请求 /admin-ui/system/tenant 地址
                 // 解决前端页面刷新404问题
-                .addResourceLocations(new ClassPathResource("/admin-ui/index.html") {
-
-                    @Override
-                    public Resource createRelative(String relativePath) {
-                        return this;
-                    }
-
-                })
+                // .addResourceLocations(new ClassPathResource("admin-ui/index.html") {
+                //
+                //     @Override
+                //     public Resource createRelative(String relativePath) {
+                //         return this;
+                //     }
+                //
+                // })
         ;
     }
 

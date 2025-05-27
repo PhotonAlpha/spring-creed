@@ -42,7 +42,7 @@
         <easyexcel.verion>3.3.4</easyexcel.verion>
         <json-schema-validator.version>1.5.5</json-schema-validator.version>
         <httpclient5.version>5.4.3</httpclient5.version>
-        <resilience4j-spring-boot3.version>2.3.0</resilience4j-spring-boot3.version>
+        <resilience4j.version>2.3.0</resilience4j.version>
     </properties>
 
     <dependencyManagement>
@@ -52,6 +52,24 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+
+            <!-- resilience4j-spring-boot3 : put before spring-cloud-dependencies
+                conflict with spring-cloud-circuitbreaker-dependencies/3.2.1/spring-cloud-circuitbreaker-dependencies-3.2.1.pom:88
+                have to use <resilience4j.version>xxx</resilience4j.version>
+            -->
+            <dependency>
+                <groupId>io.github.resilience4j</groupId>
+                <artifactId>resilience4j-spring-boot3</artifactId>
+                <version>${resilience4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.resilience4j</groupId>
+                <artifactId>resilience4j-bom</artifactId>
+                <version>${resilience4j.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -292,14 +310,6 @@
                 <groupId>com.github.ben-manes.caffeine</groupId>
                 <artifactId>caffeine</artifactId>
                 <version>3.2.0</version>
-            </dependency>
-
-
-            <!-- resilience4j-spring-boot3 -->
-            <dependency>
-                <groupId>io.github.resilience4j</groupId>
-                <artifactId>resilience4j-spring-boot3</artifactId>
-                <version>${resilience4j-spring-boot3.version}</version>
             </dependency>
 
         </dependencies>

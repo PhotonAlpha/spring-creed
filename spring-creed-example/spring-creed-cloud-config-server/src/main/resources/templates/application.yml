@@ -1,0 +1,46 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  health:
+    ping:
+      enabled: "true"
+    defaults:
+      enabled: "false"
+layering:
+  - caffeine:
+      maximumSize: 500
+      expireAfterWriteMins: 90
+      initialCapacity: 50
+    redis:
+      usePrefix: "true"
+      expirationTime: 30
+      forceRefresh: "false"
+      enablePrimaryCache: "true"
+      preloadTime: 50
+    cacheName: short-term-cache
+caffeine:
+  configs:
+    - expireAfterWriteMins: 90
+      maximumSize: 500
+      initialCapacity: ${initial-capacity:100}
+      cacheName: short-term-cache
+    - cacheName: long-term-cache
+      initialCapacity: 5
+      expireAfterWriteMins: 300
+      maximumSize: 50
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: "true"
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: root
+    username: root
+    url: jdbc:mysql://localhost:3306/config-server
+  application:
+    name: spring-cloud-config-client2
+server:
+  port: 8080

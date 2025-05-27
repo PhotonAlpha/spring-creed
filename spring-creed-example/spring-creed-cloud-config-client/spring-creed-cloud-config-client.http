@@ -1,0 +1,25 @@
+// A basic request
+### artisan/query
+POST http://localhost:8080/buziVa/artisan/query
+Content-Type: application/json
+
+{
+  "name": "name_9e1e298929c1"
+}
+
+###
+# @name actuator/refresh
+POST http://localhost:8080/actuator/refresh
+Content-Type: application/json
+
+{}
+
+
+### artisan/list
+GET http://localhost:8080/buziVa/artisan/list
+Content-Type: application/json
+
+
+### artisan/remote-list
+GET http://localhost:8080/buziVa/artisan/remote-list
+Content-Type: application/json

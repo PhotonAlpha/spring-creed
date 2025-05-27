@@ -16,7 +16,59 @@ spring:
     active: local
 
   config:
-    import: optional:configserver:http://localhost:8888
+#    This is normal and is a side effect of how Spring Boot loads configuration when using spring.config.import.
+#    ConfigServerConfigDataLocationResolver.java:157#uris将会检查时候空，如果非空，会覆盖discoveryClient中的服务列表
+    import: "optional:configserver:"
   cloud:
     config:
-      label: latest
+      label: latest,master
+      send-all-labels: true
+      fail-fast: false # If you expect that the config server may occasionally be unavailable when your application starts, you can make it keep trying after a failure.
+      discovery:
+        enabled: true
+        service-id: config-server
+    discovery:
+      client:
+        simple:
+          instances:
+            config-server:
+              - uri: http://localhost:8888
+            remote-cluster:
+              - uri: http://localhost:8080
+              - uri: http://localhost:8081
+      enabled: true
+    loadbalancer:
+      health-check:
+        interval: 1h #DurationStyle.detectAndParse("10s")
+#      clients:
+#        config-server:
+#          health-check:
+#            interval: 10s
+      stats:
+        micrometer:
+          enabled: true
+
+#      eager-load:
+#        clients:
+#          - remote-cluster
+
+#      enabled: false
+#resilience4j:
+#  retry:
+#    instances:
+#      default:
+#        maxAttempts: 3
+#        waitDuration: 5s
+#        enableExponentialBackoff: true
+#        exponentialBackoffMultiplier: 2
+#        retryExceptions:
+#          - org.springframework.web.client.HttpServerErrorException
+#          - java.io.IOException
+#        ignoreExceptions:
+#          - com.ethan.example.exception.BusinessException
+#      backendA:
+#        maxAttempts: 3
+#        waitDuration: 1s
+#        retryExceptions:
+#          - com.ethan.example.exception.BusinessException
+

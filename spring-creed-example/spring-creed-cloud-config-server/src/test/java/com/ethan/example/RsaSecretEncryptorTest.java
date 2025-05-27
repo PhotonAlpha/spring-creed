@@ -4,21 +4,17 @@ import com.ethan.example.dto.MyAccountInfoVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
-import org.springframework.cloud.config.server.encryption.KeyStoreTextEncryptorLocator;
+import org.springframework.cloud.config.server.encryption.SingleTextEncryptorLocator;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.security.crypto.encrypt.KeyStoreKeyFactory;
-import org.springframework.security.crypto.encrypt.RsaAlgorithm;
-import org.springframework.security.crypto.encrypt.RsaSecretEncryptor;
+import org.springframework.security.crypto.encrypt.*;
+import org.springframework.security.crypto.keygen.KeyGenerators;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.rmi.ServerException;
 import java.security.*;
 import java.security.cert.CertificateException;
-import java.security.interfaces.RSAKey;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,22 +25,56 @@ import java.util.Map;
  */
 @Slf4j
 class RsaSecretEncryptorTest {
-    @Test
-    void encrypt() {
 
+    @Test
+    void aesSecretEncryptor_test() {
+        // 创建 AES 密钥生成器
+        // KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+        // keyGen.init(256); // 指定密钥长度（128/192/256）
+        // 生成 SecretKey
+        String secretKey = "mySecretKey123456"; // 16/24/32 字节
+        String salt = KeyGenerators.string().generateKey(); // 生成随机盐
+        // BytesKeyGenerator iv = KeyGenerators.secureRandom(32);//
+        log.info("salt:{}", salt);
+        // AesBytesEncryptor encryptor = new AesBytesEncryptor(secretKey, salt, iv, AesBytesEncryptor.CipherAlgorithm.GCM);
+
+        TextEncryptor textEncryptor = Encryptors.delux(secretKey, salt);
+        SingleTextEncryptorLocator encryptorLocator = new SingleTextEncryptorLocator(textEncryptor);
+        String encryptedPassword = encryptorLocator.locate(Map.of()).encrypt("changeit");
+        log.info("encryptedPassword:{}", encryptedPassword);
+        String decryptPwd = encryptorLocator.locate(Map.of()).decrypt(encryptedPassword);
+        log.info("decryptPwd:{}", decryptPwd);
     }
 
+    /**
+     * 私钥加密 公钥解密 ❌
+     */
     @Test
-    void decrypt() {
-        var keyId = "server-creed-mall";
-        KeyStoreKeyFactory factory = new KeyStoreKeyFactory(new ClassPathResource("ssl/creed-mall-server.jks"), "changeit".toCharArray(), keyId);
-        KeyStoreTextEncryptorLocator textEncryptorLocator = new KeyStoreTextEncryptorLocator(factory, "changeit", keyId);
-        // textEncryptorLocator.locate(Map.of())
-        // textEncryptorLocator.
+    void rsaSecretEncryptor_test() throws UnrecoverableKeyException, CertificateException, IOException, NoSuchAlgorithmException, KeyStoreException {
+        try (InputStream in = new ClassPathResource("ssl/creed-mall-server.jks").getInputStream()) {
+            KeyStore keyStore = loadKeyStore(in, "changeit");
+            var keyId = "server-creed-mall";
+            KeyPair keyPair = loadJksKeyPair(keyStore, "changeit", keyId);
+            RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+            // 创建加密器
+            String rowText = "root";
+            RsaSecretEncryptor privateDencryptor = new RsaSecretEncryptor(keyPair);
+            var encryptPwd = privateDencryptor.encrypt(rowText);
+            log.info("encryptedPassword:{}", encryptPwd);
+
+            RsaSecretEncryptor publicEncryptor = new RsaSecretEncryptor(publicKey);
+            log.info("decryptPwd:{}", publicEncryptor.decrypt(encryptPwd));
+        } catch (Exception e) {
+            log.error("load RSA failure", e);
+            throw e;
+        }
     }
 
+    /**
+     * 公钥加密 私钥解密 ✅
+     */
     @Test
-    void loadKeyStore() throws UnrecoverableKeyException, CertificateException, IOException, NoSuchAlgorithmException, KeyStoreException {
+    void publicKeyEncryptor_test() throws UnrecoverableKeyException, CertificateException, IOException, NoSuchAlgorithmException, KeyStoreException {
         try (InputStream in = new ClassPathResource("ssl/creed-mall-server.jks").getInputStream()) {
             KeyStore keyStore = loadKeyStore(in, "changeit");
             var keyId = "server-creed-mall";

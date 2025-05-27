@@ -1520,16 +1520,73 @@ getCacheManager() 获取的是实现了 AbstractCacheManager 的类，目前发�
 
 1. org.springframework.boot.actuate.autoconfigure.tracing.BraveAutoConfiguration
 
-2. io.micrometer.tracing.brave.bridge.BravePropagator#extract 创建 SpanBuilder，并在io.micrometer.tracing.brave.bridge.BraveSpanBuilder#span 开启Span
+   ```java
+   @Import({ BravePropagationConfigurations.PropagationWithoutBaggage.class,
+   		BravePropagationConfigurations.PropagationWithBaggage.class, //此处会引入MDCScopeDecorator
+   		BravePropagationConfigurations.NoPropagation.class })
+   public class BraveAutoConfiguration {
+     	@Bean
+   		@ConditionalOnMissingBean(CorrelationScopeDecorator.class)
+   		ScopeDecorator correlationScopeDecorator(CorrelationScopeDecorator.Builder builder) {
+   			return builder.build(); //此处会注入traceId spanId
+   		}
+   }
+   ```
 
-3. io.micrometer.tracing.brave.bridge.W3CPropagation#injector 和 #extractor 
+   启动的时候自动装配Brave Trace Id. 默认使用 B3Propagation
 
-4. brave.context.slf4j.MDCScopeDecorator
+   ```java
+       Propagation.Factory propagationFactory = B3Propagation.FACTORY;
+   
+   public static final class FactoryBuilder {
+       InjectorFactory.Builder injectorFactoryBuilder = InjectorFactory.newBuilder(Format.MULTI)
+           .clientInjectorFunctions(Format.MULTI) //此处会注入B3Propagation X-B3-TraceId X-B3-SpanId
+           .producerInjectorFunctions(Format.SINGLE_NO_PARENT)
+           .consumerInjectorFunctions(Format.SINGLE_NO_PARENT);
+   }
+   ```
+
+2. org.springframework.web.filter.ServerHttpObservationFilter#doFilterInternal
+
+   ```java
+   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+   			throws ServletException, IOException {
+   
+   		Observation observation = createOrFetchObservation(request, response);
+   		try (Observation.Scope scope = observation.openScope()) { //每个请求过来的时候，都会开启scope
+   			filterChain.doFilter(request, response);
+   		}
+   		catch (Exception ex) {
+   			observation.error(unwrapServletException(ex));
+   			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+   			throw ex;
+   		}
+   		finally {
+   			// Only stop Observation if async processing is done or has never been started.
+   			if (!request.isAsyncStarted()) {
+   				Throwable error = fetchException(request);
+   				if (error != null) {
+   					observation.error(error);
+   				}
+   				observation.stop();
+   			}
+   		}
+   	}
+   
+   ```
+
+3. dsa
+
+4. io.micrometer.tracing.brave.bridge.BravePropagator#extract 创建 SpanBuilder，并在io.micrometer.tracing.brave.bridge.BraveSpanBuilder#span 开启Span
+
+1. io.micrometer.tracing.brave.bridge.W3CPropagation#injector 和 #extractor 
+
+2. brave.context.slf4j.MDCScopeDecorator
 
    brave.baggage.CorrelationScopeDecorator初始化创建 TRACE_ID, SPAN_ID
 
-5. brave.propagation.B3Propagation#extract 解析B3 traceId
+3. brave.propagation.B3Propagation#extract 解析B3 traceId
 
-6. org.springframework.web.filter.ServerHttpObservationFilter spring在每个请求到来之时会自动开启scope
+4. org.springframework.web.filter.ServerHttpObservationFilter spring在每个请求到来之时会自动开启scope
 
-7. **brave.baggage.CorrelationScopeDecorator#decorateScope 用于获取并更新traceId** 【！！这里很重要】
+5. **brave.baggage.CorrelationScopeDecorator#decorateScope 用于获取并更新traceId** 【！！这里很重要】

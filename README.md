@@ -1,6 +1,6 @@
 ## About Me
 
-This is a rapid development platform based on VUE3 + element plus on the front end and Spring boot and Spring cloud on the back end. The main purpose of this project is to learn the latest Spring technology and use it in action.
+This is a rapid development platform based on VUE3 + element plus on the front-end and Spring boot and Spring cloud on the back-end. The main purpose of this project is to learn the latest Spring technology and use it in action.
 
 The project mainly includes backend data management (**mall management system**) and personal blog website.
 
