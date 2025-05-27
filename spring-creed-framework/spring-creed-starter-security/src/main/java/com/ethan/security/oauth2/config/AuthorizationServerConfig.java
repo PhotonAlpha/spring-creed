@@ -90,8 +90,9 @@ import java.util.UUID;
 @EnableWebSecurity
 @Slf4j
 public class AuthorizationServerConfig {
-    @Resource
-    private LoginTokenAuthenticationFilter loginTokenAuthenticationFilter;
+    public LoginTokenAuthenticationFilter loginTokenAuthenticationFilter() {
+        return new LoginTokenAuthenticationFilter();
+    }
     @Resource
     private UnAuthExceptionHandler exceptionHandler;
 
@@ -270,7 +271,8 @@ public class AuthorizationServerConfig {
                 .logout(form -> form.permitAll())*/
 
                 // Accept access tokens for User Info and/or Client Registration
-                .addFilterAfter(loginTokenAuthenticationFilter, AnonymousAuthenticationFilter.class)
+                // 添加自定义filter,不需要使其成为bean，否则会注入全局的ApplicationFilterChain中
+                .addFilterAfter(loginTokenAuthenticationFilter(), AnonymousAuthenticationFilter.class)
         // .addFilterBefore(loginTokenSupportFilter(), BearerTokenAuthenticationFilter.class)
         // .oauth2ResourceServer(OAuth2ResourceServerConfigurer::opaqueToken)
         // .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
