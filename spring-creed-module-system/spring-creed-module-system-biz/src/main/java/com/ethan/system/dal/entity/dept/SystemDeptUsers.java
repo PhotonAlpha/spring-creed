@@ -1,10 +1,7 @@
 package com.ethan.system.dal.entity.dept;
 
 import com.ethan.common.pojo.BaseDO;
-import com.ethan.common.pojo.BaseXDO;
-import com.ethan.system.dal.entity.permission.SystemRoles;
 import com.ethan.system.dal.entity.permission.SystemUsers;
-import com.ethan.system.dal.entity.user.AdminUserDO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;

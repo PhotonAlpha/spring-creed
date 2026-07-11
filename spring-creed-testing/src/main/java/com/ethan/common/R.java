@@ -9,10 +9,8 @@ package com.ethan.common;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.service.spi.ServiceException;
-import org.springframework.util.Assert;
 
 import java.io.Serializable;
-import java.rmi.ServerException;
 import java.util.Objects;
 
 /**

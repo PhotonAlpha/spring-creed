@@ -5,7 +5,6 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.ethan.common.constant.CommonStatusEnum;
 import com.ethan.common.pojo.BaseVersioningXDO;
 import com.ethan.common.pojo.PageResult;
-import com.ethan.common.utils.ApplicationContextHolder;
 import com.ethan.common.utils.collection.CollUtils;
 import com.ethan.common.utils.json.JacksonUtils;
 import com.ethan.security.websecurity.constant.DataScopeEnum;

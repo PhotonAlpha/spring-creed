@@ -22,17 +22,17 @@
     <packaging>pom</packaging>
 
     <properties>
-        <revision>1.1.0</revision>
+        <revision>2026.07-SNAPSHOT</revision>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+        <flatten-maven-plugin.version>1.7.2</flatten-maven-plugin.version>
 
         <lombok.version>1.18.30</lombok.version>
         <mapstruct.version>1.4.1.Final</mapstruct.version>
-        <spring-creed-dependencies.version>1.0.0</spring-creed-dependencies.version>
         <spring.boot.version>3.2.0</spring.boot.version>
     </properties>
 
@@ -41,7 +41,7 @@
             <dependency>
                 <groupId>com.ethan</groupId>
                 <artifactId>spring-creed-dependencies</artifactId>
-                <version>${spring-creed-dependencies.version}</version>
+                <version>${revision}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -80,8 +80,108 @@
                         </annotationProcessorPaths>
                     </configuration>
                 </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>3.6.3</version>
+                </plugin>
             </plugins>
         </pluginManagement>
+
+        <plugins>
+            <!-- 统一 revision 版本 -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>${flatten-maven-plugin.version}</version>
+                <configuration>
+                    <flattenMode>oss</flattenMode>
+                    <updatePomFile>true</updatePomFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
+    <profiles>
+        <!-- ========== 第二层：release 专属规则，-Prelease 激活 ========== -->
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>enforce-release</id>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <!-- 1. 禁止任何 SNAPSHOT 依赖（含 BOM import、插件、传递依赖） -->
+                                        <requireReleaseDeps>
+                                            <message>
+                                                [RELEASE] 检测到 SNAPSHOT 依赖！
+                                                请执行 mvn versions:use-releases 或手动切换后重试。
+                                            </message>
+                                            <failWhenParentIsSnapshot>true</failWhenParentIsSnapshot>
+                                        </requireReleaseDeps>
+
+                                        <!-- 2. 自身版本必须是 release（防止忘传 -Drevision 就打了 release tag） -->
+                                        <requireReleaseVersion>
+                                            <message>[RELEASE] 自身版本仍是 SNAPSHOT，请通过 -Drevision 传入正式版本号</message>
+                                        </requireReleaseVersion>
+
+                                        <!-- 3. 传递依赖版本必须收敛，发布件的依赖树不允许有歧义 -->
+                                        <dependencyConvergence/>
+
+                                        <!-- 4. 发布必须由 CI 执行（检查 CI 环境变量），封死本机发 release -->
+                                        <requireEnvironmentVariable>
+                                            <variableName>BUILD_NUMBER</variableName>
+                                            <message>[RELEASE] 只允许在 Jenkins 上执行 release 构建</message>
+                                        </requireEnvironmentVariable>
+                                    </rules>
+                                    <fail>true</fail>
+                                    <failFast>false</failFast>  <!-- 跑完所有规则再失败，一次看到全部问题 -->
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    <scm>
+
+    </scm>
+    <distributionManagement>
+        <repository>
+            <id>creed-artifactory-releases</id>
+            <name>Artifactory Releases</name>
+            <url>http://localhost:8082/artifactory/libs-release-local</url>
+        </repository>
+        <snapshotRepository>
+            <id>creed-artifactory-snapshots</id>
+            <name>Artifactory Snapshots</name>
+            <url>http://localhost:8082/artifactory/libs-snapshot-local</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>

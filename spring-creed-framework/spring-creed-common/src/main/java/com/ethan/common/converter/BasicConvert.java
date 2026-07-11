@@ -2,7 +2,6 @@ package com.ethan.common.converter;
 
 import com.ethan.common.constant.SexEnum;
 import com.ethan.common.utils.date.DateUtils;
-import org.mapstruct.Mapper;
 
 import java.time.Instant;
 import java.time.LocalDateTime;

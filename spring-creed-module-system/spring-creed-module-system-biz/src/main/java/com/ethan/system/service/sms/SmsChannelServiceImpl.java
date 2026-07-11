@@ -8,7 +8,6 @@ import com.ethan.system.controller.admin.sms.vo.channel.SmsChannelCreateReqVO;
 import com.ethan.system.controller.admin.sms.vo.channel.SmsChannelPageReqVO;
 import com.ethan.system.controller.admin.sms.vo.channel.SmsChannelUpdateReqVO;
 import com.ethan.system.convert.sms.SmsChannelConvert;
-import com.ethan.system.dal.entity.file.FileConfigDO;
 import com.ethan.system.dal.entity.sms.SmsChannelDO;
 import com.ethan.system.dal.repository.sms.SmsChannelRepository;
 import jakarta.annotation.PostConstruct;

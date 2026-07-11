@@ -5,7 +5,6 @@ import com.ethan.common.exception.enums.ResponseCodeEnum;
 import com.ethan.common.pojo.PageResult;
 import com.ethan.common.utils.date.DateUtils;
 import com.ethan.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenPageReqVO;
-import com.ethan.system.convert.oauth2.OAuth2RegisteredClientConvert;
 import com.ethan.system.dal.entity.oauth2.CreedOAuth2Authorization;
 import com.ethan.system.dal.entity.oauth2.CreedOAuth2RegisteredClient;
 import com.ethan.system.dal.entity.oauth2.graph.CreedOAuth2AuthorizationVO;
@@ -29,7 +28,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 import static com.ethan.common.exception.util.ServiceExceptionUtil.exception0;
 

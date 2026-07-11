@@ -1,11 +1,7 @@
 package com.ethan.identity.server.config;
 
-import com.ethan.identity.server.filter.IdGenerateConsoleFilter;
 import lombok.Data;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * @author EthanCao ethan.caoq@foxmail.com

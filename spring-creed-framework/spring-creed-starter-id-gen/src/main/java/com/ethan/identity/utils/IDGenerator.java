@@ -3,13 +3,10 @@ package com.ethan.identity.utils;
 import com.ethan.common.utils.ApplicationContextHolder;
 import com.ethan.identity.core.common.Result;
 import com.ethan.identity.core.common.Status;
-import com.ethan.identity.server.exception.LeafServerException;
-import com.ethan.identity.server.exception.NoKeyException;
 import com.ethan.identity.server.service.SegmentService;
 import com.ethan.identity.server.service.SnowflakeService;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.config.BeanPostProcessor;
 
 /**
  * @author EthanCao ethan.caoq@foxmail.com

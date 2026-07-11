@@ -2,7 +2,6 @@ package com.ethan.system.controller.admin.user;
 
 import com.ethan.common.common.R;
 import com.ethan.common.exception.util.ServiceExceptionUtil;
-import com.ethan.security.websecurity.entity.CreedUser;
 import com.ethan.system.constant.ErrorCodeConstants;
 import com.ethan.system.controller.admin.user.vo.profile.UserProfileRespVO;
 import com.ethan.system.controller.admin.user.vo.profile.UserProfileUpdatePasswordReqVO;
@@ -31,7 +30,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import static com.ethan.common.common.R.success;
-import static com.ethan.common.utils.WebFrameworkUtils.getLoginUserId;
 import static com.ethan.common.utils.WebFrameworkUtils.getLoginUserIdL;
 
 @Tag(name = "管理后台 - 用户个人中心")

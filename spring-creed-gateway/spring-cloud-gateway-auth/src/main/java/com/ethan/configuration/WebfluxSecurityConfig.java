@@ -4,7 +4,6 @@ import com.ethan.configuration.security.DefaultAccessDeniedHandler;
 import com.ethan.configuration.security.DefaultAuthenticationEntryPoint;
 import com.ethan.configuration.security.DefaultAuthenticationFailureHandler;
 import com.ethan.configuration.security.DefaultAuthenticationSuccessHandler;
-import com.ethan.configuration.security.DefaultAuthorizationManager;
 import com.ethan.configuration.security.DefaultSecurityContextRepository;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;

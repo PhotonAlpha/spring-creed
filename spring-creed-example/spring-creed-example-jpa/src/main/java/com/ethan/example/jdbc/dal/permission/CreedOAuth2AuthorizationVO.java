@@ -1,6 +1,5 @@
 package com.ethan.example.jdbc.dal.permission;
 
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

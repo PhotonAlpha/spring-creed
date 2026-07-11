@@ -1,6 +1,6 @@
 package com.ethan.example.aop;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +17,7 @@ public class CacheContextHolder {
         return DATA_PERMISSIONS.get().getOrDefault(key, true);
     }
     public static String getTraceId(String correlateId) {
-        return TRACE_ID_MAPPING.get().entrySet().stream().filter(entry -> StringUtils.equals(entry.getValue(), correlateId))
+        return TRACE_ID_MAPPING.get().entrySet().stream().filter(entry -> Strings.CS.equals(entry.getValue(), correlateId))
                 .findFirst()
                 .map(Map.Entry::getKey)
                 .orElse(null);

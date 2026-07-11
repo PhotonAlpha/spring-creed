@@ -5,9 +5,7 @@ import brave.Tracer;
 import brave.Tracing;
 import brave.baggage.BaggageField;
 import brave.internal.baggage.BaggageFields;
-import brave.propagation.CurrentTraceContext;
 import brave.propagation.TraceContext;
-import com.ethan.example.config.logging.MyMDCScopeDecorator;
 import com.ethan.example.service.ArtisanService;
 import com.ethan.example.service.ThreadDemoService;
 import com.ethan.example.service.ThreadRetryService;
@@ -27,7 +25,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import static brave.baggage.BaggageFields.TRACE_ID;
 import static com.ethan.example.config.logging.MyMDCScopeDecorator.CORRELATION_FIELD;
 
 /**

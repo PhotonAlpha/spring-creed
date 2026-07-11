@@ -7,7 +7,7 @@ import io.github.resilience4j.retry.annotation.Retry;
 import io.micrometer.core.instrument.MeterRegistry;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -78,7 +78,7 @@ public class ArtisanServiceImpl implements ArtisanService {
             throw new BusinessException("Retry Testing");
         }
         try {
-            return PERSISTENCE_LIST.stream().filter(r -> StringUtils.equals(id, r.getId()) || StringUtils.equals(name, r.getName()))
+            return PERSISTENCE_LIST.stream().filter(r -> Strings.CS.equals(id, r.getId()) || Strings.CS.equals(name, r.getName()))
                     .findFirst().orElse(null);
         } finally {
             COUNT_INDEX.setRelease(0);

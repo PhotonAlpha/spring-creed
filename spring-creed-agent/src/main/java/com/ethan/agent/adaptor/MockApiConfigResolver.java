@@ -1,7 +1,7 @@
 package com.ethan.agent.adaptor;
 
 import com.ethan.agent.adaptor.apache.MockApiConfig;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.springframework.boot.context.properties.bind.Bindable;
 import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.boot.context.properties.source.ConfigurationPropertyName;
@@ -89,7 +89,7 @@ public interface MockApiConfigResolver {
     static BiFunction<MockApiConfig, String, Boolean> compute() {
         BiPredicate<String, String> pathPredicate = (uri, convertedName) -> {
             var maskedContextPath = ConfigurationPropertyName.adapt(uri, '_').toString();
-            return StringUtils.containsIgnoreCase(maskedContextPath, convertedName);
+            return Strings.CI.contains(maskedContextPath, convertedName);
         };
 
         return (conf, convertedName) -> {

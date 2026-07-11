@@ -2,7 +2,6 @@ package com.ethan.system.service.permission;
 
 import com.ethan.system.controller.admin.permission.vo.menu.MenuListReqVO;
 import com.ethan.system.controller.admin.permission.vo.menu.MenuSaveVO;
-import com.ethan.system.dal.entity.permission.MenuDO;
 import com.ethan.system.dal.entity.permission.SystemMenus;
 
 import java.util.Collection;

@@ -5,7 +5,6 @@ import io.netty.handler.ssl.SslContextBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.core5.http.HeaderElements;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cloud.gateway.webflux.config.ProxyExchangeArgumentResolver;
 import org.springframework.cloud.gateway.webflux.config.ProxyProperties;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +19,6 @@ import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLParameters;
 import java.time.Duration;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 import static reactor.netty.resources.ConnectionProvider.DEFAULT_POOL_MAX_CONNECTIONS;

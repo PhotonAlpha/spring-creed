@@ -8,22 +8,14 @@ import com.ethan.identity.server.exception.InitException;
 import com.ethan.identity.server.filter.IdGenerateConsoleFilter;
 import com.ethan.identity.server.service.SegmentService;
 import com.ethan.identity.server.service.SnowflakeService;
-import jakarta.servlet.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.ViewResolver;
-
-import java.util.Arrays;
 
 /**
  * @author EthanCao ethan.caoq@foxmail.com

@@ -1,6 +1,5 @@
 package com.ethan.agent.factory;
 
-import com.ethan.agent.adaptor.apache.MockResponseChainHandler;
 import com.ethan.agent.adaptor.resttemplate.MockRestResponseHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;

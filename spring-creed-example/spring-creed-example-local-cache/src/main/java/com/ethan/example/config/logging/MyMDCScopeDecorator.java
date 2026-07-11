@@ -8,6 +8,7 @@ import brave.internal.Nullable;
 import brave.propagation.CurrentTraceContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.slf4j.MDC;
 
 
@@ -53,7 +54,7 @@ public final class MyMDCScopeDecorator {
 
         @Override public String getValue(String name) {
             // if (StringUtils.equals(name, TRACE_ID)) {
-            if (StringUtils.equals(name, CORRELATION_FIELD.name())) {
+            if (Strings.CS.equals(name, CORRELATION_FIELD.name())) {
                 //尝试获取CORRELATION_TRACE_ID,即自定义trace ID
                 String correlationTraceId = CORRELATION_FIELD.getValue();
                 if (StringUtils.isBlank(correlationTraceId)) {

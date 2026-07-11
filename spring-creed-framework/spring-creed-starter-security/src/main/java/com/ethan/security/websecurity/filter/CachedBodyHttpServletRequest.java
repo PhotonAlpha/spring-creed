@@ -12,7 +12,7 @@ import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
 import jakarta.servlet.http.Part;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.springframework.http.MediaType;
 import org.springframework.util.StreamUtils;
 
@@ -43,7 +43,7 @@ public class CachedBodyHttpServletRequest extends HttpServletRequestWrapper {
      */
     public CachedBodyHttpServletRequest(HttpServletRequest request) throws IOException, ServletException {
         super(request);
-        if (StringUtils.startsWith(request.getContentType(), MediaType.MULTIPART_FORM_DATA_VALUE)) {
+        if (Strings.CS.startsWith(request.getContentType(), MediaType.MULTIPART_FORM_DATA_VALUE)) {
             parts = request.getParts();
         } else {
             loadBody(request);

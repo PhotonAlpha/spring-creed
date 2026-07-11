@@ -3,7 +3,6 @@ package com.ethan.system.api.constant.social;
 import com.ethan.common.constant.IntArrayValuable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Arrays;
 

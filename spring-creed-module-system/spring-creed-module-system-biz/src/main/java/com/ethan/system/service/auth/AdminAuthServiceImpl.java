@@ -22,7 +22,6 @@ import com.ethan.system.dal.entity.oauth2.CreedOAuth2Authorization;
 import com.ethan.system.dal.entity.permission.SystemUsers;
 import com.ethan.system.dal.jackson2.SystemUsersMixin;
 import com.ethan.system.dal.registration.JpaOAuth2AuthorizationService;
-import com.ethan.system.dal.repository.oauth2.CreedOAuth2AuthorizationRepository;
 import com.ethan.system.service.captcha.CaptchaService;
 import com.ethan.system.service.logger.LoginLogService;
 import com.ethan.system.service.member.MemberService;
@@ -42,17 +41,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.jackson2.OAuth2AuthorizationServerJackson2Module;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import static com.ethan.common.exception.util.ServiceExceptionUtil.exception;

@@ -2,12 +2,10 @@ package com.ethan.example.jpa.repository.oauth2;
 
 import com.ethan.example.jpa.dal.oauth2.CreedOAuth2AuthorizationVO;
 import com.ethan.example.jpa.dal.oauth2.CreedOauth2RegisteredClientVO;
-import com.ethan.example.jpa.dal.permission.SystemAuthorities;
 import com.ethan.example.jpa.vo.OAuth2AccessTokenPageReqVO;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.util.StringUtils;

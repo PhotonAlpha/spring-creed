@@ -6,7 +6,9 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
 import org.springframework.cloud.config.server.encryption.SingleTextEncryptorLocator;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.security.crypto.encrypt.*;
+import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.encrypt.RsaSecretEncryptor;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.security.crypto.keygen.KeyGenerators;
 
 import java.io.IOException;

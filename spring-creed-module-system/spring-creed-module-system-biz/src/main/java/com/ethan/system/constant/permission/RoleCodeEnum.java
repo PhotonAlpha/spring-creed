@@ -2,7 +2,7 @@ package com.ethan.system.constant.permission;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 /**
  * 角色标识枚举
@@ -25,7 +25,7 @@ public enum RoleCodeEnum {
     private final String name;
 
     public static boolean isSuperAdmin(String code) {
-        return StringUtils.equalsAnyIgnoreCase(code, SUPER_ADMIN.getCode());
+        return Strings.CI.equalsAny(code, SUPER_ADMIN.getCode());
     }
 
 }

@@ -1,7 +1,6 @@
 package com.ethan.example.service;
 
 import com.ethan.example.controller.vo.ArtisanDetailsVO;
-import io.github.resilience4j.retry.annotation.Retry;
 
 import java.util.List;
 

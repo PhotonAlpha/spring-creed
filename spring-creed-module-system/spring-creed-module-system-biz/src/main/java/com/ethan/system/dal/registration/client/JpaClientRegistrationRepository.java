@@ -10,7 +10,7 @@ package com.ethan.system.dal.registration.client;
 import com.ethan.system.dal.entity.oauth2.client.CreedOAuth2ClientConfiguration;
 import com.ethan.system.dal.repository.oauth2.client.CreedOAuth2ClientConfigurationRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
@@ -59,9 +59,9 @@ public class JpaClientRegistrationRepository implements ClientRegistrationReposi
     private ClientRegistration convert(CreedOAuth2ClientConfiguration bean) {
         String authenticationMethod = bean.getClientAuthenticationMethod();
         String authorizationGrantType = bean.getAuthorizationGrantType();
-        ClientAuthenticationMethod clientAuthenticationMethod = CLIENT_AUTHENTICATION_METHOD_TYPES.stream().filter(t -> StringUtils.equals(t.getValue(), authenticationMethod))
+        ClientAuthenticationMethod clientAuthenticationMethod = CLIENT_AUTHENTICATION_METHOD_TYPES.stream().filter(t -> Strings.CS.equals(t.getValue(), authenticationMethod))
                 .findFirst().orElse(ClientAuthenticationMethod.NONE);
-        AuthorizationGrantType grantType = AUTHORIZATION_GRANT_TYPES.stream().filter(t -> StringUtils.equals(t.getValue(), authorizationGrantType))
+        AuthorizationGrantType grantType = AUTHORIZATION_GRANT_TYPES.stream().filter(t -> Strings.CS.equals(t.getValue(), authorizationGrantType))
                 .findFirst().orElse(AuthorizationGrantType.CLIENT_CREDENTIALS);
         return ClientRegistration.withRegistrationId(bean.getRegistrationId())
                 .tokenUri(bean.getTokenUri())

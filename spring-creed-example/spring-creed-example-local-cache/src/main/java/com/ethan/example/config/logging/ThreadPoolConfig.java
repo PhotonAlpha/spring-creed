@@ -1,8 +1,5 @@
 package com.ethan.example.config.logging;
 
-import io.micrometer.context.ContextExecutorService;
-import io.micrometer.context.ContextSnapshot;
-import io.micrometer.context.ContextSnapshotFactory;
 import io.micrometer.tracing.Tracer;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;

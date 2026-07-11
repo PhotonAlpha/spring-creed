@@ -3,7 +3,6 @@ package com.ethan.example.jpa.dal.permission;
 import com.ethan.common.constant.CommonStatusEnum;
 import com.ethan.common.constant.SexEnum;
 import com.ethan.common.pojo.BaseVersioningXDO;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;

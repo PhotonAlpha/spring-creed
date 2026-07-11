@@ -8,6 +8,7 @@ import com.ethan.validator.controller.vo.MyAccountDetailsVO;
 import com.ethan.validator.controller.vo.ProfileVO;
 import com.ethan.validator.controller.vo.RealNameAuthenticationVO;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -61,20 +62,21 @@ public class ArtisanDao {
         MAPPING.add(new MyAccountDetailsVO("2", "SINGER", "berry", "pwd", "abc@gmail.com", "male", "1234656", profileVO));
     }
     public boolean existsByNameOrEmailOrPhone(String name, String email, String phone) {
-
-        return MAPPING.stream().anyMatch(a -> StringUtils.equals(name, a.getName())
-                || StringUtils.equals(email, a.getEmail())
-                || StringUtils.equals(phone, a.getPhone())
+        return MAPPING.stream().anyMatch(a -> Strings.CS.equals(name, a.getName())
+                || Strings.CS.equals(email, a.getEmail())
+                || Strings.CS.equals(phone, a.getPhone())
         );
     }
 
     public List<MyAccountDetailsVO> findByNameOrEmailOrPhone(String name, String email, String phone) {
-        return MAPPING.stream().filter(a -> StringUtils.equals(name, a.getName())
-                || StringUtils.equals(email, a.getEmail())
-                || StringUtils.equals(phone, a.getPhone())).toList();
+        boolean number = NumberUtils.isCreatable("123");
+
+        return MAPPING.stream().filter(a -> Strings.CS.equals(name, a.getName())
+                || Strings.CS.equals(email, a.getEmail())
+                || Strings.CS.equals(phone, a.getPhone())).toList();
     }
     public MyAccountDetailsVO findById(String id) {
-        return MAPPING.stream().filter(a -> StringUtils.equals(id, a.getId())).findFirst().orElse(null);
+        return MAPPING.stream().filter(a -> Strings.CS.equals(id, a.getId())).findFirst().orElse(null);
 
     }
 
@@ -90,7 +92,7 @@ public class ArtisanDao {
         var comparator = new Comparator<MyAccountDetailsVO>() {
             @Override
             public int compare(MyAccountDetailsVO o1, MyAccountDetailsVO o2) {
-                return NumberUtils.compare(Long.parseLong(o1.getId()), Long.parseLong(o2.getId()));
+                return Long.compare(Long.parseLong(o1.getId()), Long.parseLong(o2.getId()));
             }
         };
         var maxId = MAPPING.stream().max(comparator).map(MyAccountDetailsVO::getId).orElse("0");
@@ -102,8 +104,8 @@ public class ArtisanDao {
     public List<MyAccountDetailsVO> list(MyAccountDetailsVO user) {
         var queryName = user.getName();
         var queryCode = user.getCode();
-        Predicate<MyAccountDetailsVO> namePredicate = dtl -> StringUtils.isBlank(dtl.getName()) || StringUtils.containsIgnoreCase(dtl.getName(), queryName);
-        Predicate<MyAccountDetailsVO> codePredicate = dtl -> StringUtils.isBlank(dtl.getCode()) ||  StringUtils.containsIgnoreCase(dtl.getCode(), queryCode);
+        Predicate<MyAccountDetailsVO> namePredicate = dtl -> StringUtils.isBlank(dtl.getName()) || Strings.CI.contains(dtl.getName(), queryName);
+        Predicate<MyAccountDetailsVO> codePredicate = dtl -> StringUtils.isBlank(dtl.getCode()) ||  Strings.CI.contains(dtl.getCode(), queryCode);
 
         return MAPPING.stream().filter(namePredicate.or(codePredicate)).toList();
     }

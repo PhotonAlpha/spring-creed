@@ -1,6 +1,5 @@
 package com.ethan.system.controller.admin.notify.vo.template;
 
-import com.ethan.common.constant.CommonStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

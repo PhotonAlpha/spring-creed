@@ -4,7 +4,6 @@ import com.ethan.framework.validator.context.AbstractBusinessValidator;
 import com.networknt.schema.ValidationMessage;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author EthanCao ethan.caoq@foxmail.com

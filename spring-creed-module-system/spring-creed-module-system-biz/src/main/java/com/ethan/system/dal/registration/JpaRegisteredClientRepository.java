@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
@@ -192,7 +192,7 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
                 ClientAuthenticationMethod.SELF_SIGNED_TLS_CLIENT_AUTH
         );
         return resolveList.stream()
-                .filter(me -> StringUtils.equals(me.getValue(), clientAuthenticationMethod))
+                .filter(me -> Strings.CS.equals(me.getValue(), clientAuthenticationMethod))
                 .findFirst()
                 .orElse(new ClientAuthenticationMethod(clientAuthenticationMethod));// Custom client authentication method
     }
@@ -207,7 +207,7 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
                 AuthorizationGrantType.TOKEN_EXCHANGE
         );
         return resolveList.stream()
-                .filter(me -> StringUtils.equals(me.getValue(), authorizationGrantType))
+                .filter(me -> Strings.CS.equals(me.getValue(), authorizationGrantType))
                 .findFirst()
                 .orElse(new AuthorizationGrantType(authorizationGrantType));// Custom client authentication method
     }

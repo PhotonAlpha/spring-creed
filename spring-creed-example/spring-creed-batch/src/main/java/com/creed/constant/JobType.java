@@ -1,6 +1,6 @@
 package com.creed.constant;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -24,7 +24,7 @@ public enum JobType {
     }
 
     public static Optional<JobType> findByName(String enumName) {
-        return Stream.of(JobType.values()).filter(t -> StringUtils.equalsIgnoreCase(t.name(), enumName))
+        return Stream.of(JobType.values()).filter(t -> Strings.CI.equals(t.name(), enumName))
                 .findAny();
     }
 }

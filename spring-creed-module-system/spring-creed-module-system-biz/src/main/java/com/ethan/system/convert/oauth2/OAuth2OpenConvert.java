@@ -6,7 +6,6 @@ import com.ethan.system.api.utils.oauth2.OAuth2Utils;
 import com.ethan.system.controller.admin.oauth2.vo.open.OAuth2OpenAccessTokenRespVO;
 import com.ethan.system.controller.admin.oauth2.vo.open.OAuth2OpenCheckTokenRespVO;
 import com.ethan.system.dal.entity.oauth2.CreedOAuth2Authorization;
-import com.ethan.system.dal.entity.oauth2.client.CreedOAuth2AuthorizedClient;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

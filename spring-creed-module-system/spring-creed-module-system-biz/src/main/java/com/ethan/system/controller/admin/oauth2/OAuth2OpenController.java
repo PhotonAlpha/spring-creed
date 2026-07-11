@@ -15,7 +15,6 @@ import com.ethan.system.controller.admin.oauth2.vo.open.OAuth2OpenCheckTokenResp
 import com.ethan.system.convert.oauth2.OAuth2OpenConvert;
 import com.ethan.system.dal.entity.oauth2.CreedOAuth2Authorization;
 import com.ethan.system.dal.entity.oauth2.CreedOAuth2RegisteredClient;
-import com.ethan.system.dal.entity.oauth2.client.CreedOAuth2AuthorizedClient;
 import com.ethan.system.service.oauth2.OAuth2ApproveService;
 import com.ethan.system.service.oauth2.OAuth2ClientService;
 import com.ethan.system.service.oauth2.OAuth2GrantService;

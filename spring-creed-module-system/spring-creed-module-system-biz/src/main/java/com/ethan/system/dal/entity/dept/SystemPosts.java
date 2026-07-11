@@ -1,7 +1,5 @@
 package com.ethan.system.dal.entity.dept;
 
-import com.ethan.common.constant.CommonStatusEnum;
-import com.ethan.common.pojo.BaseDO;
 import com.ethan.common.pojo.BaseXDO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

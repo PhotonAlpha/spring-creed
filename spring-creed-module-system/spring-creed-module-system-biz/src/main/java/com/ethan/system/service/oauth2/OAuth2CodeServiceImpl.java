@@ -1,18 +1,11 @@
 package com.ethan.system.service.oauth2;
 
 import cn.hutool.core.util.IdUtil;
-import com.ethan.common.utils.date.DateUtils;
 import com.ethan.system.dal.entity.oauth2.CreedOAuth2Authorization;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.Calendar;
 import java.util.List;
-
-import static com.ethan.common.exception.util.ServiceExceptionUtil.exception;
-import static com.ethan.system.constant.ErrorCodeConstants.OAUTH2_CODE_EXPIRE;
-import static com.ethan.system.constant.ErrorCodeConstants.OAUTH2_CODE_NOT_EXISTS;
 
 /**
  * OAuth2.0 授权码 Service 实现类

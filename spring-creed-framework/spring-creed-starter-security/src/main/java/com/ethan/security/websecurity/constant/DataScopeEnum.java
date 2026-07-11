@@ -2,7 +2,6 @@ package com.ethan.security.websecurity.constant;
 
 import com.ethan.common.converter.AbstractEnumConverter;
 import com.ethan.common.converter.PersistEnum2DB;
-import com.ethan.common.exception.ErrorCode;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;

@@ -7,16 +7,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.webflux.ProxyExchange;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -24,7 +21,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
@@ -100,7 +96,7 @@ public class GreetingsController {
         );
         Consumer<StudentDTO> c = s -> s.setServer(port + "");
         list.forEach(c);
-        return Mono.justOrEmpty(list.stream().filter(s -> StringUtils.equals(id, s.getId())).findFirst());
+        return Mono.justOrEmpty(list.stream().filter(s -> Strings.CS.equals(id, s.getId())).findFirst());
     }
 
     @GetMapping("/person/product/{name}")
@@ -114,7 +110,7 @@ public class GreetingsController {
                 new ShoppingCatDTO("1", "xiaohao", "VIVO x100", 1),
                 new ShoppingCatDTO("1", "xiaohao", "OPPO Find 90", 10)
         ));
-        return shoppingCatFlux.filter(p -> StringUtils.equals(p.getUsername(), name));
+        return shoppingCatFlux.filter(p -> Strings.CS.equals(p.getUsername(), name));
     }
 
     @GetMapping("/fallback/person/student/{id}")

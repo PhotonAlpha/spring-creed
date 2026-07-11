@@ -13,7 +13,6 @@ import com.ethan.system.dal.entity.permission.SystemUsers;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.MessageSourceAware;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.GroupManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 

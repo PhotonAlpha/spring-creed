@@ -13,7 +13,6 @@ import com.ethan.system.controller.admin.tenant.vo.tenant.TenantPageReqVO;
 import com.ethan.system.controller.admin.tenant.vo.tenant.TenantUpdateReqVO;
 import com.ethan.system.dal.entity.tenant.TenantDO;
 import com.ethan.system.dal.repository.tenant.TenantRepository;
-import com.ethan.system.service.tenant.TenantService;
 import com.ethan.system.service.tenant.handler.TenantInfoHandler;
 import com.ethan.system.service.tenant.handler.TenantMenuHandler;
 import jakarta.annotation.Resource;

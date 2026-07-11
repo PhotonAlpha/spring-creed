@@ -14,14 +14,13 @@ import com.ethan.system.dal.repository.oauth2.CreedOAuth2RegisteredClientReposit
 import com.google.common.annotations.VisibleForTesting;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -114,7 +113,7 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
             throw exception(OAUTH2_CLIENT_EXISTS);
         }
         // 校验 Client 未被占用
-        Predicate<CreedOAuth2RegisteredClient> clientPredicate = cli -> StringUtils.equals(cli.getId(), id);
+        Predicate<CreedOAuth2RegisteredClient> clientPredicate = cli -> Strings.CS.equals(cli.getId(), id);
         return client.filter(clientPredicate).orElseThrow(() -> exception(OAUTH2_CLIENT_EXISTS));
     }
 
@@ -169,7 +168,7 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
             throw exception(OAUTH2_CLIENT_SCOPE_OVER);
         }
         // 校验回调地址
-        if (StrUtil.isNotEmpty(redirectUri) && !StringUtils.startsWithAny(redirectUri, client.getRedirectUris().toArray(String[]::new))) {
+        if (StrUtil.isNotEmpty(redirectUri) && !Strings.CS.startsWithAny(redirectUri, client.getRedirectUris().toArray(String[]::new))) {
             throw exception(OAUTH2_CLIENT_REDIRECT_URI_NOT_MATCH, redirectUri);
         }
         return client;

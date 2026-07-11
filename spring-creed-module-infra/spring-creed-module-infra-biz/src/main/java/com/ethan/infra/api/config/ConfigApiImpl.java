@@ -1,6 +1,5 @@
 package com.ethan.infra.api.config;
 
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 

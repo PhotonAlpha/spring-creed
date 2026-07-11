@@ -3,8 +3,6 @@ package com.ethan.system.convert.auth;
 import com.ethan.common.converter.BasicConvert;
 import com.ethan.common.pojo.PageResult;
 import com.ethan.system.controller.admin.oauth2.vo.token.OAuth2AccessTokenRespVO;
-import com.ethan.system.dal.entity.oauth2.CreedOAuth2Authorization;
-import com.ethan.system.dal.entity.oauth2.client.CreedOAuth2AuthorizedClient;
 import com.ethan.system.dal.entity.oauth2.graph.CreedOAuth2AuthorizationVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

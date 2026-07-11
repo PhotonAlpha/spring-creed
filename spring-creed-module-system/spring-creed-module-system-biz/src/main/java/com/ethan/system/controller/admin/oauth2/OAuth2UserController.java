@@ -1,7 +1,6 @@
 package com.ethan.system.controller.admin.oauth2;
 
 import com.ethan.common.common.R;
-import com.ethan.security.websecurity.entity.CreedUser;
 import com.ethan.system.controller.admin.oauth2.vo.user.OAuth2UserInfoRespVO;
 import com.ethan.system.controller.admin.oauth2.vo.user.OAuth2UserUpdateReqVO;
 import com.ethan.system.convert.oauth2.OAuth2UserConvert;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.ethan.common.common.R.success;
-import static com.ethan.common.utils.WebFrameworkUtils.getLoginUserId;
 import static com.ethan.common.utils.WebFrameworkUtils.getLoginUserIdL;
 
 /**

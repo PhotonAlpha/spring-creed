@@ -1,7 +1,6 @@
 package com.ethan.system.convert.tenant;
 
 import com.ethan.common.pojo.PageResult;
-import com.ethan.system.controller.admin.dept.vo.dept.DeptSaveReqVO;
 import com.ethan.system.controller.admin.tenant.vo.tenant.TenantCreateReqVO;
 import com.ethan.system.controller.admin.tenant.vo.tenant.TenantExcelVO;
 import com.ethan.system.controller.admin.tenant.vo.tenant.TenantRespVO;

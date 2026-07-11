@@ -1,7 +1,6 @@
 package com.ethan.server;
 
 import com.ethan.system.dal.repository.permission.MenuRepository;
-import com.ethan.system.pdf.PdfApplication;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

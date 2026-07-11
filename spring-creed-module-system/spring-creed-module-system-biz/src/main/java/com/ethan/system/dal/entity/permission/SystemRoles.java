@@ -5,7 +5,6 @@ import com.ethan.common.pojo.BaseVersioningXDO;
 import com.ethan.security.websecurity.constant.DataScopeEnum;
 import com.ethan.security.websecurity.constant.RoleTypeEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;

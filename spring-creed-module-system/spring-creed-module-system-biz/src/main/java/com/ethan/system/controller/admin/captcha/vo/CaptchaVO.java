@@ -9,7 +9,7 @@ package com.ethan.system.controller.admin.captcha.vo;
 
 import lombok.Data;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.List;
 
 @Data

@@ -1,4 +1,4 @@
-﻿.gradle
+.gradle
 .idea
 *.hprof
 **/build
@@ -11,3 +11,4 @@ java_pid*/**
 *.log
 spring-creed-pom/spring-creed-pro/blog/workshop
 **/logs
+**/.flattened-pom.xml

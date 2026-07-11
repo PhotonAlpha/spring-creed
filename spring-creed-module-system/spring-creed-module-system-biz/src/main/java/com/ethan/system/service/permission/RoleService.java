@@ -3,7 +3,6 @@ package com.ethan.system.service.permission;
 
 import com.ethan.common.pojo.PageResult;
 import com.ethan.system.controller.admin.permission.vo.role.RolePageReqVO;
-import com.ethan.system.controller.admin.permission.vo.role.RoleRespVO;
 import com.ethan.system.controller.admin.permission.vo.role.RoleSaveReqVO;
 import com.ethan.system.dal.entity.permission.SystemRoles;
 import jakarta.validation.Valid;

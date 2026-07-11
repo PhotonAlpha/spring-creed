@@ -8,7 +8,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Schema(description = "管理后台 - OAuth2 客户端创建/修改 Request VO")

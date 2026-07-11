@@ -4,7 +4,7 @@ import com.ethan.agent.adaptor.MockApiConfigResolver;
 import com.ethan.agent.factory.filter.RouteRegisterEndpointFilter;
 import com.ethan.agent.util.CloseableHttpClientTemplate;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.hc.client5.http.classic.ExecChain;
 import org.apache.hc.client5.http.classic.ExecChainHandler;
 import org.apache.hc.core5.http.ClassicHttpRequest;
@@ -53,7 +53,7 @@ public class MockResponseChainHandler implements ExecChainHandler, ApplicationCo
         }
         // now support application/json only
         String contentType = request.getEntity().getContentType();
-        if (!StringUtils.equalsAnyIgnoreCase(contentType, MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE)) {
+        if (!Strings.CI.equalsAny(contentType, MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE)) {
             return chain.proceed(request, scope);
         }
         UriComponents endpoint = UriComponentsBuilder.fromUriString(uri).build(true);
@@ -70,7 +70,7 @@ public class MockResponseChainHandler implements ExecChainHandler, ApplicationCo
     private Predicate<Map.Entry<String, String>> contextPathPreffixPredicate(String convertedName) {
         return entry -> {
             var maskedContextPath = ConfigurationPropertyName.adapt(entry.getValue(), '_').toString();
-            return StringUtils.containsIgnoreCase(maskedContextPath, convertedName);
+            return Strings.CI.contains(maskedContextPath, convertedName);
         };
     }
 

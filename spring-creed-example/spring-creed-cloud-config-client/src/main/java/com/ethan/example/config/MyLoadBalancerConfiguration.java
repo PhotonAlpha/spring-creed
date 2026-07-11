@@ -20,7 +20,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
-import java.util.function.Consumer;
 
 /**
  * {@link LoadBalancerInterceptor}

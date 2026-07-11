@@ -5,7 +5,7 @@ import com.ethan.agent.adaptor.apache.MockApiConfig;
 import com.ethan.agent.factory.filter.RouteRegisterEndpointFilter;
 import com.ethan.agent.util.CloseableHttpClientTemplate;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.message.BasicClassicHttpRequest;
 import org.springframework.beans.BeansException;
@@ -49,7 +49,7 @@ public class MockRestResponseHandler implements ClientHttpRequestInterceptor, Ap
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
         String contentType = Optional.ofNullable(request.getHeaders().getContentType())
                 .map(MediaType::toString).orElse(MediaType.APPLICATION_JSON_VALUE);
-        if (!StringUtils.equalsAnyIgnoreCase(contentType, MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE)) {
+        if (!Strings.CI.equalsAny(contentType, MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE)) {
             return execution.execute(request, body);
         }
         String convertedName = ConfigurationPropertyName.adapt(request.getURI().getPath(), '_').toString();

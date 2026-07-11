@@ -4,15 +4,11 @@ import com.creed.dto.Employee;
 import lombok.extern.slf4j.Slf4j;
 import org.beanio.StreamFactory;
 import org.springframework.batch.item.Chunk;
-import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.PathResource;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * @className: EmployeeWriter

@@ -1,6 +1,6 @@
 package com.ethan.cache.constants;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.springframework.data.redis.listener.ChannelTopic;
 
 import java.util.stream.Stream;
@@ -22,7 +22,7 @@ public enum ChannelTopicEnum {
 
   public static ChannelTopicEnum getChannelTopicEnum(String channelTopic) {
     return Stream.of(ChannelTopicEnum.values())
-        .filter(e -> StringUtils.equalsIgnoreCase(e.getChannelTopicStr(), channelTopic))
+        .filter(e -> Strings.CI.equals(e.getChannelTopicStr(), channelTopic))
         .findFirst().orElse(null);
   }
 

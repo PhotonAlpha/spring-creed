@@ -1,14 +1,10 @@
 package com.ethan.agent.factory;
 
-import com.ethan.agent.factory.filter.CreedBuddyRequestFilter;
-import com.ethan.agent.factory.filter.RouteRegisterEndpointFilter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.Ordered;
@@ -72,7 +68,7 @@ public class CreedBuddyAgentBeanFactoryPostProcessor implements BeanFactoryPostP
             // 检测是否存在 BeanDefinition, 删除该bean的初始化
             // beanFactory.getB
             List<String> beanDefinition = Stream.of(beanDefinitionNames)
-                    .filter(name -> StringUtils.equalsIgnoreCase(name, entry.getKey())).toList();
+                    .filter(name -> Strings.CI.equals(name, entry.getKey())).toList();
             log.debug("@.@[checking beanDefinition:{}]@.@", beanDefinition);
             if (!CollectionUtils.isEmpty(beanDefinition) && beanFactory instanceof BeanDefinitionRegistry registry) {
                 log.info("@.@[existing beanDefinition:{}]@.@", beanDefinition);

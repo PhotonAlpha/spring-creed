@@ -4,7 +4,6 @@ import com.ethan.validator.controller.vo.MyAccountDetailsVO;
 import com.ethan.validator.repository.ArtisanDao;
 import com.networknt.schema.ValidationMessage;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 

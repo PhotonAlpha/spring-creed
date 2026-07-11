@@ -8,7 +8,6 @@
 package com.ethan.system.dal.repository.dept;
 
 import com.ethan.system.controller.admin.dept.vo.post.PostPageReqVO;
-import com.ethan.system.dal.entity.dept.SystemDepts;
 import com.ethan.system.dal.entity.dept.SystemPosts;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Page;

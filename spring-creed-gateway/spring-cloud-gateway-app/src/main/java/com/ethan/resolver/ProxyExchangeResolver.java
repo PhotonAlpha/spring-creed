@@ -1,8 +1,5 @@
 package com.ethan.resolver;
 
-import com.ethan.controller.product.vo.ProductInfoVo;
-import com.fasterxml.jackson.core.type.TypeReference;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.webflux.ProxyExchange;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

@@ -2,8 +2,6 @@ package com.ethan.system.controller.admin.permission.vo.menu;
 
 import com.ethan.system.constant.permission.MenuTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Schema(description = "管理后台 - 菜单精简信息 Response VO")

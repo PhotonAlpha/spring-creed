@@ -2,7 +2,6 @@ package com.ethan.example.jpa.dal.permission;
 
 import com.ethan.common.pojo.BaseVersioningXDO;
 import com.ethan.example.jpa.constant.RoleTypeEnum;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;

@@ -12,7 +12,6 @@ import com.ethan.system.controller.admin.sms.dto.code.SmsCodeSendReqDTO;
 import com.ethan.system.controller.admin.sms.dto.code.SmsCodeUseReqDTO;
 import com.ethan.system.controller.admin.social.dto.SocialUserBindReqDTO;
 import com.ethan.system.dal.entity.oauth2.CreedOAuth2Authorization;
-import com.ethan.system.dal.entity.oauth2.client.CreedOAuth2AuthorizedClient;
 import com.ethan.system.dal.entity.permission.MenuDO;
 import com.ethan.system.dal.entity.permission.SystemMenus;
 import com.ethan.system.dal.entity.permission.SystemRoles;

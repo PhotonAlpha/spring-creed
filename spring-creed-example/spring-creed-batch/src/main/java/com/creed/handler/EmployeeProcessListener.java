@@ -1,11 +1,8 @@
 package com.creed.handler;
 
 import com.creed.dto.Employee;
-import com.creed.dto.EmployeeHeader;
-import com.creed.dto.EmployeeTrailer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.ItemProcessListener;
-import org.springframework.batch.item.ItemProcessor;
 
 /**
  * @className: EmployeeProcess

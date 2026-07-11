@@ -11,10 +11,10 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.http.MediaType;
@@ -124,7 +124,7 @@ public class SignAuthFilter extends OncePerRequestFilter {
                      }
 
                     String generatedSignature = SignUtils.generateSignature(token, nonce, timestamp, UrlUtils.buildRequestUrl(cachedRequest), getRequestBody(cachedRequest));
-                    if (StringUtils.isBlank(sign) || !StringUtils.equals(sign, generatedSignature)) {
+                    if (StringUtils.isBlank(sign) || !Strings.CS.equals(sign, generatedSignature)) {
                         this.logger.debug("invalid signature " + UrlUtils.buildFullRequestUrl(request));
                         AccessDeniedException exception1 = new AuthorizationServiceException("invalid signature " + UrlUtils.buildFullRequestUrl(request));
                         this.accessDeniedHandler.handle(request, response, exception1);
@@ -158,9 +158,9 @@ public class SignAuthFilter extends OncePerRequestFilter {
     }
 
     private String getRequestBody(HttpServletRequest cachedRequest) {
-        if (StringUtils.startsWith(cachedRequest.getContentType(), MediaType.APPLICATION_JSON_VALUE)) {
+        if (Strings.CS.startsWith(cachedRequest.getContentType(), MediaType.APPLICATION_JSON_VALUE)) {
             return IOUtils.toString(((CachedBodyHttpServletRequest) cachedRequest).getBody(), StandardCharsets.UTF_8.displayName());
-        } else if (StringUtils.startsWith(cachedRequest.getContentType(), MediaType.MULTIPART_FORM_DATA_VALUE)){
+        } else if (Strings.CS.startsWith(cachedRequest.getContentType(), MediaType.MULTIPART_FORM_DATA_VALUE)){
             // https://github.com/spring-projects/spring-framework/issues/29562
             // CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
             StandardServletMultipartResolver commonsMultipartResolver = new StandardServletMultipartResolver();

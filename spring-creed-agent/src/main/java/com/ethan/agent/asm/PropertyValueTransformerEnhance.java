@@ -1,7 +1,7 @@
 package com.ethan.agent.asm;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -25,8 +25,8 @@ public class PropertyValueTransformerEnhance implements ClassFileTransformer, Op
     @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
         // 只保留我们需要增强的类
-        if (StringUtils.startsWith(className, "com/ethan")
-                && StringUtils.endsWithAny(className, "Config", "Configuration")) {
+        if (Strings.CS.startsWith(className, "com/ethan")
+                && Strings.CS.endsWithAny(className, "Config", "Configuration")) {
             log.trace("@.@[PropertyValueTransformerEnhance className:{}]@.@", className);
             ClassReader cr = new ClassReader(classfileBuffer);
             ClassWriter cw = new ClassWriter(cr, 0);

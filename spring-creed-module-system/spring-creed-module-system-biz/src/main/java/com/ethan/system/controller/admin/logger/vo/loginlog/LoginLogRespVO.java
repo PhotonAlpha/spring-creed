@@ -2,7 +2,6 @@ package com.ethan.system.controller.admin.logger.vo.loginlog;
 
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
-import com.ethan.system.constant.DictTypeConstants;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

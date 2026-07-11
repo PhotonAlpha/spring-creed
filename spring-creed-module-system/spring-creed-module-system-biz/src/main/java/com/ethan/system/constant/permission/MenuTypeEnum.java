@@ -1,6 +1,5 @@
 package com.ethan.system.constant.permission;
 
-import com.ethan.common.constant.CommonStatusEnum;
 import com.ethan.common.constant.IntArrayValuable;
 import com.ethan.common.converter.AbstractEnumConverter;
 import com.ethan.common.converter.PersistEnum2DB;

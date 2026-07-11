@@ -1,6 +1,5 @@
 package com.ethan.system.dal.entity.permission;
 
-import com.ethan.common.constant.CommonStatusEnum;
 import com.ethan.common.pojo.BaseVersioningXDO;
 import com.ethan.system.constant.permission.MenuTypeEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -11,7 +10,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

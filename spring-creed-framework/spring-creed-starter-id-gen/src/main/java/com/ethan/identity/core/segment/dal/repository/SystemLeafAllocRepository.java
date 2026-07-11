@@ -1,6 +1,5 @@
 package com.ethan.identity.core.segment.dal.repository;
 
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.ethan.identity.core.segment.dal.entity.SystemLeafAlloc;
 import org.springframework.data.jpa.repository.Modifying;

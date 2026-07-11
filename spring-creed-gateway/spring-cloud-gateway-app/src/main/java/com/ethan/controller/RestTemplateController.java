@@ -3,7 +3,7 @@ package com.ethan.controller;
 import com.ethan.controller.dto.StudentDTO;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,6 +65,6 @@ public class RestTemplateController {
                 new StudentDTO("3", "xiaohao", "male", 40)
         );
         TimeUnit.SECONDS.sleep(20);
-        return Mono.justOrEmpty(list.stream().filter(s -> StringUtils.equals(id, s.getId())).findFirst());
+        return Mono.justOrEmpty(list.stream().filter(s -> Strings.CS.equals(id, s.getId())).findFirst());
     }
 }
