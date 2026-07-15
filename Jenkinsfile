@@ -22,7 +22,6 @@ pipeline {
 
     environment {
         MAVEN_SETTINGS       = '/var/jenkins_home/maven-settings-artifactory.xml'
-        JACOCO               = 'org.jacoco:jacoco-maven-plugin:0.8.12'
         SONAR_MAVEN_PLUGIN   = 'org.sonarsource.scanner.maven:sonar-maven-plugin:5.1.0.4751'
         DEPLOY_SNAPSHOT_REPO = 'creed-artifactory-snapshots::http://host.docker.internal:8082/artifactory/libs-snapshot-local'
         DEPLOY_RELEASE_REPO  = 'creed-artifactory-releases::http://host.docker.internal:8082/artifactory/libs-release-local'
@@ -35,10 +34,10 @@ pipeline {
             }
         }
 
-        // 编译 + 单测 + 覆盖率（jacoco 未入 pom，先由 CLI 附加）
+        // 编译 + 单测 + 覆盖率（jacoco 已配置在根 pom，verify 阶段自动生成报告）
         stage('Build & Test') {
             steps {
-                sh 'mvn -B -s "$MAVEN_SETTINGS" "$JACOCO:prepare-agent" clean verify "$JACOCO:report"'
+                sh 'mvn -B -s "$MAVEN_SETTINGS" clean verify'
             }
         }
 
