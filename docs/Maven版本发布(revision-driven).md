@@ -243,7 +243,20 @@ mvn versions:set-property -Dproperty=revision -DnewVersion=2026.08-SNAPSHOT
 git commit -am "chore: next iteration 2026.08-SNAPSHOT" && git push origin master
 ```
 
-> 注意：`Jenkinsfile` 新增/修改 `parameters` 后，需要先空跑一次构建，参数表单才会出现在 UI 上。日常构建不填参数直接 Build，行为与参数化前完全一致。Tag & Bump 自动化需要给 Jenkins 配 GitHub 推送凭证（PAT），暂未接入。
+> 注意：日常构建不填参数直接 Build，行为与参数化前完全一致。Tag & Bump 自动化需要给 Jenkins 配 GitHub 推送凭证（PAT），暂未接入。
+
+#### "Build with Parameters" 按钮的出现机制
+
+这个按钮由 job 配置上是否挂着 `ParametersDefinitionProperty` 决定，出现过程分三步：
+
+1. **Jenkinsfile 里的 `parameters {}` 只是声明**。Pipeline job 的配置里最初没有参数；参数定义在 Git 仓库的 Jenkinsfile 里，触发构建之前 Jenkins 不会去读它。
+2. **首次运行时同步到 job 配置**。构建启动后 Declarative 引擎解析 Jenkinsfile，把 `parameters {}` 转换成 `ParametersDefinitionProperty` 写回 job 的 `config.xml`（`options { disableConcurrentBuilds() }` 等也是同样机制落回去的）。同步发生在**解析阶段**，早于任何 stage 执行——所以即使构建刚启动就被中止，参数照样注册成功。这也是"新增参数后要先空跑一次"的原因。
+3. **UI 按属性渲染**。job 页面渲染时：有 `ParametersDefinitionProperty` → 显示 "Build with Parameters"，点击先弹参数表单再入队；没有 → 显示 "Build Now" 直接入队。
+
+两个衍生行为：
+
+- **单向同步、以 Jenkinsfile 为准**：从 Jenkinsfile 删掉 `parameters {}`，下一次构建后 job 上的参数也会被移除；在 job 配置页手工加的参数会被 Jenkinsfile 覆盖。参数只应维护在 Jenkinsfile 里（版本化，跟代码走）。
+- **改参数有一轮延迟**：修改参数定义（默认值、描述等）后，下一次构建弹的还是**旧**表单，跑完才更新为新定义。首次加参数是特例——第一跑用不到表单，跑完按钮才出现。
 
 ### 5.6 CI 中被 @Disabled 的测试（2026-07-16 清理）
 
