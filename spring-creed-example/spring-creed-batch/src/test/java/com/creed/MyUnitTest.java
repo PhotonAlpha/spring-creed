@@ -15,12 +15,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import org.junit.jupiter.api.Disabled;
 
 /**
  * @className: MyUnitTest
  * @author: Ethan
  * @date: 7/12/2021
  **/
+@Disabled("硬编码 Windows 绝对路径 D:/workspace/...，跨平台无法运行，修复路径后可启用")
 public class MyUnitTest {
     public static final Logger log = LoggerFactory.getLogger(MyUnitTest.class);
     @Test
