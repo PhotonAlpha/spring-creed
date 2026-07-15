@@ -121,6 +121,40 @@ pipeline {
 }
 ```
 
+标准顺序是先 scan 后 deploy——SonarQube 扫描作为质量门禁（Quality Gate），通过了才允许制品进入 Artifactory。
+
+### 推荐的流水线顺序
+
+```groovy
+stages {
+    stage('Build & Test')   { sh 'mvn clean verify' }          // 编译+单测+覆盖率
+    stage('Sonar Scan')     { sh 'mvn sonar:sonar ...' }        // 分析并上报
+    stage('Quality Gate')   {
+        timeout(time: 10, unit: 'MINUTES') {
+            waitForQualityGate abortPipeline: true               // 门禁不过则中止
+        }
+    }
+    stage('Deploy')         { sh 'mvn deploy -DskipTests' }     // 门禁通过才上传
+}
+```
+
+#### 为什么是这个顺序
+
+1. Artifactory 里的制品应该是"合格品"。deploy 意味着这个包对全公司可见可依赖——SNAPSHOT 一上传，别的项目 -U 就拉走了。如果先 deploy 后 scan，扫描发现严重漏洞或质量不达标时，有问题的包已经被下游消费了,而且 release 仓库禁 redeploy，想撤都撤不了
+2. 门禁的意义就在于拦截。scan 放在 deploy 后就只剩"通知"作用，失去了阻断能力
+3. 和前面聊的 enforcer 是同一个思想：所有校验（单测、enforcer、Sonar）都是 deploy 前的关卡，deploy 是通过全部关卡后的最后一步
+
+#### 两个实操细节
+
+- **waitForQualityGate** **需要配置 SonarQube 的 webhook 回调 Jenkins**（SonarQube → Administration → Webhooks → 指向 https://jenkins/sonarqube-webhook/），否则会一直等到超时。这是最常见的卡点
+- **避免重复构建**：scan 阶段用 `mvn verify sonar:sonar` 跑过测试后，deploy 阶段加 `-DskipTests` 复用产物，不要 `clean` 重来——既省时间，也保证扫描的和上传的是同一份字节码
+
+#### 例外情况
+
+有些团队对 SNAPSHOT 流水线放宽——SNAPSHOT 每次提交都发，Sonar 只报告不阻断（`abortPipeline: false`），保证联调速度；但 **release 流水线必须硬门禁**。这是速度与质量的权衡，可以按你们团队现状选择，底线是：正式版发布前，Sonar、单测、enforcer 三道关卡一个都不能绕。
+
+
+
 ## 5. 常见问题
 
 - **本机执行 `-Prelease` 报缺 `BUILD_NUMBER`**：预期行为，release 只允许在 Jenkins 跑。本机自测可临时 `export BUILD_NUMBER=local`，但不要用它真正 deploy。
