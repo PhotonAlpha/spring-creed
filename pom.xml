@@ -30,6 +30,9 @@
         <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
         <flatten-maven-plugin.version>1.7.2</flatten-maven-plugin.version>
+        <!-- release 相关：CI-friendly(${revision}) 场景用 scm 打 tag + versions 递增版本，不用 release:prepare 改写 pom -->
+        <maven-scm-plugin.version>2.1.0</maven-scm-plugin.version>
+        <versions-maven-plugin.version>2.18.0</versions-maven-plugin.version>
 
         <lombok.version>1.18.30</lombok.version>
         <mapstruct.version>1.4.1.Final</mapstruct.version>
@@ -86,6 +89,27 @@
                     <artifactId>maven-enforcer-plugin</artifactId>
                     <version>3.6.3</version>
                 </plugin>
+
+                <!-- maven-scm-plugin：CI-friendly 版本下用 scm:tag 打 release tag，<tag> 即 tag 名，${revision} 解析为正式版本号 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-scm-plugin</artifactId>
+                    <version>${maven-scm-plugin.version}</version>
+                    <configuration>
+                        <tag>v${revision}</tag>
+                    </configuration>
+                </plugin>
+
+                <!-- versions-maven-plugin：release 完成后用 versions:set-property 把 revision 推进到下一个 SNAPSHOT -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>${versions-maven-plugin.version}</version>
+                    <configuration>
+                        <generateBackupPoms>false</generateBackupPoms>
+                    </configuration>
+                </plugin>
+
             </plugins>
         </pluginManagement>
 
@@ -170,7 +194,10 @@
         </profile>
     </profiles>
     <scm>
-
+        <connection>scm:git:https://github.com/PhotonAlpha/spring-creed.git</connection>
+        <developerConnection>scm:git:https://github.com/PhotonAlpha/spring-creed.git</developerConnection>
+        <url>https://github.com/PhotonAlpha/spring-creed</url>
+        <tag>HEAD</tag>
     </scm>
     <distributionManagement>
         <repository>
