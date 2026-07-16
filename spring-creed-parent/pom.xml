@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  spring-creed-parent：企业级构建 Parent POM（只管"怎么构建"，不管"依赖什么"）
+
+  职责边界：
+    - 本 POM：pluginManagement 统一插件版本/配置/执行策略、release 卡点、发布仓库地址
+    - spring-creed-dependencies：依赖版本 BOM（dependencyManagement），按需 import
+
+  其他 repo 接入方式（二者配合使用）：
+    <parent>
+        <groupId>com.ethan</groupId>
+        <artifactId>spring-creed-parent</artifactId>
+        <version>2026.07-SNAPSHOT</version>
+        <relativePath/>   （留空表示强制从远程仓库解析）
+    </parent>
+    并在 dependencyManagement 中 import spring-creed-dependencies BOM。
+    子 repo 必须覆盖 <scm>，可按需覆盖各 *.version / jacoco.* / enforcer.* 属性。
+
+  注意：本 POM 的 flatten 使用 resolveCiFriendliesOnly 模式（仅解析 ${revision}，
+  完整保留 build/pluginManagement 段），否则发布后其他 repo 继承不到插件配置。
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ethan</groupId>
+    <artifactId>spring-creed-parent</artifactId>
+    <version>${revision}</version>
+    <packaging>pom</packaging>
+    <name>${project.artifactId}</name>
+    <description>企业级构建 Parent：统一 pluginManagement / release 规则 / 发布仓库</description>
+
+    <properties>
+        <revision>2026.07-SNAPSHOT</revision>
+
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- ========== 插件版本，子 repo 可通过同名属性覆盖 ========== -->
+        <maven-clean-plugin.version>3.3.2</maven-clean-plugin.version>
+        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+        <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
+        <maven-failsafe-plugin.version>3.0.0-M7</maven-failsafe-plugin.version>
+        <maven-jar-plugin.version>3.4.1</maven-jar-plugin.version>
+        <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
+        <maven-install-plugin.version>3.1.2</maven-install-plugin.version>
+        <maven-deploy-plugin.version>3.1.2</maven-deploy-plugin.version>
+        <maven-enforcer-plugin.version>3.6.3</maven-enforcer-plugin.version>
+        <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
+        <flatten-maven-plugin.version>1.7.3</flatten-maven-plugin.version>
+        <!-- release 相关：CI-friendly(${revision}) 场景用 scm 打 tag + versions 递增版本，不用 release:prepare 改写 pom -->
+        <maven-scm-plugin.version>2.1.0</maven-scm-plugin.version>
+        <versions-maven-plugin.version>2.18.0</versions-maven-plugin.version>
+        <spring-boot-maven-plugin.version>3.2.0</spring-boot-maven-plugin.version>
+
+        <!-- 注解处理器版本（compiler 插件 annotationProcessorPaths 使用） -->
+        <lombok.version>1.18.30</lombok.version>
+        <mapstruct.version>1.4.1.Final</mapstruct.version>
+
+        <!-- ========== 策略开关/阈值，子 repo 按需覆盖 ========== -->
+        <!-- 环境基线（enforcer 校验） -->
+        <enforcer.maven.version>[3.8,)</enforcer.maven.version>
+        <enforcer.java.version>[21,)</enforcer.java.version>
+        <!-- 行覆盖率红线，默认 0 不拦截；子 repo 逐步调高，如 0.60 -->
+        <jacoco.coverage.line.minimum>0.00</jacoco.coverage.line.minimum>
+    </properties>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>${maven-clean-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven-resources-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>${maven-install-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>${maven-deploy-plugin.version}</version>
+                </plugin>
+
+                <!-- maven-compiler-plugin：统一 JDK 版本 + Lombok/MapStruct 注解处理器组合 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <!-- 保留方法参数名：Spring 缓存 key / @PathVariable 等依赖反射取参数名 -->
+                        <parameters>true</parameters>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.mapstruct</groupId>
+                                <artifactId>mapstruct-processor</artifactId>
+                                <version>${mapstruct.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
+                    </configuration>
+                </plugin>
+
+                <!-- maven-surefire-plugin：单元测试，3.0.X+ 才支持 JUnit 5 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                </plugin>
+
+                <!-- maven-failsafe-plugin：集成测试（*IT.java），声明即生效，verify 阶段校验结果 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${maven-failsafe-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>integration-test</id>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- maven-jar-plugin：MANIFEST 写入 Implementation-*/Specification-* 便于生产排查版本 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${maven-jar-plugin.version}</version>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                            </manifest>
+                        </archive>
+                    </configuration>
+                </plugin>
+
+                <!-- maven-source-plugin：声明即附带 sources.jar 发布，方便 IDE 反编译定位 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- maven-enforcer-plugin：声明即执行环境基线校验（Maven/JDK 版本、pom 内重复依赖） -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>${maven-enforcer-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>enforce-baseline</id>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                            <configuration>
+                                <rules>
+                                    <requireMavenVersion>
+                                        <version>${enforcer.maven.version}</version>
+                                    </requireMavenVersion>
+                                    <requireJavaVersion>
+                                        <version>${enforcer.java.version}</version>
+                                    </requireJavaVersion>
+                                    <banDuplicatePomDependencyVersions/>
+                                </rules>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- jacoco-maven-plugin：声明即生效——注入 agent、verify 生成
+                     target/site/jacoco/jacoco.xml（Sonar 默认读取路径）、按红线卡覆盖率 -->
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco-maven-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>jacoco-prepare-agent</id>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>jacoco-report</id>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>jacoco-check</id>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                            <configuration>
+                                <rules>
+                                    <rule>
+                                        <element>BUNDLE</element>
+                                        <limits>
+                                            <limit>
+                                                <counter>LINE</counter>
+                                                <value>COVEREDRATIO</value>
+                                                <minimum>${jacoco.coverage.line.minimum}</minimum>
+                                            </limit>
+                                        </limits>
+                                    </rule>
+                                </rules>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- flatten-maven-plugin：CI-friendly 版本(${revision})必备，业务 repo 声明时自行指定 flattenMode -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>${flatten-maven-plugin.version}</version>
+                    <configuration>
+                        <updatePomFile>true</updatePomFile>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>flatten</id>
+                            <goals>
+                                <goal>flatten</goal>
+                            </goals>
+                            <phase>process-resources</phase>
+                        </execution>
+                        <execution>
+                            <id>flatten.clean</id>
+                            <goals>
+                                <goal>clean</goal>
+                            </goals>
+                            <phase>clean</phase>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- maven-scm-plugin：CI-friendly 版本下用 scm:tag 打 release tag，${revision} 解析为正式版本号 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-scm-plugin</artifactId>
+                    <version>${maven-scm-plugin.version}</version>
+                    <configuration>
+                        <tag>v${revision}</tag>
+                    </configuration>
+                </plugin>
+
+                <!-- versions-maven-plugin：release 完成后用 versions:set-property 把 revision 推进到下一个 SNAPSHOT -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>${versions-maven-plugin.version}</version>
+                    <configuration>
+                        <generateBackupPoms>false</generateBackupPoms>
+                    </configuration>
+                </plugin>
+
+                <!-- spring-boot-maven-plugin：可执行 jar 打包，版本与 BOM 的 Spring Boot 保持一致 -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot-maven-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <!-- 仅作用于本 parent 自身（inherited=false）：resolveCiFriendliesOnly 只解析 ${revision}，
+                 完整保留 build/pluginManagement，保证发布后其他 repo 能继承到插件配置 -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <inherited>false</inherited>
+                <configuration>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <!-- ========== release 专属规则，-Prelease 激活，所有继承 repo 统一卡点 ========== -->
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>enforce-release</id>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <!-- 1. 禁止任何 SNAPSHOT 依赖（含 BOM import、插件、传递依赖） -->
+                                        <requireReleaseDeps>
+                                            <message>
+                                                [RELEASE] 检测到 SNAPSHOT 依赖！
+                                                请执行 mvn versions:use-releases 或手动切换后重试。
+                                            </message>
+                                            <failWhenParentIsSnapshot>true</failWhenParentIsSnapshot>
+                                        </requireReleaseDeps>
+
+                                        <!-- 2. 自身版本必须是 release（防止忘传 -Drevision 就打了 release tag） -->
+                                        <requireReleaseVersion>
+                                            <message>[RELEASE] 自身版本仍是 SNAPSHOT，请通过 -Drevision 传入正式版本号</message>
+                                        </requireReleaseVersion>
+
+                                        <!-- 3. 传递依赖版本必须收敛，发布件的依赖树不允许有歧义 -->
+                                        <dependencyConvergence/>
+
+                                        <!-- 4. 发布必须由 CI 执行（检查 CI 环境变量），封死本机发 release -->
+                                        <requireEnvironmentVariable>
+                                            <variableName>BUILD_NUMBER</variableName>
+                                            <message>[RELEASE] 只允许在 Jenkins 上执行 release 构建</message>
+                                        </requireEnvironmentVariable>
+                                    </rules>
+                                    <fail>true</fail>
+                                    <failFast>false</failFast>  <!-- 跑完所有规则再失败，一次看到全部问题 -->
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <!-- 企业统一发布仓库，继承本 parent 的 repo 无需重复配置 -->
+    <distributionManagement>
+        <repository>
+            <id>creed-artifactory-releases</id>
+            <name>Artifactory Releases</name>
+            <url>http://localhost:8082/artifactory/libs-release-local</url>
+        </repository>
+        <snapshotRepository>
+            <id>creed-artifactory-snapshots</id>
+            <name>Artifactory Snapshots</name>
+            <url>http://localhost:8082/artifactory/libs-snapshot-local</url>
+        </snapshotRepository>
+    </distributionManagement>
+</project>
